@@ -296,6 +296,8 @@ class MainVC: UIViewController {
         
         //setup hub
         hub = BadgeHub(view: friendsBtn)
+        hub.setCount(0)
+        
         hub.scaleCircleSize(by: 0.75)
         hub.moveCircleBy(x: 5.0, y: 0)
         
@@ -331,17 +333,19 @@ class MainVC: UIViewController {
             .document(myProfile.username)
             .collection(Constants.USERS_LIST_SUB_COLLECTION)
             .whereField(Constants.USER_STATUS_KEY, isEqualTo: Status.PENDING.description)
-            .getDocuments { (querySnaps, error) in
-                // no need to show alert here
-                
+            .addSnapshotListener { snapshot, error in
+                print("Friend Req Count")
+                // to make sure we don't add the already added ones
+                self.hub.setCount(0)
                 if error != nil {
                     print("Sync error \(String(describing: error?.localizedDescription))")
                     return
                 }
                 
-                // fetch the personsList
-                if let docs = querySnaps?.documents{
+                
+                if let docs = snapshot?.documents{
                     if docs.count > 0 {
+                       
                         
                         for item in docs{
                             // save the friend names
@@ -349,16 +353,23 @@ class MainVC: UIViewController {
                             if status == .PENDING{
                                 self.hub.increment()
                             }
-                            
+
                         }
                         print("Sync done")
                         self.hub.blink()
-                        
+
                         }
-                        
+
                 }// end if let
                 
-            }// end of firebase
+            }
+                // no need to show alert here
+                
+
+//
+//                // fetch the personsList
+
+                
     }
     
     
