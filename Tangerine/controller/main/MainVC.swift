@@ -9,6 +9,8 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import RealmSwift
+import BadgeHub
+
 
 
 class MainVC: UIViewController {
@@ -22,11 +24,15 @@ class MainVC: UIViewController {
      */
     /******************************************************************************************************************************/
     
+    // view for friends
+    @IBOutlet weak var friendsBtn: UIButton!
+    
     var minimumAge:Int = 18
     var maximumAge:Int = 99
     
     var prefs: UserDefaults!
-    
+    /// badge
+    var hub : BadgeHub!
     
     // Help Display Outlets
     
@@ -288,20 +294,16 @@ class MainVC: UIViewController {
         // wyatt knows
         clearOutCurrentCompare()
         
-        //unloadAllVCs()
+        //setup hub
+        hub = BadgeHub(view: friendsBtn)
+        hub.scaleCircleSize(by: 0.75)
+        hub.moveCircleBy(x: 5.0, y: 0)
         
+        
+        // now fetch and update count
+        updateFriendReqCount()
     }
-//
-//    func unloadAllVCs(){
-//        // Remove all the view controllers we have till now
-//        guard let navigationController = self.navigationController else { return }
-//        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
-//        print("MainVC Count: \(navigationArray.count)")
-//        let temp = navigationArray.last
-//        navigationArray.removeAll()
-//        navigationArray.append(temp!) //To remove all previous UIViewController except the last one
-//        self.navigationController?.viewControllers = navigationArray
-//    }
+
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -319,6 +321,46 @@ class MainVC: UIViewController {
     @IBAction func helpButtonTapped(_ sender: Any) {
         toggleHelpDisplay()
     }
+    
+    // display the number of pending friend request that I haven't accepted yet
+    
+    func updateFriendReqCount(){
+        
+        Firestore.firestore()
+            .collection(Constants.USERS_COLLECTION)
+            .document(myProfile.username)
+            .collection(Constants.USERS_LIST_SUB_COLLECTION)
+            .whereField(Constants.USER_STATUS_KEY, isEqualTo: Status.PENDING.description)
+            .getDocuments { (querySnaps, error) in
+                // no need to show alert here
+                
+                if error != nil {
+                    print("Sync error \(String(describing: error?.localizedDescription))")
+                    return
+                }
+                
+                // fetch the personsList
+                if let docs = querySnaps?.documents{
+                    if docs.count > 0 {
+                        
+                        for item in docs{
+                            // save the friend names
+                            let status = getStatusFromString(item.data()[Constants.USER_STATUS_KEY] as! String)
+                            if status == .PENDING{
+                                self.hub.increment()
+                            }
+                            
+                        }
+                        print("Sync done")
+                        self.hub.blink()
+                        
+                        }
+                        
+                }// end if let
+                
+            }// end of firebase
+    }
+    
     
     /// shows or hides all the help labels and glassView depending on whether they are hidden at the time it's called
     func toggleHelpDisplay() {
