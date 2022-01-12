@@ -390,7 +390,7 @@ class MainVC: UIViewController {
                 
     }
     
-    
+    /// Updates the Questoins From Friends count to be displayed on the badge associated with the Review Others icon.
     public func updateQFFCount(){
         print("Setting QFF to \(qFFCount)")
         if qFFCount > 0 {

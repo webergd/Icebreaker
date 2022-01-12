@@ -287,7 +287,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                                 return
                             }
                             
-                            self.presentDismissAlertOnMainThread(title: "Success", message: "You are no longer friend with \(self.displayedFriends[indexPath.row].username!)")
+                            self.presentDismissAlertOnMainThread(title: "Friendship Removed", message: "💔 You are no longer friends with \(self.displayedFriends[indexPath.row].username!)")
                             
                             // delete the row
                             self.displayedFriends.remove(at: indexPath.row)
