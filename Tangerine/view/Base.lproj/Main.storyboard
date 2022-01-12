@@ -1448,6 +1448,7 @@ Date of last revision: October 25, 2021
                         <outlet property="helpSharePhotoLabel" destination="kin-HV-uAf" id="cfS-te-RYx"/>
                         <outlet property="helpTutorialLabel" destination="8H8-Ob-q2I" id="Hfu-va-gfm"/>
                         <outlet property="helpViewResultsLabel" destination="CRN-oE-zIu" id="idB-Lk-dBZ"/>
+                        <outlet property="reviewOthersBtn" destination="dkB-NT-RQS" id="GFt-mQ-QqC"/>
                         <segue destination="s89-iV-SBN" kind="presentation" identifier="friends_vc" modalPresentationStyle="fullScreen" id="bS4-Oh-E7m"/>
                     </connections>
                 </viewController>

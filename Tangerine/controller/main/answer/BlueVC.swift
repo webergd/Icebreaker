@@ -227,6 +227,12 @@ class BlueVC: UIViewController{
             // get the question ID/name
             if let firstQuestionToReview = filteredQuestionsToReview.first {
                 
+                // decrement the qff count
+                if firstQuestionToReview.question.recipients.contains(myProfile.username) {
+                    print("Reducing QFF count")
+                    qFFCount -= 1
+                }
+                
                 let questionName = firstQuestionToReview.question.question_name
                 
                 // the type so we can delete single or dual image
@@ -309,6 +315,9 @@ class BlueVC: UIViewController{
     /// Gets called when there are no more Questions left for the member to review
     func showNomoreQues(){
         print("showNoMoreQues called")
+        print("Resetting QFF count")
+        qFFCount = 0
+        
         // AUTO-UNLOCK FUNCTIONALITY
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
