@@ -13,7 +13,7 @@
         <!--LoginVC-->
         <scene sceneID="bet-XO-Fva">
             <objects>
-                <viewController storyboardIdentifier="login_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tj6-hb-mTq" customClass="LoginVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="login_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tj6-hb-mTq" customClass="LoginVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JkR-kj-X4W">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -144,7 +144,7 @@
         <!--User NameVC-->
         <scene sceneID="kHv-re-PRW">
             <objects>
-                <viewController storyboardIdentifier="username_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1Jx-IH-zUR" customClass="UserNameVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="username_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1Jx-IH-zUR" customClass="UserNameVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M0M-qN-TzG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -288,7 +288,7 @@
         <!--ToSVC-->
         <scene sceneID="WmC-GM-Pgc">
             <objects>
-                <viewController id="MQQ-6n-es4" customClass="ToSVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="MQQ-6n-es4" customClass="ToSVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="d6C-Sn-ka0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -617,7 +617,7 @@ Date of last revision: October 25, 2021
         <!--PasswordVC-->
         <scene sceneID="nic-b4-Oev">
             <objects>
-                <viewController storyboardIdentifier="password_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VdY-9o-qyj" customClass="PasswordVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="password_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VdY-9o-qyj" customClass="PasswordVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lzL-FA-99U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -681,7 +681,7 @@ Date of last revision: October 25, 2021
         <!--Phone NumberVC-->
         <scene sceneID="IJB-ru-haA">
             <objects>
-                <viewController storyboardIdentifier="phonenumber_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tKZ-Gr-01w" customClass="PhoneNumberVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="phonenumber_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tKZ-Gr-01w" customClass="PhoneNumberVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ElN-J6-G0X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -830,13 +830,13 @@ Date of last revision: October 25, 2021
         <!--ConfirmationVC-->
         <scene sceneID="PHd-Pc-mUT">
             <objects>
-                <viewController storyboardIdentifier="confirmation_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="L94-66-Eja" customClass="ConfirmationVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="confirmation_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="L94-66-Eja" customClass="ConfirmationVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rzw-6d-0Gc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xtD-NJ-Hcm">
-                                <rect key="frame" x="83.5" y="438" width="150" height="30"/>
+                                <rect key="frame" x="85" y="438" width="150" height="30"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="AyV-NS-Ef3"/>
@@ -849,7 +849,7 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ury-iq-LWw">
-                                <rect key="frame" x="50" y="165" width="217" height="50"/>
+                                <rect key="frame" x="50" y="165" width="220" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tGI-1q-5Po">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="50"/>
@@ -861,27 +861,27 @@ Date of last revision: October 25, 2021
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ncJ-0Z-66D">
-                                        <rect key="frame" x="37" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="37.5" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yol-hl-Y7b">
-                                        <rect key="frame" x="74" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="75" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HoP-Oh-wgJ">
-                                        <rect key="frame" x="111" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="113" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pQ5-un-e2U">
-                                        <rect key="frame" x="148" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="150.5" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jFY-NR-5np">
-                                        <rect key="frame" x="185" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="188" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
@@ -901,25 +901,25 @@ Date of last revision: October 25, 2021
                                 </constraints>
                             </stackView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="That's not the right code!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sA-72-HKN">
-                                <rect key="frame" x="20" y="235" width="277" height="20.5"/>
+                                <rect key="frame" x="20" y="235" width="280" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Confirmation Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KHh-wI-wXS">
-                                <rect key="frame" x="50" y="94" width="217" height="20.5"/>
+                                <rect key="frame" x="50" y="94" width="220" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZvP-MR-Mc5">
-                                <rect key="frame" x="50" y="124.5" width="217" height="20.5"/>
+                                <rect key="frame" x="50" y="124.5" width="220" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="6" currentPage="3" translatesAutoresizingMaskIntoConstraints="NO" id="4bE-F0-EuX">
-                                <rect key="frame" x="75" y="44" width="167.5" height="26"/>
+                                <rect key="frame" x="76.5" y="44" width="167.5" height="26"/>
                                 <color key="pageIndicatorTintColor" systemColor="systemGrayColor"/>
                                 <color key="currentPageIndicatorTintColor" systemColor="systemOrangeColor"/>
                             </pageControl>
@@ -979,7 +979,7 @@ Date of last revision: October 25, 2021
         <!--BirthdayVC-->
         <scene sceneID="pzt-wa-6cY">
             <objects>
-                <viewController storyboardIdentifier="birthday_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="66a-I1-hJw" customClass="BirthdayVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="birthday_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="66a-I1-hJw" customClass="BirthdayVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1g4-w1-tYo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1064,7 +1064,7 @@ Date of last revision: October 25, 2021
         <!--SpecialtyVC-->
         <scene sceneID="svT-dB-zUr">
             <objects>
-                <viewController storyboardIdentifier="specialty_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mTw-VU-5IO" customClass="SpecialtyVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="specialty_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mTw-VU-5IO" customClass="SpecialtyVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Jvb-pN-5M0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1146,7 +1146,7 @@ Date of last revision: October 25, 2021
         <!--MainVC-->
         <scene sceneID="74q-s0-iKN">
             <objects>
-                <viewController storyboardIdentifier="main_vc" id="l5o-ST-kah" customClass="MainVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="main_vc" id="l5o-ST-kah" customClass="MainVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VSO-tK-Rrq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1438,6 +1438,7 @@ Date of last revision: October 25, 2021
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="friendsBtn" destination="bPG-oj-7KD" id="NHP-fj-9Nb"/>
                         <outlet property="glassView" destination="anp-dQ-uzQ" id="xdG-lz-Nrp"/>
                         <outlet property="helpButton" destination="9dx-fB-ucV" id="F3I-oH-kol"/>
                         <outlet property="helpFriendsLabel" destination="I98-ui-vi0" id="7D6-T0-KiC"/>
@@ -1487,7 +1488,7 @@ Date of last revision: October 25, 2021
         <!--View Controller-->
         <scene sceneID="080-mE-57d">
             <objects>
-                <viewController storyboardIdentifier="cq_vc" id="AdZ-eT-MO6" customClass="CQViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cq_vc" id="AdZ-eT-MO6" customClass="CQViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yyv-XV-lmY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1606,7 +1607,7 @@ Date of last revision: October 25, 2021
         <!--Settings-->
         <scene sceneID="ggI-Ur-aht">
             <objects>
-                <viewController id="n9n-mb-nT4" customClass="SettingsVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="n9n-mb-nT4" customClass="SettingsVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="btJ-ok-lgl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1873,7 +1874,7 @@ Date of last revision: October 25, 2021
         <!--Profile-->
         <scene sceneID="vxe-RU-uTu">
             <objects>
-                <viewController id="QXU-jS-ySg" customClass="ProfileVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="QXU-jS-ySg" customClass="ProfileVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JjS-BG-DcV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2039,7 +2040,7 @@ Date of last revision: October 25, 2021
         <!--Edit ProfileVC-->
         <scene sceneID="lN5-pn-UH6">
             <objects>
-                <viewController storyboardIdentifier="editprofile_vc" id="0V1-Ny-6HW" customClass="EditProfileVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="editprofile_vc" id="0V1-Ny-6HW" customClass="EditProfileVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oiG-DY-xIq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2367,7 +2368,7 @@ Date of last revision: October 25, 2021
         <!--WelcomeVC-->
         <scene sceneID="i6i-qS-DDe">
             <objects>
-                <viewController storyboardIdentifier="welcome_vc" id="3eQ-kr-Opa" customClass="WelcomeVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="welcome_vc" id="3eQ-kr-Opa" customClass="WelcomeVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Nv-V4-bqb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2567,7 +2568,7 @@ Date of last revision: October 25, 2021
         <!--Add FriendVC-->
         <scene sceneID="RuR-Ie-hHI">
             <objects>
-                <viewController storyboardIdentifier="addfriend_vc" id="SFY-3b-vZp" customClass="AddFriendVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addfriend_vc" id="SFY-3b-vZp" customClass="AddFriendVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2mV-t9-uyE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2652,7 +2653,7 @@ Date of last revision: October 25, 2021
         <!--FriendsVC-->
         <scene sceneID="cA5-tg-5vN">
             <objects>
-                <viewController storyboardIdentifier="friends_vc" id="s89-iV-SBN" customClass="FriendsVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="friends_vc" id="s89-iV-SBN" customClass="FriendsVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FBe-1J-FEM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2740,7 +2741,7 @@ Date of last revision: October 25, 2021
         <!--Friend DetailsVC-->
         <scene sceneID="2eG-H6-XtF">
             <objects>
-                <viewController storyboardIdentifier="frienddetails_vc" id="nle-qG-EBO" customClass="FriendDetailsVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="frienddetails_vc" id="nle-qG-EBO" customClass="FriendDetailsVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7jS-fV-N0Y">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2915,7 +2916,7 @@ Date of last revision: October 25, 2021
         <!--Friend RequestVC-->
         <scene sceneID="x7B-Pw-0an">
             <objects>
-                <viewController storyboardIdentifier="friendrequest_vc" id="nWK-k8-U2J" customClass="FriendRequestVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="friendrequest_vc" id="nWK-k8-U2J" customClass="FriendRequestVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zvf-MO-BhZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2961,7 +2962,7 @@ Date of last revision: October 25, 2021
         <!--Target DemoVC-->
         <scene sceneID="wvb-iz-Je2">
             <objects>
-                <viewController storyboardIdentifier="targetdemo_vc" id="D2Q-h6-8Iz" customClass="TargetDemoVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="targetdemo_vc" id="D2Q-h6-8Iz" customClass="TargetDemoVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jR5-dX-yUd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3196,7 +3197,7 @@ Date of last revision: October 25, 2021
         <!--Profile Settings Tab Bar Controller-->
         <scene sceneID="Cc1-ml-QGn">
             <objects>
-                <tabBarController storyboardIdentifier="settings_vc" automaticallyAdjustsScrollViewInsets="NO" id="9ln-RG-lXQ" customClass="ProfileSettingsTabBarController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="settings_vc" automaticallyAdjustsScrollViewInsets="NO" id="9ln-RG-lXQ" customClass="ProfileSettingsTabBarController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" itemPositioning="fill" id="szT-7k-uIr">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -3238,7 +3239,7 @@ Date of last revision: October 25, 2021
         <!--Camera View Controller-->
         <scene sceneID="Hxw-jw-piB">
             <objects>
-                <viewController storyboardIdentifier="AVCameraViewController" id="2lw-m3-QmY" customClass="AVCameraViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AVCameraViewController" id="2lw-m3-QmY" customClass="AVCameraViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GdB-aq-mJm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3400,7 +3401,7 @@ Date of last revision: October 25, 2021
         <!--Camera View Controller-->
         <scene sceneID="XUk-83-yHo">
             <objects>
-                <viewController id="htq-oV-YgK" customClass="CameraViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="htq-oV-YgK" customClass="CameraViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xbl-OG-Mjj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3695,7 +3696,7 @@ Date of last revision: October 25, 2021
         <!--Compare Preview View Controller-->
         <scene sceneID="maS-bh-bfP">
             <objects>
-                <viewController storyboardIdentifier="comparePreviewViewController" id="QU4-wR-OY4" customClass="ComparePreviewViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="comparePreviewViewController" id="QU4-wR-OY4" customClass="ComparePreviewViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zvK-03-Der">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3920,14 +3921,14 @@ Date of last revision: October 25, 2021
         <!--My Active Questions-->
         <scene sceneID="skA-dt-Mth">
             <objects>
-                <tableViewController storyboardIdentifier="ask_tvc" title="My Active Questions" automaticallyAdjustsScrollViewInsets="NO" id="b6z-tz-jKg" customClass="AskTableViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ask_tvc" title="My Active Questions" automaticallyAdjustsScrollViewInsets="NO" id="b6z-tz-jKg" customClass="AskTableViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="F1D-rn-71P">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AskTableViewCell" rowHeight="100" id="KSP-C0-b4l" customClass="AskTableViewCell" customModule="SocialApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AskTableViewCell" rowHeight="100" id="KSP-C0-b4l" customClass="AskTableViewCell" customModule="Tangerine" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KSP-C0-b4l" id="RU6-84-Yuj">
@@ -4145,7 +4146,7 @@ Date of last revision: October 25, 2021
                                     <outlet property="titleLabel" destination="Rrr-lb-oo5" id="ook-gT-B3d"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CompareTableViewCell" rowHeight="105" id="o5W-rX-dIx" customClass="CompareTableViewCell" customModule="SocialApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CompareTableViewCell" rowHeight="105" id="o5W-rX-dIx" customClass="CompareTableViewCell" customModule="Tangerine" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="144.5" width="320" height="105"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="o5W-rX-dIx" id="J6B-nB-ua1">
@@ -4482,7 +4483,7 @@ Date of last revision: October 25, 2021
         <!--Ask View Controller-->
         <scene sceneID="YHs-oq-Byc">
             <objects>
-                <viewController storyboardIdentifier="askViewController" id="L83-pA-91X" customClass="AskViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="askViewController" id="L83-pA-91X" customClass="AskViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LIG-P3-owO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4994,7 +4995,7 @@ time remaining is zero. </string>
         <!--Compare View Controller-->
         <scene sceneID="Cmg-UF-x4u">
             <objects>
-                <viewController storyboardIdentifier="compareViewController" id="gsl-JK-dT6" userLabel="Compare View Controller" customClass="CompareViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compareViewController" id="gsl-JK-dT6" userLabel="Compare View Controller" customClass="CompareViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="TopLeft" id="M48-ro-bK7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5260,7 +5261,7 @@ time remaining is zero. </string>
         <!--Compare Breakdown View Controller-->
         <scene sceneID="g7w-yl-41z">
             <objects>
-                <viewController storyboardIdentifier="compareBreakdownViewController" id="jqp-rM-C7H" userLabel="Compare Breakdown View Controller" customClass="CompareBreakdownViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compareBreakdownViewController" id="jqp-rM-C7H" userLabel="Compare Breakdown View Controller" customClass="CompareBreakdownViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="Jg4-VV-MIK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -6094,7 +6095,7 @@ time remaining is zero. </string>
         <!--Ask Breakdown View Controller-->
         <scene sceneID="1uX-ML-8MF">
             <objects>
-                <viewController storyboardIdentifier="askReviewDetailsViewController" id="Otj-E7-kU6" userLabel="Ask Breakdown View Controller" customClass="AskReviewDetailsViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="askReviewDetailsViewController" id="Otj-E7-kU6" userLabel="Ask Breakdown View Controller" customClass="AskReviewDetailsViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zA8-ax-2ge">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -6251,13 +6252,13 @@ time remaining is zero. </string>
         <!--Ask Reviews Table View Controller-->
         <scene sceneID="HFP-a2-c79">
             <objects>
-                <tableViewController storyboardIdentifier="askReviewsTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="hSZ-gB-QjG" customClass="AskReviewsTableViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="askReviewsTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="hSZ-gB-QjG" customClass="AskReviewsTableViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="U03-BA-Wkm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AskReviewsTableViewCell" rowHeight="100" id="F9f-q1-964" customClass="AskReviewsTableViewCell" customModule="SocialApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AskReviewsTableViewCell" rowHeight="100" id="F9f-q1-964" customClass="AskReviewsTableViewCell" customModule="Tangerine" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F9f-q1-964" id="1e6-ui-7Vn">
@@ -6421,13 +6422,13 @@ time remaining is zero. </string>
         <!--Compare Reviews Table View Controller-->
         <scene sceneID="5PC-yc-G5t">
             <objects>
-                <tableViewController storyboardIdentifier="compareReviewsTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="du8-Jz-Vya" customClass="CompareReviewsTableViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="compareReviewsTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="du8-Jz-Vya" customClass="CompareReviewsTableViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="fKc-w1-BP2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CompareReviewsTableViewCell" rowHeight="120" id="TH0-pW-x4I" customClass="CompareReviewsTableViewCell" customModule="SocialApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CompareReviewsTableViewCell" rowHeight="120" id="TH0-pW-x4I" customClass="CompareReviewsTableViewCell" customModule="Tangerine" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="320" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TH0-pW-x4I" id="sac-M6-Dev">
@@ -6630,7 +6631,7 @@ time remaining is zero. </string>
         <!--Compare Review Details View Controller-->
         <scene sceneID="gTE-Go-bmT">
             <objects>
-                <viewController storyboardIdentifier="compareReviewBreakdownViewController" id="w0P-0L-AFR" userLabel="Compare Review Details View Controller" customClass="CompareReviewDetailsViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compareReviewBreakdownViewController" id="w0P-0L-AFR" userLabel="Compare Review Details View Controller" customClass="CompareReviewDetailsViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="feb-Ry-taY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -6778,7 +6779,7 @@ time remaining is zero. </string>
         <!--Swipe From RightVC-->
         <scene sceneID="lVk-rw-htJ">
             <objects>
-                <viewController storyboardIdentifier="swipe_to_right_vc" id="QYR-SP-1Ms" customClass="SwipeFromRightVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="swipe_to_right_vc" id="QYR-SP-1Ms" customClass="SwipeFromRightVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NYI-Yi-hCV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -6871,7 +6872,7 @@ time remaining is zero. </string>
         <!--BlueVC-->
         <scene sceneID="gtd-fh-f2w">
             <objects>
-                <viewController storyboardIdentifier="blue_vc" id="rqR-Xh-EVG" customClass="BlueVC" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="blue_vc" id="rqR-Xh-EVG" customClass="BlueVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JXC-ZP-RdK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -6902,7 +6903,7 @@ time remaining is zero. </string>
         <!--Review Compare View Controller-->
         <scene sceneID="5HI-kb-LGh">
             <objects>
-                <viewController storyboardIdentifier="reviewCompareViewController" id="ig2-s6-WuT" customClass="ReviewCompareViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="reviewCompareViewController" id="ig2-s6-WuT" customClass="ReviewCompareViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cLV-2u-pYD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -7340,7 +7341,7 @@ Tap the image that you think this person should go with.
         <!--Review Ask View Controller-->
         <scene sceneID="L2b-mM-INw">
             <objects>
-                <viewController storyboardIdentifier="reviewAskViewController" id="6bS-yJ-pcb" customClass="ReviewAskViewController" customModule="SocialApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="reviewAskViewController" id="6bS-yJ-pcb" customClass="ReviewAskViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="piI-g3-YDf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
