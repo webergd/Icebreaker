@@ -56,7 +56,7 @@ class AskTableViewController: UITableViewController {
             }
             
         }else{
-            self.showNoMoreQuestions("No Active Questions Found")
+            self.showNoMoreQuestions("No active Questions. Tap the camera icon to upload a photo to be reviewed!")
         }
         
         // commented this out because Realm only gets updated in the FriendsVC, and the user may not have loaded that view yet. So Realm will still show no usernames in myFriendList.
