@@ -26,13 +26,15 @@ class MainVC: UIViewController {
     
     // view for friends
     @IBOutlet weak var friendsBtn: UIButton!
+    @IBOutlet weak var reviewOthersBtn: UIButton!
     
     var minimumAge:Int = 18
     var maximumAge:Int = 99
     
     var prefs: UserDefaults!
     /// badge
-    var hub : BadgeHub!
+    var friendBadgeHub : BadgeHub!
+    var qffBadgeHub : BadgeHub!
     
     // Help Display Outlets
     
@@ -266,6 +268,19 @@ class MainVC: UIViewController {
         
        UIApplication.shared.windows.first?.rootViewController = self
         //UIApplication.shared.windows.first?.makeKeyAndVisible()
+        
+        // setup the review count
+        qffBadgeHub = BadgeHub(view: reviewOthersBtn)
+        
+        qffBadgeHub.scaleCircleSize(by: 0.75)
+        qffBadgeHub.moveCircleBy(x: 5.0, y: 0)
+        
+        //setup friend count hub
+        friendBadgeHub = BadgeHub(view: friendsBtn)
+        friendBadgeHub.setCount(0)
+        
+        friendBadgeHub.scaleCircleSize(by: 0.75)
+        friendBadgeHub.moveCircleBy(x: 5.0, y: 0)
 
     }
     
@@ -273,10 +288,14 @@ class MainVC: UIViewController {
         super.viewDidAppear(animated)
         print("MainVC Appeared")
         
+        //setup qff count hub
+
+        
 
             // checks if we have enough questions, if not fetches some
             checkForQuestionsToFetch(){
                 print("Completed fetching Questions from MainVC")
+                self.updateQFFCount()
             }
             
             // fetch the active question or questions that I posted
@@ -294,16 +313,15 @@ class MainVC: UIViewController {
         // wyatt knows
         clearOutCurrentCompare()
         
-        //setup hub
-        hub = BadgeHub(view: friendsBtn)
-        hub.setCount(0)
         
-        hub.scaleCircleSize(by: 0.75)
-        hub.moveCircleBy(x: 5.0, y: 0)
         
         
         // now fetch and update count
         updateFriendReqCount()
+        
+        updateQFFCount()
+        
+        
     }
 
     
@@ -336,7 +354,7 @@ class MainVC: UIViewController {
             .addSnapshotListener { snapshot, error in
                 print("Friend Req Count")
                 // to make sure we don't add the already added ones
-                self.hub.setCount(0)
+                self.friendBadgeHub.setCount(0)
                 if error != nil {
                     print("Sync error \(String(describing: error?.localizedDescription))")
                     return
@@ -351,12 +369,12 @@ class MainVC: UIViewController {
                             // save the friend names
                             let status = getStatusFromString(item.data()[Constants.USER_STATUS_KEY] as! String)
                             if status == .PENDING{
-                                self.hub.increment()
+                                self.friendBadgeHub.increment()
                             }
 
                         }
                         print("Sync done")
-                        self.hub.blink()
+                        self.friendBadgeHub.blink()
 
                         }
 
@@ -370,6 +388,17 @@ class MainVC: UIViewController {
 //                // fetch the personsList
 
                 
+    }
+    
+    
+    public func updateQFFCount(){
+        print("Setting QFF to \(qFFCount)")
+        if qFFCount > 0 {
+            qffBadgeHub.setCount(qFFCount)
+        }else{
+            qffBadgeHub.setCount(0)
+        }
+        
     }
     
     

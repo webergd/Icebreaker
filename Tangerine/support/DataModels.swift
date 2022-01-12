@@ -94,6 +94,7 @@ public var myActiveQuestions = [ActiveQuestion]()
 
 public var rawQuestions = Set<Question>()
 public var questionOnTheScreen = ""
+public var qFFCount = 0
 
 /// this is bascially a {get set} portal to the number of locked questions in the UserDefaults Constants object
 public var lockedQuestionsCount = {
@@ -1321,10 +1322,13 @@ public func fetchQuestionFromFriends(action:  @escaping ()->Void){
                 print("The entire review queue is filled with QFF's. Filtering questions from friends query.")
                 filterQuestionsAndPrioritize {
                     print("FILTER DONE FROM QFF")
+                    action()
                 }
             }else{
                 print("Not enough QFF, fetching normal (Questions from the community)")
-                fetchQuestionsFromTheCommunity(passedRawQuestions: rawQuestions)
+                fetchQuestionsFromTheCommunity(passedRawQuestions: rawQuestions){
+                    action()
+                }
             }
         } // end of deferred actions
         
@@ -1366,7 +1370,7 @@ public func fetchQuestionFromFriends(action:  @escaping ()->Void){
 
 
 /// This function fetches Questions From the Community (QFC) for the local user to review.
-public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>){ //previously named 'fetchQuestion()'
+public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,action: @escaping ()->Void){ //previously named 'fetchQuestion()'
     print("FETCHING QUESTION")
     var locallyScopedRawQuestions = passedRawQuestions
     var query : Query!
@@ -1383,6 +1387,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>){ /
             print("Exiting from Normal Query: \(rawQuestions.count)")
             filterQuestionsAndPrioritize {
                 print("FILTER DONE")
+                action()
             }
         }
         // usual error handling
@@ -1541,10 +1546,16 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
     var tempFilterQ = [PrioritizedQuestion]()
     
     var displayedQuestion : PrioritizedQuestion?
-    
+    // to reset the count so it doesn't add up old counts
+    qFFCount = 0
     // load the ones matches specialty
     // check against my specialty
     for item in rawQuestions {
+        
+        // might look duplicate, but ensures that even if the question was in top, we have the count correct
+        if item.recipients.contains(myProfile.username){
+            qFFCount += 1
+        }
         
         if let _ = questionReviewed[item.question_name]{
             // found one that we reviewed, so skip it
@@ -1716,12 +1727,6 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
     }
     
     
-    
-    
-    
-    
-
-    
     print("After filter we have \(filteredQuestionsToReview.count) filtered question")
     
     print("Printing Filtered DB")
@@ -1758,6 +1763,8 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
     tempFilterQ.removeAll()
     
     rawQuestions.removeAll()
+    
+    
     // return to the caller
     onComplete()
     
