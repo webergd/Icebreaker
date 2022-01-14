@@ -26,7 +26,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     // so we can hide the deleteThumnailButton:
     @IBOutlet weak var deleteThumbnailButton: UIButton!
     
-    // These are the small image icons that tell user whether he or she is creating an ask or a compare
+    // These are the small image icons that tell user whether user is creating an ask or a compare
+    @IBOutlet weak var questionTypeLabel: UILabel!
     @IBOutlet weak var topImageIndicator: UIImageView!
     @IBOutlet weak var bottomImageIndicator: UIImageView!
     
@@ -42,6 +43,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var centerFlexibleSpace: UIBarButtonItem!
     
     @IBOutlet weak var publishOrPreviewLabel: UILabel!
+    @IBOutlet weak var publishButton: UIButton!
     
     @IBOutlet weak var helpButton: UIButton!
     
@@ -206,8 +208,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewDidAppear(_ animated: Bool) {
         //if this could animate at twice the speed, it would look better (and be less annoying when switching between thumbnails that are zoomed in far)
         scrollView.setZoomScale(zoomScaleToLoad, animated: true)
-        
-        
+
     }
     
     override func viewDidLoad() {
@@ -275,6 +276,15 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         imageView.addGestureRecognizer(pressImageGesture)
         
         //        tempMessageLabel1.fadeOutAfter(seconds: 5)
+        
+        // Enables image icons to be tapped
+        let topImageIndicatorTappedGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CameraViewController.topImageIndicatorTapped(_:)))
+        topImageIndicator.isUserInteractionEnabled = true
+        topImageIndicator.addGestureRecognizer(topImageIndicatorTappedGestureRecognizer)
+        
+        let bottomImageIndicatorTappedGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CameraViewController.bottomImageIndicatorTapped(_:)))
+        bottomImageIndicator.isUserInteractionEnabled = true
+        bottomImageIndicator.addGestureRecognizer(bottomImageIndicatorTappedGestureRecognizer)
         
     }
     
@@ -949,7 +959,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     // continue button
     @IBAction func publishButtonTapped(_ sender: Any) {
         if currentCompare.creationPhase == compareImageState.firstPhotoTaken { //aka there is only one image and it should make an Ask
-            actionYes = UIAlertAction(title: "Proceed With No Title", style: .default) {
+            actionYes = UIAlertAction(title: "Publish Image with No Title", style: .default) {
                 UIAlertAction in
                 currentTitle = "(no title)"
                 self.createAsk()
@@ -957,7 +967,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             finishEditing(whatToCreate: .ask)
             
         } else { //aka we are for sure making a compare
-            actionYes = UIAlertAction(title: "Proceed With No Title", style: .default) {
+            actionYes = UIAlertAction(title: "Leave Blank", style: .default) {
                 UIAlertAction in
                 currentTitle = "(no title)"
                 self.createHalfOfCompare()
@@ -971,7 +981,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         print("Compare")
         currentCompare.isAsk = false // all this means is that the system now knows we're creating a Compare (with two images). Probably could be named better.
         
-        actionYes = UIAlertAction(title: "Proceed With No Title", style: .default) {
+        actionYes = UIAlertAction(title: "Leave Blank", style: .default) {
             UIAlertAction in
             currentTitle = "(no title)"
             
@@ -984,6 +994,34 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBAction func deleteThumbnailButtonTapped(_ sender: Any) {
         reduceToAskButtonTapped(self)
     }
+    
+    
+    @objc func topImageIndicatorTapped(_ topImageIndicatorTappedGestureRecognizer: UITapGestureRecognizer)
+    {
+        questionTypeLabel.text = correctQuestionTypeLabel()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
+            self.questionTypeLabel.fadeInAfter(seconds: 0.0)
+            self.questionTypeLabel.fadeOutAfter(seconds: 6.0)
+        }
+    }
+    
+    @objc func bottomImageIndicatorTapped(_ bottomImageIndicatorTappedGestureRecognizer: UITapGestureRecognizer)
+    {
+        questionTypeLabel.text = correctQuestionTypeLabel()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
+            self.questionTypeLabel.fadeInAfter(seconds: 0.0)
+            self.questionTypeLabel.fadeOutAfter(seconds: 6.0)
+        }
+    }
+    
+    func correctQuestionTypeLabel() -> String{
+        if currentCompare.creationPhase == .firstPhotoTaken {
+            return "SINGLE IMAGE FOR REVIEW"
+        } else {
+            return "IMAGE 1 vs IMAGE 2"
+        }
+    }
+    
     
     /// This button should be hidden at the onset and unhidden when 2 is hidden. Any time the 2 is unhidden, this should be hidden again.
     @IBAction func reduceToAskButtonTapped(_ sender: Any) {
@@ -1088,7 +1126,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         if let title = titleTextField.text {
             if titleTextFieldIsBlank == true {
-                let alertController = UIAlertController(title: "Title Not Provided", message: "Publish your photo without a title?", preferredStyle: .actionSheet)
+                let alertController = UIAlertController(title: "You Didn't Enter A Title", message: "It's Recommended but Not Required", preferredStyle: .actionSheet)
                 
                 // the following code is added to fix crash on iPad : 03 Oct, MM
                 if let popoverController = alertController.popoverPresentationController {
@@ -1096,7 +1134,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                     popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
                 }
                 
-                let actionNo = UIAlertAction(title: "Enter Title", style: .default) {
+                let actionNo = UIAlertAction(title: "Let Me Enter One", style: .cancel) {
                     UIAlertAction in
                     self.titleTextField.becomeFirstResponder()
                     
