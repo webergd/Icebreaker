@@ -148,6 +148,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             publishOrPreviewLabel.text = "TAP TO PUBLISH"
             publishOrPreviewLabel.textColor = .systemGreen //UIColor(red: 0, green: 142, blue: 0, alpha: 1)
             helpAskOrCompareLabel.text = makeCompareHelpMessage
+
+            publishButton.setImage(#imageLiteral(resourceName: "square-arrow.png"), for: UIControl.State.normal)
+
+            
             
         case .secondPhotoTaken:
             load(image: .two)
@@ -166,6 +170,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
             
+            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
+            
+            
+            
+            
         case .reEditingFirstPhoto:
             load(image: .one)
             addCompareButton.isHidden = true
@@ -180,6 +189,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             publishOrPreviewLabel.text = "TAP TO PREVIEW"
             publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
+            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
         case .reEditingSecondPhoto:
             load(image: .two)
@@ -195,6 +205,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             publishOrPreviewLabel.text = "TAP TO PREVIEW"
             publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
+            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
         case .noPhotoTaken: //this should never happen
             print("Error in CameraViewController.ViewWillAppear: creationPhase is .noPhotoTaken, something went wrong.")
