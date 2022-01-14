@@ -23,6 +23,13 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var captionTextField: UITextField!
     @IBOutlet weak var captionTextFieldTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var otherImageThumbnail: UIButton! // this is a button but in terms of being an outlet we will use it as an imageView
+    // so we can hide the deleteThumnailButton:
+    @IBOutlet weak var deleteThumbnailButton: UIButton!
+    
+    // These are the small image icons that tell user whether he or she is creating an ask or a compare
+    @IBOutlet weak var topImageIndicator: UIImageView!
+    @IBOutlet weak var bottomImageIndicator: UIImageView!
+    
     @IBOutlet var longPressTap: UILongPressGestureRecognizer! //MARK: did this unlink itself?
     @IBOutlet weak var clearBlursButton: UIButton!
     @IBOutlet weak var enableBlurringButton: UIButton!
@@ -72,6 +79,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     var zoomScaleToLoad: CGFloat =  initialZoomScale
     var contentOffsetToLoad: CGPoint = initialContentOffset
     let enterTitleConstant: String = "Enter a Private Title for Your Photo Here"
+    let inactiveImageIndicatorAlphaConstant = 0.6
     
     /// this is where we'll save the link to the profile image or any other image
     var imageRef_1: StorageReference!
@@ -112,8 +120,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        let makeCompareHelpMessage: String = "Tap the 2 to add 2nd image for comparison"
-        let revertToAskHelpMessage: String = "Tap the 1 to revert to single image"
+        let makeCompareHelpMessage: String = "Add 2nd image for comparison"
+        let revertToAskHelpMessage: String = "Tap ❌ to revert to single image"
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -131,20 +139,27 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             addCompareButton.isHidden = false // give the user the option to create a compare
             reduceToAskButton.isHidden = true
             otherImageThumbnail.isHidden = true //if it's a single image, there will be no other image to show a thumbnail of
+            topImageIndicator.isHidden = false
+            topImageIndicator.alpha = 1.0
+            bottomImageIndicator.isHidden  = true
+            bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
             publishOrPreviewLabel.text = "TAP TO PUBLISH"
             publishOrPreviewLabel.textColor = .systemGreen //UIColor(red: 0, green: 142, blue: 0, alpha: 1)
             helpAskOrCompareLabel.text = makeCompareHelpMessage
-            
-            
-            
             
         case .secondPhotoTaken:
             load(image: .two)
             resetTitleTextField()
             titleHasBeenTapped = false
             addCompareButton.isHidden = true
-            reduceToAskButton.isHidden = false
-            otherImageThumbnail.isHidden = true //we want them to focus on making image2 right now, no thumbnail
+            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
+            otherImageThumbnail.isHidden = false //we want them to focus on making image2 right now, no thumbnail
+            otherImageThumbnail.alpha = 0.7
+            otherImageThumbnail.isEnabled = false
+            topImageIndicator.isHidden = false
+            topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
+            bottomImageIndicator.isHidden  = false
+            bottomImageIndicator.alpha = 1.0
             publishOrPreviewLabel.text = "TAP TO PREVIEW"
             publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
@@ -152,8 +167,14 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         case .reEditingFirstPhoto:
             load(image: .one)
             addCompareButton.isHidden = true
-            reduceToAskButton.isHidden = false
+            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
             otherImageThumbnail.isHidden = false //displays the thumbnail
+            otherImageThumbnail.alpha = 1.0
+            otherImageThumbnail.isEnabled = true
+            topImageIndicator.isHidden = false
+            topImageIndicator.alpha = 1.0
+            bottomImageIndicator.isHidden  = false
+            bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
             publishOrPreviewLabel.text = "TAP TO PREVIEW"
             publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
@@ -161,8 +182,14 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         case .reEditingSecondPhoto:
             load(image: .two)
             addCompareButton.isHidden = true
-            reduceToAskButton.isHidden = false
+            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
             otherImageThumbnail.isHidden = false //displays the thumbnail
+            otherImageThumbnail.alpha = 1.0
+            otherImageThumbnail.isEnabled = true
+            topImageIndicator.isHidden = false
+            topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
+            bottomImageIndicator.isHidden  = false
+            bottomImageIndicator.alpha = 1.0
             publishOrPreviewLabel.text = "TAP TO PREVIEW"
             publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
@@ -170,6 +197,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         case .noPhotoTaken: //this should never happen
             print("Error in CameraViewController.ViewWillAppear: creationPhase is .noPhotoTaken, something went wrong.")
         }
+        
+        // only show the delete button if the thumbnail is visible
+        deleteThumbnailButton.isHidden = otherImageThumbnail.isHidden
         
     }
     
@@ -302,7 +332,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         otherImageThumbnail.setImage(iBE.iBEimageBlurredCropped, for: .normal)
     }
     
-    //Enables tap on image to show caption (2 of 2):
+    ///Enables tap on image to show caption (2 of 2):
     @objc func userTappedImage(_ tapImageGesture: UITapGestureRecognizer){
         captionTextField.translatesAutoresizingMaskIntoConstraints = false
         tappedLoc = tapImageGesture.location(in: self.view)
@@ -360,6 +390,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @objc func keyboardWillShow(_ notification: Notification) {
         // Basically all this is for moving the caption out of the way of the keyboard while we're editing it:
         if self.captionTextField.isEditing == true { //aka if the title is editing, don't do any of this
+            mirrorCaptionButton.isHidden = false
+            view.bringSubviewToFront(captionTextField)
             //get the height of the keyboard that will show and then shift the text field up by that amount
             if let userInfoDict = notification.userInfo, let keyboardFrameValue = userInfoDict [UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                 let keyboardFrame = keyboardFrameValue.cgRectValue
@@ -426,6 +458,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         titleTextField.text = captionTextField.text
         titleTextField.textColor = UIColor.black
+        mirrorCaptionButton.isHidden = true
         
     }
     
@@ -438,6 +471,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @IBAction func otherImageThumbnailTapped(_ sender: Any) {
         switch currentCompare.creationPhase {
+        case .secondPhotoTaken:
+            // MARK need something here to acknowledge image was tapped but we're not doing anything
+            print("second photo taken")
         case .reEditingFirstPhoto:
             currentCompare.imageBeingEdited1 = createImageBeingEdited()
             currentCompare.creationPhase = .reEditingSecondPhoto
@@ -942,6 +978,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             self.createHalfOfCompare()
         }
         finishEditing(whatToCreate: .compare)
+    }
+    
+    
+    @IBAction func deleteThumbnailButtonTapped(_ sender: Any) {
+        reduceToAskButtonTapped(self)
     }
     
     /// This button should be hidden at the onset and unhidden when 2 is hidden. Any time the 2 is unhidden, this should be hidden again.
