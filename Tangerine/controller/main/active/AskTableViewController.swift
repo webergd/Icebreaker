@@ -232,7 +232,7 @@ class AskTableViewController: UITableViewController {
                 
                                           downloadOrLoadFirebaseImage(
                                               ofName: getFilenameFrom(qName: question.question_name, type: question.type),
-                                              forPath: question.imageURL_1) { image, error in
+                                              forPath: question.imageURL_1, asThumb: true) { image, error in
                                               if let error = error{
                                                   print("Error: \(error.localizedDescription)")
                                                   return
@@ -264,7 +264,7 @@ class AskTableViewController: UITableViewController {
       
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: question.question_name, type: question.type),
-                    forPath: question.imageURL_1) { image, error in
+                    forPath: question.imageURL_1, asThumb: true) { image, error in
                     if let error = error{
                         print("Error: \(error.localizedDescription)")
                         return
@@ -277,7 +277,7 @@ class AskTableViewController: UITableViewController {
                 
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: question.question_name, type: question.type,secondPhoto: true),
-                    forPath: question.imageURL_2) { image, error in
+                    forPath: question.imageURL_2, asThumb: true) { image, error in
                     if let error = error{
                         print("Error: \(error.localizedDescription)")
                         return

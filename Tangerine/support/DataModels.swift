@@ -1432,13 +1432,23 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
 
 
 /// to fetch a UIImage from firebase gs and set the UIImageView
-public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: String?, completion: @escaping (UIImage?,Error?) -> Void ){
+public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: String?,asThumb isThumb:Bool = false, completion: @escaping (UIImage?,Error?) -> Void ){
     
-    if let image = loadImageFromDiskWith(fileName: filename){
-        completion(image,nil)
-        
-        return
+    // need to check if it is a thumb or not, based on that we'll know if we are calling it from AskTableVC
+    // we'll load the thumb if that's the case, faster loading time
+    
+    if isThumb {
+        print("Loading a thumb")
     }
+        if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
+            
+            completion(image,nil)
+            
+            return
+        }
+    
+    
+    
     
     
     DispatchQueue.global(qos: .userInitiated).async {
@@ -1466,7 +1476,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
                         
                         DispatchQueue.main.async {
                             
-                            saveImageToDiskWith(imageName: filename, image: image!)
+                            saveImageToDiskWith(imageName: filename, image: image!, isThumb: isThumb)
                             
                             completion(image,nil)
                         }

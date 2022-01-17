@@ -133,7 +133,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     func doLogin(){
         
         // check this regex, as per firebase doc
+        //https://firebase.google.com/docs/firestore/quotas
         let regex = try! NSRegularExpression(pattern: "__.*__")
+        
+        // if there is space at the end, we remove it
+        if let name = usernameTF.text, name.hasSuffix(" "), name.hasPrefix(" "){
+            usernameTF.text = name.replacingOccurrences(of: " ", with: "")
+        }
+        
         
         // other validations
         if let name = usernameTF.text, name.count >= 3, !name.contains(" "), !name.contains("/"), !name.starts(with: "."){
