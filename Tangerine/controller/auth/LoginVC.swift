@@ -136,8 +136,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //https://firebase.google.com/docs/firestore/quotas
         let regex = try! NSRegularExpression(pattern: "__.*__")
         
+        
+        
+        
         // if there is space at the end, we remove it
         if let name = usernameTF.text, name.hasSuffix(" "), name.hasPrefix(" "){
+            print("found spaces in username") //MARK: Added by Wyatt, feel free to remove.
             usernameTF.text = name.replacingOccurrences(of: " ", with: "")
         }
         

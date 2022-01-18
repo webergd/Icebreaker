@@ -1424,7 +1424,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
             }else{
                 print("Got 0 question")
             }
-        
+            
         } // end if let processing data from QFC query
         rawQuestions = locallyScopedRawQuestions
     } // end firestore (query.getDocuments) closure
@@ -1440,15 +1440,12 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
     if isThumb {
         print("Loading a thumb")
     }
-        if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
-            
-            completion(image,nil)
-            
-            return
-        }
-    
-    
-    
+    if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
+        
+        completion(image,nil)
+        
+        return
+    }
     
     
     DispatchQueue.global(qos: .userInitiated).async {
@@ -1476,6 +1473,8 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
                         
                         DispatchQueue.main.async {
                             
+                            //MARK: Added by Wyatt, feel free to remove.
+                            //MARK: Does this ever get called with isThumb == true?
                             saveImageToDiskWith(imageName: filename, image: image!, isThumb: isThumb)
                             
                             completion(image,nil)
@@ -1486,7 +1485,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
                         print("Image data is null or corrupted")
                     }
                     
-                   
+                    
                 }
             } // end imageRef
         } // end if let
@@ -1719,20 +1718,20 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
                     return
                 }
                 
-        }
+            }
         
         // Then check if it's compare so we may download the second image
         if item.question.type == .COMPARE{
-          
+            
             downloadOrLoadFirebaseImage(
                 ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type, secondPhoto: true),
                 forPath: item.question.imageURL_2) { image, error in
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    return
+                    if let error = error{
+                        print("Error: \(error.localizedDescription)")
+                        return
+                    }
+                    
                 }
-                
-            }
         }
     }
     
