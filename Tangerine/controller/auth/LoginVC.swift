@@ -140,7 +140,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         
         
         // if there is space at the end, we remove it
-        if let name = usernameTF.text, name.hasSuffix(" "), name.hasPrefix(" "){
+        if let name = usernameTF.text, (name.hasSuffix(" ") || name.hasPrefix(" ")){
             print("found spaces in username") //MARK: Added by Wyatt, feel free to remove.
             usernameTF.text = name.replacingOccurrences(of: " ", with: "")
         }
