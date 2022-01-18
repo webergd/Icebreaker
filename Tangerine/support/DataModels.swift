@@ -1437,9 +1437,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
     // need to check if it is a thumb or not, based on that we'll know if we are calling it from AskTableVC
     // we'll load the thumb if that's the case, faster loading time
     
-    if isThumb {
-        print("Loading a thumb")
-    }
+    
     if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
         
         completion(image,nil)
@@ -1474,7 +1472,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
                         DispatchQueue.main.async {
                             
                             //MARK: Added by Wyatt, feel free to remove.
-                            //MARK: Does this ever get called with isThumb == true?
+                            //MARK: Does this ever get called with isThumb == true? => it does
                             saveImageToDiskWith(imageName: filename, image: image!, isThumb: isThumb)
                             
                             completion(image,nil)

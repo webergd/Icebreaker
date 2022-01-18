@@ -470,6 +470,9 @@ public func computeCropOrigin (imageView: UIImageView, contentOffset: CGPoint, z
 
 public func saveImageToDiskWith(imageName: String, image: UIImage, isThumb: Bool = false) {
 
+    if isThumb {
+        print("Loading a thumb")
+    }
  guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
 
     let fileName = imageName
@@ -482,7 +485,7 @@ public func saveImageToDiskWith(imageName: String, image: UIImage, isThumb: Bool
             return
         }
         
-        guard let thumbData = image.jpegData(compressionQuality: 0.2) else {return}
+        guard let thumbData = image.jpegData(compressionQuality: 0.01) else {return}
         
         do {
             try thumbData.write(to: thumbURL)
