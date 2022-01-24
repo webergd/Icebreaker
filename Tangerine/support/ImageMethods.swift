@@ -468,24 +468,49 @@ public func computeCropOrigin (imageView: UIImageView, contentOffset: CGPoint, z
 
 // ADDED BY MM
 
-public func saveImageToDiskWith(imageName: String, image: UIImage) {
+public func saveImageToDiskWith(imageName: String, image: UIImage, isThumb: Bool = false) {
 
+    if isThumb {
+        print("Loading a thumb")
+    }
  guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
 
     let fileName = imageName
     let fileURL = documentsDirectory.appendingPathComponent(fileName)
-    guard let data = image.jpegData(compressionQuality: 1) else { return }
-
-    //Checks if file exists, removes it if so.
-    if FileManager.default.fileExists(atPath: fileURL.path) {
-        do {
-            try FileManager.default.removeItem(atPath: fileURL.path)
-            print("Removed old image")
-        } catch let removeError {
-            print("couldn't remove file at path", removeError)
+    let thumbURL = documentsDirectory.appendingPathComponent("thumb_\(fileName)")
+    
+    if isThumb{
+        
+        if FileManager.default.fileExists(atPath: thumbURL.path) {
+            return
         }
-
+        
+        guard let thumbData = image.jpegData(compressionQuality: 0.01) else {return}
+        
+        do {
+            try thumbData.write(to: thumbURL)
+            print("Thumb has been saved with name thumb_\(fileName)")
+        } catch let error {
+            print("error saving thumb file with error", error)
+        }
     }
+    
+    if FileManager.default.fileExists(atPath: fileURL.path) {
+        return
+    }
+
+    guard let data = image.jpegData(compressionQuality: 1) else { return }
+    
+    //Checks if file exists, removes it if so.
+//    if FileManager.default.fileExists(atPath: fileURL.path) {
+//        do {
+//            try FileManager.default.removeItem(atPath: fileURL.path)
+//            print("Removed old image")
+//        } catch let removeError {
+//            print("couldn't remove file at path", removeError)
+//        }
+//
+//    }
 
     do {
         try data.write(to: fileURL)
@@ -493,8 +518,7 @@ public func saveImageToDiskWith(imageName: String, image: UIImage) {
     } catch let error {
         print("error saving file with error", error)
     }
-
-}
+} // end of save Image to disk
 
 
 public func removeImageFromDevice(ofName filename: String){

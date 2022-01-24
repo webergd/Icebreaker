@@ -1424,7 +1424,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
             }else{
                 print("Got 0 question")
             }
-        
+            
         } // end if let processing data from QFC query
         rawQuestions = locallyScopedRawQuestions
     } // end firestore (query.getDocuments) closure
@@ -1432,9 +1432,14 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
 
 
 /// to fetch a UIImage from firebase gs and set the UIImageView
-public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: String?, completion: @escaping (UIImage?,Error?) -> Void ){
+public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: String?,asThumb isThumb:Bool = false, completion: @escaping (UIImage?,Error?) -> Void ){
     
-    if let image = loadImageFromDiskWith(fileName: filename){
+    // need to check if it is a thumb or not, based on that we'll know if we are calling it from AskTableVC
+    // we'll load the thumb if that's the case, faster loading time
+    
+    
+    if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
+        
         completion(image,nil)
         
         return
@@ -1466,7 +1471,9 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
                         
                         DispatchQueue.main.async {
                             
-                            saveImageToDiskWith(imageName: filename, image: image!)
+                            //MARK: Added by Wyatt, feel free to remove.
+                            //MARK: Does this ever get called with isThumb == true? => it does
+                            saveImageToDiskWith(imageName: filename, image: image!, isThumb: isThumb)
                             
                             completion(image,nil)
                         }
@@ -1476,7 +1483,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
                         print("Image data is null or corrupted")
                     }
                     
-                   
+                    
                 }
             } // end imageRef
         } // end if let
@@ -1709,20 +1716,20 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
                     return
                 }
                 
-        }
+            }
         
         // Then check if it's compare so we may download the second image
         if item.question.type == .COMPARE{
-          
+            
             downloadOrLoadFirebaseImage(
                 ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type, secondPhoto: true),
                 forPath: item.question.imageURL_2) { image, error in
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    return
+                    if let error = error{
+                        print("Error: \(error.localizedDescription)")
+                        return
+                    }
+                    
                 }
-                
-            }
         }
     }
     
