@@ -1439,7 +1439,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
     
     
     if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
-        
+        print("Loading thumb")
         completion(image,nil)
         
         return

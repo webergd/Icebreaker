@@ -276,8 +276,8 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
                 
                 // save to local Compare
                 myActiveQuestions.append(ActiveQuestion(question: question))
-                saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: iBE1.iBEimageBlurredCropped)
-                saveImageToDiskWith(imageName: "\(docID)_image_2.jpg", image: iBE2.iBEimageBlurredCropped)
+                saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: iBE1.iBEimageBlurredCropped,isThumb: true)
+                saveImageToDiskWith(imageName: "\(docID)_image_2.jpg", image: iBE2.iBEimageBlurredCropped,isThumb: true)
                 
                 // need to increment local and firestore count here
                 // locked += 1, toReview += 3

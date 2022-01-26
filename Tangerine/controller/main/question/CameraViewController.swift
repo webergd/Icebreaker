@@ -890,7 +890,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             // save to local ASK
             myActiveQuestions.append(ActiveQuestion(question: question))
-            saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: imageToCreateAskWith)
+            saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: imageToCreateAskWith,isThumb: true)
             
             // need to increment local and firestore count here
             // locked += 1, toReview += 3

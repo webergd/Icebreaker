@@ -32,6 +32,9 @@ class SwipeFromRightVC: UIViewController {
         dismiss(animated: true)
     }
     
+    @objc func dismissOnTap(){
+        dismiss(animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +42,8 @@ class SwipeFromRightVC: UIViewController {
         alertView.layer.cornerRadius = 10
         keepAnimatingSwipe = true
         
+        let tg = UITapGestureRecognizer(target: self, action: #selector(dismissOnTap))
+        self.view.addGestureRecognizer(tg)
 
         animateSwipeHand()
         
@@ -51,7 +56,7 @@ class SwipeFromRightVC: UIViewController {
                           duration: 3,
                           options: [.repeat, .curveEaseInOut])//.repeat) // not sure if there is a better options, I'll be learning it soon
         { [self] in
-            swipeImage.frame.origin.x = 250
+            swipeImage.frame.origin.x = self.view.frame.width / 2
         } completion: { [self] Bool in
             // IF logic prevents animateSwipeHand() from being called repeatedly.
             if keepAnimatingSwipe {
