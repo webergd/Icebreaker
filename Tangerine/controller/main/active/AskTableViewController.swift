@@ -12,13 +12,12 @@ import Firebase
 
 // This class has known memory leak issues. As of now we call self.view.window?.rootViewController?.dismiss(animated: true, completion: nil) when returning to main. This is not a perfect fix and still results in high memory usage (about 250 to 400).
 
-private var pullControl = UIRefreshControl() // for our pull2Refresh
+var pullControl : UIRefreshControl! // for our pull2Refresh
 
 ///This really should be called QuestionTableViewController because it's the main table view that holds the local user's Asks AND Compares
 ///
 class AskTableViewController: UITableViewController {
 
-    //@IBOutlet var askTableView: UITableView!
     
 
     override func viewDidLoad() {
@@ -39,26 +38,28 @@ class AskTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller:
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        // the P2R
-        pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        pullControl.addTarget(self, action: #selector(refreshActiveQuestion), for: .valueChanged)
-        tableView.refreshControl = pullControl
+
     }
     
     // refreshes the active list
     @objc private func refreshActiveQuestion(){
-        pullControl.beginRefreshing()
+        tableView.refreshControl?.beginRefreshing()
         fetchActiveQuestions { questions, error in
             self.tableView.reloadData()
-            pullControl.endRefreshing()
+            self.tableView.refreshControl?.endRefreshing()
             print("Active Q refreshed")
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("AP View did appear")
-        addTitleToVC()
         
+        // the P2R
+        pullControl = UIRefreshControl()
+        pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        pullControl.addTarget(self, action: #selector(refreshActiveQuestion), for: .valueChanged)
+        tableView.refreshControl = pullControl
+        addTitleToVC()
        
         // refresh reviews from firebase
         
@@ -524,25 +525,24 @@ class AskTableViewController: UITableViewController {
     }
     
     func addTitleToVC(){
+       
         let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
-        
+
 
         let navItem = UINavigationItem(title: "My Active Questions")
         let backBtn = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .done, target: nil, action: #selector(needToMoveBack))
-        
+
         navItem.leftBarButtonItem = backBtn
 
         navBar.setItems([navItem], animated: true)
-    
         view.addSubview(navBar)
-        
+
     }
     
-    // this acts as the padding where the navbar sits
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
-        return view
+        return UIView()
     }
+    
     
     // Default unused options that came with the TableView:
     
