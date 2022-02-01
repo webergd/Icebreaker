@@ -364,7 +364,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             updateCountOnReviewQues()
             // send to firebase
             
-            save(compareView: createdReview)
+            save(compareReview: createdReview)
             
         }
         
@@ -454,42 +454,49 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     
     /// Create an CompareReview in Firestore
-    func save(compareView: CompareReview) {
+    func save(compareReview: CompareReview) {
         
         let newCompareReview: [String: Any] = [
-            "questionName": compareView.reviewID.questionName,
-            "comments": compareView.comments,
-            "reviewerUserName": compareView.reviewer.username,
-            "reviewerDisplayName": compareView.reviewer.display_name,
-            "reviewerProfilePictureURL": compareView.reviewer.profile_pic,
-            "reviewerAge": getAgeFromBdaySeconds(compareView.reviewer.birthday),
-            "reviewerBirthday": compareView.reviewer.birthday,
-            "reviewerOrientation": compareView.reviewer.orientation,
-            "reviewerSignUpDate": compareView.reviewer.created,
-            "reviewerReviewsRated": compareView.reviewer.reviews,
-            "reviewerScore": compareView.reviewer.rating,
-            "selection": compareView.selection.rawValue,
-            "strongYes": compareView.strongYes,
-            "strongNo":compareView.strongNo
+            "questionName": compareReview.reviewID.questionName,
+            "comments": compareReview.comments,
+            "reviewerUserName": compareReview.reviewer.username,
+            "reviewerDisplayName": compareReview.reviewer.display_name,
+            "reviewerProfilePictureURL": compareReview.reviewer.profile_pic,
+            "reviewerAge": getAgeFromBdaySeconds(compareReview.reviewer.birthday),
+            "reviewerBirthday": compareReview.reviewer.birthday,
+            "reviewerOrientation": compareReview.reviewer.orientation,
+            "reviewerSignUpDate": compareReview.reviewer.created,
+            "reviewerReviewsRated": compareReview.reviewer.reviews,
+            "reviewerScore": compareReview.reviewer.rating,
+            "selection": compareReview.selection.rawValue,
+            "strongYes": compareReview.strongYes,
+            "strongNo":compareReview.strongNo
         ]
         
         // PATH => REVIEWS > docID() -> The Review we created
         
-        let docID = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareView.reviewID.questionName).collection(Constants.QUES_REVIEWS).document().documentID
+        let docID = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document().documentID
         
         /// Store the review document to the path we want and it creates the appropriate collection if needed, or adds to the existing one automatically.
-        Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareView.reviewID.questionName).collection(Constants.QUES_REVIEWS).document(docID).setData(newCompareReview) { (error) in
+        Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document(docID).setData(newCompareReview) { (error) in
             if let error = error {
-                print("questionsRef.document().setData(newAsk):  **error in saving review document for \(compareView.reviewID.questionName); \(error)**")
+                print("questionsRef.document().setData(newAsk):  **error in saving review document for \(compareReview.reviewID.questionName); \(error)**")
                 
             } else {
-                print("COMPARE: review done for question \(compareView.reviewID.questionName)")
+                print("COMPARE: review done for question \(compareReview.reviewID.questionName)")
                 // Updates the reviewed Question's usersSentTo list by adding the reviewerUserName to it.
                 
                 // See ReviewAskVC => line 465
                 //                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareView.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([compareView.reviewer.username])])
                 
-                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareView.reviewID.questionName).updateData([Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)), Constants.QUES_RECEIP_KEY: self.recipientList, Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList]){_ in
+                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareReview.reviewID.questionName).updateData(
+                    [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)),
+//                     Constants.QUES_RECEIP_KEY: self.recipientList,
+//                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList
+                     // the above calls were replacing the entire list in firestore. The below calls just delete the local user's username from the lists. Simpler and less errors.
+                     Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                    ]){_ in
                     
                     self.recipientList.removeAll()
                     self.usersNotReviewedList.removeAll()
@@ -613,7 +620,12 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                     //                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
                     
                     
-                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData([Constants.QUES_REPORTS: FieldValue.increment(Int64(1))])
+                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData(
+                        [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
+                         // the arrayRemove calls ensure the user doesn't see the reported Question again
+                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                         Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                        ])
                     
                     
                     

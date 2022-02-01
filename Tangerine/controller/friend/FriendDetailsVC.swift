@@ -86,7 +86,7 @@ class FriendDetailsVC: UIViewController {
             }
                 
                 // just show a dialog
-                let alertVC = UIAlertController(title: "Accepted!", message: "You are now friend with \(self.username)", preferredStyle: .alert)
+                let alertVC = UIAlertController(title: "Accepted!", message: "You are now friends with \(self.username)", preferredStyle: .alert)
                 alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
                     
                     if self.defaultSw.isOn {

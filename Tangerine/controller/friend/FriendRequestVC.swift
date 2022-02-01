@@ -195,7 +195,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             
             // just show a dialog
-            let alertVC = UIAlertController(title: "Accepted!", message: "You are now friend with \(person.username!)", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "Accepted!", message: "You are now friends with \(person.username!)", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
                 self.dismiss(animated: true, completion: nil)
                 // delete the row

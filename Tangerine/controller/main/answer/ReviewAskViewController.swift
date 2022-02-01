@@ -486,6 +486,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             var rList = Set<String>()
             
            
+            // this rebuilds the entire recipients list making sure that all instances of my username are gone
             for item in question.recipients{
                         
                         if item != myProfile.username{
@@ -599,12 +600,17 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 //                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(askReview.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([askReview.reviewer.username])])
                 print("List updating for review R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
 
-                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(askReview.reviewID.questionName).updateData([Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)),Constants.QUES_RECEIP_KEY: self.recipientList,Constants.QUES_USERS_NOT_REVIEWED_BY_KEY:self.usersNotReviewedList]){_ in
+                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(askReview.reviewID.questionName).updateData(
+                    [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)), // Increment the number of reviews for the Question that just got reviewed.
+//                     Constants.QUES_RECEIP_KEY: self.recipientList,
+//                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList,
+                     // the above calls were replacing the entire list in firestore. The below calls just delete the local user's username from the lists. Simpler and less errors.
+                     Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                    ]){_ in
                     self.recipientList.removeAll()
                     self.usersNotReviewedList.removeAll()
                 }
-                
-                
                 
             }
         }
@@ -780,7 +786,12 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                     
                     //                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
                     
-                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData([Constants.QUES_REPORTS: FieldValue.increment(Int64(1))])
+                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData(
+                        [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
+                         // the arrayRemove calls ensure the user doesn't see the reported Question again
+                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
+                         Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
+                        ])
                     
                     if let bvc = self.blueVC{
                         bvc.showNextQues()
