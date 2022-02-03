@@ -96,7 +96,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     func setupUI(){
         // remove search border
         searchbar.backgroundImage = UIImage()
-       
+        
         //fetch the contacts
         fetchContacts()
         
@@ -138,7 +138,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         cancelBtn.setNeedsUpdateConstraints()
     }
     
-
+    
     /******************************************************************************************************************************/
     /********************************************  FIRESTORE CALLS WILL BE PLACED BELOW*****************************************/
     /******************************************************************************************************************************/
@@ -165,11 +165,11 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 // making the number formated to our specification
                 
                 if myProfile.phone_number != number {
-                numbers.append(number)
-                // also feeding the list
-                newDict[number] = item
-                // and we will need the keys for later
-                displayedKeys.append(number)
+                    numbers.append(number)
+                    // also feeding the list
+                    newDict[number] = item
+                    // and we will need the keys for later
+                    displayedKeys.append(number)
                 }
             }
             
@@ -184,9 +184,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 
                 if let docs = snapshots?.documents {
                     if docs.count > 0 {
-                    // itereate over the collection
-                    for item in docs{
-                        print("From general search we got \(docs.count) person")
+                        // itereate over the collection
+                        for item in docs{
+                            print("From general search we got \(docs.count) person")
                             // check if blocked user or not
                             
                             if !self.blockList.contains(item.documentID){
@@ -258,7 +258,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         }
         
         group.enter()
-            query1.getDocuments { (snapshots, error) in
+        query1.getDocuments { (snapshots, error) in
             print("Firestore call done for key search")
             
             if let error = error{
@@ -278,23 +278,23 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                     for item in docs{
                         // check the blocklist and check if it's not me
                         if !self.blockList.contains(item.documentID) && myProfile.username != item.documentID{
-                        // get the dictionary from the item/one document
-                        // it is easier to turn it into dict in swift
-                        let dict = item.data()
-                        // only take the user if the orientation is present, which is the last step of signup
-                        // if it presents then the user has done signing, simple trick
-                        if let _ = dict[Constants.USER_ORIENTATION_KEY] as? String{
-                            // find the number associated with this user
-                            let phone = dict[Constants.USER_NUMBER_KEY] as! String
-                            newDict = self.getPersonFromDict(dict, item.documentID, phone)
-                            
-                            if !self.displayedCloudKeys.contains(phone){
-                                self.displayedCloudKeys.append(phone)
-                                self.displayedCloudContacts.merge(newDict){(_,new) in new}
+                            // get the dictionary from the item/one document
+                            // it is easier to turn it into dict in swift
+                            let dict = item.data()
+                            // only take the user if the orientation is present, which is the last step of signup
+                            // if it presents then the user has done signing, simple trick
+                            if let _ = dict[Constants.USER_ORIENTATION_KEY] as? String{
+                                // find the number associated with this user
+                                let phone = dict[Constants.USER_NUMBER_KEY] as! String
+                                newDict = self.getPersonFromDict(dict, item.documentID, phone)
+                                
+                                if !self.displayedCloudKeys.contains(phone){
+                                    self.displayedCloudKeys.append(phone)
+                                    self.displayedCloudContacts.merge(newDict){(_,new) in new}
+                                }
                             }
                         }
-                    }
-                
+                        
                     }
                 } // end of for
                 
@@ -339,7 +339,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
         
         group.enter()
-            query2.getDocuments { (snaps, error) in
+        query2.getDocuments { (snaps, error) in
             print("Firestore call done for key search")
             if let error = error{
                 print(error.localizedDescription)
@@ -358,19 +358,19 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                         
                         // check the blocklist and check if it's not me
                         if !self.blockList.contains(item.documentID) && myProfile.username != item.documentID{
-                        let dict = item.data()
-                        
-                        if let _ = dict[Constants.USER_ORIENTATION_KEY] as? String{
+                            let dict = item.data()
                             
-                            // find the number associated with this user
-                            let phone = dict[Constants.USER_NUMBER_KEY] as! String
-                            newDict = self.getPersonFromDict(dict, item.documentID, phone)
-                            
-                            if !self.displayedCloudKeys.contains(phone){
-                                self.displayedCloudKeys.append(phone)
-                                self.displayedCloudContacts.merge(newDict){(_,new) in new}
+                            if let _ = dict[Constants.USER_ORIENTATION_KEY] as? String{
+                                
+                                // find the number associated with this user
+                                let phone = dict[Constants.USER_NUMBER_KEY] as! String
+                                newDict = self.getPersonFromDict(dict, item.documentID, phone)
+                                
+                                if !self.displayedCloudKeys.contains(phone){
+                                    self.displayedCloudKeys.append(phone)
+                                    self.displayedCloudContacts.merge(newDict){(_,new) in new}
+                                }
                             }
-                        }
                         }
                     }
                 }// end of for
@@ -388,8 +388,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 
             }// end of if name
             
-                
-                
+            
+            
         }// end of firebase call
         
         
@@ -422,6 +422,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         if addedList.contains(person.username) {
             print("Found in added list")
             person.status = .REQUESTED
+        } else if myFriendNames.contains(person.username) {
+            print("Found in friends list")
+            person.status = .FRIEND
         }else{
             person.status = .REGISTERED
         }
@@ -433,7 +436,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
     }
     
-   
+    
     
     /******************************************************************************************************************************/
     /********************************************  FIRESTORE CALLS ENDED ABOVE *****************************************/
@@ -476,8 +479,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                             self.contacts.append(person)
                             // save the numbers to be used as keys
                             self.allNumbers.append(number)
-                                
-                      
+                            
+                            
                             
                         }
                         
@@ -534,15 +537,15 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         } catch {
             print("Error occured while updating realm")
         }
-
+        
         
         // save to firebase
         
         // TO MY FIREBASE
         
         let personDoc : [String: String] = [Constants.USER_STATUS_KEY: person.status.description,
-                      Constants.USER_DNAME_KEY:person.displayName,
-                      Constants.USER_IMAGE_KEY:person.imageString]
+                                            Constants.USER_DNAME_KEY:person.displayName,
+                                            Constants.USER_IMAGE_KEY:person.imageString]
         
         Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
             .setData(personDoc, merge: true)
@@ -550,8 +553,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         // TO THIS PERSON'S FIREBASE
         
         let myDoc : [String: String] = [Constants.USER_STATUS_KEY: Status.PENDING.description,
-                      Constants.USER_DNAME_KEY:myProfile.display_name,
-                      Constants.USER_IMAGE_KEY:myProfile.profile_pic]
+                                        Constants.USER_DNAME_KEY:myProfile.display_name,
+                                        Constants.USER_IMAGE_KEY:myProfile.profile_pic]
         
         
         Firestore.firestore().collection(Constants.USERS_COLLECTION).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
@@ -559,16 +562,16 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
     }
     
-
+    
     
     // fetch device saved persons
     
     func getSaved(){
-
+        
         let list = RealmManager.sharedInstance.getRequestedPersonList()
-    
+        
         let blockedList = RealmManager.sharedInstance.getBothBlockedPersonList()
-
+        
         // add the usernames
         for item in list{
             addedList.append(item.username)
@@ -578,7 +581,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         for item in blockedList{
             blockList.append(item.username)
         }
-    
+        
         // setup the ui now
         setupUI()
     }
@@ -632,49 +635,49 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
             .document(myProfile.username)
             .collection(Constants.USERS_LIST_SUB_COLLECTION)
             .whereField(Constants.USER_STATUS_KEY, in: [
-                            Status.REQUESTED.description,
-                            Status.BLOCKED.description,
-                            Status.GOT_BLOCKED.description,
-                            Status.PENDING.description])
+                Status.REQUESTED.description,
+                Status.BLOCKED.description,
+                Status.GOT_BLOCKED.description,
+                Status.PENDING.description])
             .getDocuments { (querySnaps, error) in
-            // no need to show alert here
-            if error != nil {
-                print("Sync error \(String(describing: error?.localizedDescription))")
-                return
-            }
-            
-            // fetch the personsList
-            if let docs = querySnaps?.documents{
-                if docs.count > 0 {
-                    
-                    for item in docs{
-                        
-                        let personListItem = PersonList()
-                        personListItem.username = item.documentID
-                        personListItem.display_name = item.data()[Constants.USER_DNAME_KEY] as? String
-                        personListItem.profile_pic = item.data()[Constants.USER_IMAGE_KEY] as? String
-                        personListItem.status = getStatusFromString(item.data()[Constants.USER_STATUS_KEY] as! String)
-                        
-                        // add to local
-                        self.addOrUpdatePersonList(personListItem)
-                    }
-                    print("Sync done")
+                // no need to show alert here
+                if error != nil {
+                    print("Sync error \(String(describing: error?.localizedDescription))")
+                    return
                 }
-                // reload this
-                self.getSaved()
-            }// end if let
-            
-        }// end of firebase
+                
+                // fetch the personsList
+                if let docs = querySnaps?.documents{
+                    if docs.count > 0 {
+                        
+                        for item in docs{
+                            
+                            let personListItem = PersonList()
+                            personListItem.username = item.documentID
+                            personListItem.display_name = item.data()[Constants.USER_DNAME_KEY] as? String
+                            personListItem.profile_pic = item.data()[Constants.USER_IMAGE_KEY] as? String
+                            personListItem.status = getStatusFromString(item.data()[Constants.USER_STATUS_KEY] as! String)
+                            
+                            // add to local
+                            self.addOrUpdatePersonList(personListItem)
+                        }
+                        print("Sync done")
+                    }
+                    // reload this
+                    self.getSaved()
+                }// end if let
+                
+            }// end of firebase
     } // end of sync
     
     
-
+    
     
     
     // sending msg
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch (result.rawValue) {
-            case MessageComposeResult.cancelled.rawValue:
+        case MessageComposeResult.cancelled.rawValue:
             print("Message was cancelled")
             self.dismiss(animated: true, completion: nil)
         case MessageComposeResult.failed.rawValue:
@@ -819,38 +822,53 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: person.username, type: .ASK),
                     forPath: person.imageString) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
+                        if let error = error{
+                            print("Error: \(error.localizedDescription)")
+                            return
+                        }
+                        
+                        print("AFVC Image Downloaded for \(String(describing: person.username))")
+                        cell.profileImageView.image = image
                     }
-                    
-                    print("AFVC Image Downloaded for \(person.username)")
-                    cell.profileImageView.image = image
-                }
                 
                 
             }else{
                 cell.profileImageView.image = convertBase64StringToImage(imageBase64String: person.imageString)
             }
             
-        
+            
             
             
             // DISPLAY THE CELL DATA
             if person.status == Status.REGISTERED {
-            // set the button based on status
-            // function names saying what are they for
-            
+                // set the button based on status
+                // function names saying what are they for
+                
                 cell.button.setTitle("Add", for: .normal)
                 cell.button.backgroundColor = UIColor.systemGreen
                 cell.button.setTitleColor(UIColor.white, for: .normal)
                 cell.button.layer.borderWidth = 1.0
                 cell.button.layer.cornerRadius = 6.0
                 cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = true
                 cell.handleClick={
                     self.addPersonToFirestoreAndLocal(person)
                     
                 }
+                
+                // WYATT ADD 2/1/22
+                // A good result looks like this:
+                // Search for a person who is already a friend
+                // Cell should have green "Friend" button that is disabled
+            } else if person.status == Status.FRIEND {
+                cell.button.setTitle("Friends", for: .normal)
+                cell.button.backgroundColor = UIColor.systemGreen
+                cell.button.setTitleColor(UIColor.white, for: .normal)
+                cell.button.layer.borderWidth = 1.0
+                cell.button.layer.cornerRadius = 6.0
+                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = false
+                
                 
             }else if person.status == .REQUESTED{
                 cell.button.setTitle("Requested", for: .normal)
@@ -859,9 +877,10 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 cell.button.layer.borderWidth = 1.0
                 cell.button.layer.cornerRadius = 6.0
                 cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = true
                 cell.handleClick={
-                   
-                   // self.presentDismissAlertOnMainThread(title: "Hey!", message: "This person is already added")
+                    
+                    // self.presentDismissAlertOnMainThread(title: "Hey!", message: "This person is already added")
                 }
             }
             else{
@@ -873,19 +892,20 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 cell.button.layer.borderWidth = 1.0
                 cell.button.layer.cornerRadius = 6.0
                 cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = true
                 cell.handleClick={
                     print("Invited")
-                            guard MFMessageComposeViewController.canSendText() else {
-                                return
-                            }
-
-                            let messageVC = MFMessageComposeViewController()
-
+                    guard MFMessageComposeViewController.canSendText() else {
+                        return
+                    }
+                    
+                    let messageVC = MFMessageComposeViewController()
+                    
                     messageVC.body = "Take off that doubtfit \(person.displayName)! Do you know about Tangerine yet? \(myProfile.display_name) is inviting you to be a member. Only available for iOS. http://www.letstangerine.com to learn more. 'Confident Comfort through Connection.'";
                     messageVC.recipients = ["\(person.phoneNumberField)"]
-                            messageVC.messageComposeDelegate = self;
-
-                            self.present(messageVC, animated: false, completion: nil)
+                    messageVC.messageComposeDelegate = self;
+                    
+                    self.present(messageVC, animated: false, completion: nil)
                 } // end handle click
             }
             return cell
@@ -908,7 +928,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         var shouldShow = false
         if isCloudSearch {
             // cloud searched person's are always registered
-                shouldShow = true
+            shouldShow = true
             if let name = displayedCloudContacts[displayedCloudKeys[indexPath.row]]?.username{
                 username = name
             }
@@ -916,7 +936,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         }else{
             let person = displayedContacts[displayedKeys[indexPath.row]]
             // if registered or requested
-            if let person = person, person.status == Status.REQUESTED || person.status == Status.REGISTERED{
+            if let person = person, person.status == Status.REQUESTED || person.status == Status.REGISTERED {
                 shouldShow = true
                 username = person.username
                 userstatus = person.status
@@ -933,7 +953,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
             vc.status = userstatus
             self.present(vc, animated: true, completion: nil)
         } // should show
-
+        
     } // end of did select row
     
     
@@ -941,7 +961,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let isReachingEnd = scrollView.contentOffset.y >= 0
-            && scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)
+        && scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)
         
         
         if isReachingEnd && !loadingFromFirestore{
@@ -974,7 +994,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         // setup the indicator
         setupIndicator()
         searchbar.delegate = self
-
+        
         
         // fetch the firebase version and sync with personList
         syncPersonList()    }
@@ -991,5 +1011,5 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
             searchDataOnFirestore(searchedText.lowercased())
         }
     }
-
+    
 }

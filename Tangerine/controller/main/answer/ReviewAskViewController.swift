@@ -487,12 +487,12 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
            
             // this rebuilds the entire recipients list making sure that all instances of my username are gone
+            // Shouldn't be necessary anymore
             for item in question.recipients{
                         
                         if item != myProfile.username{
                             rList.insert(item)
                         }
-                        
             }
             
             recipientList = Array(rList)
@@ -653,6 +653,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
      
      } // end of hideStrongImage()
      */
+    /// Shows swipe image AND calls functionality to create a review
     func showSwipeImage(selection: yesOrNo) {
         
         switch selection {

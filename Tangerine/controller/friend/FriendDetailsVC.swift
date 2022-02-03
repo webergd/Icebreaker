@@ -22,6 +22,7 @@ class FriendDetailsVC: UIViewController {
     var username = ""
     var parentVC = PARENTVC.FRIENDS
     var status = Status.NONE
+    var addedList = [String]()
     /************************************************************ Organization of Code ************************************************/
     /*
      - Outlets
@@ -72,35 +73,35 @@ class FriendDetailsVC: UIViewController {
             // In MY FIREBASE
             
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
-                    .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
-
-                // In THIS PERSON'S FIREBASE
-
+                .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
+            
+            // In THIS PERSON'S FIREBASE
+            
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
-                    .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
-                
+                .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
+            
             
             // add to default
             if defaultSw.isOn{
                 RealmManager.sharedInstance.addOrUpdateFriend(object: friend, sendStatus: SendStatus.DEFAULT)
             }
-                
-                // just show a dialog
-                let alertVC = UIAlertController(title: "Accepted!", message: "You are now friends with \(self.username)", preferredStyle: .alert)
-                alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
-                    
-                    if self.defaultSw.isOn {
-                        
-                        RealmManager.sharedInstance.addOrUpdateFriend(object: self.friend,sendStatus: .DEFAULT)
-                    }else{
-                        RealmManager.sharedInstance.addOrUpdateFriend(object: self.friend,sendStatus: .NONE)
-                    }
-                    
-                    self.dismiss(animated: true, completion: nil)
-                    
-                }))
             
-                self.present(alertVC, animated: true)
+            // just show a dialog
+            let alertVC = UIAlertController(title: "Accepted!", message: "You are now friends with \(self.username)", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+                
+                if self.defaultSw.isOn {
+                    
+                    RealmManager.sharedInstance.addOrUpdateFriend(object: self.friend,sendStatus: .DEFAULT)
+                }else{
+                    RealmManager.sharedInstance.addOrUpdateFriend(object: self.friend,sendStatus: .NONE)
+                }
+                
+                self.dismiss(animated: true, completion: nil)
+                
+            }))
+            
+            self.present(alertVC, animated: true)
             
         }else if status != .REQUESTED {
             
@@ -123,15 +124,15 @@ class FriendDetailsVC: UIViewController {
             } catch {
                 print("Error occured while updating realm")
             }
-
+            
             
             // save to firebase
             
             // TO MY FIREBASE
             
             let personDoc : [String: String] = [Constants.USER_STATUS_KEY: person.status.description,
-                          Constants.USER_DNAME_KEY:person.displayName,
-                          Constants.USER_IMAGE_KEY:person.imageString]
+                                                Constants.USER_DNAME_KEY:person.displayName,
+                                                Constants.USER_IMAGE_KEY:person.imageString]
             
             
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
@@ -140,8 +141,8 @@ class FriendDetailsVC: UIViewController {
             // TO THIS PERSON'S FIREBASE
             
             let myDoc : [String: String] = [Constants.USER_STATUS_KEY: Status.PENDING.description,
-                          Constants.USER_DNAME_KEY:myProfile.display_name,
-                          Constants.USER_IMAGE_KEY:myProfile.profile_pic]
+                                            Constants.USER_DNAME_KEY:myProfile.display_name,
+                                            Constants.USER_IMAGE_KEY:myProfile.profile_pic]
             
             
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
@@ -154,9 +155,9 @@ class FriendDetailsVC: UIViewController {
             status = .REQUESTED
         } // end of check status
         
-
-
-
+        
+        
+        
     }
     
     
@@ -176,9 +177,9 @@ class FriendDetailsVC: UIViewController {
         if let user = Auth.auth().currentUser, let name = user.displayName{
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
                 .delete()
-
+            
             // In THIS PERSON'S FIREBASE
-
+            
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(name)
                 .delete()
             
@@ -190,9 +191,9 @@ class FriendDetailsVC: UIViewController {
             
             alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
                 self.dismiss(animated: true, completion: nil)
-
+                
             }))
-        
+            
             self.present(alertVC, animated: true)
         } // if let
     }
@@ -203,9 +204,9 @@ class FriendDetailsVC: UIViewController {
         if let user = Auth.auth().currentUser, let name = user.displayName{
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
                 .setData([Constants.USER_STATUS_KEY:Status.BLOCKED.description], merge: true)
-
+            
             // In THIS PERSON'S FIREBASE
-
+            
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(name)
                 .setData([Constants.USER_STATUS_KEY:Status.GOT_BLOCKED.description], merge: true)
             
@@ -216,7 +217,7 @@ class FriendDetailsVC: UIViewController {
                 self.dismiss(animated: true, completion: nil)
                 
             }))
-        
+            
             self.present(alertVC, animated: true)
         } // if let
     }
@@ -238,7 +239,7 @@ class FriendDetailsVC: UIViewController {
                 self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
                 return
             }
-
+            
             let doc = snap?.data();
             
             if let doc = doc{
@@ -256,26 +257,25 @@ class FriendDetailsVC: UIViewController {
                 let review = doc[Constants.USER_REVIEW_KEY] as? Int ?? 0
                 
                 let profile_pic = doc[Constants.USER_IMAGE_KEY] as? String ?? DEFAULT_USER_IMAGE_URL
-                
-
+  
                 
                 self.nameL.text = display_name
                 
                 // DISPLAY THE CELL DATA
-                    let today = Date()
-                    let bday = Date(timeIntervalSince1970: birthday)
-                    let dc =  Calendar.current.dateComponents([.year], from: bday, to: today)
-                    
+                let today = Date()
+                let bday = Date(timeIntervalSince1970: birthday)
+                let dc =  Calendar.current.dateComponents([.year], from: bday, to: today)
+                
                 // get the age from date component dc
-                    if let age = dc.year{
-                        if birthday == 0{
-                            // do nothing maybe?
-                            self.ageL.text = ""
-                        }else{
-                            self.ageL.text = "\(age)"
-                        }
-                        
+                if let age = dc.year{
+                    if birthday == 0{
+                        // do nothing maybe?
+                        self.ageL.text = ""
+                    }else{
+                        self.ageL.text = "\(age)"
                     }
+                    
+                }
                 self.reviewerScoreL.text = "\(rating)"
                 self.reviewsL.text = "\(review)"
                 
@@ -298,26 +298,26 @@ class FriendDetailsVC: UIViewController {
                 
                 
                 // set the values
-
+                
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: self.username, type: .ASK),
                     forPath: profile_pic) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
+                        if let error = error{
+                            print("Error: \(error.localizedDescription)")
+                            return
+                        }
+                        
+                        print("FDVC Image Downloaded for \(self.username)")
+                        self.profileImage.image = image!
                     }
-                    
-                    print("FDVC Image Downloaded for \(self.username)")
-                    self.profileImage.image = image!
-                }
             }
-
-
+            
+            
             
         } // end of firebase call
     }
     
-
+    
     
     func setDefaultSW(){
         let savedFriend = RealmManager.sharedInstance.getFriend(username)
@@ -344,6 +344,7 @@ class FriendDetailsVC: UIViewController {
         if parentVC == .ADD || parentVC == .REQUEST {
             addBtn.isHidden = false
             
+            // This doesn't work, it still shows "Add" even when user has been requested
             if status == .REQUESTED {
                 addBtn.setTitle("Requested", for: .normal)
                 addBtn.backgroundColor = UIColor.systemOrange
@@ -353,9 +354,19 @@ class FriendDetailsVC: UIViewController {
                 addBtn.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             }
             
+            if myFriendNames.contains(self.username) {
+                addBtn.setTitle("Friends", for: .normal)
+                addBtn.backgroundColor = UIColor.systemGreen
+                addBtn.setTitleColor(UIColor.white, for: .normal)
+                addBtn.layer.borderWidth = 1.0
+                addBtn.layer.cornerRadius = 6.0
+                addBtn.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                addBtn.isEnabled = false
+            }
+            
         }
         // show/hide views based on who was parent
-    
+        
         if parentVC == .FRIENDS || parentVC == .REQUEST {
             defaultSw.isHidden = false
             defaultText.isHidden = false
@@ -397,5 +408,5 @@ class FriendDetailsVC: UIViewController {
         // set the default switch
         setDefaultSW()
     }
-
+    
 }

@@ -1517,6 +1517,7 @@ public func getFilenameFrom(qName name: String, type questionType: QType,secondP
 /// Called from MainVC (as well as BlueVC).
 ///
 
+// MARK: Why is this not running while the user is reviewing?
 public func checkForQuestionsToFetch(action: @escaping ()->Void){
     
     // check for question in data, if not enough, fetch more

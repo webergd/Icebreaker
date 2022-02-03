@@ -120,13 +120,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                         self.present(alertVC, animated: true)
                     }
 
-                    
-                    
                 }
-                
-
-                
-                
         }
     }
     
