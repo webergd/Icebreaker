@@ -1,5 +1,5 @@
 //
-//  AskTableViewController.swift
+//  ActiveQuestionsVC.swift
 // MARK: This file needs a more accurate name -> it holds Asks and Compares
 //  A better name is QuestionsTableViewController
 //
@@ -16,7 +16,7 @@ var pullControl : UIRefreshControl! // for our pull2Refresh
 
 ///This really should be called QuestionTableViewController because it's the main table view that holds the local user's Asks AND Compares
 ///
-class AskTableViewController: UITableViewController {
+class ActiveQuestionsVC: UITableViewController {
 
     
 
@@ -29,7 +29,7 @@ class AskTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 150
 
         // enables swipe navigation
-        let swipeViewGesture = UISwipeGestureRecognizer(target: self, action: #selector(AskTableViewController.userSwiped))
+        let swipeViewGesture = UISwipeGestureRecognizer(target: self, action: #selector(ActiveQuestionsVC.userSwiped))
         tableView.addGestureRecognizer(swipeViewGesture)
   
         // Default unused options that came with the Class:

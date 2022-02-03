@@ -66,7 +66,7 @@ class MainVC: UIViewController {
         
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ask_tvc") as! AskTableViewController
+        let vc = storyboard.instantiateViewController(withIdentifier: "ask_tvc") as! ActiveQuestionsVC
         
         vc.modalPresentationStyle = .fullScreen
         self.presentFromRight(vc)

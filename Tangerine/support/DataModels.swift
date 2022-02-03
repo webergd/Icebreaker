@@ -760,7 +760,7 @@ public func updateTrailingReviewedQuestionNamesArray(with questionName: String) 
     }
 }
 
-// currently being called in AskTableViewController ViewDidAppear()
+// currently being called in ActiveQuestionsVC ViewDidAppear()
 /// Updates the myFriendNames list of Strings containing the local user's friends' userNames.
 ///  myFriendNames is declared here in DataModels (up with the other public variables)
 public func fetchMyFriendNamesFromRealm() {

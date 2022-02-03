@@ -47,7 +47,7 @@
 		51796FBD260D1EF80093E18B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51796FBC260D1EF80093E18B /* Constants.swift */; };
 		51796FC7260D3DE00093E18B /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51796FC6260D3DE00093E18B /* UIButton+Ext.swift */; };
 		517BF3842694C5970044DE61 /* AskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF3822694C5940044DE61 /* AskTableViewCell.swift */; };
-		517BF3852694C5970044DE61 /* AskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF3832694C5970044DE61 /* AskTableViewController.swift */; };
+		517BF3852694C5970044DE61 /* ActiveQuestionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF3832694C5970044DE61 /* ActiveQuestionsVC.swift */; };
 		517BF38F2694D8930044DE61 /* CompareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF38E2694D8930044DE61 /* CompareTableViewCell.swift */; };
 		517BF3912694E1880044DE61 /* ReviewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF3902694E1880044DE61 /* ReviewCollection.swift */; };
 		517BF393269920F80044DE61 /* ActiveQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF392269920F80044DE61 /* ActiveQuestion.swift */; };
@@ -152,7 +152,7 @@
 		51796FBC260D1EF80093E18B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		51796FC6260D3DE00093E18B /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		517BF3822694C5940044DE61 /* AskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskTableViewCell.swift; sourceTree = "<group>"; };
-		517BF3832694C5970044DE61 /* AskTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskTableViewController.swift; sourceTree = "<group>"; };
+		517BF3832694C5970044DE61 /* ActiveQuestionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveQuestionsVC.swift; sourceTree = "<group>"; };
 		517BF38E2694D8930044DE61 /* CompareTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareTableViewCell.swift; sourceTree = "<group>"; };
 		517BF3902694E1880044DE61 /* ReviewCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewCollection.swift; sourceTree = "<group>"; };
 		517BF392269920F80044DE61 /* ActiveQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveQuestion.swift; sourceTree = "<group>"; };
@@ -314,7 +314,7 @@
 				517BF394269A6AC20044DE61 /* details */,
 				517BF38E2694D8930044DE61 /* CompareTableViewCell.swift */,
 				517BF3822694C5940044DE61 /* AskTableViewCell.swift */,
-				517BF3832694C5970044DE61 /* AskTableViewController.swift */,
+				517BF3832694C5970044DE61 /* ActiveQuestionsVC.swift */,
 			);
 			path = active;
 			sourceTree = "<group>";
@@ -812,7 +812,7 @@
 				5111900025FE06CD00AFE7C1 /* UNService.swift in Sources */,
 				517BF38F2694D8930044DE61 /* CompareTableViewCell.swift in Sources */,
 				5170DC3D2637A32800F34354 /* PersonList.swift in Sources */,
-				517BF3852694C5970044DE61 /* AskTableViewController.swift in Sources */,
+				517BF3852694C5970044DE61 /* ActiveQuestionsVC.swift in Sources */,
 				517743B02634590E00AE5BE3 /* Profile.swift in Sources */,
 				518DBD512627AA40008314A7 /* RealmManager.swift in Sources */,
 				51796FBD260D1EF80093E18B /* Constants.swift in Sources */,
