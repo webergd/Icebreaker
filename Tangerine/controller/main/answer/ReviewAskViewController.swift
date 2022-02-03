@@ -63,6 +63,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var yesButton: UIButton!
     
+    // the loading
+    var indicator: UIActivityIndicatorView!
     
     // for swipe card
     var centerPoint : CGPoint!
@@ -107,6 +109,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             // if saved image is found, load it.
             // else download it
             
+            indicator.startAnimating()
+            
             downloadOrLoadFirebaseImage(
                 ofName: getFilenameFrom(qName: thisAsk.question_name, type: thisAsk.type),
                 forPath: thisAsk.imageURL_1) { image, error in
@@ -116,6 +120,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                     }
                     
                     print("RAVC Image Downloaded for \(thisAsk.question_name)")
+                    // hide the indicator as we have the image now
+                    self.indicator.stopAnimating()
+                    
                     self.imageView.image = image
                 }
             
@@ -312,6 +319,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     override func viewDidLoad() {
         super.viewDidLoad()
         centerPoint = mainView.center
+        // setup the indicator
+        setupIndicator()
         
         //centerPoint = mainView.center
         // This allows user to tap coverView to segue to main menu (if we run out of quetions):
@@ -913,6 +922,17 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     }
     // I need a way to switch between the two Review Controllers without
     //  stacking up multiple instances of them on top of each other.
+    
+    // to show the loading
+    func setupIndicator() {
+        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        indicator.color = .white
+        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        indicator.center = CGPoint(x: view.center.x, y: selectionImageView.center.y)
+        view.addSubview(indicator)
+        indicator.bringSubviewToFront(view)
+        
+    }
 }
 
 
