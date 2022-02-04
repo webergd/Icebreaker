@@ -65,6 +65,9 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var glassView: UIView!
     
+    // the loading
+    var topIndicator: UIActivityIndicatorView!
+    var bottomIndicator: UIActivityIndicatorView!
     
     var question: Question?
     
@@ -96,6 +99,8 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             // if saved image is found, load it.
             // else download it
             
+            topIndicator.startAnimating()
+            
             downloadOrLoadFirebaseImage(
                 ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type),
                 forPath: thisCompare.imageURL_1) { image, error in
@@ -105,6 +110,8 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                     }
                     
                     print("RCVC Image Downloaded for \(thisCompare.question_name)")
+                    // hide the indicator as we have the image now
+                    self.topIndicator.stopAnimating()
                     self.topImageView.image = image
                 }
             
@@ -116,6 +123,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                 captionTopConstraint: topCaptionTopConstraint)
             
             // if saved image is found, load it.
+            bottomIndicator.startAnimating()
             downloadOrLoadFirebaseImage(
                 ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type,secondPhoto: true),
                 forPath: thisCompare.imageURL_2) { image, error in
@@ -125,6 +133,8 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                     }
                     
                     print("RCVC Image Downloaded for \(thisCompare.question_name)")
+                    // hide the indicator as we have the image now
+                    self.bottomIndicator.stopAnimating()
                     self.bottomImageView.image = image
                 }
             
@@ -171,6 +181,9 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         // This implicitly includes tapping the coverView, even though the only time we actually explicitly refer to tapping the coverView is when
         //  we run out of questions.
         
+        
+        // setup the indicator
+        setupIndicator()
         
         
         self.topScrollView.delegate = self
@@ -740,6 +753,26 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     func returnToMainMenu() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    // to show the loading
+    func setupIndicator() {
+        topIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        topIndicator.color = .white
+        bottomIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        bottomIndicator.color = .white
+        
+        topIndicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        bottomIndicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        
+        topIndicator.center = CGPoint(x: view.center.x, y: topView.center.y)
+        bottomIndicator.center = CGPoint(x: view.center.x, y: bottomView.center.y)
+        
+        view.addSubview(topIndicator)
+        view.addSubview(bottomIndicator)
+        
+        topIndicator.bringSubviewToFront(view)
+        bottomIndicator.bringSubviewToFront(view)
     }
 }
 

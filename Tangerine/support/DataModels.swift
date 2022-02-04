@@ -760,7 +760,7 @@ public func updateTrailingReviewedQuestionNamesArray(with questionName: String) 
     }
 }
 
-// currently being called in AskTableViewController ViewDidAppear()
+// currently being called in ActiveQuestionsVC ViewDidAppear()
 /// Updates the myFriendNames list of Strings containing the local user's friends' userNames.
 ///  myFriendNames is declared here in DataModels (up with the other public variables)
 public func fetchMyFriendNamesFromRealm() {
@@ -2103,9 +2103,13 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
                         
                     }
                     
+                    // when all dg has done the work, then we'll return to caller, mainly AQVC
+                    // cause we need with updated review in questions
+                    dg.notify(queue: .main){
+                        // call the caller
+                        completion(myActiveQuestions,nil)
+                    }
                     
-                    // call the caller
-                    completion(myActiveQuestions,nil)
                     
                 } // end snaps.count > 0
                 else{
@@ -2131,6 +2135,7 @@ func fetchReviewFor(_ question: Question, completion: @escaping ([ActiveQuestion
         }
         
         if let reviewCollection = qCollection, let id = index(of: question.question_name, in: myActiveQuestions){
+            print("Refreshed Review Collection")
             myActiveQuestions[id].reviewCollection = reviewCollection
             completion(myActiveQuestions,nil)
         } // end if let check
@@ -2154,8 +2159,10 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
             completion(nil, error)
         } else if let snapshot = snapshot {
             
+        
         snapshotLoop: for doc in snapshot.documents {
             dispatchGroup.enter()
+            
             
             // I'm pondering the guard-let increase in robstness here, since these are reviews that have already been performed on the question, the only variables that really matter are the selection, and the info relating to target demo (and to a lesser extent reviewer rating - which will come into play more when we start incorporating this into how much the review is weighted based on who reviews it).
             // The simplest way to handle this is to just eliminate the whole review if it has a download issue. A more sophisticated solution would be a guard-let on each property. Maybe that can come later.
@@ -2169,7 +2176,7 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
                   !rPPU.isEmpty, // it was our crash, need to make sure it exists
                   let rBTS = doc.get("reviewerBirthday") as? Int64,
                   let rO =  doc.get("reviewerOrientation") as? String, // "string Reviewer Orientation"
-                  let rSUDTS = doc.get("reviewerSignUpDate") as? Int64,
+                  let _ = doc.get("reviewerSignUpDate") as? Int64,
                   let rRR = doc.get("reviewerReviewsRated") as? Int,
                   //let rA = doc.get("reviewerAverage") as? Double, // maybe bring this back later
                   let rS = doc.get("reviewerScore") as? Double,
@@ -2208,15 +2215,15 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
             }
             
             // Image download request for the reviewing user's profile picture:
-            let imageRef = Storage.storage().reference(forURL: rPPU)
+            //let imageRef = Storage.storage().reference(forURL: rPPU)
             
-            imageRef.getData(maxSize: 2 * 1024 * 1024) { data, err in
+            //imageRef.getData(maxSize: 2 * 1024 * 1024) { data, err in
                 var profileImageToReturn: UIImage
                 var reviewer: Profile
                 let reviewToAppend: isAReview
-                if let err = err {
-                    print("Failed to download image. downloadReviewCollection(for questionName)")
-                    print("Error returned was: \(err)")
+                
+                //if let err = err {
+                    
                     if let nilImage = UIImage(named: "tangerineImage2") {
                         profileImageToReturn = nilImage
                         reviewer = Profile(
@@ -2248,38 +2255,38 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
                     }
                     dispatchGroup.leave()
                     //completion(nil, err)
-                } else if let data = data {
-                    if let unwrappedImage = UIImage(data: data) {
-                        profileImageToReturn = unwrappedImage
-                        reviewer = Profile(
-                            pid: 0,
-                            birthday: Double(rBTS),
-                            display_name: rDN,
-                            username: rUN,
-                            profile_pic: rPPU,
-                            reviews: rRR,
-                            rating: rS,
-                            created: 0,
-                            orientation: rO,
-                            phone_number: "0")
-                        switch questionType {
-                        case .ask:
-                            // strong is normally an optional enum but we pass it as a string and let the initializer handle that
-                            let strong = doc.get("strong") as! String
-                            reviewToAppend = AskReview(selection: selection, strong: strong, reviewer: reviewer, comments: c, questionName: qN)
-                            
-                        case .compare:
-                            let strongYes = doc.get("strongYes") as! Bool
-                            let strongNo = doc.get("strongNo") as! Bool
-                            reviewToAppend = CompareReview(selection: selection, strongYes: strongYes, strongNo: strongNo, reviewer: reviewer, comments: c, questionName: qN)
-                        }
-                        reviewList.append(reviewToAppend)
-                        
-                    }
-                    dispatchGroup.leave()
-                }
+//                } else if let data = data {
+//                    if let unwrappedImage = UIImage(data: data) {
+//                        profileImageToReturn = unwrappedImage
+//                        reviewer = Profile(
+//                            pid: 0,
+//                            birthday: Double(rBTS),
+//                            display_name: rDN,
+//                            username: rUN,
+//                            profile_pic: rPPU,
+//                            reviews: rRR,
+//                            rating: rS,
+//                            created: 0,
+//                            orientation: rO,
+//                            phone_number: "0")
+//                        switch questionType {
+//                        case .ask:
+//                            // strong is normally an optional enum but we pass it as a string and let the initializer handle that
+//                            let strong = doc.get("strong") as! String
+//                            reviewToAppend = AskReview(selection: selection, strong: strong, reviewer: reviewer, comments: c, questionName: qN)
+//
+//                        case .compare:
+//                            let strongYes = doc.get("strongYes") as! Bool
+//                            let strongNo = doc.get("strongNo") as! Bool
+//                            reviewToAppend = CompareReview(selection: selection, strongYes: strongYes, strongNo: strongNo, reviewer: reviewer, comments: c, questionName: qN)
+//                        }
+//                        reviewList.append(reviewToAppend)
+//
+//                    }
+//                    dispatchGroup.leave()
+//                }
                 
-            } //end of imageRef.getData closure
+//            } //end of imageRef.getData closure
             
         } // end of for loop
             
