@@ -478,7 +478,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         // if it's too long it should truncate and then pop up with a message that says "title text shortened" or something like that.
         
         titleTextField.text = captionTextField.text
-        titleTextField.textColor = UIColor.black
+        titleTextField.textColor = UIColor.label // sets color to white or black based on dark mode or light mode
         mirrorCaptionButton.isHidden = true
         
     }
@@ -796,7 +796,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         // print("resetTextField called")
         if tappedYet == false {
             textField.text = ""
-            textField.textColor = UIColor.black
+            textField.textColor = UIColor.label
         }
         return true
     }
@@ -1055,7 +1055,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             titleTextField.text = iBE.iBEtitle
             if titleTextFieldIsBlank == false {
                 // if the title is not blank, then:
-                titleTextField.textColor = .black
+                titleTextField.textColor = .label
             } else { //aka if tTF is one of the 3 blank conditions:
                 titleTextField.text = enterTitleConstant
                 //titleTextField.textColor should already be gray
