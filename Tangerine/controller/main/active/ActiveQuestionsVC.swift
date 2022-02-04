@@ -47,7 +47,7 @@ class ActiveQuestionsVC: UITableViewController {
         fetchActiveQuestions { questions, error in
             self.tableView.reloadData()
             self.tableView.refreshControl?.endRefreshing()
-            print("Active Q refreshed")
+            print("Refreshed ActiveQ")
         }
     }
     
