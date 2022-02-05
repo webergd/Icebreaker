@@ -468,7 +468,7 @@ public func computeCropOrigin (imageView: UIImageView, contentOffset: CGPoint, z
 
 // ADDED BY MM
 
-public func saveImageToDiskWith(imageName: String, image: UIImage, isThumb: Bool = false) {
+public func saveImageToDiskWith(imageName: String, image: UIImage, isThumb: Bool = false, overwrite: Bool = false) {
 
     if isThumb {
         print("Saving a thumb")
@@ -496,22 +496,21 @@ public func saveImageToDiskWith(imageName: String, image: UIImage, isThumb: Bool
         }
     }
     
-    if FileManager.default.fileExists(atPath: fileURL.path) {
-        return
+    
+    //Checks if file exists, removes it if so.
+    if FileManager.default.fileExists(atPath: fileURL.path) && overwrite{
+        do {
+            try FileManager.default.removeItem(atPath: fileURL.path)
+            print("Removed old image")
+        } catch let removeError {
+            print("couldn't remove file at path", removeError)
+        }
+
     }
 
     guard let data = image.jpegData(compressionQuality: 1) else { return }
     
-    //Checks if file exists, removes it if so.
-//    if FileManager.default.fileExists(atPath: fileURL.path) {
-//        do {
-//            try FileManager.default.removeItem(atPath: fileURL.path)
-//            print("Removed old image")
-//        } catch let removeError {
-//            print("couldn't remove file at path", removeError)
-//        }
-//
-//    }
+
 
     do {
         try data.write(to: fileURL)
