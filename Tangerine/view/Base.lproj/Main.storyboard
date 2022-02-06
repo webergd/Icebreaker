@@ -3395,10 +3395,10 @@ Date of last revision: October 25, 2021
             </objects>
             <point key="canvasLocation" x="8812" y="-1656"/>
         </scene>
-        <!--Camera View Controller-->
+        <!--Edit QuestionVC-->
         <scene sceneID="XUk-83-yHo">
             <objects>
-                <viewController id="htq-oV-YgK" customClass="CameraViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="htq-oV-YgK" customClass="EditQuestionVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xbl-OG-Mjj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
