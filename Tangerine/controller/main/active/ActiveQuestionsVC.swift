@@ -218,6 +218,7 @@ class ActiveQuestionsVC: UITableViewController {
                 }
 
                 cell.titleLabel.text = question.title_1
+                
 
                 cell.displayCellData(dataSet: askCellDataSet)
 
@@ -247,6 +248,9 @@ class ActiveQuestionsVC: UITableViewController {
                     cell.reviewsRequiredToUnlockLabel.text = "Please review \(reviewsNeeded) more users to unlock your results."
                 }
 
+                // started Loading, show it
+                cell.photoImageView.showActivityIndicator()
+                
                 // Crops the ask image into a circle
                 
                                           downloadOrLoadFirebaseImage(
@@ -256,7 +260,9 @@ class ActiveQuestionsVC: UITableViewController {
                                                   print("Error: \(error.localizedDescription)")
                                                   return
                                               }
-                                              
+                                            
+                                                  // Loading done, hide it
+                                            cell.photoImageView.hideActivityIndicator()
                                             print("ATVC ASK Image Downloaded for \(question.question_name)")
                                             cell.photoImageView.image = image!
                                           }
@@ -281,6 +287,9 @@ class ActiveQuestionsVC: UITableViewController {
                     compareCellDataSet = pullConsolidatedData(from: reviewCollection, filteredBy: .allUsers,type: .COMPARE) as! ConsolidatedCompareDataSet
                 }
       
+                // started Loading, show it
+                cell.image1.showActivityIndicator()
+                
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: question.question_name, type: question.type),
                     forPath: question.imageURL_1, asThumb: true) { image, error in
@@ -288,11 +297,15 @@ class ActiveQuestionsVC: UITableViewController {
                         print("Error: \(error.localizedDescription)")
                         return
                     }
-                    
-                  print("ATVC ASK Image Downloaded for \(question.question_name)")
+                        // Loading done, hide it
+                  cell.image1.hideActivityIndicator()
+                  print("ATVC Compare Image1 Downloaded for \(question.question_name)")
                   cell.image1.image = image!
                 }
                 
+                
+                // started Loading, show it
+                cell.image2.showActivityIndicator()
                 
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: question.question_name, type: question.type,secondPhoto: true),
@@ -301,8 +314,9 @@ class ActiveQuestionsVC: UITableViewController {
                         print("Error: \(error.localizedDescription)")
                         return
                     }
-                    
-                  print("ATVC ASK Image Downloaded for \(question.question_name)")
+                        // Loading done, hide it
+                  cell.image2.hideActivityIndicator()
+                  print("ATVC Compare Image2 Downloaded for \(question.question_name)")
                   cell.image2.image = image!
                 }
                 

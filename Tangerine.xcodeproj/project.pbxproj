@@ -23,6 +23,7 @@
 		51320025260E00CA00DA4C5A /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51320024260E00CA00DA4C5A /* UIViewController+Ext.swift */; };
 		51406DEF272F3CA2003940F3 /* SwipeFromRightVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51406DEE272F3CA2003940F3 /* SwipeFromRightVC.swift */; };
 		514C47B227AF2EA700796DEC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 514C47B127AF2EA700796DEC /* GoogleService-Info.plist */; };
+		514C47B427AF3BEC00796DEC /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514C47B327AF3BEB00796DEC /* UIView+Ext.swift */; };
 		5151F8E52618E49200F2F1E7 /* UIPickerView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5151F8E42618E49200F2F1E7 /* UIPickerView+Ext.swift */; };
 		51585F04260297D1001D8267 /* UserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F03260297D1001D8267 /* UserNameVC.swift */; };
 		51585F092602A3C5001D8267 /* PasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F082602A3C5001D8267 /* PasswordVC.swift */; };
@@ -128,6 +129,7 @@
 		51320024260E00CA00DA4C5A /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		51406DEE272F3CA2003940F3 /* SwipeFromRightVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeFromRightVC.swift; sourceTree = "<group>"; };
 		514C47B127AF2EA700796DEC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		514C47B327AF3BEB00796DEC /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		5151F8E42618E49200F2F1E7 /* UIPickerView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPickerView+Ext.swift"; sourceTree = "<group>"; };
 		51585F03260297D1001D8267 /* UserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameVC.swift; sourceTree = "<group>"; };
 		51585F082602A3C5001D8267 /* PasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordVC.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */,
 				2ABCE72E273587D800103040 /* Int+Ext.swift */,
 				5100470727784278002C8046 /* Question+Ext.swift */,
+				514C47B327AF3BEB00796DEC /* UIView+Ext.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -758,6 +761,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51585F132602A3E8001D8267 /* ConfirmationVC.swift in Sources */,
+				514C47B427AF3BEC00796DEC /* UIView+Ext.swift in Sources */,
 				51A07404261A85D30055F245 /* Array+Ext.swift in Sources */,
 				517BF3912694E1880044DE61 /* ReviewCollection.swift in Sources */,
 				51A073FF261A80740055F245 /* Friend.swift in Sources */,
