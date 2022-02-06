@@ -81,7 +81,7 @@
 		51C997F225FBDE9300DC54B4 /* TangerineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C997F125FBDE9300DC54B4 /* TangerineTests.swift */; };
 		51C997FD25FBDE9300DC54B4 /* TangerineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C997FC25FBDE9300DC54B4 /* TangerineUITests.swift */; };
 		51E50E4F267FDA700055CCC1 /* AVCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */; };
-		51E50E53267FDD510055CCC1 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E52267FDD510055CCC1 /* CameraViewController.swift */; };
+		51E50E53267FDD510055CCC1 /* EditQuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E52267FDD510055CCC1 /* EditQuestionVC.swift */; };
 		51E50E55267FDDCC0055CCC1 /* ImageMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E54267FDDCC0055CCC1 /* ImageMethods.swift */; };
 		51E50E57267FDED70055CCC1 /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E56267FDED70055CCC1 /* DataModels.swift */; };
 		51E61DAB2684C8DD000D6B30 /* ComparePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E61DAA2684C8DD000D6B30 /* ComparePreviewViewController.swift */; };
@@ -193,7 +193,7 @@
 		51C997FC25FBDE9300DC54B4 /* TangerineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineUITests.swift; sourceTree = "<group>"; };
 		51C997FE25FBDE9300DC54B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCameraViewController.swift; sourceTree = "<group>"; };
-		51E50E52267FDD510055CCC1 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		51E50E52267FDD510055CCC1 /* EditQuestionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditQuestionVC.swift; sourceTree = "<group>"; };
 		51E50E54267FDDCC0055CCC1 /* ImageMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMethods.swift; sourceTree = "<group>"; };
 		51E50E56267FDED70055CCC1 /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		51E61DAA2684C8DD000D6B30 /* ComparePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComparePreviewViewController.swift; sourceTree = "<group>"; };
@@ -368,7 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				51E61DAA2684C8DD000D6B30 /* ComparePreviewViewController.swift */,
-				51E50E52267FDD510055CCC1 /* CameraViewController.swift */,
+				51E50E52267FDD510055CCC1 /* EditQuestionVC.swift */,
 				51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */,
 				518DBD1E26277D13008314A7 /* CQViewController.swift */,
 			);
@@ -772,7 +772,7 @@
 				515EDDD72688DD8900696B8C /* UIImage+Ext.swift in Sources */,
 				517BF3A6269AE4580044DE61 /* CompareBreakdownViewController.swift in Sources */,
 				51796FC7260D3DE00093E18B /* UIButton+Ext.swift in Sources */,
-				51E50E53267FDD510055CCC1 /* CameraViewController.swift in Sources */,
+				51E50E53267FDD510055CCC1 /* EditQuestionVC.swift in Sources */,
 				517695BC260E58AA0091C7BD /* String+Ext.swift in Sources */,
 				5170DC422637B55400F34354 /* FriendRequestVC.swift in Sources */,
 				51585F04260297D1001D8267 /* UserNameVC.swift in Sources */,
