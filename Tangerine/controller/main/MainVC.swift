@@ -3,7 +3,7 @@
 //  SocialApp
 //
 //  Created by Mahmudul Hasan on 2021-03-28.
-//
+//  com.tangerineinsight.tangerineMM
 
 import UIKit
 import FirebaseAuth

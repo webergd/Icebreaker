@@ -54,7 +54,6 @@ class AskTableViewCell: UITableViewCell {
                     displayTool: targetDemoDataDisplayTool,
                     displayBottom: false, // because it's an Ask and there is no bottom image data set to display
                     ratingValueLabel: ratingValueLabel)
-
     }
 
     override func awakeFromNib() {
@@ -68,8 +67,6 @@ class AskTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    
 }
 
 

@@ -166,6 +166,4 @@ class Constants {
     // end signup done and login persistence
     
     static let UD_VIEW_RESULT_ALERT_PREF = "vr_alert_pref"
-
-    
 }

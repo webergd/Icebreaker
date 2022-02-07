@@ -1,5 +1,5 @@
 //
-//  CameraViewController.swift
+//  EditQuestionVC.swift
 //  
 //
 //  Created by Wyatt Weber on 8/3/16.
@@ -15,7 +15,7 @@ import RealmSwift
 
 // This class has known memory leak issues. As of now we call self.view.window?.rootViewController?.dismiss(animated: true, completion: nil) when returning to mainVC from the CQViewController (because that is the end of the Question creation flow and where we no longer need this to still be alive). This is not a perfect fix and still results in high memory usage (about 250 to 400).
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate {
+class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
@@ -208,7 +208,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
         case .noPhotoTaken: //this should never happen
-            print("Error in CameraViewController.ViewWillAppear: creationPhase is .noPhotoTaken, something went wrong.")
+            print("Error in EditQuestionVC.ViewWillAppear: creationPhase is .noPhotoTaken, something went wrong.")
         }
         
         // only show the delete button if the thumbnail is visible
@@ -249,10 +249,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.captionTextFieldHeight = self.captionTextField.frame.height
         
         // This will move the caption text box out of the way when the keyboard pops up:
-        NotificationCenter.default.addObserver(self, selector: #selector(CameraViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditQuestionVC.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         // This will move the caption text box back down when the keyboard goes away:
-        NotificationCenter.default.addObserver(self, selector: #selector(CameraViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditQuestionVC.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         // This gets the height of the screen for spacing things out later
         // Used only for determining where to move the caption when the keyboard pops up
@@ -272,35 +272,35 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.captionBottomLimit = self.captionTopLimit + screenWidth - self.captionTextFieldHeight
         
         //Enables tap on image to show caption (1 of 2):
-        let tapImageGesture = UITapGestureRecognizer(target: self, action: #selector(CameraViewController.userTappedImage(_:)))
+        let tapImageGesture = UITapGestureRecognizer(target: self, action: #selector(EditQuestionVC.userTappedImage(_:)))
         imageView.addGestureRecognizer(tapImageGesture)
         imageView.isUserInteractionEnabled = true
         
         //Enables user to drag caption around (1 of 2):
-        let dragCaptionGesture = UIPanGestureRecognizer(target: self, action: #selector(CameraViewController.userDragged(_:)))
+        let dragCaptionGesture = UIPanGestureRecognizer(target: self, action: #selector(EditQuestionVC.userDragged(_:)))
         captionTextField.addGestureRecognizer(dragCaptionGesture)
         captionTextField.isUserInteractionEnabled = true
         
         //Enables user to long press image for blurred circle (1 of 2):
-        let pressImageGesture = UILongPressGestureRecognizer(target: self, action: #selector(CameraViewController.userPressed(_:) ))
+        let pressImageGesture = UILongPressGestureRecognizer(target: self, action: #selector(EditQuestionVC.userPressed(_:) ))
         pressImageGesture.minimumPressDuration = 0.50
         imageView.addGestureRecognizer(pressImageGesture)
         
         //        tempMessageLabel1.fadeOutAfter(seconds: 5)
         
         // Enables image icons to be tapped
-        let topImageIndicatorTappedGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CameraViewController.topImageIndicatorTapped(_:)))
+        let topImageIndicatorTappedGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(EditQuestionVC.topImageIndicatorTapped(_:)))
         topImageIndicator.isUserInteractionEnabled = true
         topImageIndicator.addGestureRecognizer(topImageIndicatorTappedGestureRecognizer)
         
-        let bottomImageIndicatorTappedGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CameraViewController.bottomImageIndicatorTapped(_:)))
+        let bottomImageIndicatorTappedGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(EditQuestionVC.bottomImageIndicatorTapped(_:)))
         bottomImageIndicator.isUserInteractionEnabled = true
         bottomImageIndicator.addGestureRecognizer(bottomImageIndicatorTappedGestureRecognizer)
         
     }
     
     
-    // The next 3 methods (loadImage and the two unpacks) work together to load the correct properties into the CameraViewController
+    // The next 3 methods (loadImage and the two unpacks) work together to load the correct properties into the EditQuestionVC
     func load(image number: oneOrTwo) {
         
         if currentCompare.imageBeingEdited1 == nil {
@@ -503,7 +503,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             currentCompare.creationPhase = .reEditingFirstPhoto
             
         default:
-            print("Error in CameraViewController.otherImageThumbnailTapped: unexpected enum value for currentCompare.creationPhase")
+            print("Error in EditQuestionVC.otherImageThumbnailTapped: unexpected enum value for currentCompare.creationPhase")
         }
         
         self.viewWillAppear(false)
@@ -817,7 +817,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         let blurredUncroppedToBePassed: UIImage = currentImage
         currentImage = self.cropImage(currentImage) // now we crop it
         let blurredCroppedToBePassed = currentImage // now we store the blurred cropped current image here so we can pass it in
-        // the purpose of savng these values is so that if the user decides to edit one of the compares after they have been created, we can display the image in CameraViewController as it would have looked right before cropping, without actually cropping it.
+        // the purpose of savng these values is so that if the user decides to edit one of the compares after they have been created, we can display the image in EditQuestionVC as it would have looked right before cropping, without actually cropping it.
         let contentOffsetToBePassed: CGPoint = scrollView.contentOffset
         let zoomScaleToBePassed: CGFloat = scrollView.zoomScale
         
@@ -1079,7 +1079,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     
-    /// Stores the image and caption currently being displayed in the image editor view (CameraViewController) to a Compare. This method checks if we are creating the first image of a compare and if it is, creates a new compare and stores the image to it, then segues to the AVCamera to pick the second image.
+    /// Stores the image and caption currently being displayed in the image editor view (EditQuestionVC) to a Compare. This method checks if we are creating the first image of a compare and if it is, creates a new compare and stores the image to it, then segues to the AVCamera to pick the second image.
     /// If the first image is already created, this method stores it as the second image in the compare and segues to the ComparePreviewVC for final publishing approval.
     func createHalfOfCompare() {
         let iBE = createImageBeingEdited()
@@ -1287,6 +1287,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     deinit {
-        print("CameraViewController instance deinitialized")
+        print("EditQuestionVC instance deinitialized")
     }
 }

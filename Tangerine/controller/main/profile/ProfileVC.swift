@@ -96,7 +96,7 @@ class ProfileVC: UIViewController {
         
         print(getFilenameFrom(qName: myProfile.username, type: .ASK))
         print(myProfile.profile_pic)
-   
+        
         downloadOrLoadFirebaseImage(
             ofName: getFilenameFrom(qName: myProfile.username, type: .ASK),
             forPath: myProfile.profile_pic) { image, error in

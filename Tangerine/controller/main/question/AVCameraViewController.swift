@@ -246,8 +246,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             let cgImageRef: CGImage! = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: .defaultIntent)
             let image = UIImage(cgImage: cgImageRef, scale: 1.0, orientation: UIImage.Orientation.right)
             
-            // Here we create an instance of CameraViewController in order to access CameraViewController's sFunc_imageFixOrientation() function. It may be more elegant to move sFunc_imageFixOrientation() to the ImageMethods.swift file.
-            let cVC = CameraViewController()
+            // Here we create an instance of EditQuestionVC in order to access EditQuestionVC's sFunc_imageFixOrientation() function. It may be more elegant to move sFunc_imageFixOrientation() to the ImageMethods.swift file.
+            let cVC = EditQuestionVC()
             self.capturedImage = cVC.sFunc_imageFixOrientation(img: image)
             print("line 242 self.capturedImage = cVC.sFunc_im")
             
@@ -592,14 +592,14 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             currentCompare.imageBeingEdited2 = iBE
             
             currentCompare.creationPhase = .secondPhotoTaken //update the creationPhase flag se we know the 2nd image has also been taken
-            //whatToCreate = .ask // The next time CameraViewController loads, it will be ready to create an ask unless user taps compareButton
+            //whatToCreate = .ask // The next time EditQuestionVC loads, it will be ready to create an ask unless user taps compareButton
             
         case .noPhotoTaken: //Store image1
             //we haven't stored any image yet so we'll store this one to image1
             currentCompare.imageBeingEdited1 = iBE // Stores the imageBeingEdited (iBE) to the first half of the public value known as currentCompare
             
             currentCompare.creationPhase = .firstPhotoTaken //update the creationPhase flag se we know the first image has been taken
-            // The next time CameraViewController loads, it will be ready to create the second half of the compare
+            // The next time EditQuestionVC loads, it will be ready to create the second half of the compare
             
         default:
             print("Encountered an unexpected .creationPhase value inside compareButtonTapped")
@@ -607,7 +607,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         
         
         /* ********************     ******************************         *************************
-         * Tapping this button also segues to CameraViewController (it's an interface builder segue not pictured in the source code)
+         * Tapping this button also segues to EditQuestionVC (it's an interface builder segue not pictured in the source code)
          * ********************     ******************************         ************************* */
         
     }

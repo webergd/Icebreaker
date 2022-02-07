@@ -77,7 +77,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
 //        self.publishButtonBackgroundView.backgroundColor = .white
         makeCircle(view: self.publishButtonBackgroundView, alpha: self.backgroundCirclesAlphaValue)
         
-        // unwraps the Compare to be displayed (passed from CameraViewController)
+        // unwraps the Compare to be displayed (passed from EditQuestionVC)
         if let iE1: UIImage = currentCompare.imageBeingEdited1?.iBEimageBlurredCropped,
             let iE2: UIImage = currentCompare.imageBeingEdited2?.iBEimageBlurredCropped,
             let tCap = currentCompare.imageBeingEdited1?.iBEcaption,
@@ -172,7 +172,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     }
     /// Segues back to the image editor View so that the user can change the image that they just tapped on.
     func returnForEditing(editTopImage: Bool) {
-        // set the flag so we know which image to display in CameraViewController
+        // set the flag so we know which image to display in EditQuestionVC
         if editTopImage == true {
             currentCompare.creationPhase = .reEditingFirstPhoto
         } else {

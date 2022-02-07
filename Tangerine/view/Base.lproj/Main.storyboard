@@ -3395,10 +3395,10 @@ Date of last revision: October 25, 2021
             </objects>
             <point key="canvasLocation" x="8812" y="-1656"/>
         </scene>
-        <!--Camera View Controller-->
+        <!--Edit QuestionVC-->
         <scene sceneID="XUk-83-yHo">
             <objects>
-                <viewController id="htq-oV-YgK" customClass="CameraViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="htq-oV-YgK" customClass="EditQuestionVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xbl-OG-Mjj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4044,7 +4044,7 @@ Date of last revision: October 25, 2021
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_small_black" translatesAutoresizingMaskIntoConstraints="NO" id="yqy-Qr-5LU">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yqy-Qr-5LU">
                                             <rect key="frame" x="8" y="19" width="78" height="78"/>
                                             <color key="backgroundColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <accessibility key="accessibilityConfiguration" identifier="photoImageView"/>
@@ -4338,7 +4338,7 @@ Date of last revision: October 25, 2021
                                                 <constraint firstAttribute="width" constant="1" id="Epn-W9-lWY"/>
                                             </constraints>
                                         </view>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_small_black" translatesAutoresizingMaskIntoConstraints="NO" id="k0a-HA-bDn">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k0a-HA-bDn">
                                             <rect key="frame" x="8" y="22" width="80" height="80"/>
                                             <color key="backgroundColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <accessibility key="accessibilityConfiguration" identifier="image1" label="image1"/>
@@ -4346,9 +4346,10 @@ Date of last revision: October 25, 2021
                                                 <constraint firstAttribute="width" secondItem="k0a-HA-bDn" secondAttribute="height" multiplier="1:1" id="rCf-Y4-URv"/>
                                             </constraints>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading_small_black" translatesAutoresizingMaskIntoConstraints="NO" id="2Ui-0h-ddh">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Ui-0h-ddh">
                                             <rect key="frame" x="231" y="22" width="81" height="80"/>
                                             <color key="backgroundColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="image2" label="image2"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="2Ui-0h-ddh" secondAttribute="height" multiplier="1:1" constant="1" id="7JX-O3-FkX"/>
                                                 <constraint firstAttribute="height" constant="80" id="Jzb-Lp-cbl"/>
