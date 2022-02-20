@@ -82,6 +82,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     @IBAction func forgotPasswordTapped(_ sender: UITapGestureRecognizer) {
         print("forgot my pass")
+        
+        let vc = UINavigationController(rootViewController: ReAuthPhoneVC())
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
     
     // when signup button tapped

@@ -13,10 +13,15 @@ extension UIViewController {
 
     
     // for present our nice little alert
-    func presentDismissAlertOnMainThread(title: String, message: String) {
+    func presentDismissAlertOnMainThread(title: String, message: String, completion: (()->Void)? = nil) {
         DispatchQueue.main.async {
             let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-             alertVC.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            
+            alertVC.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in
+                if let completion = completion{
+                    completion()
+                }
+            }))
         
              self.present(alertVC, animated: true)
         }

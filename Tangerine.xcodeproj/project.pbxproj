@@ -19,11 +19,13 @@
 		510D8CE4263C2B940028CC4E /* FriendDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D8CE3263C2B940028CC4E /* FriendDetailsVC.swift */; };
 		5111900025FE06CD00AFE7C1 /* UNService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51118FFF25FE06CD00AFE7C1 /* UNService.swift */; };
 		5111900B25FE9C2000AFE7C1 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5111900A25FE9C2000AFE7C1 /* LoginVC.swift */; };
+		511936CF27C0883900B5E63C /* ContinueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511936CE27C0883900B5E63C /* ContinueButton.swift */; };
 		512E1A1B2622637000D0E89C /* ProfileSettingsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1A1A2622637000D0E89C /* ProfileSettingsTabBarController.swift */; };
 		51320025260E00CA00DA4C5A /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51320024260E00CA00DA4C5A /* UIViewController+Ext.swift */; };
 		51406DEF272F3CA2003940F3 /* SwipeFromRightVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51406DEE272F3CA2003940F3 /* SwipeFromRightVC.swift */; };
 		514C47B227AF2EA700796DEC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 514C47B127AF2EA700796DEC /* GoogleService-Info.plist */; };
 		514C47B427AF3BEC00796DEC /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514C47B327AF3BEB00796DEC /* UIView+Ext.swift */; };
+		514C47B627B872B400796DEC /* ReAuthPhoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514C47B527B872B400796DEC /* ReAuthPhoneVC.swift */; };
 		5151F8E52618E49200F2F1E7 /* UIPickerView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5151F8E42618E49200F2F1E7 /* UIPickerView+Ext.swift */; };
 		51585F04260297D1001D8267 /* UserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F03260297D1001D8267 /* UserNameVC.swift */; };
 		51585F092602A3C5001D8267 /* PasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F082602A3C5001D8267 /* PasswordVC.swift */; };
@@ -65,6 +67,7 @@
 		518DBD1F26277D13008314A7 /* CQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518DBD1E26277D13008314A7 /* CQViewController.swift */; };
 		518DBD512627AA40008314A7 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518DBD502627AA40008314A7 /* RealmManager.swift */; };
 		519EA1482630D2CF0095C3A3 /* FriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EA1472630D2CF0095C3A3 /* FriendsVC.swift */; };
+		519FA96E27C0B7DA00AD927C /* ReAuthConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519FA96D27C0B7DA00AD927C /* ReAuthConfirmationVC.swift */; };
 		51A073FF261A80740055F245 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A073FE261A80730055F245 /* Friend.swift */; };
 		51A07404261A85D30055F245 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A07403261A85D30055F245 /* Array+Ext.swift */; };
 		51B34CEA260FCCFB004BE6F1 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */; };
@@ -80,6 +83,7 @@
 		51C997E425FBDE9200DC54B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51C997E325FBDE9200DC54B4 /* Assets.xcassets */; };
 		51C997F225FBDE9300DC54B4 /* TangerineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C997F125FBDE9300DC54B4 /* TangerineTests.swift */; };
 		51C997FD25FBDE9300DC54B4 /* TangerineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C997FC25FBDE9300DC54B4 /* TangerineUITests.swift */; };
+		51D7C06E27C1D997002D168E /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D7C06D27C1D997002D168E /* PasswordResetViewController.swift */; };
 		51E50E4F267FDA700055CCC1 /* AVCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */; };
 		51E50E53267FDD510055CCC1 /* EditQuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E52267FDD510055CCC1 /* EditQuestionVC.swift */; };
 		51E50E55267FDDCC0055CCC1 /* ImageMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E54267FDDCC0055CCC1 /* ImageMethods.swift */; };
@@ -124,12 +128,14 @@
 		510D8CE3263C2B940028CC4E /* FriendDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailsVC.swift; sourceTree = "<group>"; };
 		51118FFF25FE06CD00AFE7C1 /* UNService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNService.swift; sourceTree = "<group>"; };
 		5111900A25FE9C2000AFE7C1 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		511936CE27C0883900B5E63C /* ContinueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueButton.swift; sourceTree = "<group>"; };
 		51266DEC25FDF41400F58791 /* Tangerine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tangerine.entitlements; sourceTree = "<group>"; };
 		512E1A1A2622637000D0E89C /* ProfileSettingsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTabBarController.swift; sourceTree = "<group>"; };
 		51320024260E00CA00DA4C5A /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		51406DEE272F3CA2003940F3 /* SwipeFromRightVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeFromRightVC.swift; sourceTree = "<group>"; };
 		514C47B127AF2EA700796DEC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		514C47B327AF3BEB00796DEC /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		514C47B527B872B400796DEC /* ReAuthPhoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthPhoneVC.swift; sourceTree = "<group>"; };
 		5151F8E42618E49200F2F1E7 /* UIPickerView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPickerView+Ext.swift"; sourceTree = "<group>"; };
 		51585F03260297D1001D8267 /* UserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameVC.swift; sourceTree = "<group>"; };
 		51585F082602A3C5001D8267 /* PasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordVC.swift; sourceTree = "<group>"; };
@@ -171,6 +177,7 @@
 		518DBD1E26277D13008314A7 /* CQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CQViewController.swift; sourceTree = "<group>"; };
 		518DBD502627AA40008314A7 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		519EA1472630D2CF0095C3A3 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
+		519FA96D27C0B7DA00AD927C /* ReAuthConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthConfirmationVC.swift; sourceTree = "<group>"; };
 		51A073FE261A80730055F245 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		51A07403261A85D30055F245 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
@@ -192,6 +199,7 @@
 		51C997F825FBDE9300DC54B4 /* TangerineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TangerineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51C997FC25FBDE9300DC54B4 /* TangerineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineUITests.swift; sourceTree = "<group>"; };
 		51C997FE25FBDE9300DC54B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		51D7C06D27C1D997002D168E /* PasswordResetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCameraViewController.swift; sourceTree = "<group>"; };
 		51E50E52267FDD510055CCC1 /* EditQuestionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditQuestionVC.swift; sourceTree = "<group>"; };
 		51E50E54267FDDCC0055CCC1 /* ImageMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMethods.swift; sourceTree = "<group>"; };
@@ -296,6 +304,24 @@
 			path = helper;
 			sourceTree = "<group>";
 		};
+		514C47B927B8787600796DEC /* widgets */ = {
+			isa = PBXGroup;
+			children = (
+				511936CE27C0883900B5E63C /* ContinueButton.swift */,
+			);
+			path = widgets;
+			sourceTree = "<group>";
+		};
+		514C47BA27B87AE800796DEC /* forgot */ = {
+			isa = PBXGroup;
+			children = (
+				514C47B527B872B400796DEC /* ReAuthPhoneVC.swift */,
+				519FA96D27C0B7DA00AD927C /* ReAuthConfirmationVC.swift */,
+				51D7C06D27C1D997002D168E /* PasswordResetViewController.swift */,
+			);
+			path = forgot;
+			sourceTree = "<group>";
+		};
 		516A174A260FC442001BB579 /* auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +333,7 @@
 				51585F172602A3FE001D8267 /* BirthdayVC.swift */,
 				51585F1C2602A419001D8267 /* SpecialtyVC.swift */,
 				51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */,
+				514C47BA27B87AE800796DEC /* forgot */,
 			);
 			path = auth;
 			sourceTree = "<group>";
@@ -457,6 +484,7 @@
 			children = (
 				51B8100A26190BDB00F173BB /* cell */,
 				51C997E025FBDE9000DC54B4 /* Main.storyboard */,
+				514C47B927B8787600796DEC /* widgets */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -761,6 +789,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51585F132602A3E8001D8267 /* ConfirmationVC.swift in Sources */,
+				514C47B627B872B400796DEC /* ReAuthPhoneVC.swift in Sources */,
 				514C47B427AF3BEC00796DEC /* UIView+Ext.swift in Sources */,
 				51A07404261A85D30055F245 /* Array+Ext.swift in Sources */,
 				517BF3912694E1880044DE61 /* ReviewCollection.swift in Sources */,
@@ -807,7 +836,9 @@
 				51E50E57267FDED70055CCC1 /* DataModels.swift in Sources */,
 				51B8100D26190C0800F173BB /* FriendCell.swift in Sources */,
 				51B34CF4260FD062004BE6F1 /* MainVC.swift in Sources */,
+				511936CF27C0883900B5E63C /* ContinueButton.swift in Sources */,
 				51585F092602A3C5001D8267 /* PasswordVC.swift in Sources */,
+				519FA96E27C0B7DA00AD927C /* ReAuthConfirmationVC.swift in Sources */,
 				515EDDD52687863400696B8C /* Review.swift in Sources */,
 				51E925E0261BCC7C006AA4D5 /* UIColor+Ext.swift in Sources */,
 				51BEF69F268B3B6100FB9400 /* UIPanGestureRecognizer+Ext.swift in Sources */,
@@ -828,6 +859,7 @@
 				51F7C34C26AE272C0065F9BE /* PrioritizedQuestion.swift in Sources */,
 				515EDDCB26850ADC00696B8C /* Question.swift in Sources */,
 				51585F182602A3FE001D8267 /* BirthdayVC.swift in Sources */,
+				51D7C06E27C1D997002D168E /* PasswordResetViewController.swift in Sources */,
 				51E50E4F267FDA700055CCC1 /* AVCameraViewController.swift in Sources */,
 				5170DC3326370B5600F34354 /* DispatchQueue+Ext.swift in Sources */,
 				517BF3A9269AE5780044DE61 /* CompareReviewsTableViewCell.swift in Sources */,
