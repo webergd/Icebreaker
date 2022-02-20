@@ -436,34 +436,24 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 }
                 
                 
-                // delete the private docs
+                // remove db values
                 
-                Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_PRIVATE_SUB_COLLECTION).document(Constants.USERS_PRIVATE_INFO_DOC).delete { (error) in
-                    
-                    if let error = error{
-                        self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
-                    }
-                    
-                    
-                    // remove db values
-                    
-                    resetLocalAndRealmDB()
-                    
-                    
-                    // move to login
-                    
-                    self.indicator.stopAnimating()
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewController(withIdentifier: "login_vc") as! LoginVC
-                    vc.modalPresentationStyle = .fullScreen
-                    
-                    self.present(vc, animated: true, completion: nil)
-                    
-                    // account and storage will be deleted from functions
-                    
-                    
-                }
+                resetLocalAndRealmDB()
+                
+                
+                // move to login
+                
+                self.indicator.stopAnimating()
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "login_vc") as! LoginVC
+                vc.modalPresentationStyle = .fullScreen
+                
+                self.present(vc, animated: true, completion: nil)
+                
+                // private docs, connection_list, storage will be deleted from cloud function
+                
+             
                 
             }// end of doc delete
         
