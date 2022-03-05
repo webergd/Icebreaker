@@ -934,8 +934,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
         //
         if shouldShow {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "frienddetails_vc") as! FriendDetailsVC
+            let vc = FriendDetailsVC()
             vc.modalPresentationStyle = .fullScreen
             vc.username = username
             vc.parentVC = PARENTVC.ADD
@@ -1080,6 +1079,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     
     func configureSegmentControl(){
         searchSegment = UISegmentedControl(items: ["My Contacts", "All Users"])
+        searchSegment.selectedSegmentIndex = 0
         
         searchSegment.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchSegment)

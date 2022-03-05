@@ -277,8 +277,8 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let person = requestList[indexPath.row]
         username = person.username
       
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "frienddetails_vc") as! FriendDetailsVC
+            let vc = FriendDetailsVC()
+        
             vc.modalPresentationStyle = .fullScreen
             vc.username = username
             vc.parentVC = PARENTVC.REQUEST

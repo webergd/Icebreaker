@@ -58,8 +58,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     }
     
     @objc func addFriendPressed() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "addfriend_vc") as! AddFriendVC
+        let vc = AddFriendVC()
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated: true, completion: nil)
@@ -67,8 +66,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     
     @objc func friendReqPressed() {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "friendrequest_vc") as! FriendRequestVC
+        let vc = FriendRequestVC()
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated: true, completion: nil)
@@ -374,8 +372,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         let person = displayedFriends[indexPath.row]
         username = person.username
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "frienddetails_vc") as! FriendDetailsVC
+        let vc = FriendDetailsVC()
         vc.modalPresentationStyle = .fullScreen
         vc.username = username
         vc.parentVC = PARENTVC.FRIENDS

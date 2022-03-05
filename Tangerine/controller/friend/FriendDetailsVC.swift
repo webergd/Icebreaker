@@ -374,8 +374,9 @@ class FriendDetailsVC: UIViewController {
         view.backgroundColor = .systemBackground
         
         // proUI
-        configureBackButton()
+        
         configureProfileImageView()
+        configureBackButton()
         
         configureNameLabel()
         configureAgeLabel()

@@ -96,7 +96,10 @@ class MainVC: UIViewController {
     
     @IBAction func onFriendsTapped(_ sender: Any) {
         print("Friends")
-        performSegue(withIdentifier: "friends_vc", sender: self)
+        let vc = FriendsVC()
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated: true, completion: nil)
     }
     
     
