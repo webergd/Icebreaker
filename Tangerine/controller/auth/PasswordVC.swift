@@ -11,19 +11,11 @@ import FirebaseAuth
 
 class PasswordVC: UIViewController, UITextFieldDelegate {
     
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
-
-    @IBOutlet weak var passwordTF: MDCOutlinedTextField!
+    // MARK: UI Items
+    var topLabel: UILabel! // actually the title
+    var passwordTF: MDCOutlinedTextField!
     
-    @IBOutlet weak var continueBtn: UIButton!
+    var continueBtn: UIButton!
     
     // this will determine if we show password
     // default false
@@ -38,12 +30,11 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
     var eyeSlash : UIImage!
     // init the eye icon view
     var eyeIconView : UIImageView!
-    // the loading
-    var indicator: UIActivityIndicatorView!
     
-    /******************************************************** ************************************************/
     
-    @IBAction func onContinueClick(_ sender: UIButton) {
+    // MARK: Actions
+    
+    @objc func onContinueClick(_ sender: UIButton) {
         print("Continue Clicked")
         
         if let password = passwordTF.text{
@@ -52,10 +43,6 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    
-    
-    
-    /******************************************************** ************************************************/
     
     // the toggle icon method
     @objc func toggleIcon(_ sender: UITapGestureRecognizer){
@@ -108,9 +95,6 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
         continueBtn.disable()
         
         
-        // indicator
-        setupIndicator()
-        
         //dismiss keyboard, call the extension
         hideKeyboardOnOutsideTouch()
         
@@ -140,36 +124,33 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
     }// end of hide error
     
     
-    // to show the loading
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-    }
     
     // called to create account using username ie: email and password
     func createUserAccount(_ password: String) {
         // start the loading
-        indicator.startAnimating()
+        view.showActivityIndicator()
         // Create a user in firebase auth system with username and our custom domain
         // later we'll link the phone number with it
         
         // check if already registered
-        
+        // occurs when user presses back from next VC
+        // no matter if user writes same or different password, it'll be updated
+        // without it, it'll show, user already exists.
+        // this prevents that
         if self.isRegistered {
             
             if let user = Auth.auth().currentUser{
                 user.updatePassword(to: password) { (error) in
                     if let error = error{
-                        self.indicator.stopAnimating()
+                        self.view.hideActivityIndicator()
                         self.presentDismissAlertOnMainThread(title: "Update Failed", message: error.localizedDescription)
                         return
                     }
                     
-                    self.indicator.stopAnimating()
-                    self.performSegue(withIdentifier: "phonenumber_vc", sender: self)
+                    self.view.hideActivityIndicator()
+                    let vc = PhoneNumberVC()
+                    vc.modalPresentationStyle = .fullScreen
+                    self.navigationController?.pushViewController(vc, animated: true)
                     
                 } // end of update password
             } // end if let
@@ -179,7 +160,7 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
                 if let err = error{
                     // there is some error, handle it, show some dialog
                     // TODO: show error message
-                    self.indicator.stopAnimating()
+                    self.view.hideActivityIndicator()
                     self.presentDismissAlertOnMainThread(title: "Auth Error", message: err.localizedDescription)
                     
                 }else{
@@ -195,10 +176,14 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
                                 print("Username set")
                                 self.isRegistered = true
                                 // move to next page
-                                self.indicator.stopAnimating()
+                                self.view.hideActivityIndicator()
                                 // this indicates that a temp account is created again
                                 UserDefaults.standard.setValue(false, forKey: Constants.UD_SIGNUP_DONE_Bool)
-                                self.performSegue(withIdentifier: "phonenumber_vc", sender: self)
+                                
+                                // move
+                                let vc = PhoneNumberVC()
+                                vc.modalPresentationStyle = .fullScreen
+                                self.navigationController?.pushViewController(vc, animated: true)
                             }
                         }
                     }
@@ -215,7 +200,8 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
          
     }// end of createUserAccount
     
-    /******************************************************** ************************************************/
+    
+    // MARK: Delegates
     
     // when the text changes validate it again
     func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -238,14 +224,20 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    /******************************************************** ************************************************/
+    // MARK: VC Methods
     
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         title = "Password"
         // Do any additional setup after loading the view.
+        // proUI
+        configureTopLabel()
+        configurePassTF()
+        configureContinueButton()
+        configurePageControl()
         
         setupUI()
       
@@ -253,5 +245,70 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
     
 
     
+    // MARK: PROGRAMMATIC UI
+    func configureTopLabel(){
+        topLabel = UILabel()
+        topLabel.text = "Create a password"
+        topLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        topLabel.textColor = .label
+        
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(topLabel)
+        
+        NSLayoutConstraint.activate([
+            topLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            topLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+        ])
+        
+        
+    }
+    
+    func configurePassTF(){
+        
+        passwordTF = MDCOutlinedTextField()
+        passwordTF.textColor = .label
+        passwordTF.font = UIFont.systemFont(ofSize: 14)
+        passwordTF.placeholder = "Password"
+        passwordTF.returnKeyType = .done
+        
+        view.addSubview(passwordTF)
+        passwordTF.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            passwordTF.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 20),
+            passwordTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            passwordTF.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50)
+        ])
+    } // end pass tf
+    
+    func configureContinueButton(){
+        continueBtn = ContinueButton(title: "Continue")
+        
+        view.addSubview(continueBtn)
+        
+        continueBtn.addTarget(self, action: #selector(onContinueClick), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            continueBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+        
+    }// end conf continue button
+    
+    func configurePageControl(){
+        let pageControl = UIPageControl()
+        pageControl.numberOfPages = 6
+        pageControl.currentPage = 1
+        pageControl.pageIndicatorTintColor = .systemGray
+        pageControl.currentPageIndicatorTintColor = .systemOrange
+        
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            pageControl.topAnchor.constraint(equalTo: continueBtn.bottomAnchor, constant: 50),
+            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
 
 }

@@ -22,54 +22,49 @@ enum UserNameStatus {
 class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     
     
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
+    // MARK: UI Items
+    var cancelButton: UIBarButtonItem!
 
     // Firestore
     var firestore : Firestore!
     
     // Outlets, name defines who they are
-    @IBOutlet weak var usernameTF: MDCOutlinedTextField!
+    var topLabel: UILabel! // actually the title
+    var usernameTF: MDCOutlinedTextField!
+    var checkAvailabilityLabel: UILabel!
     
     // suggestion labels
-    @IBOutlet weak var suggestionOneL: UILabel!
-    @IBOutlet weak var suggestionTwoL: UILabel!
+    var suggestionOneL: UILabel!
+    var suggestionTwoL: UILabel!
     
     // the signup button
-    @IBOutlet weak var signupBtn: UIButton!
+    var signupBtn: UIButton!
     // the TOS view
-    @IBOutlet weak var tosTV: UITextView!
+    var tosTV: UITextView!
+    var pageControl: UIPageControl!
     
     // for the usernameTF
     var progressView: UIActivityIndicatorView!
     var availableTick: UIImage!
     var notAvailableCross:UIImage!
     var trailingImage:UIImageView!
-    // the loading
-    var indicator: UIActivityIndicatorView!
+    
     // var for this page
     var isUserAvailable = false
     // the selected username
     var user_name = ""
     
-    /******************************************************** ************************************************/
-    
+    // MARK: Actions
+
     // triggers on "Check Availability" Label Click
-    @IBAction func checkAvailabilityTapped(_ sender: UITapGestureRecognizer) {
+    @objc func checkAvailabilityTapped() {
         // call the function
         checkAvailability()
     }
     
     
     // triggers on suggestionOne label click
-    @IBAction func suggestionOneTapped(_ sender: UITapGestureRecognizer) {
+    @objc func suggestionOneTapped() {
         print("Suggestion One")
         // set the text
         if let text = suggestionOneL.text, text.count >= 3{
@@ -81,7 +76,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     } // end of suggestion One Tapped
     
     // triggers on suggestionTwo label click
-    @IBAction func suggestionTwoTapped(_ sender: UITapGestureRecognizer) {
+    @objc func suggestionTwoTapped() {
         print("Suggestion Two")
         // set the text
         if let text = suggestionTwoL.text, text.count >= 3{
@@ -94,15 +89,15 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     }// end of suggestion Two Tapped
     
     // triggers on signup button click
-    @IBAction func signupTapped(_ sender: UIButton) {
+    @objc func signupTapped() {
         // we already validated username, so create it
         createUsernameInFirestore(user_name)
     }// end of func
     
-    @IBAction func cancelTapped(_ sender: UIBarButtonItem) {
+    @objc func cancelTapped() {
         self.dismiss(animated: true, completion: nil)
     }
-    /******************************************************** ************************************************/
+    
     
     // this function will set the trailing view of usernameTF
     func setTrailingView(for mode: UserNameStatus){
@@ -278,7 +273,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         // we can now safely set the username
         
         // show the loading
-        indicator.startAnimating()
+        view.showActivityIndicator()
         
         // save the username to local variable for now
         Constants.username = username.lowercased()
@@ -291,12 +286,14 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
                 return
             }else{
                 // hide the indicator
-                self.indicator.stopAnimating()
+                self.view.hideActivityIndicator()
                 // to indicate new signup
                 UserDefaults.standard.setValue(false, forKey: Constants.UD_SIGNUP_DONE_Bool)
                 print("Doing signup seague")
                 
-                self.performSegue(withIdentifier: "password_vc", sender: self)
+                let vc = PasswordVC()
+                vc.modalPresentationStyle = .fullScreen
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             
             
@@ -306,16 +303,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     }// end of createUsernameInFirestore
     
     
-    // setup the loading view
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-    }
-    
-    /******************************************************** ************************************************/
+    // MARK: Delegates
     
     // when the text changes validate it again
     func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -331,7 +319,9 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         
         // show the TOS view
-        performSegue(withIdentifier: "tos_vc", sender: self)
+        let vc = UINavigationController(rootViewController: ToSVC())
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
         
         
         return false
@@ -343,12 +333,23 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         checkAvailability()
         return true
     }
-    /******************************************************** ************************************************/
+    // MARK: VC Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "Username"
+        view.backgroundColor = .systemBackground
+        // call the proUI first
+        
+        configureNavItem()
+        configureTopLabel()
+        configureUsernameTF()
+        configureCheckAvailabilityLabel()
+        configureSuggestionLabels()
+        configureTOSView()
+        configureSignupButton()
+        configurePageControl()
         
         // init the firestore
         firestore = Firestore.firestore();
@@ -371,8 +372,6 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         // disable, cause we haven't done the username validation yet
         signupBtn.disable()
         
-        // setup the loading
-        setupIndicator()
         
         //dismiss keyboard, call the extension
         hideKeyboardOnOutsideTouch()
@@ -412,4 +411,152 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     
     
     
+    // MARK: PROGRAMMATIC UI
+    func configureNavItem(){
+        cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
+        self.navigationItem.leftBarButtonItem = cancelButton
+    }
+    
+    func configureTopLabel(){
+        topLabel = UILabel()
+        topLabel.text = "Pick a username"
+        topLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        topLabel.textColor = .label
+        
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(topLabel)
+        
+        NSLayoutConstraint.activate([
+            topLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            topLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+        ])
+        
+        
+    }
+    
+    func configureUsernameTF(){
+        usernameTF = MDCOutlinedTextField()
+        usernameTF.textColor = .label
+        usernameTF.font = UIFont.systemFont(ofSize: 14)
+        usernameTF.containerRadius = 6
+        usernameTF.autocapitalizationType = .none
+        usernameTF.returnKeyType = .search
+        usernameTF.autocorrectionType = .no
+        usernameTF.textContentType = .username
+        usernameTF.spellCheckingType = .no
+        usernameTF.enablesReturnKeyAutomatically = true
+        
+        
+        usernameTF.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(usernameTF)
+        
+        NSLayoutConstraint.activate([
+            usernameTF.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 20),
+            usernameTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 100),
+            usernameTF.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -100),
+        ])
+    }
+    
+    func configureCheckAvailabilityLabel(){
+        checkAvailabilityLabel = UILabel()
+        checkAvailabilityLabel.text = "Check Availability"
+        checkAvailabilityLabel.font = UIFont.systemFont(ofSize: 15)
+        checkAvailabilityLabel.textColor = .link
+        checkAvailabilityLabel.isUserInteractionEnabled = true
+        checkAvailabilityLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(checkAvailabilityLabel)
+        
+        NSLayoutConstraint.activate([
+            checkAvailabilityLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            checkAvailabilityLabel.topAnchor.constraint(equalTo: usernameTF.bottomAnchor, constant: 10),
+        ])
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(checkAvailabilityTapped))
+        checkAvailabilityLabel.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    func configureSuggestionLabels(){
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 20
+        stackView.contentMode = .scaleToFill
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
+        // first suggestion
+        suggestionOneL = UILabel()
+        suggestionOneL.font = UIFont.systemFont(ofSize: 17)
+        suggestionOneL.textColor = .systemTeal
+        suggestionOneL.isUserInteractionEnabled = true
+        
+        suggestionTwoL = UILabel()
+        suggestionTwoL.font = UIFont.systemFont(ofSize: 17)
+        suggestionTwoL.textColor = .systemTeal
+        suggestionTwoL.isUserInteractionEnabled = true
+        
+        stackView.addArrangedSubview(suggestionOneL)
+        stackView.addArrangedSubview(suggestionTwoL)
+        
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            stackView.topAnchor.constraint(equalTo: checkAvailabilityLabel.bottomAnchor, constant: 0)
+        ])
+        
+        let tap1Gesture = UITapGestureRecognizer(target: self, action: #selector(suggestionOneTapped))
+        suggestionOneL.addGestureRecognizer(tap1Gesture)
+        let tap2Gesture = UITapGestureRecognizer(target: self, action: #selector(suggestionTwoTapped))
+        suggestionTwoL.addGestureRecognizer(tap2Gesture)
+        
+    }
+    
+    func configureTOSView(){
+        tosTV = UITextView()
+        tosTV.textColor = .label
+        tosTV.font = UIFont.systemFont(ofSize: 14)
+        tosTV.dataDetectorTypes = .link
+        tosTV.autocapitalizationType = .sentences
+        
+        tosTV.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tosTV)
+        
+        NSLayoutConstraint.activate([
+            tosTV.heightAnchor.constraint(equalToConstant: 100),
+            tosTV.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            tosTV.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50)
+        ])
+        
+    }
+    
+    func configureSignupButton(){
+        signupBtn = ContinueButton(title: "Sign Up & Accept")
+        
+        view.addSubview(signupBtn)
+        signupBtn.addTarget(self, action: #selector(signupTapped), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            signupBtn.topAnchor.constraint(equalTo: tosTV.bottomAnchor, constant: 50),
+            signupBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+        ])
+    }
+    
+    func configurePageControl(){
+        pageControl = UIPageControl()
+        pageControl.numberOfPages = 6
+        pageControl.currentPage = 0
+        pageControl.pageIndicatorTintColor = .systemGray
+        pageControl.currentPageIndicatorTintColor = .systemOrange
+        
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            pageControl.topAnchor.constraint(equalTo: signupBtn.bottomAnchor, constant: 50),
+            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
 }

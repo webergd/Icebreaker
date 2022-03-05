@@ -47,7 +47,7 @@ class ReAuthConfirmationVC: UIViewController, UITextFieldDelegate {
     } // end continueClicked
     
     func setupUI(){
-        // let's customize our only button
+        
         continueButton.disable()
         
         // set the delegate to check and move focus
@@ -265,7 +265,7 @@ class ReAuthConfirmationVC: UIViewController, UITextFieldDelegate {
     
     // MARK: PROGRAMMATIC UI
     
-    // MARK: TopLabel
+    
     func configureTopLabel(){
         topLabel = UILabel()
         topLabel.text = "Enter Confirmation Code"
@@ -286,7 +286,7 @@ class ReAuthConfirmationVC: UIViewController, UITextFieldDelegate {
     } // end conf topLabel
 
     
-    // MARK: DescLabel
+    
     
     func configureDescLabel(){
         descL = UILabel()
@@ -308,7 +308,7 @@ class ReAuthConfirmationVC: UIViewController, UITextFieldDelegate {
         
     } // end conf descLabel
 
-    // MARK: OTP TF
+    
     func configureOtpTF(){
         
         otpTF = UITextField()
@@ -333,7 +333,7 @@ class ReAuthConfirmationVC: UIViewController, UITextFieldDelegate {
         ])
     } // end otp tf
     
-    // MARK: ErrorLabel
+    
     func configureErrorLabel(){
         errorLabel = UILabel()
         errorLabel.text = "That's not the right code!"
@@ -354,7 +354,7 @@ class ReAuthConfirmationVC: UIViewController, UITextFieldDelegate {
         
     } // end conf errorLabel
     
-    // MARK: ContinueButton
+    
     func configureContinueButton(){
         continueButton = ContinueButton(title: "Continue")
         

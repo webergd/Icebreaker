@@ -22,14 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // set the scene to window
         window?.windowScene = windowScene
         
-        // for the time being
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let rootVC = storyboard.instantiateViewController(identifier: "login_vc") as? LoginVC else {
-                    print("LoginVC not found")
-                    return
-                }
         // set the root vc
-        window?.rootViewController = rootVC
+        window?.rootViewController = WelcomeVC()
         // show the magic
         window?.makeKeyAndVisible()
                 

@@ -125,8 +125,8 @@ class MainVC: UIViewController {
             resetQuestionRelatedThings() // detailed on declaration of this func => Cmd+Click (Jump to Definition)
             // Move to login
             
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "login_vc") as! LoginVC
+            
+            let vc = LoginVC()
             vc.modalPresentationStyle = .fullScreen
             
             self.present(vc, animated: true, completion: nil)

@@ -12,45 +12,32 @@ import FirebaseDatabase
 
 class SpecialtyVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    
-    
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
-
-    
-    @IBOutlet weak var specialtyPicker: UIPickerView!
-    @IBOutlet weak var specialtyL: UITextField!
-    @IBOutlet weak var finishBtn: UIButton!
-    
-    // the loading
-    var indicator: UIActivityIndicatorView!
+    // MARK: UI Items
+    var specialtyPicker: UIPickerView!
+    var specialtyTF: UITextField!
+    var finishButton: UIButton!
+    var topLabel: UILabel!
+    var descL: UILabel!
     
     let options = Constants.ORIENTATIONS
-    /******************************************************************************************************************************/
     
-    @IBAction func onFinishClicked(_ sender: UIButton) {
+    // MARK: Actions
+    
+    
+    @objc func onFinishClicked(_ sender: UIButton) {
         print("finish")
         //already checked the specialty
         saveSpecialtyToFirestore()
     }
     
-
-    
-    /******************************************************************************************************************************/
     
     func saveSpecialtyToFirestore(){
         // this username is still valid, although we can take from Auth.auth().user.displayname
         
         let db = Firestore.firestore()
-        indicator.startAnimating()
-        if let spe = specialtyL.text{
+        view.showActivityIndicator()
+        
+        if let spe = specialtyTF.text{
             
             // the default target demo for firestore
             let target_demo = [
@@ -72,7 +59,7 @@ class SpecialtyVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
                     .document(Constants.USERS_PRIVATE_INFO_DOC).setData([Constants.USER_TD_KEY: target_demo],merge: true){ err in
                         if let err = err{
                             self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
-                            self.indicator.stopAnimating() 
+                            self.view.hideActivityIndicator()
                             return
                         }
                         // save the specialty now
@@ -84,11 +71,11 @@ class SpecialtyVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
                          Constants.USER_REVIEW_KEY: 0], merge: true) { (error) in
                         if let err = error{
                             self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
-                            self.indicator.stopAnimating()
+                            self.view.hideActivityIndicator()
                             return
                         }
                         // move to next seague
-                        self.indicator.stopAnimating()
+                             self.view.hideActivityIndicator()
                         // all done, move to welcome
                         
                        
@@ -101,8 +88,7 @@ class SpecialtyVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
                         // clear the temp username
                         Constants.username = ""
                         
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let vc = storyboard.instantiateViewController(withIdentifier: "welcome_vc") as! WelcomeVC
+                        let vc = WelcomeVC()
                         vc.modalPresentationStyle = .fullScreen
                         
                         self.present(vc, animated: true, completion: nil)
@@ -120,15 +106,7 @@ class SpecialtyVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
         
     } // end of saveSpecialtyToFirebase
     
-    // to show the loading
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-    }
-    /******************************************************************************************************************************/
+    // MARK: Delegates
     
     // number of "wheels" actually, how many values there will be
     // we have only name
@@ -149,35 +127,138 @@ class SpecialtyVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSourc
     // which row is selected from which component
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("\(row) \(component)")
-        specialtyL.text = options[row]
-        finishBtn.enable()
+        specialtyTF.text = options[row]
+        finishButton.enable()
     }
     
-    /******************************************************************************************************************************/
+    // MARK: VC Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .systemBackground
         title = "Orientation"
         
-        // style the finish button
-        finishBtn.layer.borderWidth = 2.0
-        finishBtn.layer.cornerRadius = 6.0
-        finishBtn.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        finishBtn.disable()
+        configureTopLabel()
+        configureDescLabel()
+        configureSpecialtyTF()
+        configureSpecialtyPicker()
+        configureContinueButton()
+        configurePageControl()
         
+        finishButton.disable()
         
         // set specialty delegate and datasource
         specialtyPicker.delegate = self
         specialtyPicker.dataSource = self
         
         // set a placeholder
-        specialtyL.text = "Select One"
-        
-        setupIndicator()
+        specialtyTF.text = "Select One"
         
     }
     
+    // MARK: PROGRAMMATIC UI
+    
+    func configureTopLabel(){
+        topLabel = UILabel()
+        topLabel.text = "My Orientation"
+        // to make it dark/light friendly
+        topLabel.textColor = .label
+        topLabel.textAlignment = .center
+        topLabel.font = UIFont.systemFont(ofSize: 17,weight: .semibold)
+        view.addSubview(topLabel)
+        
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            topLabel.heightAnchor.constraint(equalToConstant: 50),
+            topLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            topLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            topLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+        ])
+    } // end conf topLabel
+    
+    func configureDescLabel(){
+        descL = UILabel()
+        descL.text = "Helps the Tangerine Community send you the right questions"
+        descL.numberOfLines = 3
+        // to make it dark/light friendly
+        descL.textColor = .label
+        descL.textAlignment = .center
+        descL.font = UIFont.systemFont(ofSize: 17)
+        view.addSubview(descL)
+        
+        descL.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            descL.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 10),
+            descL.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            descL.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+        ])
+        
+    } // end conf descLabel
+    
 
+    func configureSpecialtyTF(){
+        specialtyTF = UITextField()
+        specialtyTF.textColor = .label
+        specialtyTF.font = UIFont.systemFont(ofSize: 14)
+        specialtyTF.borderStyle = .roundedRect
+        specialtyTF.textAlignment = .center
+        
+        
+        specialtyTF.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(specialtyTF)
+        
+        NSLayoutConstraint.activate([
+            specialtyTF.topAnchor.constraint(equalTo: descL.bottomAnchor, constant: 20),
+            specialtyTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            specialtyTF.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+        ])
+    }
+    
+    
+    func configureSpecialtyPicker(){
+        specialtyPicker = UIPickerView()
+        
+        specialtyPicker.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(specialtyPicker)
+        
+        NSLayoutConstraint.activate([
+            specialtyPicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            specialtyPicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            specialtyPicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+        ])
+    }
+    
+    func configureContinueButton(){
+        finishButton = ContinueButton(title: "Finish!")
+        
+        view.addSubview(finishButton)
+        
+        finishButton.addTarget(self, action: #selector(onFinishClicked), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            finishButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            finishButton.bottomAnchor.constraint(equalTo: specialtyPicker.topAnchor, constant: -40)
+            ])
+        
+    }// end conf continue button
+    
+    func configurePageControl(){
+        let pageControl = UIPageControl()
+        pageControl.numberOfPages = 6
+        pageControl.currentPage = 5
+        pageControl.pageIndicatorTintColor = .systemGray
+        pageControl.currentPageIndicatorTintColor = .systemOrange
+        
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            pageControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            
+        ])
+    }
 
 }

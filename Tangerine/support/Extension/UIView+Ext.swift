@@ -24,8 +24,10 @@ extension UIView {
         }
     }
     
+    
     func showActivityIndicator(){
         self.loadingIndicator.startAnimating()
+        
     }
     
     func hideActivityIndicator(){

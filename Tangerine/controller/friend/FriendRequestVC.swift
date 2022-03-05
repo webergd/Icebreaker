@@ -11,32 +11,26 @@ import FirebaseFirestore
 
 class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
+    // MARK: UI Items
+    var backBtn: UIButton!
     // listener
     var listener : ListenerRegistration!
     // holds the value of connection_list in firebase
     var requestList = [PersonList]()
 
-    @IBOutlet weak var friendRequestList: UITableView!
+    var friendRequestList: UITableView!
     
     
-    /******************************************************************************************************************************/
+    
+    // MARK: Actions
     @IBAction func onBackPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    /******************************************************************************************************************************/
+    
     
     func blockUser(){
-        print("Blocked")
+        print("Not Blocked, implement it")
     }
     
     func setupUI(){
@@ -125,7 +119,8 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     
-    /******************************************************************************************************************************/
+    
+    // MARK: Delegates
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -293,9 +288,17 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
     }
     
-    /******************************************************************************************************************************/
+    
+    // MARK: VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
+        // proUI
+        
+        configureBackButton()
+        
+        configureFriendsTableView()
 
         // Do any additional setup after loading the view.
         setupUI()
@@ -322,5 +325,41 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         listener.remove()
     }
     
+    
+    // MARK: PROGRAMMATIC UI
+    func configureBackButton(){
+        backBtn = UIButton()
+        backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        
+        backBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backBtn)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            backBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            backBtn.heightAnchor.constraint(equalToConstant: 40),
+            backBtn.widthAnchor.constraint(equalToConstant: 40)
+            
+        ])
+        
+        backBtn.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
+    }
+    
+    
+    func configureFriendsTableView(){
+        friendRequestList = UITableView()
+        
+        friendRequestList.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(friendRequestList)
+        
+        NSLayoutConstraint.activate([
+            friendRequestList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            friendRequestList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            friendRequestList.topAnchor.constraint(equalTo: backBtn.bottomAnchor,constant: 20),
+            friendRequestList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
 
 }

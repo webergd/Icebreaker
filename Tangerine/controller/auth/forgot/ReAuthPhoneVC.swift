@@ -251,7 +251,6 @@ class ReAuthPhoneVC: UIViewController, UITextFieldDelegate{
 
     // MARK: PROGRAMMATIC UI
     
-    // MARK: Cancel Button
     func configureCancelButton(){
         
         cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelReAuthController))
@@ -259,7 +258,6 @@ class ReAuthPhoneVC: UIViewController, UITextFieldDelegate{
         
     }
     
-    // MARK: TopLabel
     func configureTopLabel(){
         topLabel = UILabel()
         topLabel.text = "Enter the phone number used in registration"
@@ -289,7 +287,7 @@ class ReAuthPhoneVC: UIViewController, UITextFieldDelegate{
         return dash
     }
     
-    // MARK: Stack
+   
     func configureStackForNumbers(){
         // the stack that holds the boxes
         numberStack = UIStackView()
@@ -373,7 +371,7 @@ class ReAuthPhoneVC: UIViewController, UITextFieldDelegate{
         ])
     }// end conf stack
     
-    // MARK: ErrorLabel
+    
     func configureErrorLabel(){
         errorLabel = UILabel()
         errorLabel.text = "Enter a valid US mobile phone number"
@@ -394,7 +392,7 @@ class ReAuthPhoneVC: UIViewController, UITextFieldDelegate{
         
     } // end conf errorLabel
     
-    // MARK: ContinueButton
+    
     func configureContinueButton(){
         continueButton = ContinueButton(title: "Continue")
         

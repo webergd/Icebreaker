@@ -13,26 +13,20 @@ import BadgeHub
 class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     
-    @IBOutlet weak var friendReqWidth: NSLayoutConstraint!
+    // MARK: UI Items
     
+    var backBtn: UIButton!
+    var friendReqBtn: UIButton!
+    var addFriendBtn: UIButton!
     
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
+    var friendReqWidth: NSLayoutConstraint!
     
     private var pullControl = UIRefreshControl()
     
     
-    @IBOutlet weak var searchbar: UISearchBar!
-    @IBOutlet weak var friendList: UITableView!
+    var searchbar: UISearchBar!
+    var friendList: UITableView!
     
-    @IBOutlet weak var friendReqBtn: UIButton!
     /// a list of string for our friend names
     public var friendNames = [String]()
     /// a chunked version of above list
@@ -53,16 +47,17 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     /// badge
     var hub : BadgeHub!
     
-    /******************************************************************************************************************************/
     
-    @IBAction func backBtnPressed(_ sender: UIButton) {
+    
+    // MARK: Actions
+    @objc func backBtnPressed() {
         //update locally stored list of friend userName Strings in case localUser is now friends with different people
         fetchMyFriendNamesFromFirestore()
         // return to MainVC
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func addFriendPressed(_ sender: UIButton) {
+    @objc func addFriendPressed() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "addfriend_vc") as! AddFriendVC
         vc.modalPresentationStyle = .fullScreen
@@ -70,7 +65,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         self.present(vc, animated: true, completion: nil)
     }
     
-    @IBAction func friendReqPressed(_ sender: UIButton) {
+    @objc func friendReqPressed() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "friendrequest_vc") as! FriendRequestVC
@@ -79,9 +74,6 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         self.present(vc, animated: true, completion: nil)
     }
     
-    /******************************************************************************************************************************/
-    
-    
     // Actions
     @objc private func refreshListData(_ sender: Any) {
         self.pullControl.beginRefreshing()
@@ -89,13 +81,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         print("Refreshing list")
         // remove the items when view load from any other place
         syncFriendList()
-        
-        
     }
-    
-    
-    /******************************************************************************************************************************/
-    
     
     // indicator while loading
     
@@ -304,6 +290,9 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         
     }
     
+    
+    // MARK: Delegates
+    
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         
         return  UILocalizedIndexedCollation.current().sectionTitles
@@ -442,11 +431,25 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     }
     
     
-    /******************************************************************************************************************************/
+    
+    // MARK: VC Methods
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .systemBackground
+        
+        // proUI
+        
+        configureBackButton()
+        
+        configureFriendReqButton()
+        configureAddFriendButton()
+        
+        
+        configureSearchBar()
+        configureFriendsTableView()
         
         // Do any additional setup after loading the view.
         hideKeyboardOnOutsideTouch()
@@ -483,6 +486,99 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         self.friendReqWidth.constant = 0
         
         print("Chunked name = \(chunkedNames.count)")
+    }
+    
+    
+    // MARK: PROGRAMMATIC UI
+    
+    func configureBackButton(){
+        backBtn = UIButton()
+        backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        
+        backBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backBtn)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            backBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            backBtn.heightAnchor.constraint(equalToConstant: 40),
+            backBtn.widthAnchor.constraint(equalToConstant: 40)
+            
+        ])
+        
+        backBtn.addTarget(self, action: #selector(backBtnPressed), for: .touchUpInside)
+    }
+    
+    
+    
+    func configureFriendReqButton(){
+        friendReqBtn = UIButton()
+        friendReqBtn.setImage(UIImage(systemName: "person.2"), for: .normal)
+        
+        friendReqBtn.addTarget(self, action: #selector(friendReqPressed), for: .touchUpInside)
+        
+        friendReqBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(friendReqBtn)
+        
+        friendReqWidth = NSLayoutConstraint()
+        friendReqWidth = friendReqBtn.widthAnchor.constraint(equalToConstant: 0)
+        friendReqWidth.isActive = true
+        
+        
+        NSLayoutConstraint.activate([
+            friendReqBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            friendReqBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            friendReqBtn.heightAnchor.constraint(equalToConstant: 40),
+        ])
+        
+    }
+    
+    func configureAddFriendButton(){
+        addFriendBtn = UIButton()
+        addFriendBtn.setImage(UIImage(systemName: "person.badge.plus"), for: .normal)
+        
+        addFriendBtn.addTarget(self, action: #selector(addFriendPressed), for: .touchUpInside)
+        
+        addFriendBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(addFriendBtn)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            addFriendBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            addFriendBtn.trailingAnchor.constraint(equalTo: friendReqBtn.leadingAnchor,constant: -20),
+            addFriendBtn.heightAnchor.constraint(equalToConstant: 40),
+        ])
+    }
+    
+    func configureSearchBar(){
+        searchbar = UISearchBar()
+        
+        searchbar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchbar)
+        
+        NSLayoutConstraint.activate([
+            searchbar.topAnchor.constraint(equalTo: backBtn.bottomAnchor, constant: 10),
+            searchbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            searchbar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+            
+        ])
+    }
+    
+    func configureFriendsTableView(){
+        friendList = UITableView()
+        
+        friendList.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(friendList)
+        
+        NSLayoutConstraint.activate([
+            friendList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            friendList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            friendList.topAnchor.constraint(equalTo: searchbar.bottomAnchor,constant: 20),
+            friendList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
     }
     
 }
