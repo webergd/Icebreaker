@@ -9,45 +9,40 @@ import UIKit
 
 class ProfileVC: UIViewController {
 
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
-    
+    // MARK: UI Items
+    var scrollView: UIScrollView!
+    var contentView: UIView!
+    var backBtn: UIButton!
     // user default
     var userDefault : UserDefaults!
     
-    @IBOutlet weak var profileImage: UIImageView!
+    var profileImage: UIImageView!
     
-    @IBOutlet weak var displaynameL: UILabel!
-    @IBOutlet weak var usernameL: UILabel!
-    @IBOutlet weak var ageSpecialtyL: UILabel!
+    var displaynameL: UILabel!
+    var usernameL: UILabel!
+    var ageSpecialtyL: UILabel!
+    
+    var editProfileButton: UIButton!
+    
+    var reviewerScoreText: UILabel!
+    var scoreL: UILabel!
+    
+    var totalReviewL: UILabel!
+    
+    var friendCountL: UILabel!
+    
+    var memberSinceL: UILabel!
     
     
     
+    // MARK: Actions
     
-    
-    @IBOutlet weak var scoreL: UILabel!
-    
-    @IBOutlet weak var totalReviewL: UILabel!
-    
-    @IBOutlet weak var friendCountL: UILabel!
-    
-    @IBOutlet weak var memberSinceL: UILabel!
-    
-    
-    /******************************************************************************************************************************/
-    
-    @IBAction func backBtnPressed(_ sender: UIButton) {
+    @objc func backBtnPressed(_ sender: UIButton) {
         self.tabBarController?.dismiss(animated: true, completion: nil)
     }
     
     
-    @IBAction func editUserPressed(_ sender: UIButton) {
+    @objc func editUserPressed(_ sender: UIButton) {
         segueToEditUserProfile()
     }
     
@@ -58,15 +53,15 @@ class ProfileVC: UIViewController {
     
     func segueToEditUserProfile() {
         print("Edit info")
-        let story = UIStoryboard.init(name: "Main", bundle: nil)
-        let vc = story.instantiateViewController(identifier: "editprofile_vc") as! EditProfileVC
+        
+        let vc = EditProfileVC()
         
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated: true, completion: nil)
     }
     
-    /******************************************************************************************************************************/
+    
     
     func setupUI(){
         print("Setting up UI of Profile")
@@ -112,13 +107,37 @@ class ProfileVC: UIViewController {
     }
     
     
-    /******************************************************************************************************************************/
+    
+    // MARK: Delegates
+    // MARK: VC Methods
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .systemBackground
+        
+        // proUI
+        
+        
+        configureScrollView()
+        
+        configureProfileImageView()
+        configureDisplayNameLabel()
+        configureUsernameLabel()
+        configureAgeLabel()
+        
+        configureEditProfileButton()
+        configureReviewerScoreTextLabel()
+        configureReviewScoreLabel()
+        
+        configureTotalReviewsLabel()
+        configureFriendsCountLabel()
+        configureMemberSinceLabel()
+        
+        configureBackButton()
+        
+        
         userDefault = UserDefaults.standard
         // Do any additional setup after loading the view.
         
@@ -135,6 +154,216 @@ class ProfileVC: UIViewController {
         setupUI()
     }
     
-
+    
+    
+    // MARK: PROGRAMMATIC UI
+    func configureBackButton(){
+        backBtn = UIButton()
+        backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        
+        backBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backBtn)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            backBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            backBtn.heightAnchor.constraint(equalToConstant: 40),
+            backBtn.widthAnchor.constraint(equalToConstant: 40)
+            
+        ])
+        
+        backBtn.addTarget(self, action: #selector(backBtnPressed), for: .touchUpInside)
+    }
+    
+    func configureScrollView(){
+        scrollView = UIScrollView()
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
+        contentView = UIView()
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(contentView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor)
+        ])
+    }
+    
+    
+    func configureProfileImageView(){
+        profileImage = UIImageView()
+        profileImage.image = UIImage(named: "generic_user")
+        
+        profileImage.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(profileImage)
+        
+        NSLayoutConstraint.activate([
+            profileImage.widthAnchor.constraint(equalToConstant: 150),
+            profileImage.heightAnchor.constraint(equalToConstant: 150),
+            profileImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            profileImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+        ])
+    }
+    
+    func configureDisplayNameLabel(){
+        displaynameL = UILabel()
+        displaynameL.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        displaynameL.textColor = .label
+        displaynameL.textAlignment = .center
+        
+        displaynameL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(displaynameL)
+        
+        NSLayoutConstraint.activate([
+            displaynameL.topAnchor.constraint(equalTo: profileImage.bottomAnchor),
+            displaynameL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+        ])
+    }
+    
+    func configureUsernameLabel(){
+        usernameL = UILabel()
+        usernameL.font = UIFont.systemFont(ofSize: 17)
+        usernameL.textColor = .label
+        usernameL.textAlignment = .center
+        
+        usernameL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(usernameL)
+        
+        NSLayoutConstraint.activate([
+            usernameL.topAnchor.constraint(equalTo: displaynameL.bottomAnchor, constant: 4),
+            usernameL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+        ])
+    }
+    
+    func configureAgeLabel(){
+        ageSpecialtyL = UILabel()
+        ageSpecialtyL.font = UIFont.systemFont(ofSize: 18)
+        ageSpecialtyL.textColor = .label
+        ageSpecialtyL.textAlignment = .center
+        
+        ageSpecialtyL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(ageSpecialtyL)
+        
+        NSLayoutConstraint.activate([
+            ageSpecialtyL.topAnchor.constraint(equalTo: usernameL.bottomAnchor, constant: 12),
+            ageSpecialtyL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+        ])
+    }
+    
+    
+    func configureEditProfileButton(){
+        editProfileButton = UIButton()
+        editProfileButton.setTitle("    Edit Profile and Target Demographic     ", for: .normal)
+        editProfileButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        editProfileButton.setTitleColor(.white, for: .normal)
+        editProfileButton.backgroundColor = .systemBlue
+        
+        editProfileButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(editProfileButton)
+        
+        NSLayoutConstraint.activate([
+            editProfileButton.topAnchor.constraint(equalTo: ageSpecialtyL.bottomAnchor, constant: 15),
+            editProfileButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+        ])
+        
+        editProfileButton.addTarget(self, action: #selector(editUserPressed), for: .touchUpInside)
+    }
+    
+    func configureReviewerScoreTextLabel(){
+        reviewerScoreText = UILabel()
+        reviewerScoreText.text = "Reviewer Score"
+        reviewerScoreText.font = UIFont.systemFont(ofSize: 17)
+        reviewerScoreText.textColor = .label
+        
+        reviewerScoreText.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(reviewerScoreText)
+        
+        NSLayoutConstraint.activate([
+            reviewerScoreText.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20),
+            reviewerScoreText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+        ])
+    }
+    
+    func configureReviewScoreLabel(){
+        scoreL = UILabel()
+        scoreL.font = UIFont.systemFont(ofSize: 20)
+        scoreL.textColor = .label
+        scoreL.textAlignment = .center
+        
+        scoreL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scoreL)
+        
+        NSLayoutConstraint.activate([
+            scoreL.topAnchor.constraint(equalTo: reviewerScoreText.bottomAnchor),
+            scoreL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            scoreL.widthAnchor.constraint(greaterThanOrEqualToConstant: 100)
+        ])
+    }
+    
+    
+    func configureTotalReviewsLabel(){
+        totalReviewL = UILabel()
+        totalReviewL.font = UIFont.systemFont(ofSize: 18)
+        totalReviewL.textColor = .label
+        totalReviewL.textAlignment = .center
+        
+        totalReviewL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(totalReviewL)
+        
+        NSLayoutConstraint.activate([
+            totalReviewL.topAnchor.constraint(equalTo: scoreL.bottomAnchor, constant: 32),
+            totalReviewL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+        ])
+    }
+    
+    func configureFriendsCountLabel(){
+        friendCountL = UILabel()
+        friendCountL.font = UIFont.systemFont(ofSize: 18)
+        friendCountL.textColor = .label
+        friendCountL.textAlignment = .center
+        
+        friendCountL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(friendCountL)
+        
+        NSLayoutConstraint.activate([
+            friendCountL.topAnchor.constraint(equalTo: totalReviewL.bottomAnchor, constant: 32),
+            friendCountL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+        ])
+    }
+    
+    func configureMemberSinceLabel(){
+        memberSinceL = UILabel()
+        memberSinceL.font = UIFont.systemFont(ofSize: 13)
+        memberSinceL.textColor = .label
+        memberSinceL.textAlignment = .center
+        
+        memberSinceL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(memberSinceL)
+        
+        NSLayoutConstraint.activate([
+            memberSinceL.topAnchor.constraint(equalTo: friendCountL.bottomAnchor, constant: 64),
+            memberSinceL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            memberSinceL.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        ])
+    }
+    
 
 }

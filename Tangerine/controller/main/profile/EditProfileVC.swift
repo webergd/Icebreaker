@@ -13,35 +13,49 @@ import RealmSwift
 
 class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
+    // MARK: UI Items
+    var backBtn: UIButton!
+    var titleLabel: UILabel!
+    var saveBtn: UIButton!
     
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var uploadIndicatorView: UIActivityIndicatorView!
-    
-    @IBOutlet weak var displayNameL: UILabel!
-    @IBOutlet weak var updateDnameIndicator: UIActivityIndicatorView!
-    
-    @IBOutlet weak var mytargetDemoL: UILabel!
-    @IBOutlet weak var mytargetAge: UILabel!
-    
-    @IBOutlet weak var specialtyPicker: UIPickerView!
-    
-    @IBOutlet weak var usernameL: UILabel!
-    
-    @IBOutlet weak var phoneNumberL: UILabel!
-    @IBOutlet weak var passwordIndicator: UIActivityIndicatorView!
+    var scrollView: UIScrollView!
+    var contentView: UIView!
     
     
-    // the loading
-    var indicator: UIActivityIndicatorView!
+    var profileImageView: UIImageView!
+    var uploadIndicatorView: UIActivityIndicatorView!
+    
+    var displayNameL: UILabel!
+    var updateDnameIndicator: UIActivityIndicatorView!
+    var updateDisplayNameBtn: UIButton!
+    
+    var mytargetDemoText: UILabel!
+    var iPreferOpinionLabel: UILabel!
+    
+    var mytargetDemoL: UILabel!
+    
+    var agesText: UILabel!
+    var mytargetAge: UILabel!
+    
+    var editTDBtn: UIButton!
+    
+    var myOrientationText: UILabel!
+    var specialtyPicker: UIPickerView!
+    
+    var myUsernameText: UILabel!
+    var usernameL: UILabel!
+    
+    var changePasswordBtn: UIButton!
+    
+    var phoneNumberText: UILabel!
+    var phoneNumberL: UILabel!
+    var changePhoneNumberBtn: UIButton!
+    
+    var deleteAccountBtn: UIButton!
+
+    var passwordIndicator: UIActivityIndicatorView!
+    
+    
     
     // this is where we'll save the profile image or any other image
     var profileRef: StorageReference!
@@ -54,22 +68,24 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     let options = Constants.ORIENTATIONS
     var speText = ""
     
-    /******************************************************************************************************************************/
     
-    @IBAction func onBackPressed(_ sender: UIButton) {
+    // MARK: Actions
+    
+    @objc func onBackPressed(_ sender: UIButton) {
         print("Back")
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func onDonePressed(_ sender: UIButton) {
+    @objc func onDonePressed(_ sender: UIButton) {
         print("Done")
         // save to firestore and local
         saveToFirestore()
         
+        
     }
     
     
-    @IBAction func profileImageTapped(_ sender: UITapGestureRecognizer) {
+    @objc func profileImageTapped(_ sender: UITapGestureRecognizer) {
         let alert = UIAlertController(title: "Select your picture from", message: nil, preferredStyle: .actionSheet)
         
         // add two actions
@@ -101,7 +117,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     }
     
     
-    @IBAction func displayNameTapped(_ sender: UITapGestureRecognizer) {
+    @objc func displayNameTapped(_ sender: UITapGestureRecognizer) {
         
         print("Display name")
         
@@ -178,7 +194,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     } // end of display name tapped
     
     
-    @IBAction func editTargetDemoTapped(_ sender: UIButton) {
+    @objc func editTargetDemoTapped(_ sender: UIButton) {
         let story = UIStoryboard.init(name: "Main", bundle: nil)
         let vc = story.instantiateViewController(identifier: "targetdemo_vc") as! TargetDemoVC
         vc.isEditingProfile = true
@@ -188,11 +204,11 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     }
     
     
-    @IBAction func changePasswordTapped(_ sender: UITapGestureRecognizer) {
+    @objc func changePasswordTapped(_ sender: UITapGestureRecognizer) {
         changePassword()
     }
     
-    @IBAction func changePhoneTapped(_ sender: UITapGestureRecognizer) {
+    @objc func changePhoneTapped(_ sender: UITapGestureRecognizer) {
         
         let story = UIStoryboard.init(name: "Main", bundle: nil)
         let vc = story.instantiateViewController(identifier: "phonenumber_vc") as! PhoneNumberVC
@@ -204,7 +220,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     }
     
     
-    @IBAction func deleteAccountTapped(_ sender: UIButton) {
+    @objc func deleteAccountTapped(_ sender: UIButton) {
         
         let alert = UIAlertController(title: "Delete your account?", message: "This action is permanent and can't be undone.", preferredStyle: .alert)
         
@@ -224,8 +240,6 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     }
     
     
-    
-    /******************************************************************************************************************************/
     
     func selectImageFrom(_ sourceType: UIImagePickerController.SourceType){
         // set the camera
@@ -303,9 +317,6 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     } // end of fetch value
     
     
-    
-    
-    
     func setupUI(){
         
         // init the pref
@@ -316,14 +327,10 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         specialtyPicker.dataSource = self
         
         
-        // setup the indicator
-        
-        setupIndicator()
-        
         // put some border on profile picture
-        profileImage.layer.borderWidth = 1.0
-        profileImage.layer.borderColor = UIColor.systemBlue.cgColor
-        profileImage.layer.cornerRadius = 4.0
+        profileImageView.layer.borderWidth = 1.0
+        profileImageView.layer.borderColor = UIColor.systemBlue.cgColor
+        profileImageView.layer.cornerRadius = 4.0
         
         fetchPastValues()
     }
@@ -336,8 +343,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         
         // save the specialty now
-        db
-            .collection(Constants.USERS_COLLECTION)
+        db.collection(Constants.USERS_COLLECTION)
             .document(myProfile.username).setData(
                 [Constants.USER_ORIENTATION_KEY: self.speText], merge: true) { (error) in
                     if let err = error{
@@ -426,7 +432,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     
     func deleteUser(){
-        indicator.startAnimating()
+        view.showActivityIndicator()
         // delete the user doc
         
         Firestore.firestore().collection(Constants.USERS_COLLECTION)
@@ -443,7 +449,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 
                 // move to login
                 
-                self.indicator.stopAnimating()
+                self.view.hideActivityIndicator()
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "login_vc") as! LoginVC
@@ -465,16 +471,8 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     
     
-    // to show the loading
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-    }
     
-    /******************************************************************************************************************************/
+    // MARK: Delegates
     
     // this delegate is called when image selecting is done
     
@@ -489,7 +487,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
             return
         }
         
-        profileImage.image = image
+        profileImageView.image = image
         
         // save to local, the new overwrite flag ensures that the method will erase old image and save new image
         // which isn't required for questions, as image in questions aren't changable.
@@ -646,10 +644,46 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     
     
-    /******************************************************************************************************************************/
+    
+    // MARK: VC Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
+        
+        // proUI
+        configureTopBar()
+        
+        configureScrollView()
+        
+        configureProfileImageView()
+        
+        // thing related to DN
+        configureDisplayNameThings()
+        
+        // things related to TD
+        configureTargetDemoThings()
+        
+        // things related to age
+        configureAgeThings()
+        
+        configureEditTDButton()
+        
+        configureSpecialtyThings()
+        
+        configureUNThings()
+        
+        configureChangePassBtn()
+        
+        configurePhoneNumberThings()
+        
+        configureDeleteAccountBtn()
+        
+        
+        
+        
+        
         setupUI()
         
         downloadOrLoadFirebaseImage(
@@ -661,7 +695,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 }
                 
                 print("Profile Image Downloaded for MYSELF")
-                self.profileImage.image = image
+                self.profileImageView.image = image
             }
     }
     
@@ -670,5 +704,163 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         // if we return from target demo, we'll need to update the values
         fetchPastValues()
     }
+    
+    
+    
+    // MARK: PROGRAMMATIC UI
+    func configureTopBar(){
+        backBtn = UIButton()
+        backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        backBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        backBtn.setTitleColor(.label, for: .normal)
+        
+        backBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backBtn)
+        
+        titleLabel = UILabel()
+        titleLabel.text = "Edit Profile"
+        titleLabel.font = UIFont.systemFont(ofSize: 17)
+        titleLabel.textColor = .label
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleLabel)
+        
+        saveBtn = UIButton()
+        saveBtn.setTitle("Save", for: .normal)
+        saveBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        saveBtn.setTitleColor(.link, for: .normal)
+        
+        saveBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(saveBtn)
+        
+        
+        NSLayoutConstraint.activate([
+            backBtn.widthAnchor.constraint(equalToConstant: 40),
+            backBtn.heightAnchor.constraint(equalToConstant: 40),
+            backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            backBtn.topAnchor.constraint(equalTo:view.safeAreaLayoutGuide.topAnchor),
+            
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: backBtn.centerYAnchor),
+            
+            saveBtn.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor),
+            saveBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            saveBtn.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
+            
+        ])
+        
+        
+        backBtn.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
+        
+        saveBtn.addTarget(self, action: #selector(onDonePressed), for: .touchUpInside)
+        
+        
+        
+    }
+    
+    
+    
+    func configureScrollView(){
+        scrollView = UIScrollView()
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
+        contentView = UIView()
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(contentView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor)
+        ])
+    }
+    
+    
+    func configureProfileImageView(){
+        profileImageView = UIImageView()
+        profileImageView.image = UIImage(named: "generic_user")
+        
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(profileImageView)
+        
+        uploadIndicatorView = UIActivityIndicatorView()
+        uploadIndicatorView.startAnimating()
+        
+        uploadIndicatorView.isHidden = true
+        
+        uploadIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(uploadIndicatorView)
+        
+        NSLayoutConstraint.activate([
+            profileImageView.widthAnchor.constraint(equalToConstant: 70),
+            profileImageView.heightAnchor.constraint(equalToConstant: 70),
+            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            profileImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            uploadIndicatorView.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            uploadIndicatorView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor,constant: 10)
+        ])
+    }
+    
+    
+    // thing related to DN
+    func configureDisplayNameThings(){
+        
+    }
+    
+    
+    // things related to TD
+    func configureTargetDemoThings(){
+        
+    }
+    
+    
+    // things related to age
+    func configureAgeThings(){
+        
+    }
+    
+    
+    func configureEditTDButton(){
+        
+    }
+    
+    
+    func configureSpecialtyThings(){
+        
+    }
+    
+    
+    func configureUNThings(){
+        
+    }
+    
+    
+    func configureChangePassBtn(){
+        
+    }
+    
+    
+    func configurePhoneNumberThings(){
+        
+    }
+    
+    
+    func configureDeleteAccountBtn(){
+        
+    }
+    
+    
+    
     
 }

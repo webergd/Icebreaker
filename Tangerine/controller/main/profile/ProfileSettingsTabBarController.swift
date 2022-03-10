@@ -11,6 +11,23 @@ class ProfileSettingsTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // set the tab bars
+        let settingsVC = SettingsVC()
+        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), tag: 0)
+        
+        let profileVC = ProfileVC()
+        profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 1)
+        
+        
+        self.viewControllers = [settingsVC, profileVC]
+        
+        
+        
+        
+        
+        
+        
         // Do any additional setup after loading the view.
         self.selectedIndex = 1
         setupSwipe()
