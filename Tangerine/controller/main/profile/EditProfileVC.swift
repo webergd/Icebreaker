@@ -27,7 +27,8 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     var displayNameL: UILabel!
     var updateDnameIndicator: UIActivityIndicatorView!
-    var updateDisplayNameBtn: UIButton!
+    var updateDisplayNameBtn: UILabel!
+    var topHorizontalLine: UIView!
     
     var mytargetDemoText: UILabel!
     var iPreferOpinionLabel: UILabel!
@@ -37,7 +38,9 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     var agesText: UILabel!
     var mytargetAge: UILabel!
     
-    var editTDBtn: UIButton!
+    var editTDBtn: UILabel!
+    
+    var bottomHorizontalLine: UIView!
     
     var myOrientationText: UILabel!
     var specialtyPicker: UIPickerView!
@@ -45,13 +48,13 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     var myUsernameText: UILabel!
     var usernameL: UILabel!
     
-    var changePasswordBtn: UIButton!
+    var changePasswordBtn: UILabel!
     
     var phoneNumberText: UILabel!
     var phoneNumberL: UILabel!
-    var changePhoneNumberBtn: UIButton!
+    var changePhoneNumberBtn: UILabel!
     
-    var deleteAccountBtn: UIButton!
+    var deleteAccountBtn: UILabel!
 
     var passwordIndicator: UIActivityIndicatorView!
     
@@ -708,6 +711,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     
     // MARK: PROGRAMMATIC UI
+    // back btn, title, saveBtn
     func configureTopBar(){
         backBtn = UIButton()
         backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
@@ -758,24 +762,25 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
     }
     
-    
-    
+   
     func configureScrollView(){
         scrollView = UIScrollView()
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
+        
+        
         contentView = UIView()
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contentView)
+        scrollView.addSubview(contentView)
         
         NSLayoutConstraint.activate([
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 25),
             
             contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
@@ -791,7 +796,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         profileImageView.image = UIImage(named: "generic_user")
         
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(profileImageView)
+        contentView.addSubview(profileImageView)
         
         uploadIndicatorView = UIActivityIndicatorView()
         uploadIndicatorView.startAnimating()
@@ -810,54 +815,339 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
             uploadIndicatorView.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
             uploadIndicatorView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor,constant: 10)
         ])
+        
+        profileImageView.isUserInteractionEnabled = true
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        profileImageView.addGestureRecognizer(gesture)
     }
     
     
     // thing related to DN
     func configureDisplayNameThings(){
+        displayNameL = UILabel()
+        displayNameL.text = "appearing as dname"
+        displayNameL.textColor = .label
+        displayNameL.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        displayNameL.textAlignment = .center
+        
+        displayNameL.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(displayNameL)
+        
+        updateDnameIndicator = UIActivityIndicatorView()
+        updateDnameIndicator.startAnimating()
+        
+        updateDnameIndicator.isHidden = true
+        
+        updateDnameIndicator.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(updateDnameIndicator)
+        
+        updateDisplayNameBtn = UILabel()
+        updateDisplayNameBtn.text = "Update Display Name"
+        updateDisplayNameBtn.font = UIFont.systemFont(ofSize: 17)
+        
+        updateDisplayNameBtn.isUserInteractionEnabled = true
+        updateDisplayNameBtn.textColor = .link
+        
+        updateDisplayNameBtn.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(updateDisplayNameBtn)
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(displayNameTapped))
+        updateDisplayNameBtn.addGestureRecognizer(gesture)
+        
+        // the gray line below udn button
+        topHorizontalLine = UIView()
+        topHorizontalLine.backgroundColor = .lightGray
+        
+        topHorizontalLine.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(topHorizontalLine)
+        
+        
+        NSLayoutConstraint.activate([
+            displayNameL.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
+            displayNameL.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            updateDnameIndicator.centerYAnchor.constraint(equalTo: displayNameL.centerYAnchor),
+            updateDnameIndicator.leadingAnchor.constraint(equalTo: displayNameL.trailingAnchor,constant: 10),
+            
+            updateDisplayNameBtn.topAnchor.constraint(equalTo: displayNameL.bottomAnchor, constant: 10),
+            updateDisplayNameBtn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            topHorizontalLine.topAnchor.constraint(equalTo: updateDisplayNameBtn.bottomAnchor, constant: 27),
+            topHorizontalLine.heightAnchor.constraint(equalToConstant: 1.0),
+            topHorizontalLine.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            topHorizontalLine.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
         
     }
     
     
     // things related to TD
     func configureTargetDemoThings(){
+        mytargetDemoText = UILabel()
+        mytargetDemoText.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        mytargetDemoText.textColor = .label
+        mytargetDemoText.text = "My Target Demographic"
+        mytargetDemoText.textAlignment = .center
         
+        mytargetDemoText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(mytargetDemoText)
+        
+        
+        iPreferOpinionLabel = UILabel()
+        iPreferOpinionLabel.font = UIFont.systemFont(ofSize: 17)
+        iPreferOpinionLabel.textColor = .label
+        iPreferOpinionLabel.text = "I prefer opinions from:"
+        iPreferOpinionLabel.textAlignment = .center
+        
+        iPreferOpinionLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(iPreferOpinionLabel)
+        
+        mytargetDemoL = UILabel()
+        mytargetDemoL.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        mytargetDemoL.textColor = .label
+        mytargetDemoL.text = "target dmeo list"
+        mytargetDemoL.textAlignment = .center
+        mytargetDemoL.numberOfLines = 6
+        
+        mytargetDemoL.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(mytargetDemoL)
+        
+        
+        NSLayoutConstraint.activate([
+            mytargetDemoText.topAnchor.constraint(equalTo: topHorizontalLine.bottomAnchor, constant: 10),
+            mytargetDemoText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            iPreferOpinionLabel.topAnchor.constraint(equalTo: mytargetDemoText.bottomAnchor, constant: 8),
+            iPreferOpinionLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            mytargetDemoL.topAnchor.constraint(equalTo: iPreferOpinionLabel.bottomAnchor, constant: 4),
+            mytargetDemoL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            mytargetDemoL.heightAnchor.constraint(lessThanOrEqualToConstant: 140),
+            
+          
+        ])
     }
     
     
     // things related to age
     func configureAgeThings(){
+        agesText = UILabel()
+        agesText.font = UIFont.systemFont(ofSize: 17)
+        agesText.textColor = .label
+        agesText.text = "Ages"
+        
+        agesText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(agesText)
+        
+        mytargetAge = UILabel()
+        mytargetAge.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        mytargetAge.textColor = .label
+        mytargetAge.text = ""
+        
+        mytargetAge.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(mytargetAge)
+        
+        NSLayoutConstraint.activate([
+            agesText.topAnchor.constraint(equalTo: mytargetDemoL.bottomAnchor, constant: 8),
+            agesText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            mytargetAge.topAnchor.constraint(equalTo: agesText.bottomAnchor, constant: 4),
+            mytargetAge.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        ])
         
     }
     
     
     func configureEditTDButton(){
+        editTDBtn = UILabel()
+        editTDBtn.text = "Edit Target Demographic"
+        editTDBtn.font = UIFont.systemFont(ofSize: 17)
         
+        editTDBtn.isUserInteractionEnabled = true
+        editTDBtn.textColor = .link
+        
+        editTDBtn.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(editTDBtn)
+        
+        NSLayoutConstraint.activate([
+            editTDBtn.topAnchor.constraint(equalTo: mytargetAge.bottomAnchor, constant: 8),
+            editTDBtn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        ])
+        
+       
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(editTargetDemoTapped))
+        editTDBtn.addGestureRecognizer(gesture)
     }
     
     
     func configureSpecialtyThings(){
+        // the gray line below etd button
+        bottomHorizontalLine = UIView()
+        bottomHorizontalLine.backgroundColor = .lightGray
         
+        bottomHorizontalLine.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(bottomHorizontalLine)
+        
+        
+        myOrientationText = UILabel()
+        myOrientationText.textColor = .label
+        myOrientationText.text = "My Orientation"
+        myOrientationText.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        
+        myOrientationText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(myOrientationText)
+        
+        specialtyPicker = UIPickerView()
+        specialtyPicker.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(specialtyPicker)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            bottomHorizontalLine.heightAnchor.constraint(equalToConstant: 1.0),
+            bottomHorizontalLine.topAnchor.constraint(equalTo: editTDBtn.bottomAnchor, constant: 4),
+            bottomHorizontalLine.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            bottomHorizontalLine.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            bottomHorizontalLine.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
+            
+            myOrientationText.topAnchor.constraint(equalTo: bottomHorizontalLine.bottomAnchor, constant: 4),
+            myOrientationText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            specialtyPicker.topAnchor.constraint(equalTo: myOrientationText.bottomAnchor, constant: 0),
+            specialtyPicker.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 75),
+            specialtyPicker.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -75),
+            specialtyPicker.heightAnchor.constraint(equalToConstant: 120)
+            
+        ])
     }
     
     
     func configureUNThings(){
         
-    }
-    
-    
-    func configureChangePassBtn(){
+        myUsernameText = UILabel()
+        myUsernameText.text = "My Username:"
+        myUsernameText.textColor = .label
+        myUsernameText.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        
+        myUsernameText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(myUsernameText)
+        
+        usernameL = UILabel()
+        usernameL.text = ""
+        usernameL.textColor = .label
+        usernameL.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        
+        usernameL.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(usernameL)
+        
+        
+        NSLayoutConstraint.activate([
+            myUsernameText.topAnchor.constraint(equalTo: specialtyPicker.bottomAnchor, constant: 20),
+            myUsernameText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            usernameL.topAnchor.constraint(equalTo: myUsernameText.bottomAnchor),
+            usernameL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        ])
+        
+        
         
     }
     
     
+    func configureChangePassBtn(){
+        changePasswordBtn = UILabel()
+        changePasswordBtn.text = "Change Password"
+        changePasswordBtn.font = UIFont.systemFont(ofSize: 17)
+        changePasswordBtn.isUserInteractionEnabled = true
+        changePasswordBtn.textColor = .link
+        
+        changePasswordBtn.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(changePasswordBtn)
+        
+        passwordIndicator = UIActivityIndicatorView()
+        
+        passwordIndicator.startAnimating()
+        passwordIndicator.isHidden = true
+        
+        passwordIndicator.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(passwordIndicator)
+        
+        NSLayoutConstraint.activate([
+            changePasswordBtn.topAnchor.constraint(equalTo: usernameL.bottomAnchor, constant: 20),
+            changePasswordBtn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            passwordIndicator.centerYAnchor.constraint(equalTo: changePasswordBtn.centerYAnchor),
+            passwordIndicator.leadingAnchor.constraint(equalTo: changePasswordBtn.trailingAnchor,constant: 20),
+        ])
+        
+   
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(changePasswordTapped))
+        changePasswordBtn.addGestureRecognizer(gesture)
+    }
+    
+    
     func configurePhoneNumberThings(){
+        phoneNumberText = UILabel()
+        phoneNumberText.text = "Phone Number"
+        phoneNumberText.textColor = .label
+        phoneNumberText.font = UIFont.systemFont(ofSize: 17)
+        
+        phoneNumberText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(phoneNumberText)
+        
+        phoneNumberL = UILabel()
+        phoneNumberL.text = ""
+        phoneNumberL.textColor = .label
+        phoneNumberL.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        
+        phoneNumberL.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(phoneNumberL)
+        
+        changePhoneNumberBtn = UILabel()
+        changePhoneNumberBtn.text = "Change Phone Number"
+        changePhoneNumberBtn.font = UIFont.systemFont(ofSize: 17)
+        changePasswordBtn.textColor = .link
+        
+        changePhoneNumberBtn.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(changePhoneNumberBtn)
+        
+        
+        NSLayoutConstraint.activate([
+            phoneNumberText.topAnchor.constraint(equalTo: changePasswordBtn.bottomAnchor, constant: 30),
+            phoneNumberText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            phoneNumberL.topAnchor.constraint(equalTo: phoneNumberText.bottomAnchor, constant: 10),
+            phoneNumberL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            changePhoneNumberBtn.topAnchor.constraint(equalTo: phoneNumberL.bottomAnchor, constant: 20),
+            changePhoneNumberBtn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        ])
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(changePhoneTapped))
+        changePhoneNumberBtn.addGestureRecognizer(gesture)
         
     }
     
     
     func configureDeleteAccountBtn(){
+        deleteAccountBtn = UILabel()
+        deleteAccountBtn.text = "Delete Account"
+        deleteAccountBtn.font = UIFont.systemFont(ofSize: 17)
+        deleteAccountBtn.isUserInteractionEnabled = true
+        deleteAccountBtn.textColor = .systemRed
         
+        deleteAccountBtn.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(deleteAccountBtn)
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(deleteAccountTapped))
+        deleteAccountBtn.addGestureRecognizer(gesture)
+        
+        
+        NSLayoutConstraint.activate([
+            deleteAccountBtn.topAnchor.constraint(equalTo: changePhoneNumberBtn.bottomAnchor, constant: 50),
+            deleteAccountBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            deleteAccountBtn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        ])
     }
     
     

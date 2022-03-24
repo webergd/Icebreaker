@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         // set the root vc
-        window?.rootViewController = ProfileSettingsTabBarController()
+        window?.rootViewController = LoginVC()
         // show the magic
         window?.makeKeyAndVisible()
                 

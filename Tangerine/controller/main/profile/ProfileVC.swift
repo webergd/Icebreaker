@@ -186,7 +186,7 @@ class ProfileVC: UIViewController {
         contentView = UIView()
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contentView)
+        scrollView.addSubview(contentView)
         
         NSLayoutConstraint.activate([
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),

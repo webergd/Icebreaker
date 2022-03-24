@@ -106,8 +106,8 @@ class MainVC: UIViewController {
     // when the profile and settings tapped
     @IBAction func onProfileTapped(_ sender: Any) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "settings_vc") as! ProfileSettingsTabBarController
+        
+        let vc = ProfileSettingsTabBarController()
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated: true, completion: nil)
