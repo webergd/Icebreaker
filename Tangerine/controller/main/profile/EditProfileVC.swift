@@ -198,8 +198,8 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     
     @objc func editTargetDemoTapped(_ sender: UIButton) {
-        let story = UIStoryboard.init(name: "Main", bundle: nil)
-        let vc = story.instantiateViewController(identifier: "targetdemo_vc") as! TargetDemoVC
+        
+        let vc = TargetDemoVC()
         vc.isEditingProfile = true
         vc.modalPresentationStyle = .fullScreen
         
@@ -213,8 +213,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     @objc func changePhoneTapped(_ sender: UITapGestureRecognizer) {
         
-        let story = UIStoryboard.init(name: "Main", bundle: nil)
-        let vc = story.instantiateViewController(identifier: "phonenumber_vc") as! PhoneNumberVC
+        let vc = PhoneNumberVC()
         
         vc.isEditingProfile = true
         vc.modalPresentationStyle = .fullScreen
@@ -454,8 +453,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 
                 self.view.hideActivityIndicator()
                 
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "login_vc") as! LoginVC
+                let vc = LoginVC()
                 vc.modalPresentationStyle = .fullScreen
                 
                 self.present(vc, animated: true, completion: nil)
@@ -1106,6 +1104,8 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         changePhoneNumberBtn = UILabel()
         changePhoneNumberBtn.text = "Change Phone Number"
         changePhoneNumberBtn.font = UIFont.systemFont(ofSize: 17)
+        
+        changePhoneNumberBtn.isUserInteractionEnabled = true
         changePasswordBtn.textColor = .link
         
         changePhoneNumberBtn.translatesAutoresizingMaskIntoConstraints = false
