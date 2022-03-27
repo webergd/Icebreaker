@@ -153,7 +153,7 @@ class FriendDetailsVC: UIViewController {
     
     
     @objc func defaultSwitched(_ sender: UISwitch) {
-        
+        print("Default Switched")
         if self.defaultSw.isOn {
             RealmManager.sharedInstance.addOrUpdateFriend(object: self.friend,sendStatus: .DEFAULT)
         }else{
@@ -475,11 +475,13 @@ class FriendDetailsVC: UIViewController {
     }
     
     func configureAddButton(){
-        addBtn = UIButton()
+        addBtn = UIButton(type: .system)
         addBtn.setTitle("Add", for: .normal)
-        
+        addBtn.isHidden = true
         addBtn.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(addBtn)
+        
+        
         
         NSLayoutConstraint.activate([
             addBtn.topAnchor.constraint(equalTo: ageL.bottomAnchor, constant: 25),
@@ -497,13 +499,14 @@ class FriendDetailsVC: UIViewController {
         defaultText.text = "Default recipient of Questions"
         defaultText.font = UIFont.systemFont(ofSize: 17)
         defaultText.textColor = .label
+        defaultText.isHidden = true
         
         defaultText.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(defaultText)
         
         defaultSw = UISwitch()
         defaultSw.setOn(true, animated: false)
-        
+        defaultSw.isHidden = true
         defaultSw.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(defaultSw)
         
@@ -516,6 +519,7 @@ class FriendDetailsVC: UIViewController {
             defaultSw.centerYAnchor.constraint(equalTo: defaultText.centerYAnchor)
         ])
         
+        defaultSw.addTarget(self, action: #selector(defaultSwitched), for: .valueChanged)
     }
     
     func configureReviewerScore(){
@@ -570,14 +574,16 @@ class FriendDetailsVC: UIViewController {
     }
     
     func configureDeleteButton(){
-        deleteBtn = UIButton()
+        deleteBtn = UIButton(type: .system)
+        
         deleteBtn.setTitle("Delete", for: .normal)
+        deleteBtn.isHidden = true
         
         deleteBtn.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(deleteBtn)
         
         NSLayoutConstraint.activate([
-            deleteBtn.bottomAnchor.constraint(equalTo: blockBtn.topAnchor, constant: 20),
+            deleteBtn.bottomAnchor.constraint(equalTo: blockBtn.topAnchor, constant: -20),
             deleteBtn.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             deleteBtn.widthAnchor.constraint(equalToConstant: 100),
             deleteBtn.heightAnchor.constraint(equalToConstant: 40)
@@ -587,14 +593,15 @@ class FriendDetailsVC: UIViewController {
     }
     
     func configureBlockButton(){
-        blockBtn = UIButton()
+        blockBtn = UIButton(type: .system)
         blockBtn.setTitle("Block", for: .normal)
-        
+        blockBtn.isHidden = true
         blockBtn.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(blockBtn)
         
+        
         NSLayoutConstraint.activate([
-            blockBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+            blockBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             blockBtn.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             blockBtn.widthAnchor.constraint(equalToConstant: 100),
             blockBtn.heightAnchor.constraint(equalToConstant: 40)

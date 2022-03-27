@@ -288,9 +288,10 @@ class ProfileVC: UIViewController {
     
     func configureReviewerScoreTextLabel(){
         reviewerScoreText = UILabel()
-        reviewerScoreText.text = "Reviewer Score"
+        //reviewerScoreText.text = "Reviewer Score"
         reviewerScoreText.font = UIFont.systemFont(ofSize: 17)
         reviewerScoreText.textColor = .label
+        reviewerScoreText.isHidden = true
         
         reviewerScoreText.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(reviewerScoreText)
@@ -307,7 +308,7 @@ class ProfileVC: UIViewController {
         scoreL.font = UIFont.systemFont(ofSize: 20)
         scoreL.textColor = .label
         scoreL.textAlignment = .center
-        
+        scoreL.isHidden = true
         scoreL.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scoreL)
         
