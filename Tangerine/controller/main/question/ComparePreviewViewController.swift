@@ -317,7 +317,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
                 
                 // GOTO CQ
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "cq_vc") as! CQViewController
+                let vc = storyboard.instantiateViewController(withIdentifier: "cq_vc") as! SendToFriendsVC
                 vc.modalPresentationStyle = .fullScreen
                 vc.newlyCreatedDocID = question.question_name
                 self.present(vc, animated: true, completion: nil)

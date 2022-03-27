@@ -92,7 +92,7 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
                 // move to next seague
                     self.view.hideActivityIndicator()
                     // move to next screen
-                    let vc = SpecialtyVC()
+                    let vc = OrientationVC()
                     vc.modalPresentationStyle = .fullScreen
                     //self.present(vc, animated: true, completion: nil)
                     self.navigationController?.pushViewController(vc, animated: true)

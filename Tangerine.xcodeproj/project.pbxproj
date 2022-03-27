@@ -33,7 +33,7 @@
 		51585F0E2602A3DB001D8267 /* PhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F0D2602A3DB001D8267 /* PhoneNumberVC.swift */; };
 		51585F132602A3E8001D8267 /* ConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F122602A3E8001D8267 /* ConfirmationVC.swift */; };
 		51585F182602A3FE001D8267 /* BirthdayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F172602A3FE001D8267 /* BirthdayVC.swift */; };
-		51585F1D2602A419001D8267 /* SpecialtyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F1C2602A419001D8267 /* SpecialtyVC.swift */; };
+		51585F1D2602A419001D8267 /* OrientationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51585F1C2602A419001D8267 /* OrientationVC.swift */; };
 		515EDDCB26850ADC00696B8C /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDCA26850ADC00696B8C /* Question.swift */; };
 		515EDDCD2685206F00696B8C /* TargetDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDCC2685206F00696B8C /* TargetDemo.swift */; };
 		515EDDD026862B6900696B8C /* ReviewAskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDCE26862B6700696B8C /* ReviewAskViewController.swift */; };
@@ -65,7 +65,7 @@
 		517BF3A9269AE5780044DE61 /* CompareReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF3A7269AE5750044DE61 /* CompareReviewsTableViewCell.swift */; };
 		517BF3AA269AE5780044DE61 /* CompareReviewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF3A8269AE5780044DE61 /* CompareReviewsTableViewController.swift */; };
 		517BF3AC269AFAD00044DE61 /* CompareReviewDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517BF3AB269AFAD00044DE61 /* CompareReviewDetailsViewController.swift */; };
-		518DBD1F26277D13008314A7 /* CQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518DBD1E26277D13008314A7 /* CQViewController.swift */; };
+		518DBD1F26277D13008314A7 /* SendToFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518DBD1E26277D13008314A7 /* SendToFriendsVC.swift */; };
 		518DBD512627AA40008314A7 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518DBD502627AA40008314A7 /* RealmManager.swift */; };
 		519EA1482630D2CF0095C3A3 /* FriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EA1472630D2CF0095C3A3 /* FriendsVC.swift */; };
 		519FA96E27C0B7DA00AD927C /* ReAuthConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519FA96D27C0B7DA00AD927C /* ReAuthConfirmationVC.swift */; };
@@ -144,7 +144,7 @@
 		51585F0D2602A3DB001D8267 /* PhoneNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberVC.swift; sourceTree = "<group>"; };
 		51585F122602A3E8001D8267 /* ConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationVC.swift; sourceTree = "<group>"; };
 		51585F172602A3FE001D8267 /* BirthdayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayVC.swift; sourceTree = "<group>"; };
-		51585F1C2602A419001D8267 /* SpecialtyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialtyVC.swift; sourceTree = "<group>"; };
+		51585F1C2602A419001D8267 /* OrientationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationVC.swift; sourceTree = "<group>"; };
 		515EDDCA26850ADC00696B8C /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		515EDDCC2685206F00696B8C /* TargetDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDemo.swift; sourceTree = "<group>"; };
 		515EDDCE26862B6700696B8C /* ReviewAskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAskViewController.swift; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		517BF3A7269AE5750044DE61 /* CompareReviewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		517BF3A8269AE5780044DE61 /* CompareReviewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareReviewsTableViewController.swift; sourceTree = "<group>"; };
 		517BF3AB269AFAD00044DE61 /* CompareReviewDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareReviewDetailsViewController.swift; sourceTree = "<group>"; };
-		518DBD1E26277D13008314A7 /* CQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CQViewController.swift; sourceTree = "<group>"; };
+		518DBD1E26277D13008314A7 /* SendToFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToFriendsVC.swift; sourceTree = "<group>"; };
 		518DBD502627AA40008314A7 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		519EA1472630D2CF0095C3A3 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
 		519FA96D27C0B7DA00AD927C /* ReAuthConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthConfirmationVC.swift; sourceTree = "<group>"; };
@@ -334,7 +334,7 @@
 				51585F0D2602A3DB001D8267 /* PhoneNumberVC.swift */,
 				51585F122602A3E8001D8267 /* ConfirmationVC.swift */,
 				51585F172602A3FE001D8267 /* BirthdayVC.swift */,
-				51585F1C2602A419001D8267 /* SpecialtyVC.swift */,
+				51585F1C2602A419001D8267 /* OrientationVC.swift */,
 				51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */,
 				51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */,
 				514C47BA27B87AE800796DEC /* forgot */,
@@ -401,7 +401,7 @@
 				51E61DAA2684C8DD000D6B30 /* ComparePreviewViewController.swift */,
 				51E50E52267FDD510055CCC1 /* EditQuestionVC.swift */,
 				51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */,
-				518DBD1E26277D13008314A7 /* CQViewController.swift */,
+				518DBD1E26277D13008314A7 /* SendToFriendsVC.swift */,
 			);
 			path = question;
 			sourceTree = "<group>";
@@ -834,7 +834,7 @@
 				515EDDD326865CF900696B8C /* BlueVC.swift in Sources */,
 				510A324F262CF216004F48BA /* QFriendCell.swift in Sources */,
 				510BB24C26225975001B6B63 /* ProfileVC.swift in Sources */,
-				51585F1D2602A419001D8267 /* SpecialtyVC.swift in Sources */,
+				51585F1D2602A419001D8267 /* OrientationVC.swift in Sources */,
 				517BF3842694C5970044DE61 /* AskTableViewCell.swift in Sources */,
 				51E50E57267FDED70055CCC1 /* DataModels.swift in Sources */,
 				51B8100D26190C0800F173BB /* FriendCell.swift in Sources */,
@@ -857,7 +857,7 @@
 				51796FBD260D1EF80093E18B /* Constants.swift in Sources */,
 				5111900B25FE9C2000AFE7C1 /* LoginVC.swift in Sources */,
 				51320025260E00CA00DA4C5A /* UIViewController+Ext.swift in Sources */,
-				518DBD1F26277D13008314A7 /* CQViewController.swift in Sources */,
+				518DBD1F26277D13008314A7 /* SendToFriendsVC.swift in Sources */,
 				517BF3A1269AD0880044DE61 /* AskReviewsTableViewController.swift in Sources */,
 				517BF393269920F80044DE61 /* ActiveQuestion.swift in Sources */,
 				51F7C34C26AE272C0065F9BE /* PrioritizedQuestion.swift in Sources */,

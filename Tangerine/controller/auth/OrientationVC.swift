@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseAuth
 import FirebaseDatabase
 
-class SpecialtyVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class OrientationVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: UI Items
     var specialtyPicker: UIPickerView!
