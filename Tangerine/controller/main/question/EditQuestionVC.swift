@@ -841,8 +841,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // the current image needs to be taken care of
 
         // prepare for segue to the Add Friends view - named CQViewController for some reason)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "cq_vc") as! SendToFriendsVC
+        
+        let vc = SendToFriendsVC()
         vc.modalPresentationStyle = .fullScreen
         
         // Send the ask
