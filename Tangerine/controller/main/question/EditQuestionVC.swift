@@ -37,8 +37,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     //@IBOutlet weak var returnToZoomButton: UIButton!
     /// displays to let the user know that the image is being blurred while they long tap on it
     @IBOutlet weak var blurringInProgressLabel: UILabel!
+    
+    /// Adds a comparision image or toggles between two compare images
+    @IBOutlet weak var compareToggleButton: UIButton!
+    
+    /// Deprecated- will be removed
     @IBOutlet weak var addCompareButton: UIButton! // appears as 2
     @IBOutlet weak var reduceToAskButton: UIButton! // appears as a 1
+    
     @IBOutlet weak var mirrorCaptionButton: UIButton!
     @IBOutlet weak var centerFlexibleSpace: UIBarButtonItem!
     
@@ -150,7 +156,15 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             helpAskOrCompareLabel.text = makeCompareHelpMessage
 
             publishButton.setImage(#imageLiteral(resourceName: "square-arrow.png"), for: UIControl.State.normal)
-
+            
+            // START HERE: _____________________________
+            
+//            if let titleLabel = compareToggleButton.currentAttributedTitle {
+//                titleLabel.text = "Compare With"
+//            }
+            // then change the image to the camera icon, then move down to the otehr creation phase options and make the image and title blank (probably easier than setting up these programatically)
+            
+            // --------------------------------
             
             
         case .secondPhotoTaken:
@@ -159,9 +173,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             titleHasBeenTapped = false
             addCompareButton.isHidden = true
             reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
-            otherImageThumbnail.isHidden = false //we want them to focus on making image2 right now, no thumbnail
-            otherImageThumbnail.alpha = 0.7
-            otherImageThumbnail.isEnabled = false
+            otherImageThumbnail.isHidden = false //we want them to focus on making image2 right now, no thumbnail //this has been updated
+            otherImageThumbnail.alpha = 0.7 //change to 1.0
+            otherImageThumbnail.isEnabled = false //change to true
             topImageIndicator.isHidden = false
             topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
             bottomImageIndicator.isHidden  = false
@@ -491,6 +505,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     @IBAction func otherImageThumbnailTapped(_ sender: Any) {
+        toggleCompareImage()
+    }
+    
+    func toggleCompareImage() {
         switch currentCompare.creationPhase {
         case .secondPhotoTaken:
             // MARK need something here to acknowledge image was tapped but we're not doing anything
@@ -987,18 +1005,26 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
         }
     }
+
     // This is similar to publish except it puts some data on hold and then takes the user back to the avCamera to add a second picture.
-    @IBAction func compareButtonTapped(_ sender: Any) {
-        print("Compare")
-        currentCompare.isAsk = false // all this means is that the system now knows we're creating a Compare (with two images). Probably could be named better.
+    @IBAction func compareToggleButtonTapped(_ sender: Any) {
         
-        actionYes = UIAlertAction(title: "Leave Blank", style: .default) {
-            UIAlertAction in
-            currentTitle = "(no title)"
+        if currentCompare.isAsk == true {
+            print("Compare")
+            currentCompare.isAsk = false // all this means is that the system now knows we're creating a Compare (with two images). Probably could be named better.
             
-            self.createHalfOfCompare()
+            actionYes = UIAlertAction(title: "Leave Blank", style: .default) {
+                UIAlertAction in
+                currentTitle = "(no title)"
+                
+                self.createHalfOfCompare()
+            }
+            finishEditing(whatToCreate: .compare)
+        } else {
+            toggleCompareImage()
         }
-        finishEditing(whatToCreate: .compare)
+        
+
     }
     
     

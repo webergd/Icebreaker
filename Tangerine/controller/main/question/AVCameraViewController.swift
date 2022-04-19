@@ -591,7 +591,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             //first photo was already taken so we will store this one as the second image
             currentCompare.imageBeingEdited2 = iBE
             
-            currentCompare.creationPhase = .secondPhotoTaken //update the creationPhase flag se we know the 2nd image has also been taken
+            ///used to set .secondPhotoTaken but changed this because we want user to be able to edit both photos right away.
+            currentCompare.creationPhase = .reEditingSecondPhoto//.secondPhotoTaken //update the creationPhase flag se we know the 2nd image has also been taken
             //whatToCreate = .ask // The next time EditQuestionVC loads, it will be ready to create an ask unless user taps compareButton
             
         case .noPhotoTaken: //Store image1
