@@ -835,7 +835,7 @@ Date of last revision: October 25, 2021
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xtD-NJ-Hcm">
-                                <rect key="frame" x="83.5" y="438" width="150" height="30"/>
+                                <rect key="frame" x="85" y="438" width="150" height="30"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="AyV-NS-Ef3"/>
@@ -848,7 +848,7 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ury-iq-LWw">
-                                <rect key="frame" x="50" y="165" width="217" height="50"/>
+                                <rect key="frame" x="50" y="165" width="220" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tGI-1q-5Po">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="50"/>
@@ -860,27 +860,27 @@ Date of last revision: October 25, 2021
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ncJ-0Z-66D">
-                                        <rect key="frame" x="37" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="37.5" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yol-hl-Y7b">
-                                        <rect key="frame" x="74" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="75" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HoP-Oh-wgJ">
-                                        <rect key="frame" x="111" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="113" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pQ5-un-e2U">
-                                        <rect key="frame" x="148" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="150.5" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jFY-NR-5np">
-                                        <rect key="frame" x="185" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="188" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
@@ -900,25 +900,25 @@ Date of last revision: October 25, 2021
                                 </constraints>
                             </stackView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="That's not the right code!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sA-72-HKN">
-                                <rect key="frame" x="20" y="235" width="277" height="20.5"/>
+                                <rect key="frame" x="20" y="235" width="280" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Confirmation Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KHh-wI-wXS">
-                                <rect key="frame" x="50" y="94" width="217" height="20.5"/>
+                                <rect key="frame" x="50" y="94" width="220" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZvP-MR-Mc5">
-                                <rect key="frame" x="50" y="124.5" width="217" height="20.5"/>
+                                <rect key="frame" x="50" y="124.5" width="220" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="6" currentPage="3" translatesAutoresizingMaskIntoConstraints="NO" id="4bE-F0-EuX">
-                                <rect key="frame" x="75" y="44" width="167.5" height="26"/>
+                                <rect key="frame" x="76.5" y="44" width="167.5" height="26"/>
                                 <color key="pageIndicatorTintColor" systemColor="systemGrayColor"/>
                                 <color key="currentPageIndicatorTintColor" systemColor="systemOrangeColor"/>
                             </pageControl>
@@ -3414,6 +3414,7 @@ Date of last revision: October 25, 2021
                                         </constraints>
                                     </imageView>
                                 </subviews>
+                                <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
                                 <constraints>
                                     <constraint firstItem="gTl-gl-dDI" firstAttribute="width" secondItem="Uj3-PS-3tI" secondAttribute="height" multiplier="1:1" id="79k-49-elz"/>
                                     <constraint firstItem="gTl-gl-dDI" firstAttribute="leading" secondItem="Uj3-PS-3tI" secondAttribute="leading" id="9TR-wo-85R"/>
@@ -3520,15 +3521,16 @@ Date of last revision: October 25, 2021
                                     <outlet property="delegate" destination="htq-oV-YgK" id="BYl-fp-sg8"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-a9-8dG">
-                                <rect key="frame" x="0.0" y="325.5" width="48" height="36.5"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="trash.circle.fill" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font" scale="large" weight="bold">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="destructive" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-a9-8dG">
+                                <rect key="frame" x="76" y="405.5" width="48" height="29.5"/>
+                                <color key="tintColor" systemColor="systemRedColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <size key="titleShadowOffset" width="1" height="1"/>
+                                <state key="normal" image="trash.circle.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" scale="large" weight="bold">
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                     </preferredSymbolConfiguration>
-                                </buttonConfiguration>
+                                </state>
                                 <connections>
                                     <action selector="deleteThumbnailButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="KHP-XN-Ao2"/>
                                 </connections>
@@ -3544,10 +3546,13 @@ Date of last revision: October 25, 2021
                                         <integer key="value" value="8"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addCaptionButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="Z3x-hM-eGZ"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJI-2o-lnF" userLabel="upperSpacerView">
                                 <rect key="frame" x="142.5" y="388" width="35" height="0.0"/>
-                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="64" id="Fml-1j-VZd"/>
                                 </constraints>
@@ -3570,19 +3575,25 @@ Date of last revision: October 25, 2021
                                     <attributedString key="attributedTitle">
                                         <fragment content="Compare With">
                                             <attributes>
-                                                <font key="NSFont" size="9" name="Helvetica"/>
+                                                <font key="NSFont" size="14" name="Helvetica"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
+                                    <directionalEdgeInsets key="contentInsets" top="4" leading="0.0" bottom="4" trailing="0.0"/>
                                 </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="compareToggleButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="fkg-FC-gws"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQO-Zt-1xu" userLabel="lowerSpacerView">
                                 <rect key="frame" x="142.5" y="452" width="35" height="0.0"/>
-                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgT-Fd-9N3" userLabel="PublishButton">
                                 <rect key="frame" x="105.5" y="452" width="109" height="48"/>
@@ -3605,7 +3616,7 @@ Date of last revision: October 25, 2021
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="8eO-M3-DMN"/>
                                     <barButtonItem title="Item" style="plain" id="b6B-y9-QDp">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zii-Fl-nwT">
-                                            <rect key="frame" x="67.5" y="0.0" width="48" height="44"/>
+                                            <rect key="frame" x="80.5" y="0.0" width="48" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="question circle blue"/>
                                             <connections>
@@ -3615,26 +3626,9 @@ Date of last revision: October 25, 2021
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="whD-zb-XAT"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="OPs-kj-ywf"/>
-                                    <barButtonItem image="square-1" style="plain" id="7Qi-uL-w4g">
-                                        <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UUN-BR-Tw1">
-                                            <rect key="frame" x="123" y="2" width="32" height="40"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <state key="normal" image="CameraX1icon"/>
-                                            <connections>
-                                                <action selector="reduceToAskButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="Zwm-eJ-iH3"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" id="k0l-XF-my3">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Fih-We-VEj">
-                                            <rect key="frame" x="155" y="0.0" width="32" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <state key="normal" image="CameraX2icon"/>
-                                        </button>
-                                    </barButtonItem>
                                     <barButtonItem style="plain" id="GqO-hj-aUU">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bmK-bq-jck">
-                                            <rect key="frame" x="187" y="11" width="21.5" height="22"/>
+                                            <rect key="frame" x="161.5" y="11" width="21.5" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <accessibility key="accessibilityConfiguration" identifier="enableBlurring"/>
                                             <state key="normal" image="person.wave.2" catalog="system"/>
@@ -3645,7 +3639,7 @@ Date of last revision: October 25, 2021
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="iDX-8Z-x7l">
                                         <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PmH-6G-spq">
-                                            <rect key="frame" x="208.5" y="11" width="19" height="22"/>
+                                            <rect key="frame" x="183" y="11" width="19" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="person" catalog="system"/>
                                             <connections>
@@ -3656,7 +3650,7 @@ Date of last revision: October 25, 2021
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="jac-4U-0AU"/>
                                     <barButtonItem style="plain" id="e0I-aR-Ohi">
                                         <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C74-K5-x0i">
-                                            <rect key="frame" x="231.5" y="2" width="29" height="40"/>
+                                            <rect key="frame" x="218.5" y="2" width="29" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="rectangle.and.pencil.and.ellipsis" catalog="system"/>
                                             <connections>
@@ -3711,9 +3705,10 @@ Date of last revision: October 25, 2021
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Mw1-wG-myY"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="aHj-J9-xEO" firstAttribute="width" secondItem="tcj-Ge-v93" secondAttribute="width" id="1ha-fW-iLt"/>
+                            <constraint firstItem="3ed-a9-8dG" firstAttribute="centerY" secondItem="tcj-Ge-v93" secondAttribute="centerY" id="1yl-KM-vdj"/>
                             <constraint firstItem="teb-yz-XMi" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" multiplier="0.35" id="2SO-Vh-x8l"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="top" secondItem="mEb-1g-pRd" secondAttribute="bottom" constant="10" id="4Bs-AV-O1j"/>
                             <constraint firstItem="uQO-Zt-1xu" firstAttribute="height" secondItem="xJI-2o-lnF" secondAttribute="height" id="4qS-Os-FXx"/>
@@ -3721,7 +3716,7 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="Mw1-wG-myY" firstAttribute="trailing" secondItem="8jP-xj-wJv" secondAttribute="trailing" id="5eb-B5-nRp"/>
                             <constraint firstItem="bwv-eL-4Tr" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" multiplier="0.5" id="6e6-yp-n4e"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="top" secondItem="teb-yz-XMi" secondAttribute="bottom" constant="5" id="7Ox-Vy-ODC"/>
-                            <constraint firstItem="aHj-J9-xEO" firstAttribute="width" secondItem="Uj3-PS-3tI" secondAttribute="width" multiplier="0.2" id="7U8-L5-g29"/>
+                            <constraint firstItem="aHj-J9-xEO" firstAttribute="width" relation="lessThanOrEqual" secondItem="Uj3-PS-3tI" secondAttribute="width" multiplier="0.2" id="7U8-L5-g29"/>
                             <constraint firstItem="tcj-Ge-v93" firstAttribute="top" secondItem="aHj-J9-xEO" secondAttribute="top" id="88T-Xc-sHQ"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="top" secondItem="bgT-Fd-9N3" secondAttribute="bottom" constant="8" id="8Ka-XW-kkb"/>
                             <constraint firstItem="tcj-Ge-v93" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="8UX-5O-XeB"/>
@@ -3729,6 +3724,7 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="Uj3-PS-3tI" firstAttribute="top" secondItem="gzl-lt-Evo" secondAttribute="bottom" id="Bi0-SA-qAU"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="leading" secondItem="bgT-Fd-9N3" secondAttribute="leading" constant="8" id="C7U-n8-fXP"/>
                             <constraint firstItem="gTl-gl-dDI" firstAttribute="width" secondItem="xbl-OG-Mjj" secondAttribute="width" id="DCy-QZ-jYg"/>
+                            <constraint firstItem="tcj-Ge-v93" firstAttribute="leading" secondItem="3ed-a9-8dG" secondAttribute="trailing" constant="4" id="DqK-pL-D3H"/>
                             <constraint firstItem="bwv-eL-4Tr" firstAttribute="top" secondItem="Uj3-PS-3tI" secondAttribute="bottom" constant="2" id="ERr-4y-yeG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Uj3-PS-3tI" secondAttribute="trailing" id="HiX-sN-Vnd"/>
                             <constraint firstItem="yaA-n3-1BA" firstAttribute="centerY" secondItem="Uj3-PS-3tI" secondAttribute="centerY" id="Kmh-PZ-xdm"/>
@@ -3741,12 +3737,10 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="bwv-eL-4Tr" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="QnF-XE-ibS"/>
                             <constraint firstItem="bwv-eL-4Tr" firstAttribute="height" secondItem="RK8-0K-0Pr" secondAttribute="height" multiplier="0.8" id="RA0-3B-s85"/>
                             <constraint firstItem="bgT-Fd-9N3" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="RNk-XN-XUP"/>
-                            <constraint firstItem="3ed-a9-8dG" firstAttribute="leading" secondItem="Mw1-wG-myY" secondAttribute="leading" id="Rcf-rJ-GdZ"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="top" secondItem="Cae-X5-9Ag" secondAttribute="bottom" id="ReY-2N-JMy"/>
                             <constraint firstItem="gzl-lt-Evo" firstAttribute="top" secondItem="sVJ-Wy-wf7" secondAttribute="bottom" priority="999" id="ST9-Nf-0YV"/>
                             <constraint firstItem="RK8-0K-0Pr" firstAttribute="width" secondItem="xbl-OG-Mjj" secondAttribute="width" id="Tzn-fS-kpf"/>
                             <constraint firstItem="mEb-1g-pRd" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="UV3-UG-vwE"/>
-                            <constraint firstItem="Mw1-wG-myY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3ed-a9-8dG" secondAttribute="trailing" symbolic="YES" id="Uty-BJ-uv2"/>
                             <constraint firstItem="gTl-gl-dDI" firstAttribute="width" secondItem="xbl-OG-Mjj" secondAttribute="width" id="VcY-L8-A0N"/>
                             <constraint firstItem="xJI-2o-lnF" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="Wdo-Ry-mN3"/>
                             <constraint firstItem="gzl-lt-Evo" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="XaC-zD-xLo"/>
@@ -3757,7 +3751,6 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="uQO-Zt-1xu" firstAttribute="width" secondItem="xJI-2o-lnF" secondAttribute="width" id="aJm-v4-OTB"/>
                             <constraint firstItem="gzl-lt-Evo" firstAttribute="width" secondItem="xbl-OG-Mjj" secondAttribute="width" id="bWP-Ct-hmz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Uj3-PS-3tI" secondAttribute="trailing" id="dR7-Xd-ocH"/>
-                            <constraint firstItem="3ed-a9-8dG" firstAttribute="bottom" secondItem="Uj3-PS-3tI" secondAttribute="bottom" id="eKS-rB-T3F"/>
                             <constraint firstItem="RK8-0K-0Pr" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="fPm-ZL-dgM"/>
                             <constraint firstItem="yaA-n3-1BA" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" id="flW-VQ-Fs7"/>
                             <constraint firstItem="Uj3-PS-3tI" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="ggl-bf-MpK"/>
@@ -3789,7 +3782,7 @@ Date of last revision: October 25, 2021
                     </view>
                     <navigationItem key="navigationItem" id="5UT-1h-svu"/>
                     <connections>
-                        <outlet property="addCompareButton" destination="Fih-We-VEj" id="h3W-Tv-sDd"/>
+                        <outlet property="addCaptionButton" destination="bwv-eL-4Tr" id="hzl-Pm-5NX"/>
                         <outlet property="blurringInProgressLabel" destination="mEb-1g-pRd" id="KUU-ME-Crz"/>
                         <outlet property="bottomImageIndicator" destination="Hkd-LA-rmR" id="eUJ-UP-GTx"/>
                         <outlet property="captionTextField" destination="RK8-0K-0Pr" id="WvV-Gk-nPL"/>
@@ -3809,7 +3802,6 @@ Date of last revision: October 25, 2021
                         <outlet property="publishButton" destination="Aor-aq-xe9" id="taD-EO-tfx"/>
                         <outlet property="publishOrPreviewLabel" destination="Cae-X5-9Ag" id="vzU-I6-rUY"/>
                         <outlet property="questionTypeLabel" destination="sVJ-Wy-wf7" id="lPc-sD-Cqx"/>
-                        <outlet property="reduceToAskButton" destination="UUN-BR-Tw1" id="h7L-fg-dxl"/>
                         <outlet property="scrollView" destination="Uj3-PS-3tI" id="72e-gW-7cU"/>
                         <outlet property="titleTextField" destination="gzl-lt-Evo" id="Wvg-R9-T20"/>
                         <outlet property="topImageIndicator" destination="QzW-RH-GLS" id="qJE-5J-lbT"/>
@@ -7900,8 +7892,6 @@ Tap the image that you think this person should go with.
     </scenes>
     <resources>
         <image name="CameraFlip2_white" width="512" height="512"/>
-        <image name="CameraX1icon" width="32" height="32"/>
-        <image name="CameraX2icon" width="32" height="32"/>
         <image name="Heart Black 2" width="160" height="160"/>
         <image name="Heart Half Yellow" width="120" height="120"/>
         <image name="Heart White" width="160" height="160"/>
@@ -7910,7 +7900,7 @@ Tap the image that you think this person should go with.
         <image name="Tangerine_Icon_blue_grad" width="450" height="454"/>
         <image name="Xsmall_white" width="512" height="512"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
-        <image name="arrow.right.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="arrow.right.circle.fill" catalog="system" width="32" height="32"/>
         <image name="arrow_white" width="512" height="512"/>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
         <image name="camera.badge.ellipsis" catalog="system" width="128" height="92"/>
@@ -7942,7 +7932,6 @@ Tap the image that you think this person should go with.
         <image name="share_photo_icon" width="341" height="341"/>
         <image name="speech_bubble" width="40" height="40"/>
         <image name="square arrow left" width="40" height="40"/>
-        <image name="square-1" width="40" height="40"/>
         <image name="square-arrow" width="40" height="40"/>
         <image name="square-icon_white" width="512" height="512"/>
         <image name="swipe_right" width="96" height="96"/>
@@ -7954,6 +7943,9 @@ Tap the image that you think this person should go with.
         </systemColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondarySystemGroupedBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -7975,6 +7967,9 @@ Tap the image that you think this person should go with.
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemFillColor">
+            <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

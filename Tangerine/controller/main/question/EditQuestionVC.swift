@@ -42,9 +42,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var compareToggleButton: UIButton!
     
     /// Deprecated- will be removed
-    @IBOutlet weak var addCompareButton: UIButton! // appears as 2
-    @IBOutlet weak var reduceToAskButton: UIButton! // appears as a 1
+//    @IBOutlet weak var addCompareButton: UIButton! // appears as 2
+//    @IBOutlet weak var reduceToAskButton: UIButton! // appears as a 1
     
+    @IBOutlet weak var addCaptionButton: UIButton!
     @IBOutlet weak var mirrorCaptionButton: UIButton!
     @IBOutlet weak var centerFlexibleSpace: UIBarButtonItem!
     
@@ -134,6 +135,27 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
+        // adds a border to the scrollView around the photo being edited
+        scrollView.layer.borderWidth = 1
+        scrollView.layer.borderColor = UIColor.separator.cgColor
+        
+        // adds a dotted outline to the compareToggleButton
+//        var yourViewBorder = CAShapeLayer()
+//        yourViewBorder.strokeColor = UIColor.black.cgColor
+//        yourViewBorder.lineDashPattern = [2, 2]
+//        yourViewBorder.frame = otherImageThumbnail.bounds
+//        yourViewBorder.fillColor = nil
+//        yourViewBorder.path = UIBezierPath(rect: otherImageThumbnail.bounds).cgPath
+//        compareToggleButton.layer.addSublayer(yourViewBorder)
+        
+        
+
+        
+        
+//        compareToggleButton.layer.borderWidth = 1
+//        compareToggleButton.layer.borderColor = UIColor.separator.cgColor
+        
+        
         //Now we check to see which image to display
         
         switch currentCompare.creationPhase {
@@ -144,8 +166,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             resetTitleTextField()
             titleHasBeenTapped = false
-            addCompareButton.isHidden = false // give the user the option to create a compare
-            reduceToAskButton.isHidden = true
+//            addCompareButton.isHidden = false // give the user the option to create a compare
+//            reduceToAskButton.isHidden = true
             otherImageThumbnail.isHidden = true //if it's a single image, there will be no other image to show a thumbnail of
             topImageIndicator.isHidden = false
             topImageIndicator.alpha = 1.0
@@ -159,20 +181,31 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             // START HERE: _____________________________
             
-//            if let titleLabel = compareToggleButton.currentAttributedTitle {
-//                titleLabel.text = "Compare With"
-//            }
-            // then change the image to the camera icon, then move down to the otehr creation phase options and make the image and title blank (probably easier than setting up these programatically)
+            print("loading attributed title")
             
-            // --------------------------------
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
+            let buttonTitleAttributes: [NSAttributedString.Key : Any] = [
+                .font : UIFont.systemFont(ofSize: 14),
+                .paragraphStyle : paragraphStyle,
+                // need to set content insets to 0 (unless that's not part of the string
+
+            ]
+            
+            // set compareToggleButton text and image up to give user the option to add a second image
+            let attributedTitle = NSAttributedString(string: "Compare With", attributes: buttonTitleAttributes)
+            compareToggleButton.setAttributedTitle(attributedTitle, for: .normal)
+            compareToggleButton.setImage(UIImage(systemName: "camera.badge.ellipsis"), for: .normal)
+
             
             
         case .secondPhotoTaken:
             load(image: .two)
             resetTitleTextField()
             titleHasBeenTapped = false
-            addCompareButton.isHidden = true
-            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
+//            addCompareButton.isHidden = true
+//            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
             otherImageThumbnail.isHidden = false //we want them to focus on making image2 right now, no thumbnail //this has been updated
             otherImageThumbnail.alpha = 0.7 //change to 1.0
             otherImageThumbnail.isEnabled = false //change to true
@@ -186,13 +219,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
-            
-            
+            // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
+            compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+            compareToggleButton.setImage(UIImage(systemName:"square.and.pencil"), for: .normal)
             
         case .reEditingFirstPhoto:
             load(image: .one)
-            addCompareButton.isHidden = true
-            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
+//            addCompareButton.isHidden = true
+//            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
             otherImageThumbnail.isHidden = false //displays the thumbnail
             otherImageThumbnail.alpha = 1.0
             otherImageThumbnail.isEnabled = true
@@ -205,10 +239,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             helpAskOrCompareLabel.text = revertToAskHelpMessage
             publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
+            // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
+            compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+            compareToggleButton.setImage(UIImage(systemName:"square.and.pencil"), for: .normal)
+            
         case .reEditingSecondPhoto:
             load(image: .two)
-            addCompareButton.isHidden = true
-            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
+//            addCompareButton.isHidden = true
+//            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
             otherImageThumbnail.isHidden = false //displays the thumbnail
             otherImageThumbnail.alpha = 1.0
             otherImageThumbnail.isEnabled = true
@@ -220,6 +258,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
             publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
+            
+            // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
+            compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+            compareToggleButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
             
         case .noPhotoTaken: //this should never happen
             print("Error in EditQuestionVC.ViewWillAppear: creationPhase is .noPhotoTaken, something went wrong.")
@@ -242,6 +284,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         titleHasBeenTapped = false
         
         otherImageThumbnail.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
+        
+        deleteThumbnailButton.addShadow()
         
         self.enableBlurringButton.isHidden = false
         self.clearBlursButton.isHidden = !blursAddedByEditor
@@ -313,6 +357,17 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if currentCompare.creationPhase == .firstPhotoTaken {
+            //add border to button if there is no thumbnail
+            compareToggleButton.addDashedBorder()
+        }
+        
+        compareToggleButton.layer.cornerRadius = 5
+        otherImageThumbnail.layer.cornerRadius = 5
+    }
+    
     
     // The next 3 methods (loadImage and the two unpacks) work together to load the correct properties into the EditQuestionVC
     func load(image number: oneOrTwo) {
@@ -367,13 +422,53 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         otherImageThumbnail.setImage(iBE.iBEimageBlurredCropped, for: .normal)
     }
     
+    
+    
     ///Enables tap on image to show caption (2 of 2):
     @objc func userTappedImage(_ tapImageGesture: UITapGestureRecognizer){
         captionTextField.translatesAutoresizingMaskIntoConstraints = false
         tappedLoc = tapImageGesture.location(in: self.view)
         //print("User tapped: \(tappedLoc)")
         
+        
+        
+        addCaption(at: tappedLoc)
+        
+//        if captionTextField.isHidden == true && titleTextField.isEditing == false {
+//            // Show the captionTextField:
+//            captionTextField.isHidden = false
+//            // Position the captionTextField where the user tapped:
+//            self.captionTextFieldTopConstraint.constant = tappedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight)
+//            captionTextField.becomeFirstResponder()
+//            //self.captionTextField.center.y = tappedLoc.y
+//            if titleTextField.text == enterTitleConstant {
+//                mirrorCaptionButton.isHidden = false
+//                centerFlexibleSpace.isEnabled = true
+//            }
+//
+//        } else {
+//            // if the caption is displayed and the user taps the image, dismiss the keyboard
+//            if captionTextField.text == "" {
+//                mirrorCaptionButton.isHidden = true
+//                centerFlexibleSpace.isEnabled = false
+//            }
+//            view.endEditing(true)
+//        }
+    }
+    @IBAction func addCaptionButtonTapped(_ sender: Any) {
+        print("add caption button tapped")
+        
+        let centerPoint = scrollView.center
+        addCaption(at: centerPoint)
+        
+
+        
+    }
+    
+    func addCaption(at tappedLoc: CGPoint) {
         if captionTextField.isHidden == true && titleTextField.isEditing == false {
+            //hide the addCaption button
+            addCaptionButton.isHidden = true
             // Show the captionTextField:
             captionTextField.isHidden = false
             // Position the captionTextField where the user tapped:
@@ -390,6 +485,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             if captionTextField.text == "" {
                 mirrorCaptionButton.isHidden = true
                 centerFlexibleSpace.isEnabled = false
+                addCaptionButton.isHidden = false
             }
             view.endEditing(true)
         }
@@ -450,6 +546,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.captionTextField.isHidden = true
             mirrorCaptionButton.isHidden = true
             centerFlexibleSpace.isEnabled = false
+            addCaptionButton.isHidden = false
         }
         
         //this makes the text box movement animated so it looks smoother:
@@ -524,9 +621,15 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             print("Error in EditQuestionVC.otherImageThumbnailTapped: unexpected enum value for currentCompare.creationPhase")
         }
         
+
+        
         self.viewWillAppear(false)
         self.viewDidLoad()
         self.viewDidAppear(false)
+        
+        // this was my unsuccessful attempt the round the corners of the thumbnail even when the image was zoomed in all the way and thus a full square
+        compareToggleButton.layer.cornerRadius = 5
+        otherImageThumbnail.layer.cornerRadius = 5
     }
     
     // this should be renamed to autoBlurFaces, because that's really what it does
@@ -1005,7 +1108,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
         }
     }
-
+ 
     // This is similar to publish except it puts some data on hold and then takes the user back to the avCamera to add a second picture.
     @IBAction func compareToggleButtonTapped(_ sender: Any) {
         
@@ -1029,7 +1132,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     @IBAction func deleteThumbnailButtonTapped(_ sender: Any) {
-        reduceToAskButtonTapped(self)
+        reduceToAsk()
     }
     
     
@@ -1061,7 +1164,35 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     /// This button should be hidden at the onset and unhidden when 2 is hidden. Any time the 2 is unhidden, this should be hidden again.
-    @IBAction func reduceToAskButtonTapped(_ sender: Any) {
+//    @IBAction func reduceToAskButtonTapped(_ sender: Any) {
+//        print("Reduced")
+//        //-Store the current iBE to currentCompare.imageBeingEdited1
+//        currentCompare.imageBeingEdited1 = createImageBeingEdited()
+//        //-Store nil to currentCompare.ImageBeingEdited2
+//        currentCompare.imageBeingEdited2 = nil
+//        //-Change the flag to .firstPhotoTaken
+//        currentCompare.creationPhase = .firstPhotoTaken
+//        //-Set isAsk to true
+//        currentCompare.isAsk = true
+//        //-Reload all three view methods
+//        viewWillAppear(false)
+//        viewDidLoad()
+//        viewDidAppear(false)
+//
+//        // Without this the title text field just resets because we called ViewDidAppear after switching the flag to .firstPhotoTaken
+//        if let iBE = currentCompare.imageBeingEdited1 {
+//            titleTextField.text = iBE.iBEtitle
+//            if titleTextFieldIsBlank == false {
+//                // if the title is not blank, then:
+//                titleTextField.textColor = .label
+//            } else { //aka if tTF is one of the 3 blank conditions:
+//                titleTextField.text = enterTitleConstant
+//                //titleTextField.textColor should already be gray
+//            }
+//        }
+//    }
+    
+    func reduceToAsk() {
         print("Reduced")
         //-Store the current iBE to currentCompare.imageBeingEdited1
         currentCompare.imageBeingEdited1 = createImageBeingEdited()
@@ -1156,42 +1287,48 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
          * ************************************** */
         
         //This causes the system to bypass the title checker if the user has come back from ComparePreviewViewController to edit
-        if currentCompare.creationPhase == .reEditingFirstPhoto || currentCompare.creationPhase == .reEditingSecondPhoto {
+//        if currentCompare.creationPhase == .reEditingFirstPhoto || currentCompare.creationPhase == .reEditingSecondPhoto {
+//            createHalfOfCompare()
+//            return
+//        }
+//
+//        if let title = titleTextField.text {
+//            if titleTextFieldIsBlank == true {
+//                let alertController = UIAlertController(title: "You Didn't Enter A Title", message: "It's Recommended but Not Required", preferredStyle: .actionSheet)
+//
+//                // the following code is added to fix crash on iPad : 03 Oct, MM
+//                if let popoverController = alertController.popoverPresentationController {
+//                    popoverController.sourceView = self.view
+//                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+//                }
+//
+//                let actionNo = UIAlertAction(title: "Let Me Enter One", style: .cancel) {
+//                    UIAlertAction in
+//                    self.titleTextField.becomeFirstResponder()
+//
+//                    // if user elects to go back to editing the image, we need to keep the assumption that they still might create an ask so that we don't take away the createCompare button if they navigate back to the avCamera and reload the view without creating anything
+//                }
+//                alertController.addAction(actionNo)
+//                alertController.addAction(actionYes)
+//                present(alertController, animated: true, completion: nil)
+//
+//            } else {
+        var titleToStore = "" // defaults to blank
+        if let title = titleTextField.text  {
+            titleToStore = title
+        }
+            
+        currentTitle = titleToStore
+        if whatToCreate == .ask {
+            print("finish editing | create ask")
+            createAsk()
+        } else if whatToCreate == .compare {
+            print("finish editing | create half of compare")
             createHalfOfCompare()
-            return
         }
         
-        if let title = titleTextField.text {
-            if titleTextFieldIsBlank == true {
-                let alertController = UIAlertController(title: "You Didn't Enter A Title", message: "It's Recommended but Not Required", preferredStyle: .actionSheet)
-                
-                // the following code is added to fix crash on iPad : 03 Oct, MM
-                if let popoverController = alertController.popoverPresentationController {
-                    popoverController.sourceView = self.view
-                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                }
-                
-                let actionNo = UIAlertAction(title: "Let Me Enter One", style: .cancel) {
-                    UIAlertAction in
-                    self.titleTextField.becomeFirstResponder()
-                    
-                    // if user elects to go back to editing the image, we need to keep the assumption that they still might create an ask so that we don't take away the createCompare button if they navigate back to the avCamera and reload the view without creating anything
-                }
-                alertController.addAction(actionNo)
-                alertController.addAction(actionYes)
-                present(alertController, animated: true, completion: nil)
-                
-            } else {
-                currentTitle = title
-                if whatToCreate == .ask {
-                    print("finish editing | create ask")
-                    createAsk()
-                } else if whatToCreate == .compare {
-                    print("finish editing | create half of compare")
-                    createHalfOfCompare()
-                }
-            }
-        }
+//            }
+//        }
     }
     
     func returnToAVCameraViewController() {
