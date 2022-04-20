@@ -4125,10 +4125,10 @@ time remaining is zero. </string>
             </objects>
             <point key="canvasLocation" x="14617" y="-1698"/>
         </scene>
-        <!--BlueVC-->
+        <!--Review OthersVC-->
         <scene sceneID="gtd-fh-f2w">
             <objects>
-                <viewController storyboardIdentifier="blue_vc" id="rqR-Xh-EVG" customClass="BlueVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="blue_vc" id="rqR-Xh-EVG" customClass="ReviewOthersVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JXC-ZP-RdK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

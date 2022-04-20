@@ -1432,6 +1432,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
 
 
 /// to fetch a UIImage from firebase gs and set the UIImageView
+/// filename: to save in storage, path: firebase storage path
 public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: String?,asThumb isThumb:Bool = false, completion: @escaping (UIImage?,Error?) -> Void ){
     
     // need to check if it is a thumb or not, based on that we'll know if we are calling it from AskTableVC
@@ -1451,7 +1452,6 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
         if let path = path {
             // create the reference
             let imageRef = Storage.storage().reference(forURL: path)
-            
             
             // max size 5 MB (was 2, need a better mechanism to keep the size down in later versions)
             imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
@@ -1567,6 +1567,7 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
         
         if let _ = questionReviewed[item.question_name]{
             // found one that we reviewed, so skip it
+            print("Skipped FILTERING \(item.question_name) cause already reviewed")
             continue
         }
         

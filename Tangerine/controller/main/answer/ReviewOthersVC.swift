@@ -9,7 +9,7 @@ import UIKit
 import FirebaseFirestore
 
 
-class BlueVC: UIViewController{
+class ReviewOthersVC: UIViewController{
     
     
     /************************************************************ Organization of Code ************************************************/
@@ -213,7 +213,7 @@ class BlueVC: UIViewController{
     /// fetch next
     public func showNextQues(){
         
-        print("Showing next question OLD ID: \(filteredQuestionsToReview.first?.question.question_name)")
+        print("Showing next question : OnScreen: \(questionOnTheScreen) going to be removed \(filteredQuestionsToReview.first?.question.question_name)")
         // remove current ques if any
         if askController.question != nil || compareController.question != nil{
             print("removing top ques")
@@ -460,8 +460,7 @@ class BlueVC: UIViewController{
                 defer{
                     print("LIVE: Filtering...")
                           filterQuestionsAndPrioritize{
-                        
-                            }
+                        }
                     
                 }
                 // process the data fetched by this query:
@@ -471,7 +470,7 @@ class BlueVC: UIViewController{
                         
                         for item in snaps{
                             let doc = item.data()
-                            
+                            print("LIVE: \(doc)")
                             // create a question object
                             let question = Question(firebaseDict: doc)
                             

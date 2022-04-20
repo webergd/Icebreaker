@@ -38,7 +38,7 @@
 		515EDDCD2685206F00696B8C /* TargetDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDCC2685206F00696B8C /* TargetDemo.swift */; };
 		515EDDD026862B6900696B8C /* ReviewAskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDCE26862B6700696B8C /* ReviewAskViewController.swift */; };
 		515EDDD126862B6900696B8C /* ReviewCompareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDCF26862B6900696B8C /* ReviewCompareViewController.swift */; };
-		515EDDD326865CF900696B8C /* BlueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDD226865CF900696B8C /* BlueVC.swift */; };
+		515EDDD326865CF900696B8C /* ReviewOthersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDD226865CF900696B8C /* ReviewOthersVC.swift */; };
 		515EDDD52687863400696B8C /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDD42687863400696B8C /* Review.swift */; };
 		515EDDD72688DD8900696B8C /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515EDDD62688DD8900696B8C /* UIImage+Ext.swift */; };
 		5170DC3326370B5600F34354 /* DispatchQueue+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5170DC3226370B5600F34354 /* DispatchQueue+Ext.swift */; };
@@ -149,7 +149,7 @@
 		515EDDCC2685206F00696B8C /* TargetDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDemo.swift; sourceTree = "<group>"; };
 		515EDDCE26862B6700696B8C /* ReviewAskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAskViewController.swift; sourceTree = "<group>"; };
 		515EDDCF26862B6900696B8C /* ReviewCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewCompareViewController.swift; sourceTree = "<group>"; };
-		515EDDD226865CF900696B8C /* BlueVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueVC.swift; sourceTree = "<group>"; };
+		515EDDD226865CF900696B8C /* ReviewOthersVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewOthersVC.swift; sourceTree = "<group>"; };
 		515EDDD42687863400696B8C /* Review.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		515EDDD62688DD8900696B8C /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		5170DC3226370B5600F34354 /* DispatchQueue+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Ext.swift"; sourceTree = "<group>"; };
@@ -356,7 +356,7 @@
 		517743BF2635003700AE5BE3 /* answer */ = {
 			isa = PBXGroup;
 			children = (
-				515EDDD226865CF900696B8C /* BlueVC.swift */,
+				515EDDD226865CF900696B8C /* ReviewOthersVC.swift */,
 				515EDDCE26862B6700696B8C /* ReviewAskViewController.swift */,
 				515EDDCF26862B6900696B8C /* ReviewCompareViewController.swift */,
 			);
@@ -831,7 +831,7 @@
 				512E1A1B2622637000D0E89C /* ProfileSettingsTabBarController.swift in Sources */,
 				517BF3A2269AD0880044DE61 /* AskReviewDetailsViewController.swift in Sources */,
 				51C997DD25FBDE9000DC54B4 /* SceneDelegate.swift in Sources */,
-				515EDDD326865CF900696B8C /* BlueVC.swift in Sources */,
+				515EDDD326865CF900696B8C /* ReviewOthersVC.swift in Sources */,
 				510A324F262CF216004F48BA /* QFriendCell.swift in Sources */,
 				510BB24C26225975001B6B63 /* ProfileVC.swift in Sources */,
 				51585F1D2602A419001D8267 /* OrientationVC.swift in Sources */,

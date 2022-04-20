@@ -84,7 +84,7 @@ class MainVC: UIViewController {
         
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "blue_vc") as! BlueVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "blue_vc") as! ReviewOthersVC
         
         vc.modalPresentationStyle = .fullScreen
         
