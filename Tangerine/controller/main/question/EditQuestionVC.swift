@@ -20,6 +20,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var titleTextFieldHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var addTitleButton: UIButton!
+    
     @IBOutlet weak var captionTextField: UITextField!
     @IBOutlet weak var captionTextFieldTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var otherImageThumbnail: UIButton! // this is a button but in terms of being an outlet we will use it as an imageView
@@ -46,7 +49,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 //    @IBOutlet weak var reduceToAskButton: UIButton! // appears as a 1
     
     @IBOutlet weak var addCaptionButton: UIButton!
-    @IBOutlet weak var mirrorCaptionButton: UIButton!
     @IBOutlet weak var centerFlexibleSpace: UIBarButtonItem!
     
     @IBOutlet weak var publishOrPreviewLabel: UILabel!
@@ -87,7 +89,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var blursAddedByEditor: Bool = false
     var zoomScaleToLoad: CGFloat =  initialZoomScale
     var contentOffsetToLoad: CGPoint = initialContentOffset
-    let enterTitleConstant: String = "Enter a Private Title for Your Photo Here"
+    let enterTitleConstant: String = ""
     let inactiveImageIndicatorAlphaConstant = 0.6
     
     /// this is where we'll save the link to the profile image or any other image
@@ -179,18 +181,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
             publishButton.setImage(#imageLiteral(resourceName: "square-arrow.png"), for: UIControl.State.normal)
             
-            // START HERE: _____________________________
-            
-            print("loading attributed title")
-            
+
+            // Resets the compare toggle button title and image to look like it should when there is only one photo that has been taken (ie creating an ask)
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = .center
             
             let buttonTitleAttributes: [NSAttributedString.Key : Any] = [
                 .font : UIFont.systemFont(ofSize: 14),
                 .paragraphStyle : paragraphStyle,
-                // need to set content insets to 0 (unless that's not part of the string
-
             ]
             
             // set compareToggleButton text and image up to give user the option to add a second image
@@ -280,12 +278,15 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleTextFieldHeightConstraint.constant = 0.0
+//        titleTextField.translatesAutoresizingMaskIntoConstraints = false
+//        self.view.layoutIfNeeded()
         
         titleHasBeenTapped = false
         
         otherImageThumbnail.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         
-        deleteThumbnailButton.addShadow()
+//        deleteThumbnailButton.addShadow()
         
         self.enableBlurringButton.isHidden = false
         self.clearBlursButton.isHidden = !blursAddedByEditor
@@ -366,6 +367,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         compareToggleButton.layer.cornerRadius = 5
         otherImageThumbnail.layer.cornerRadius = 5
+              
+        print("title height in viewDidLayoutSubviews is \(titleTextField.frame.height)")
     }
     
     
@@ -476,14 +479,12 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             captionTextField.becomeFirstResponder()
             //self.captionTextField.center.y = tappedLoc.y
             if titleTextField.text == enterTitleConstant {
-                mirrorCaptionButton.isHidden = false
                 centerFlexibleSpace.isEnabled = true
             }
             
         } else {
             // if the caption is displayed and the user taps the image, dismiss the keyboard
             if captionTextField.text == "" {
-                mirrorCaptionButton.isHidden = true
                 centerFlexibleSpace.isEnabled = false
                 addCaptionButton.isHidden = false
             }
@@ -521,7 +522,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @objc func keyboardWillShow(_ notification: Notification) {
         // Basically all this is for moving the caption out of the way of the keyboard while we're editing it:
         if self.captionTextField.isEditing == true { //aka if the title is editing, don't do any of this
-            mirrorCaptionButton.isHidden = false
             view.bringSubviewToFront(captionTextField)
             //get the height of the keyboard that will show and then shift the text field up by that amount
             if let userInfoDict = notification.userInfo, let keyboardFrameValue = userInfoDict [UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
@@ -544,7 +544,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if self.captionTextField.text == "" {
             self.captionTextField.isHidden = true
-            mirrorCaptionButton.isHidden = true
             centerFlexibleSpace.isEnabled = false
             addCaptionButton.isHidden = false
         }
@@ -563,11 +562,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.titleHasBeenTapped = false
             
             if captionTextField.text != "" {
-                mirrorCaptionButton.isHidden = false
                 centerFlexibleSpace.isEnabled = true
             }
         } else if titleTextField.text != enterTitleConstant  {
-            mirrorCaptionButton.isHidden = true
             centerFlexibleSpace.isEnabled = false
         }
         self.view.layoutIfNeeded()
@@ -583,16 +580,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         return true
     }
     
-    @IBAction func mirrorCaptionButtonTapped(_ sender: Any) {
-        
-        // code in here should make the text in the caption equal the text in the title.
-        // if it's too long it should truncate and then pop up with a message that says "title text shortened" or something like that.
-        
-        titleTextField.text = captionTextField.text
-        titleTextField.textColor = UIColor.label // sets color to white or black based on dark mode or light mode
-        mirrorCaptionButton.isHidden = true
-        
-    }
+    
+
     
     func resetTitleTextField() {
         self.titleTextField.text = enterTitleConstant
@@ -627,7 +616,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.viewDidLoad()
         self.viewDidAppear(false)
         
-        // this was my unsuccessful attempt the round the corners of the thumbnail even when the image was zoomed in all the way and thus a full square
+        
         compareToggleButton.layer.cornerRadius = 5
         otherImageThumbnail.layer.cornerRadius = 5
     }
@@ -905,6 +894,16 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func addTitleButtonTapped(_ sender: Any) {
+        print("Add title button tapped")
+        titleTextField.isHidden = false
+        titleTextField.isEnabled = true
+        titleTextFieldHeightConstraint.constant = 30.0
+        titleTextField.becomeFirstResponder()
+    }
+    
+    
     /// This method clears the text field to be ready to be typed in and it also reverses the value of titleHasBeenTapped.
     @IBAction func titleTextFieldBeginEditing(_ sender: AnyObject) {
         titleHasBeenTapped = self.resetTextField(titleTextField, tappedYet: titleHasBeenTapped)

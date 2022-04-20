@@ -1165,7 +1165,7 @@ Date of last revision: October 25, 2021
                                     <segue destination="2lw-m3-QmY" kind="presentation" identifier="camera_vc" modalPresentationStyle="fullScreen" id="EKg-2o-wWN"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share Photo for Review" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uU-bL-Xlp">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Opinions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uU-bL-Xlp">
                                 <rect key="frame" x="50" y="110" width="220" height="21"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -1195,8 +1195,8 @@ Date of last revision: October 25, 2021
                                     <action selector="onAQTapped:" destination="l5o-ST-kah" eventType="touchUpInside" id="Paj-Oc-NlI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review Others" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85F-Zl-Yqt">
-                                <rect key="frame" x="102.5" y="211" width="115" height="30"/>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Give Opinons" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85F-Zl-Yqt">
+                                <rect key="frame" x="107.5" y="211" width="105.5" height="30"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="wcS-BI-eTf"/>
@@ -1328,10 +1328,10 @@ Date of last revision: October 25, 2021
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qH-rV-I3a" userLabel="websiteButton">
-                                <rect key="frame" x="16" y="472" width="32" height="32"/>
+                                <rect key="frame" x="18.5" y="472" width="27" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="0wc-mM-thJ"/>
-                                    <constraint firstAttribute="width" secondItem="0qH-rV-I3a" secondAttribute="height" multiplier="1:1" id="Igt-M9-3ti"/>
+                                    <constraint firstAttribute="width" secondItem="0qH-rV-I3a" secondAttribute="height" multiplier="1:1.2" id="Igt-M9-3ti"/>
                                 </constraints>
                                 <state key="normal" image="Tangerine.slice"/>
                                 <connections>
@@ -1359,7 +1359,7 @@ Date of last revision: October 25, 2021
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="letstangerine.com &amp; tutorial video" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vKy-hB-tZU" userLabel="helpHomepageLabel">
-                                <rect key="frame" x="56" y="472" width="96" height="32"/>
+                                <rect key="frame" x="53.5" y="472" width="96" height="32"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
@@ -1405,7 +1405,6 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="QKa-aq-g5K" firstAttribute="centerY" secondItem="dkB-NT-RQS" secondAttribute="centerY" id="Ysg-X5-Y2a"/>
                             <constraint firstItem="QKa-aq-g5K" firstAttribute="trailing" secondItem="dkB-NT-RQS" secondAttribute="leading" constant="6" id="Zdb-BF-Hv1"/>
                             <constraint firstItem="ySE-J5-i9C" firstAttribute="height" secondItem="Eqb-83-P9I" secondAttribute="height" multiplier="1.4" id="bKJ-Y5-Ilz"/>
-                            <constraint firstItem="0qH-rV-I3a" firstAttribute="width" secondItem="0qH-rV-I3a" secondAttribute="height" multiplier="1:1" id="cMC-jD-VlK"/>
                             <constraint firstItem="1uU-bL-Xlp" firstAttribute="centerX" secondItem="cwC-Pi-cSV" secondAttribute="centerX" id="cTR-3A-dY6"/>
                             <constraint firstItem="vKy-hB-tZU" firstAttribute="leading" secondItem="0qH-rV-I3a" secondAttribute="trailing" constant="8" symbolic="YES" id="diH-UY-Edw"/>
                             <constraint firstItem="kin-HV-uAf" firstAttribute="centerY" secondItem="T0D-lV-Dh8" secondAttribute="centerY" id="dso-Qp-bwe"/>
@@ -1496,14 +1495,14 @@ Date of last revision: October 25, 2021
                                     <constraint firstAttribute="width" constant="25" id="VD7-zL-q9K"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo Sent to the Community for Review!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhU-DD-VZl">
-                                <rect key="frame" x="-3.5" y="27" width="327" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo Posted for Everyone to Review!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhU-DD-VZl">
+                                <rect key="frame" x="11.5" y="27" width="297.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Friends to Make Sure They See It" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnZ-g1-5j6">
-                                <rect key="frame" x="-25.5" y="52.5" width="371" height="26.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tag friends to notify them:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnZ-g1-5j6">
+                                <rect key="frame" x="30" y="52.5" width="260.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -3402,8 +3401,33 @@ Date of last revision: October 25, 2021
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EDITING TOP IMAGE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVJ-Wy-wf7">
+                                <rect key="frame" x="110.5" y="0.0" width="99" height="12"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-lt-Evo" userLabel="titleTextField">
+                                <rect key="frame" x="0.0" y="12" width="320" height="0.0"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="e3U-Mo-siW"/>
+                                </constraints>
+                                <color key="textColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="titleTextFieldBeginEditing:" destination="htq-oV-YgK" eventType="editingDidBegin" id="a0y-bF-IkR"/>
+                                    <action selector="titleTextFieldValueChanged:" destination="htq-oV-YgK" eventType="valueChanged" id="KTs-Tb-yXN"/>
+                                    <action selector="userTappedTextField:" destination="htq-oV-YgK" eventType="touchUpInside" id="XkG-1d-eVw"/>
+                                    <outlet property="delegate" destination="htq-oV-YgK" id="BYl-fp-sg8"/>
+                                </connections>
+                            </textField>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uj3-PS-3tI">
-                                <rect key="frame" x="0.0" y="42" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="12" width="320" height="320"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gTl-gl-dDI">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
@@ -3447,7 +3471,7 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </scrollView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pinch to Zoom and Crop" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yaA-n3-1BA">
-                                <rect key="frame" x="0.0" y="187.5" width="320" height="29"/>
+                                <rect key="frame" x="0.0" y="157.5" width="320" height="29"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.74583000536786015" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
@@ -3456,7 +3480,7 @@ Date of last revision: October 25, 2021
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press and hold to blur a portion of the image." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="soN-CG-X3B">
-                                <rect key="frame" x="15" y="346" width="290" height="16"/>
+                                <rect key="frame" x="15" y="316" width="290" height="16"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.74163494994308776" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -3464,7 +3488,7 @@ Date of last revision: October 25, 2021
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Add 2nd Image" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="teb-yz-XMi">
-                                <rect key="frame" x="124" y="471.5" width="112" height="31.5"/>
+                                <rect key="frame" x="124" y="462.5" width="112" height="31.5"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -3472,7 +3496,7 @@ Date of last revision: October 25, 2021
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":: blurring in progress ::" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEb-1g-pRd">
-                                <rect key="frame" x="113.5" y="488" width="93" height="10"/>
+                                <rect key="frame" x="113.5" y="479" width="93" height="10"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                 <nil key="textColor"/>
@@ -3490,7 +3514,7 @@ Date of last revision: October 25, 2021
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP TO PUBLISH" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cae-X5-9Ag">
-                                <rect key="frame" x="244" y="476.5" width="70" height="31.5"/>
+                                <rect key="frame" x="244" y="467.5" width="70" height="31.5"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="v1T-OR-vZf"/>
@@ -3499,30 +3523,8 @@ Date of last revision: October 25, 2021
                                 <color key="textColor" red="0.1050909052" green="0.40950145919999997" blue="0.18119354369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EDITING TOP IMAGE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVJ-Wy-wf7">
-                                <rect key="frame" x="110.5" y="0.0" width="99" height="12"/>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter a Private Title for Your Photo Here" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-lt-Evo" userLabel="titleTextField">
-                                <rect key="frame" x="0.0" y="12" width="320" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="e3U-Mo-siW"/>
-                                </constraints>
-                                <color key="textColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="titleTextFieldBeginEditing:" destination="htq-oV-YgK" eventType="editingDidBegin" id="a0y-bF-IkR"/>
-                                    <action selector="titleTextFieldValueChanged:" destination="htq-oV-YgK" eventType="valueChanged" id="KTs-Tb-yXN"/>
-                                    <action selector="userTappedTextField:" destination="htq-oV-YgK" eventType="touchUpInside" id="XkG-1d-eVw"/>
-                                    <outlet property="delegate" destination="htq-oV-YgK" id="BYl-fp-sg8"/>
-                                </connections>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="destructive" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-a9-8dG">
-                                <rect key="frame" x="76" y="405.5" width="48" height="29.5"/>
+                                <rect key="frame" x="76" y="386" width="48" height="29.5"/>
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <size key="titleShadowOffset" width="1" height="1"/>
@@ -3536,7 +3538,7 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwv-eL-4Tr">
-                                <rect key="frame" x="80" y="364" width="160" height="24"/>
+                                <rect key="frame" x="80" y="334" width="160" height="24"/>
                                 <color key="backgroundColor" red="0.52648091320000001" green="0.52648091320000001" blue="0.52648091320000001" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -3551,14 +3553,14 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJI-2o-lnF" userLabel="upperSpacerView">
-                                <rect key="frame" x="142.5" y="388" width="35" height="0.0"/>
+                                <rect key="frame" x="142.5" y="358" width="35" height="10.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="64" id="Fml-1j-VZd"/>
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHj-J9-xEO">
-                                <rect key="frame" x="128" y="388" width="64" height="64"/>
+                                <rect key="frame" x="128" y="368.5" width="64" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="aHj-J9-xEO" secondAttribute="height" multiplier="1:1" id="x25-Iu-Ubq"/>
                                 </constraints>
@@ -3568,7 +3570,7 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tcj-Ge-v93" userLabel="CompareToggleButton">
-                                <rect key="frame" x="128" y="388" width="64" height="64"/>
+                                <rect key="frame" x="128" y="368.5" width="64" height="64"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="" image="camera.badge.ellipsis" catalog="system"/>
                                 <buttonConfiguration key="configuration" style="gray" image="camera.badge.ellipsis" catalog="system" imagePlacement="top">
@@ -3592,16 +3594,16 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQO-Zt-1xu" userLabel="lowerSpacerView">
-                                <rect key="frame" x="142.5" y="452" width="35" height="0.0"/>
+                                <rect key="frame" x="142.5" y="432.5" width="35" height="10.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgT-Fd-9N3" userLabel="PublishButton">
-                                <rect key="frame" x="105.5" y="452" width="109" height="48"/>
+                                <rect key="frame" x="105.5" y="443" width="109" height="48"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="       PUBLISH"/>
                             </button>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="8jP-xj-wJv">
-                                <rect key="frame" x="0.0" y="508" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="499" width="320" height="44"/>
                                 <items>
                                     <barButtonItem title="Item" style="plain" id="e0M-j3-6BH">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sFo-rO-TvZ">
@@ -3649,12 +3651,12 @@ Date of last revision: October 25, 2021
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="jac-4U-0AU"/>
                                     <barButtonItem style="plain" id="e0I-aR-Ohi">
-                                        <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C74-K5-x0i">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C74-K5-x0i">
                                             <rect key="frame" x="218.5" y="2" width="29" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="rectangle.and.pencil.and.ellipsis" catalog="system"/>
                                             <connections>
-                                                <action selector="mirrorCaptionButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="fDY-xw-RqY"/>
+                                                <action selector="addTitleButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="Hac-yR-Vxe"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
@@ -3673,7 +3675,7 @@ Date of last revision: October 25, 2021
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lR-5A-tiq" userLabel="ThumbnailView">
-                                <rect key="frame" x="113.5" y="452" width="24" height="48"/>
+                                <rect key="frame" x="113.5" y="443" width="24" height="48"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.crop.square.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="QzW-RH-GLS">
                                         <rect key="frame" x="0.0" y="1" width="24" height="21.5"/>
@@ -3783,6 +3785,7 @@ Date of last revision: October 25, 2021
                     <navigationItem key="navigationItem" id="5UT-1h-svu"/>
                     <connections>
                         <outlet property="addCaptionButton" destination="bwv-eL-4Tr" id="hzl-Pm-5NX"/>
+                        <outlet property="addTitleButton" destination="C74-K5-x0i" id="5Sf-le-79r"/>
                         <outlet property="blurringInProgressLabel" destination="mEb-1g-pRd" id="KUU-ME-Crz"/>
                         <outlet property="bottomImageIndicator" destination="Hkd-LA-rmR" id="eUJ-UP-GTx"/>
                         <outlet property="captionTextField" destination="RK8-0K-0Pr" id="WvV-Gk-nPL"/>
@@ -3797,13 +3800,13 @@ Date of last revision: October 25, 2021
                         <outlet property="helpPressBlurLabel" destination="soN-CG-X3B" id="Cdo-Zj-eA2"/>
                         <outlet property="helpZoomCropLabel" destination="yaA-n3-1BA" id="Jh2-c5-7eh"/>
                         <outlet property="imageView" destination="gTl-gl-dDI" id="miA-Bw-dgJ"/>
-                        <outlet property="mirrorCaptionButton" destination="C74-K5-x0i" id="Eer-A0-8x2"/>
                         <outlet property="otherImageThumbnail" destination="aHj-J9-xEO" id="Ypu-G2-6fa"/>
                         <outlet property="publishButton" destination="Aor-aq-xe9" id="taD-EO-tfx"/>
                         <outlet property="publishOrPreviewLabel" destination="Cae-X5-9Ag" id="vzU-I6-rUY"/>
                         <outlet property="questionTypeLabel" destination="sVJ-Wy-wf7" id="lPc-sD-Cqx"/>
                         <outlet property="scrollView" destination="Uj3-PS-3tI" id="72e-gW-7cU"/>
                         <outlet property="titleTextField" destination="gzl-lt-Evo" id="Wvg-R9-T20"/>
+                        <outlet property="titleTextFieldHeightConstraint" destination="e3U-Mo-siW" id="bli-Zo-kso"/>
                         <outlet property="topImageIndicator" destination="QzW-RH-GLS" id="qJE-5J-lbT"/>
                     </connections>
                 </viewController>
