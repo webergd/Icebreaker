@@ -470,7 +470,6 @@ class ReviewOthersVC: UIViewController{
                         
                         for item in snaps{
                             let doc = item.data()
-                            print("LIVE: \(doc)")
                             // create a question object
                             let question = Question(firebaseDict: doc)
                             

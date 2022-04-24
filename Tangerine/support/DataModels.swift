@@ -1586,6 +1586,10 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
             displayedQuestion = PrioritizedQuestion()
             displayedQuestion?.question = item
             displayedQuestion?.priority = -999
+            // added the following to prevent newly fetched q from getting sorted out as top Q accidentally
+            // more on email of today's update 24/25th of April, 2022
+            // Let's see
+            
             continue
         }
         
@@ -1700,6 +1704,7 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
     
     // this line ensures that we have the question that we are seeing on top
     if let displayedQuestion = displayedQuestion {
+        
         filteredQuestionsToReview.append(displayedQuestion)
     }
     
