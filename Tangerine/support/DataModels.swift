@@ -93,7 +93,7 @@ public var myActiveQuestions = [ActiveQuestion]()
 // called from only DataModels
 
 public var rawQuestions = Set<Question>()
-public var questionOnTheScreen = ""
+public var questionOnTheScreen: PrioritizedQuestion!
 public var qFFCount = 0
 
 /// this is bascially a {get set} portal to the number of locked questions in the UserDefaults Constants object
@@ -1294,7 +1294,7 @@ public func resetQuestionRelatedThings(){
     filteredQuestionsToReview.removeAll()
     myActiveQuestions.removeAll() // we are removing realm on logout, no point of keeping this either
     questionReviewed.removeAll()
-    questionOnTheScreen = ""
+    questionOnTheScreen = nil
     
 }
 
@@ -1440,7 +1440,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
     
     
     if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
-        print("Loading thumb")
+        
         completion(image,nil)
         
         return
@@ -1553,7 +1553,6 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
     //
     var tempFilterQ = [PrioritizedQuestion]()
     
-    var displayedQuestion : PrioritizedQuestion?
     // to reset the count so it doesn't add up old counts
     qFFCount = 0
     // load the ones matches specialty
@@ -1580,17 +1579,13 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
         }
         
         
-        if item.question_name.elementsEqual(questionOnTheScreen){
-            print("Question currently on Display \(item.question_name) Needs to on top, so -999")
-            // we are reviewing this one
-            displayedQuestion = PrioritizedQuestion()
-            displayedQuestion?.question = item
-            displayedQuestion?.priority = -999
-            // added the following to prevent newly fetched q from getting sorted out as top Q accidentally
-            // more on email of today's update 24/25th of April, 2022
-            // Let's see
+        if let qOS = questionOnTheScreen, item.question_name.elementsEqual(qOS.question.question_name){
             
-            continue
+                print("Question currently on Display \(item.question_name) Needs to on top, so -999")
+                // we are reviewing this one
+                // we'll add that later anyways
+                continue
+            
         }
         
         // make the question the toppest, no exception
@@ -1703,8 +1698,8 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
     }
     
     // this line ensures that we have the question that we are seeing on top
-    if let displayedQuestion = displayedQuestion {
-        
+    if let displayedQuestion = questionOnTheScreen {
+        print("Adding Top Q to filteredQTR")
         filteredQuestionsToReview.append(displayedQuestion)
     }
     
@@ -1712,8 +1707,12 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
     
     
     // NOW DOWNLOAD IMAGES IN FIFO
+    print("After filter we have \(filteredQuestionsToReview.count) filtered question")
+    
+    print("Printing Filtered DB")
     
     for item in filteredQuestionsToReview{
+        print("\(item.question.question_name) \(String(describing: item.priority))")
         // Ask or Compare both has same name for first question, so download one regardless of the qType
         downloadOrLoadFirebaseImage(
             ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type),
@@ -1739,39 +1738,7 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
                 }
         }
     }
-    
-    
-    print("After filter we have \(filteredQuestionsToReview.count) filtered question")
-    
-    print("Printing Filtered DB")
-    for item in filteredQuestionsToReview{
-        // save the image to device for later quick access
-        print("\(item.question.question_name) \(item.priority)")
-        // Ask or Compare both has same name for first question, so download one regardless of the qType
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type),
-            forPath: item.question.imageURL_1) { image, error in
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    return
-                }
-                
-            }
-        
-        // Then check if it's compare so we may download the second image
-        if item.question.type == .COMPARE{
-            
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type, secondPhoto: true),
-                forPath: item.question.imageURL_2) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                }
-        }
-    } // end for
+
     print("Finished Printing Filtered DB")
     
     tempFilterQ.removeAll()

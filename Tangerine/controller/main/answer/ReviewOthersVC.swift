@@ -213,7 +213,7 @@ class ReviewOthersVC: UIViewController{
     /// fetch next
     public func showNextQues(){
         
-        print("Showing next question : OnScreen: \(questionOnTheScreen) going to be removed \(filteredQuestionsToReview.first?.question.question_name)")
+        print("Showing next question")
         // remove current ques if any
         if askController.question != nil || compareController.question != nil{
             print("removing top ques")
@@ -277,7 +277,9 @@ class ReviewOthersVC: UIViewController{
                 print("type of question to load next: \(startingQues.question.type)")
                 print("name of question to load next: \(startingQues.question.question_name)")
                 
-                questionOnTheScreen = startingQues.question.question_name
+                questionOnTheScreen = PrioritizedQuestion()
+                questionOnTheScreen.question = startingQues.question
+                questionOnTheScreen.priority = -999
                 
                 // check type and show
                 if startingQues.question.type == .ASK{
