@@ -75,6 +75,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         imagePicker.delegate = self
         
         
+        
         print("justFinishedPicking is \(justFinishedPicking) (inside AVCameraViewController.ViewDidLoad)")
         //Enabes user to swipe right to return to main menu
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.returnToMenu))
@@ -123,6 +124,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         super.viewWillAppear(animated)
         
         print("inside viewWillAppear() in AVCameraViewController")
+        print("presenting VC of AVCameraVC is: \(String(describing: self.presentingViewController))")
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)

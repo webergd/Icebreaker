@@ -24,7 +24,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var addTitleButton: UIButton!
     
     @IBOutlet weak var captionTextField: UITextField!
+    
     @IBOutlet weak var captionTextFieldTopConstraint: NSLayoutConstraint!
+    
+
     @IBOutlet weak var otherImageThumbnail: UIButton! // this is a button but in terms of being an outlet we will use it as an imageView
     // so we can hide the deleteThumnailButton:
     @IBOutlet weak var deleteThumbnailButton: UIButton!
@@ -51,7 +54,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var addCaptionButton: UIButton!
     @IBOutlet weak var centerFlexibleSpace: UIBarButtonItem!
     
-    @IBOutlet weak var publishOrPreviewLabel: UILabel!
+
     @IBOutlet weak var publishButton: UIButton!
     
     @IBOutlet weak var helpButton: UIButton!
@@ -131,6 +134,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
+        
         let makeCompareHelpMessage: String = "Add 2nd image for comparison"
         let revertToAskHelpMessage: String = "Tap ❌ to revert to single image"
         
@@ -175,8 +180,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             topImageIndicator.alpha = 1.0
             bottomImageIndicator.isHidden  = true
             bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
-            publishOrPreviewLabel.text = "TAP TO PUBLISH"
-            publishOrPreviewLabel.textColor = .systemGreen //UIColor(red: 0, green: 142, blue: 0, alpha: 1)
             helpAskOrCompareLabel.text = makeCompareHelpMessage
 
             publishButton.setImage(#imageLiteral(resourceName: "square-arrow.png"), for: UIControl.State.normal)
@@ -211,8 +214,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
             bottomImageIndicator.isHidden  = false
             bottomImageIndicator.alpha = 1.0
-            publishOrPreviewLabel.text = "TAP TO PREVIEW"
-            publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
             
             publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
@@ -232,8 +233,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             topImageIndicator.alpha = 1.0
             bottomImageIndicator.isHidden  = false
             bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
-            publishOrPreviewLabel.text = "TAP TO PREVIEW"
-            publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
             publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
@@ -252,8 +251,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
             bottomImageIndicator.isHidden  = false
             bottomImageIndicator.alpha = 1.0
-            publishOrPreviewLabel.text = "TAP TO PREVIEW"
-            publishOrPreviewLabel.textColor = .systemYellow
             helpAskOrCompareLabel.text = revertToAskHelpMessage
             publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
@@ -278,6 +275,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("EQVC viewDidLoad() called")
         titleTextFieldHeightConstraint.constant = 0.0
 //        titleTextField.translatesAutoresizingMaskIntoConstraints = false
 //        self.view.layoutIfNeeded()
@@ -307,11 +305,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // This gets us the height of the caption text field to be used later for spacing things out correctly
         self.captionTextFieldHeight = self.captionTextField.frame.height
         
-        // This will move the caption text box out of the way when the keyboard pops up:
+        // This sets up an observer so we can move the caption text box out of the way when the keyboard pops up:
         NotificationCenter.default.addObserver(self, selector: #selector(EditQuestionVC.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        // This will move the caption text box back down when the keyboard goes away:
+        // This sets up an observer so we can move the caption text box back down when the keyboard goes away:
         NotificationCenter.default.addObserver(self, selector: #selector(EditQuestionVC.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+        
         
         // This gets the height of the screen for spacing things out later
         // Used only for determining where to move the caption when the keyboard pops up
@@ -368,7 +369,18 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         compareToggleButton.layer.cornerRadius = 5
         otherImageThumbnail.layer.cornerRadius = 5
               
-        print("title height in viewDidLayoutSubviews is \(titleTextField.frame.height)")
+//        print("title height in viewDidLayoutSubviews is \(titleTextField.frame.height)")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+            if isBeingDismissed {
+                print("EQVC is being dismissed - attempting to remove keyboardWillShow observer")
+                // this may or may not be necessary. We are trying to fix the memory leak and these observers keep firing even after we dismiss this VC.
+                // They may be creating an unbreakable reference
+                NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+                NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+            }
     }
     
     
@@ -498,8 +510,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         let captionLocationToSet = draggedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight)
         self.captionTextFieldTopConstraint.constant = vetCaptionTopConstraint(captionLocationToSet)
-        
-        // added: 2/13/17
         self.captionYValue = self.captionTextFieldTopConstraint.constant
     }
     
@@ -520,41 +530,61 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // This is called in the viewDidLoad section in our NSNotificationCenter command
     @objc func keyboardWillShow(_ notification: Notification) {
+        
+        print("keyboardWillShow called in EQVC")
         // Basically all this is for moving the caption out of the way of the keyboard while we're editing it:
         if self.captionTextField.isEditing == true { //aka if the title is editing, don't do any of this
             view.bringSubviewToFront(captionTextField)
             //get the height of the keyboard that will show and then shift the text field up by that amount
-            if let userInfoDict = notification.userInfo, let keyboardFrameValue = userInfoDict [UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-                let keyboardFrame = keyboardFrameValue.cgRectValue
-                
-                //this makes the text box movement animated so it looks smoother:
-                UIView.animate(withDuration: 0.8, animations: {
+            
+            // This is so that once these values are stored and set, they don't get "set again" and thus stored incorrectly
+            if !keyboardIsVisible {
+                keyboardIsVisible = true // now set this to true so this subroutine won't execute again until we dismiss the keyboard again
+                if let userInfoDict = notification.userInfo, let keyboardFrameValue = userInfoDict [UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                    let keyboardFrame = keyboardFrameValue.cgRectValue
+                    
+                    
                     // Save the captionTextField's Location so we can restore it after editing:
+                    print("captionYValue before saving the captionTextFieldTopConstraint is \(self.captionYValue)")
+                    print("captionTextFieldTopConstraint is being saved as \(self.captionTextFieldTopConstraint.constant)")
                     self.captionYValue = self.captionTextFieldTopConstraint.constant
                     
-                    //get the height of the keyboard that will show and then shift the text field down by that amount
-                    self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight
-                    self.view.layoutIfNeeded()
-                })
+                    
+                    //this makes the text box movement animated so it looks smoother:
+                    UIView.animate(withDuration: 0.4, animations: {
+                        
+                        //get the height of the keyboard that will show and then shift the text field down by that amount
+                        self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height
+                        self.view.layoutIfNeeded()
+                    })
+                }
+                
+            } else {
+                print("keyboard was already visible, no caption constraint data stored or manipulated")
             }
+            
         }
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
+        print("keyboard will HIDE called in EQVC")
         
         if self.captionTextField.text == "" {
             self.captionTextField.isHidden = true
-            centerFlexibleSpace.isEnabled = false
+            centerFlexibleSpace.isEnabled = false //deprecated
             addCaptionButton.isHidden = false
         }
         
-        //this makes the text box movement animated so it looks smoother:
+        // FROM EDITING CAPTION
+        //this makes the caption text box movement animated so it looks smoother:
         UIView.animate(withDuration: 1.0, animations: {
             //moves the caption back to its original location:
+            print("caption Y value to feed into vetCaptionTopConstraint method is: \(self.captionYValue) ")
             self.captionTextFieldTopConstraint.constant = self.vetCaptionTopConstraint(self.captionYValue)
-            
-            
+            print("self.captionTextFieldTopConstraint.constant stored as: \(self.captionTextFieldTopConstraint.constant) after running the vetCaptionTopConstraint method")
         })
+        
+        // FROM EDIT TITLE
         // If the user has entered no text in the titleTextField, reset it to how it was originally:
         if self.titleTextField.text == "" {
             self.titleTextField.text = enterTitleConstant
@@ -562,16 +592,17 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.titleHasBeenTapped = false
             
             if captionTextField.text != "" {
-                centerFlexibleSpace.isEnabled = true
+                centerFlexibleSpace.isEnabled = true //deprecated
             }
         } else if titleTextField.text != enterTitleConstant  {
-            centerFlexibleSpace.isEnabled = false
+            centerFlexibleSpace.isEnabled = false //deprecated
         }
         self.view.layoutIfNeeded()
         
         //This is here because the title was somehow getting lost between it displaying correctly in the text field, and the publish button being tapped.
         print("titleTextField value at the end of hiding the keyboard is: \(titleTextField.text!)")
         
+        keyboardIsVisible = false
     }
     
     // This dismisses the keyboard when the user clicks the DONE button on the keyboard
@@ -1336,6 +1367,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: nil)
     }
     
+    //
     func backTwo() {
         guard let navController = self.navigationController else {
             print("error executing backTwo. Could not find the navigationController.")
