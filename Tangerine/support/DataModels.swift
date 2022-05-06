@@ -1286,10 +1286,10 @@ struct Breakdown {
 }
 
 
-// remove / empty all collection related to question
-// called from logout button tap
-// ensures that when user log in using same/different id
-// it doesn't show cached data
+/// remove / empty all collection related to question
+/// called from logout button tap
+/// ensures that when user log in using same/different id
+/// it doesn't show cached data
 public func resetQuestionRelatedThings(){
     
     rawQuestions.removeAll()

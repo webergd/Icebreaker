@@ -37,6 +37,20 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var topImageIndicator: UIImageView!
     @IBOutlet weak var bottomImageIndicator: UIImageView!
     
+    @IBOutlet weak var scrollAndCompareHousingView: UIView!
+    @IBOutlet weak var compareHousingView: UIView!
+    @IBOutlet weak var scrollHousingView: UIView!
+    
+    @IBOutlet weak var scrollHousingViewTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var compareHousingViewTopConstraint: NSLayoutConstraint!
+    
+    
+    
+    
+    
+    
+    
     @IBOutlet var longPressTap: UILongPressGestureRecognizer! //MARK: did this unlink itself?
     @IBOutlet weak var clearBlursButton: UIButton!
     @IBOutlet weak var enableBlurringButton: UIButton!
@@ -129,6 +143,11 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         case two
     }
     
+
+    
+
+
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -162,6 +181,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        compareToggleButton.layer.borderWidth = 1
 //        compareToggleButton.layer.borderColor = UIColor.separator.cgColor
         
+        
+        setupHousingViews()
         
         //Now we check to see which image to display
         
@@ -361,6 +382,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        print("viewDidLayoutSubviews() called")
         if currentCompare.creationPhase == .firstPhotoTaken {
             //add border to button if there is no thumbnail
             compareToggleButton.addDashedBorder()
@@ -372,6 +394,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        print("title height in viewDidLayoutSubviews is \(titleTextField.frame.height)")
     }
     
+    
     override func viewWillDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
             if isBeingDismissed {
@@ -382,6 +405,75 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
             }
     }
+
+
+
+
+
+//    struct housingViewConstraints {
+//        let scrollAndCompareHousingViewHeight: CGFloat
+//        let scrollHousingViewTopConstraint: CGFloat // (zero when Case 1)
+//        let scrollHousingViewHeight: CGFloat
+//        let compareHousingViewTopConstraint: CGFloat
+//        let compareHousingViewHeight: CGFloat // (should be just a touch higher than the thumbnail image
+//        let thumbnailImageWidth: CGFloat
+//
+//        init(EQVC: EditQuestionVC) {
+//            // calculate scrollHousingViewHeight:
+//            // title + scrollView + captionButton
+//            self.scrollHousingViewHeight = titleTextFieldHeight + screenWidth + captionTextField.frame.height
+//
+//            // calculate scrollHousingViewHeight:
+//            // title + scrollView + captionButton
+//            self.scrollHousingViewHeight = titleTextFieldHeight + screenWidth + captionTextField.frame.height
+//
+//            // calculate scrollAndCompareHousingViewHeight:
+//            // Total screen height minue qTypeLabel.height and publishButton.height
+//            self.scrollAndCompareHousingViewHeight = screenHeight - (questionTypeLabel.frame.height + publishButton.frame.height)
+//
+//
+//        }
+// // (same as height), changes based on Case and available screen height
+//    }
+//
+//    /// Calculates the vertical constraint for the various housing views and returns a housingViewConstraints object with the required parameters to layout the scene in the correct configuration. The two main inputs are the argument (screenHeight) and the compareImageState, which is a local variable so it doesn't need to be a function argument.
+//    func calculateVerticalConstraints(screenHeight: CGFloat) -> housingViewConstraints {
+//        //    Inputs:
+//        //    screen height
+//        //    Editing Image (case)0, 1 or 2 // same as compareImageState
+//        //    0: Ask
+//        //    1: Compare editing Top
+//        //    2: Compare editing Bottom
+//        // will be very little difference between 0 and 1 depending on Screen height available like in a short iphone SE
+//
+//
+//
+//
+//        //calculate compareHousingViewHeight
+//        // This is the leftover vertical space that will vary based on the size of the phone that the member is using. The bigger the better so that the otherImageThumbnail can be seen clearly.
+//        // outerViewHeight - scrollHeight
+//        let compareHeight: CGFloat = outerViewHeight - scrollHeight
+//
+//        // calculate thumbnail image width
+//        // The thumbnail is a 1:1 aspect ratio so width == height.
+//        // We want to leave a buffer around the image so we'll make it a percentage of the housingView
+//        let thumbnailWidth: CGFloat = compareHeight * 0.8
+//
+//
+//
+//
+//        switch compareImageState {
+//        case .firstPhotoTaken:
+//
+//        }
+//
+//
+//
+//    }
+
+
+    
+    
     
     
     // The next 3 methods (loadImage and the two unpacks) work together to load the correct properties into the EditQuestionVC
@@ -437,6 +529,18 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         otherImageThumbnail.setImage(iBE.iBEimageBlurredCropped, for: .normal)
     }
     
+    /// Accesses the helper class EQVCVerticalConstraints to arrange the housing views in such a way that makes the member's experience intuitive based on what image is being edited
+    func setupHousingViews() {
+        let constraintCalculator = EQVCVerticalConstraints(titleTextFieldHeight: titleTextFieldHeight, screenWidth: screenWidth, captionTextFieldHeight: captionTextFieldHeight, screenHeight: screenHeight, questionTypeLabelHeight: questionTypeLabel.frame.height, publishButtonHeight: publishButton.frame.height)
+        
+//        scrollAndCompareHousingView.frame.size.height = constraintCalculator.scrollAndCompareHousingViewHeight
+        scrollHousingView.frame.size.height = constraintCalculator.scrollHousingViewHeight
+        compareHousingView.frame.size.height = constraintCalculator.compareHousingViewHeight
+        
+        scrollHousingViewTopConstraint.constant = constraintCalculator.scrollHousingViewTopConstraint
+        compareHousingViewTopConstraint.constant = constraintCalculator.compareHousingViewTopConstraint
+
+    }
     
     
     ///Enables tap on image to show caption (2 of 2):

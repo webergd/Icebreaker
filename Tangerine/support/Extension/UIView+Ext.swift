@@ -44,6 +44,10 @@ extension UIView {
     }
     
     func addDashedBorder() {
+        //first, remove any existing borders
+        self.removeDashedBorder()
+        
+        print("addDashedBorder() called")
         let color = UIColor.separator.cgColor
         
         let shapeLayer:CAShapeLayer = CAShapeLayer()
@@ -63,7 +67,7 @@ extension UIView {
         self.layer.addSublayer(shapeLayer)
     }
     
-    /// This doesn't exactly work right. It just makes the dotted line less bold. Need more experimenting. 
+    /// This doesn't exactly work right. It just makes the dotted line less bold. Need more experimenting. //I could potentially just move the border to the back instead of deleting. 
     func removeDashedBorder() {
 //        self.layer.sublayers?.forEach { layer in
 //           layer.removeFromSuperlayer()
