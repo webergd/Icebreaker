@@ -45,6 +45,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var compareHousingViewTopConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var compareHousingViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollHousingViewHeightConstraint: NSLayoutConstraint!
     
     
     
@@ -144,14 +146,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
 
-    
-
-
-    
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        print("compareHousingView height VIEW WILL APPEAR \(compareHousingView.frame.size.height)")
         
         print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
         
@@ -291,6 +289,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidAppear(_ animated: Bool) {
         //if this could animate at twice the speed, it would look better (and be less annoying when switching between thumbnails that are zoomed in far)
         scrollView.setZoomScale(zoomScaleToLoad, animated: true)
+        setupHousingViews()
+
+        
+        print("compareHousingView height VIEW DID APPEAR \(compareHousingView.frame.size.height)")
 
     }
     
@@ -378,11 +380,15 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomImageIndicator.isUserInteractionEnabled = true
         bottomImageIndicator.addGestureRecognizer(bottomImageIndicatorTappedGestureRecognizer)
         
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         print("viewDidLayoutSubviews() called")
+        
+        print("compareHousingView height VIEW DID LAYOUT SUBVIEWS \(compareHousingView.frame.size.height)")
+        
         if currentCompare.creationPhase == .firstPhotoTaken {
             //add border to button if there is no thumbnail
             compareToggleButton.addDashedBorder()
@@ -392,6 +398,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         otherImageThumbnail.layer.cornerRadius = 5
               
 //        print("title height in viewDidLayoutSubviews is \(titleTextField.frame.height)")
+        setupHousingViews()
     }
     
     
@@ -531,11 +538,25 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /// Accesses the helper class EQVCVerticalConstraints to arrange the housing views in such a way that makes the member's experience intuitive based on what image is being edited
     func setupHousingViews() {
-        let constraintCalculator = EQVCVerticalConstraints(titleTextFieldHeight: titleTextFieldHeight, screenWidth: screenWidth, captionTextFieldHeight: captionTextFieldHeight, screenHeight: screenHeight, questionTypeLabelHeight: questionTypeLabel.frame.height, publishButtonHeight: publishButton.frame.height)
+        print("is titleTextField visible? \(Bool(!titleTextField.isHidden))")
+        print("what is the titleTextField height?  \(String(describing: titleTextFieldHeightConstraint.constant))")
+        let constraintCalculator = EQVCVerticalConstraints(
+            titleTextFieldHeight: titleTextFieldHeightConstraint.constant,
+            screenWidth: screenWidth,
+            captionTextFieldHeight: captionTextFieldHeight,
+            screenHeight: screenHeight,
+            questionTypeLabelHeight: questionTypeLabel.frame.height,
+            publishButtonHeight: publishButton.frame.height,
+            scrollAndCompareHousingViewHeight: scrollAndCompareHousingView.frame.height)
         
 //        scrollAndCompareHousingView.frame.size.height = constraintCalculator.scrollAndCompareHousingViewHeight
-        scrollHousingView.frame.size.height = constraintCalculator.scrollHousingViewHeight
-        compareHousingView.frame.size.height = constraintCalculator.compareHousingViewHeight
+//        scrollHousingView.frame.size.height = constraintCalculator.scrollHousingViewHeight
+        scrollHousingViewHeightConstraint.constant = constraintCalculator.scrollHousingViewHeight
+        
+//        print("compareHousingView height before setting it \(compareHousingView.frame.size.height)")
+//        compareHousingView.frame.size.height = constraintCalculator.compareHousingViewHeight
+        compareHousingViewHeightConstraint.constant = constraintCalculator.compareHousingViewHeight
+//        print("compareHousingView height AFTER setting it \(compareHousingView.frame.size.height)")
         
         scrollHousingViewTopConstraint.constant = constraintCalculator.scrollHousingViewTopConstraint
         compareHousingViewTopConstraint.constant = constraintCalculator.compareHousingViewTopConstraint
@@ -585,6 +606,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func addCaption(at tappedLoc: CGPoint) {
+        print("compareHousingView height CAPTION BUTTON \(compareHousingView.frame.size.height)")
         if captionTextField.isHidden == true && titleTextField.isEditing == false {
             //hide the addCaption button
             addCaptionButton.isHidden = true
@@ -1035,6 +1057,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         titleTextField.isHidden = false
         titleTextField.isEnabled = true
         titleTextFieldHeightConstraint.constant = 30.0
+        setupHousingViews()
         titleTextField.becomeFirstResponder()
     }
     
@@ -1242,28 +1265,35 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
         }
     }
+    
+    
  
+
     // This is similar to publish except it puts some data on hold and then takes the user back to the avCamera to add a second picture.
     @IBAction func compareToggleButtonTapped(_ sender: Any) {
-        
+        print("compareToggleButton tapped")
+
         if currentCompare.isAsk == true {
             print("Compare")
             currentCompare.isAsk = false // all this means is that the system now knows we're creating a Compare (with two images). Probably could be named better.
-            
+
             actionYes = UIAlertAction(title: "Leave Blank", style: .default) {
                 UIAlertAction in
                 currentTitle = "(no title)"
-                
+
                 self.createHalfOfCompare()
             }
             finishEditing(whatToCreate: .compare)
         } else {
             toggleCompareImage()
         }
-        
+
 
     }
     
+    @IBAction func publishTempoMethodCalledThroughTap(_ sender: Any) {
+        print("publishTempoMethodCalledThroughTap")
+    }
     
     @IBAction func deleteThumbnailButtonTapped(_ sender: Any) {
         reduceToAsk()

@@ -23,16 +23,20 @@ public class EQVCVerticalConstraints {
         }
     }
     
-    init(titleTextFieldHeight: CGFloat, screenWidth: CGFloat, captionTextFieldHeight: CGFloat, screenHeight: CGFloat, questionTypeLabelHeight: CGFloat, publishButtonHeight: CGFloat) {
+    init(titleTextFieldHeight: CGFloat, screenWidth: CGFloat, captionTextFieldHeight: CGFloat, screenHeight: CGFloat, questionTypeLabelHeight: CGFloat, publishButtonHeight: CGFloat, scrollAndCompareHousingViewHeight: CGFloat) {
         // calculate scrollHousingViewHeight:
         // title + scrollView + captionButton
-        self.scrollHousingViewHeight = titleTextFieldHeight + screenWidth + captionTextFieldHeight
+        print("initializing the EQVC Vertical Constraints object")
+        print("titleTextFieldHeight to be used is: \(String(describing: titleTextFieldHeight))")
+        print("screenWidth = \(screenWidth) \ncaptionTextFieldHeight = \(captionTextFieldHeight)")
+        self.scrollHousingViewHeight = titleTextFieldHeight + screenWidth + captionTextFieldHeight + 6
+        print("scrollHousingViewHeight = \(scrollHousingViewHeight)")
         // we use captionTextFieldHeight instead of the caption button's height because the button derives its height from the captionTextField's height.
         
         // calculate scrollAndCompareHousingViewHeight:
         // Total screen height minue qTypeLabel.height and publishButton.height
-        self.scrollAndCompareHousingViewHeight = screenHeight - (questionTypeLabelHeight + publishButtonHeight)
-        
+//        self.scrollAndCompareHousingViewHeight = screenHeight - (questionTypeLabelHeight + publishButtonHeight)
+        self.scrollAndCompareHousingViewHeight = scrollAndCompareHousingViewHeight
     }
     
     //calculate compareHousingViewHeight
@@ -49,7 +53,7 @@ public class EQVCVerticalConstraints {
         return self.compareHousingViewHeight * 0.8
     }
     
-    // changes based on Case and available screen height
+    /// changes based on Case and available screen height
     var scrollHousingViewTopConstraint: CGFloat {
         switch photoBeingEdited {
         case .top:
@@ -59,9 +63,11 @@ public class EQVCVerticalConstraints {
         }
     }
     
+    /// changes based on Case and available screen height
     var compareHousingViewTopConstraint: CGFloat {
         switch photoBeingEdited {
         case .top:
+            print("comparetopheight\(String(describing: scrollHousingViewHeight))")
             return self.scrollHousingViewHeight
         case .bottom:
             return CGFloat(0.0)

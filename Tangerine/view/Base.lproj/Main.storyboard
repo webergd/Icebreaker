@@ -3418,6 +3418,7 @@ Date of last revision: October 25, 2021
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EDITING TOP IMAGE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVJ-Wy-wf7">
                                 <rect key="frame" x="110.5" y="0.0" width="99" height="15"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="5Kc-EY-a2E"/>
@@ -3427,10 +3428,10 @@ Date of last revision: October 25, 2021
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajh-qr-aFH" userLabel="scrollAndCompareHousingView">
-                                <rect key="frame" x="0.0" y="-32" width="320" height="500"/>
+                                <rect key="frame" x="0.0" y="15" width="320" height="423"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Or1-CF-jJM" userLabel="scrollHousingView">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="381"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="380"/>
                                         <subviews>
                                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-lt-Evo" userLabel="titleTextField">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
@@ -3508,7 +3509,7 @@ Date of last revision: October 25, 2021
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwv-eL-4Tr">
-                                                <rect key="frame" x="96.5" y="350" width="127" height="31"/>
+                                                <rect key="frame" x="96.5" y="349" width="127" height="31"/>
                                                 <color key="backgroundColor" red="0.52648091320000001" green="0.52648091320000001" blue="0.52648091320000001" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
@@ -3540,7 +3541,7 @@ Date of last revision: October 25, 2021
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemPurpleColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration" identifier="scrollHousingView" label="scrollHousingView"/>
                                         <constraints>
                                             <constraint firstItem="RK8-0K-0Pr" firstAttribute="width" secondItem="Uj3-PS-3tI" secondAttribute="width" id="4I8-vJ-Dyx"/>
@@ -3555,7 +3556,7 @@ Date of last revision: October 25, 2021
                                             <constraint firstItem="gzl-lt-Evo" firstAttribute="top" secondItem="Or1-CF-jJM" secondAttribute="top" id="cYZ-sN-tWZ"/>
                                             <constraint firstItem="RK8-0K-0Pr" firstAttribute="top" secondItem="Uj3-PS-3tI" secondAttribute="top" id="eLc-Ij-4H6"/>
                                             <constraint firstItem="yaA-n3-1BA" firstAttribute="centerX" secondItem="Or1-CF-jJM" secondAttribute="centerX" id="erS-AA-cIh"/>
-                                            <constraint firstItem="Uj3-PS-3tI" firstAttribute="bottom" secondItem="bwv-eL-4Tr" secondAttribute="top" id="q9i-TO-b1Z"/>
+                                            <constraint firstItem="Uj3-PS-3tI" firstAttribute="bottom" secondItem="bwv-eL-4Tr" secondAttribute="top" constant="1" id="q9i-TO-b1Z"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xOq-vN-HDw" userLabel="compareHousingView">
@@ -3592,7 +3593,7 @@ Date of last revision: October 25, 2021
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="compareToggleButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="fkg-FC-gws"/>
+                                                    <action selector="compareToggleButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="tYx-bR-zYL"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="destructive" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-a9-8dG">
@@ -3610,11 +3611,11 @@ Date of last revision: October 25, 2021
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="tcj-Ge-v93" firstAttribute="centerX" secondItem="aHj-J9-xEO" secondAttribute="centerX" id="1I7-eS-2fr"/>
                                             <constraint firstItem="aHj-J9-xEO" firstAttribute="centerY" secondItem="xOq-vN-HDw" secondAttribute="centerY" id="59c-iR-xmJ"/>
-                                            <constraint firstAttribute="height" priority="300" constant="70" id="KqI-eY-5XQ"/>
+                                            <constraint firstAttribute="height" constant="70" id="KqI-eY-5XQ"/>
                                             <constraint firstItem="tcj-Ge-v93" firstAttribute="centerY" secondItem="aHj-J9-xEO" secondAttribute="centerY" id="Y5E-rB-mgl"/>
                                             <constraint firstItem="tcj-Ge-v93" firstAttribute="height" secondItem="aHj-J9-xEO" secondAttribute="height" id="haM-0Q-b22"/>
                                             <constraint firstItem="tcj-Ge-v93" firstAttribute="width" secondItem="aHj-J9-xEO" secondAttribute="width" id="jDj-6E-YWJ"/>
@@ -3624,7 +3625,7 @@ Date of last revision: October 25, 2021
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="xOq-vN-HDw" firstAttribute="top" secondItem="ajh-qr-aFH" secondAttribute="top" constant="380" id="166-fW-UO1"/>
                                     <constraint firstItem="Uj3-PS-3tI" firstAttribute="width" secondItem="ajh-qr-aFH" secondAttribute="width" id="7mz-sv-gqT"/>
@@ -3632,17 +3633,21 @@ Date of last revision: October 25, 2021
                                     <constraint firstItem="Or1-CF-jJM" firstAttribute="width" secondItem="ajh-qr-aFH" secondAttribute="width" id="Qxg-pl-ueE"/>
                                     <constraint firstItem="Or1-CF-jJM" firstAttribute="centerX" secondItem="ajh-qr-aFH" secondAttribute="centerX" id="Xrf-6K-vaB"/>
                                     <constraint firstItem="xOq-vN-HDw" firstAttribute="width" secondItem="ajh-qr-aFH" secondAttribute="width" id="aBL-wl-jJr"/>
-                                    <constraint firstAttribute="height" constant="500" id="awv-yZ-va5"/>
+                                    <constraint firstAttribute="height" priority="900" constant="460" id="awv-yZ-va5"/>
                                     <constraint firstItem="xOq-vN-HDw" firstAttribute="centerX" secondItem="ajh-qr-aFH" secondAttribute="centerX" id="lbJ-0T-HYG"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgT-Fd-9N3" userLabel="PublishButton">
-                                <rect key="frame" x="105.5" y="468" width="109" height="48"/>
+                                <rect key="frame" x="105.5" y="453" width="109" height="48"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="       PUBLISH"/>
+                                <connections>
+                                    <action selector="publishTempoMethodCalledThroughTap:" destination="htq-oV-YgK" eventType="touchUpInside" id="OPn-Xq-gbq"/>
+                                </connections>
                             </button>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="8jP-xj-wJv">
-                                <rect key="frame" x="0.0" y="520" width="320" height="40"/>
+                                <rect key="frame" x="0.0" y="516" width="320" height="40"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="qHX-yc-k3I"/>
                                 </constraints>
@@ -3717,7 +3722,7 @@ Date of last revision: October 25, 2021
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lR-5A-tiq" userLabel="ThumbnailView">
-                                <rect key="frame" x="113.5" y="468" width="24" height="48"/>
+                                <rect key="frame" x="113.5" y="453" width="24" height="48"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.crop.square.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="QzW-RH-GLS">
                                         <rect key="frame" x="0.0" y="1" width="24" height="21.5"/>
@@ -3752,13 +3757,13 @@ Date of last revision: October 25, 2021
                         <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="teb-yz-XMi" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" multiplier="0.35" id="2SO-Vh-x8l"/>
-                            <constraint firstItem="8jP-xj-wJv" firstAttribute="top" secondItem="bgT-Fd-9N3" secondAttribute="bottom" constant="4" id="8Ka-XW-kkb"/>
-                            <constraint firstItem="ajh-qr-aFH" firstAttribute="top" secondItem="sVJ-Wy-wf7" secondAttribute="bottom" priority="900" id="ASB-dT-YZc"/>
+                            <constraint firstItem="8jP-xj-wJv" firstAttribute="top" secondItem="bgT-Fd-9N3" secondAttribute="bottom" priority="950" constant="15" id="8Ka-XW-kkb"/>
+                            <constraint firstItem="ajh-qr-aFH" firstAttribute="top" secondItem="sVJ-Wy-wf7" secondAttribute="bottom" id="ASB-dT-YZc"/>
                             <constraint firstItem="aHj-J9-xEO" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" multiplier="0.2" constant="1" id="Afk-tw-boe"/>
                             <constraint firstItem="ajh-qr-aFH" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" id="BVg-io-Oy0"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="leading" secondItem="bgT-Fd-9N3" secondAttribute="leading" constant="8" id="C7U-n8-fXP"/>
                             <constraint firstItem="ajh-qr-aFH" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="EQi-wK-whq"/>
-                            <constraint firstItem="bgT-Fd-9N3" firstAttribute="top" secondItem="ajh-qr-aFH" secondAttribute="bottom" id="M0c-ol-uXV"/>
+                            <constraint firstItem="bgT-Fd-9N3" firstAttribute="top" secondItem="ajh-qr-aFH" secondAttribute="bottom" priority="950" constant="15" id="M0c-ol-uXV"/>
                             <constraint firstItem="sVJ-Wy-wf7" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="Nrb-9G-jmb"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="centerY" secondItem="bgT-Fd-9N3" secondAttribute="centerY" id="Odc-88-9RM"/>
                             <constraint firstItem="bgT-Fd-9N3" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="RNk-XN-XUP"/>
@@ -3766,7 +3771,7 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="sVJ-Wy-wf7" firstAttribute="top" secondItem="Mw1-wG-myY" secondAttribute="top" id="YAW-71-rON"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="a7w-9x-mSr"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" id="aNc-Uy-FNc"/>
-                            <constraint firstAttribute="bottom" secondItem="8jP-xj-wJv" secondAttribute="bottom" constant="8" id="haq-1A-gU1"/>
+                            <constraint firstAttribute="bottom" secondItem="8jP-xj-wJv" secondAttribute="bottom" constant="12" id="haq-1A-gU1"/>
                             <constraint firstItem="teb-yz-XMi" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" constant="20" id="iB8-Ar-DxZ"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="height" secondItem="bgT-Fd-9N3" secondAttribute="height" id="mHC-tH-BoL"/>
                         </constraints>
@@ -3782,8 +3787,9 @@ Date of last revision: October 25, 2021
                         <outlet property="centerFlexibleSpace" destination="jac-4U-0AU" id="lMW-Av-mFo"/>
                         <outlet property="clearBlursButton" destination="PmH-6G-spq" id="1Td-xT-g5m"/>
                         <outlet property="compareHousingView" destination="xOq-vN-HDw" id="jaf-xN-3pe"/>
+                        <outlet property="compareHousingViewHeightConstraint" destination="KqI-eY-5XQ" id="l3j-7O-pAW"/>
                         <outlet property="compareHousingViewTopConstraint" destination="166-fW-UO1" id="kYm-0W-o5M"/>
-                        <outlet property="compareToggleButton" destination="tcj-Ge-v93" id="2BE-4v-Npo"/>
+                        <outlet property="compareToggleButton" destination="tcj-Ge-v93" id="Mtu-23-B48"/>
                         <outlet property="deleteThumbnailButton" destination="3ed-a9-8dG" id="sja-Fd-KYd"/>
                         <outlet property="enableBlurringButton" destination="bmK-bq-jck" id="rgc-cp-4Xn"/>
                         <outlet property="helpAskOrCompareLabel" destination="teb-yz-XMi" id="ozc-88-pg6"/>
@@ -3796,6 +3802,7 @@ Date of last revision: October 25, 2021
                         <outlet property="questionTypeLabel" destination="sVJ-Wy-wf7" id="lPc-sD-Cqx"/>
                         <outlet property="scrollAndCompareHousingView" destination="ajh-qr-aFH" id="TqN-Mp-A8l"/>
                         <outlet property="scrollHousingView" destination="Or1-CF-jJM" id="8mp-Yv-7W2"/>
+                        <outlet property="scrollHousingViewHeightConstraint" destination="awv-yZ-va5" id="Z2B-8c-6cB"/>
                         <outlet property="scrollHousingViewTopConstraint" destination="PGK-Pn-h99" id="zd1-9x-1w7"/>
                         <outlet property="scrollView" destination="Uj3-PS-3tI" id="72e-gW-7cU"/>
                         <outlet property="titleTextField" destination="gzl-lt-Evo" id="Wvg-R9-T20"/>
@@ -7973,17 +7980,14 @@ Tap the image that you think this person should go with.
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tertiarySystemFillColor">
             <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
