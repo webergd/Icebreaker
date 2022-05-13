@@ -23,7 +23,7 @@ public class EQVCVerticalConstraints {
         }
     }
     
-    init(titleTextFieldHeight: CGFloat, screenWidth: CGFloat, captionTextFieldHeight: CGFloat, screenHeight: CGFloat, questionTypeLabelHeight: CGFloat, publishButtonHeight: CGFloat, scrollAndCompareHousingViewHeight: CGFloat) {
+    init(titleTextFieldHeight: CGFloat, screenWidth: CGFloat, captionTextFieldHeight: CGFloat, scrollAndCompareHousingViewHeight: CGFloat) {
         // calculate scrollHousingViewHeight:
         // title + scrollView + captionButton
         print("initializing the EQVC Vertical Constraints object")
@@ -41,7 +41,6 @@ public class EQVCVerticalConstraints {
     
     //calculate compareHousingViewHeight
     // This is the leftover vertical space that will vary based on the size of the phone that the member is using. The bigger the better so that the otherImageThumbnail can be seen clearly.
-    // outerViewHeight - scrollHeight
     var compareHousingViewHeight: CGFloat {
         return self.scrollAndCompareHousingViewHeight - self.scrollHousingViewHeight
     }

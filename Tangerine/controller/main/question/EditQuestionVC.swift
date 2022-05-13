@@ -483,9 +483,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             titleTextFieldHeight: titleTextFieldHeightConstraint.constant,
             screenWidth: screenWidth,
             captionTextFieldHeight: captionTextFieldHeight,
-            screenHeight: screenHeight,
-            questionTypeLabelHeight: questionTypeLabel.frame.height,
-            publishButtonHeight: publishButton.frame.height,
             scrollAndCompareHousingViewHeight: scrollAndCompareHousingView.frame.height)
         
 //        scrollAndCompareHousingView.frame.size.height = constraintCalculator.scrollAndCompareHousingViewHeight
@@ -552,7 +549,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             // Show the captionTextField:
             captionTextField.isHidden = false
             // Position the captionTextField where the user tapped:
-            self.captionTextFieldTopConstraint.constant = tappedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight)
+            self.captionTextFieldTopConstraint.constant = tappedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight) - self.scrollHousingViewTopConstraint.constant
             captionTextField.becomeFirstResponder()
             //self.captionTextField.center.y = tappedLoc.y
             if titleTextField.text == enterTitleConstant {
@@ -621,7 +618,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                     UIView.animate(withDuration: 0.4, animations: {
                         
                         //get the height of the keyboard that will show and then shift the text field down by that amount
-                        // each distance we subtract shifts the caption up by that amount. 
+                        // each distance we subtract shifts the caption up by that amount.
                         self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height - self.scrollHousingViewTopConstraint.constant
                         self.view.layoutIfNeeded()
                     })
