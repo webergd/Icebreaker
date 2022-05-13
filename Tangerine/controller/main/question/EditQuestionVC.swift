@@ -621,7 +621,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                     UIView.animate(withDuration: 0.4, animations: {
                         
                         //get the height of the keyboard that will show and then shift the text field down by that amount
-                        self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height
+                        // each distance we subtract shifts the caption up by that amount. 
+                        self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height - self.scrollHousingViewTopConstraint.constant
                         self.view.layoutIfNeeded()
                     })
                 }
