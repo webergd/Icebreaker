@@ -92,8 +92,16 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var scrollViewFrameRect: CGRect = CGRect()
     var scrollViewHeight: CGFloat = 0.0
     var screenHeight: CGFloat = 0.0
-    var screenWidth: CGFloat = 0.0
-    var captionTopLimit: CGFloat = 0.0
+    var screenWidth: CGFloat = UIScreen.main.bounds.size.width
+    var captionTopLimit: CGFloat {
+//        if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .reEditingFirstPhoto {
+//            return 0.0
+//        } else {
+//            return screenWidth
+//        }
+        return 0.0
+        
+    }
     var captionBottomLimit: CGFloat = 0.0
     //var captionLocationToSet: CGFloat = 0.0
     var imageScreenSize: CGFloat = 0.0 // this is the height of the image in terms of screen units (pixels or whatever they are)
@@ -413,75 +421,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
     }
 
-
-
-
-
-//    struct housingViewConstraints {
-//        let scrollAndCompareHousingViewHeight: CGFloat
-//        let scrollHousingViewTopConstraint: CGFloat // (zero when Case 1)
-//        let scrollHousingViewHeight: CGFloat
-//        let compareHousingViewTopConstraint: CGFloat
-//        let compareHousingViewHeight: CGFloat // (should be just a touch higher than the thumbnail image
-//        let thumbnailImageWidth: CGFloat
-//
-//        init(EQVC: EditQuestionVC) {
-//            // calculate scrollHousingViewHeight:
-//            // title + scrollView + captionButton
-//            self.scrollHousingViewHeight = titleTextFieldHeight + screenWidth + captionTextField.frame.height
-//
-//            // calculate scrollHousingViewHeight:
-//            // title + scrollView + captionButton
-//            self.scrollHousingViewHeight = titleTextFieldHeight + screenWidth + captionTextField.frame.height
-//
-//            // calculate scrollAndCompareHousingViewHeight:
-//            // Total screen height minue qTypeLabel.height and publishButton.height
-//            self.scrollAndCompareHousingViewHeight = screenHeight - (questionTypeLabel.frame.height + publishButton.frame.height)
-//
-//
-//        }
-// // (same as height), changes based on Case and available screen height
-//    }
-//
-//    /// Calculates the vertical constraint for the various housing views and returns a housingViewConstraints object with the required parameters to layout the scene in the correct configuration. The two main inputs are the argument (screenHeight) and the compareImageState, which is a local variable so it doesn't need to be a function argument.
-//    func calculateVerticalConstraints(screenHeight: CGFloat) -> housingViewConstraints {
-//        //    Inputs:
-//        //    screen height
-//        //    Editing Image (case)0, 1 or 2 // same as compareImageState
-//        //    0: Ask
-//        //    1: Compare editing Top
-//        //    2: Compare editing Bottom
-//        // will be very little difference between 0 and 1 depending on Screen height available like in a short iphone SE
-//
-//
-//
-//
-//        //calculate compareHousingViewHeight
-//        // This is the leftover vertical space that will vary based on the size of the phone that the member is using. The bigger the better so that the otherImageThumbnail can be seen clearly.
-//        // outerViewHeight - scrollHeight
-//        let compareHeight: CGFloat = outerViewHeight - scrollHeight
-//
-//        // calculate thumbnail image width
-//        // The thumbnail is a 1:1 aspect ratio so width == height.
-//        // We want to leave a buffer around the image so we'll make it a percentage of the housingView
-//        let thumbnailWidth: CGFloat = compareHeight * 0.8
-//
-//
-//
-//
-//        switch compareImageState {
-//        case .firstPhotoTaken:
-//
-//        }
-//
-//
-//
-//    }
-
-
-    
-    
-    
     
     // The next 3 methods (loadImage and the two unpacks) work together to load the correct properties into the EditQuestionVC
     func load(image number: oneOrTwo) {
@@ -634,7 +573,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @objc func userDragged(_ dragCaptionGesture: UIPanGestureRecognizer){
         let draggedLoc: CGPoint = dragCaptionGesture.location(in: self.view)
         
-        let captionLocationToSet = draggedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight)
+        let captionLocationToSet = draggedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight) - scrollHousingViewTopConstraint.constant - titleTextFieldHeight
+        print("titleTextFieldHeight is \(titleTextFieldHeight)")
         self.captionTextFieldTopConstraint.constant = vetCaptionTopConstraint(captionLocationToSet)
         self.captionYValue = self.captionTextFieldTopConstraint.constant
     }
@@ -653,6 +593,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             return desiredLocation
         }
     }
+    
     
     // This is called in the viewDidLoad section in our NSNotificationCenter command
     @objc func keyboardWillShow(_ notification: Notification) {
