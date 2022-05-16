@@ -116,6 +116,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var blursAddedByEditor: Bool = false
     var zoomScaleToLoad: CGFloat =  initialZoomScale
     var contentOffsetToLoad: CGPoint = initialContentOffset
+    /// We plan on keeping this is ""
     let enterTitleConstant: String = ""
     let inactiveImageIndicatorAlphaConstant = 0.6
     
@@ -295,6 +296,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print("viewDidAppear called in EQVC")
         //if this could animate at twice the speed, it would look better (and be less annoying when switching between thumbnails that are zoomed in far)
         scrollView.setZoomScale(zoomScaleToLoad, animated: true)
         setupHousingViews()
@@ -307,7 +309,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         print("EQVC viewDidLoad() called")
-        titleTextFieldHeightConstraint.constant = 0.0
+//        titleTextFieldHeightConstraint.constant = 0.0
 //        titleTextField.translatesAutoresizingMaskIntoConstraints = false
 //        self.view.layoutIfNeeded()
         
@@ -341,9 +343,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // This sets up an observer so we can move the caption text box back down when the keyboard goes away:
         NotificationCenter.default.addObserver(self, selector: #selector(EditQuestionVC.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        
-        
         
         // This gets the height of the screen for spacing things out later
         // Used only for determining where to move the caption when the keyboard pops up
@@ -388,6 +387,13 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomImageIndicator.isUserInteractionEnabled = true
         bottomImageIndicator.addGestureRecognizer(bottomImageIndicatorTappedGestureRecognizer)
         
+        if currentTitle != "" {
+            showTitleTextField()
+        } else {
+            hideTitleTextField()
+        }
+        
+        print("titleTextField height is: \(titleTextField.frame.height)")
         
     }
     
@@ -404,8 +410,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         compareToggleButton.layer.cornerRadius = 5
         otherImageThumbnail.layer.cornerRadius = 5
+        
+
               
-//        print("title height in viewDidLayoutSubviews is \(titleTextField.frame.height)")
+        print("title height in view DidLayoutSubviews is \(titleTextField.frame.height)")
         setupHousingViews()
     }
     
@@ -423,7 +431,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     
     // The next 3 methods (loadImage and the two unpacks) work together to load the correct properties into the EditQuestionVC
-    func load(image number: oneOrTwo) {
+    func load(image imageNumberToLoad: oneOrTwo) {
+        print("load image called")
         
         if currentCompare.imageBeingEdited1 == nil {
             print("imageBeingEdited1 is nil")
@@ -433,7 +442,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         if let iBE1 = currentCompare.imageBeingEdited1 {
             
-            switch number {
+            switch imageNumberToLoad {
             case .one:
                 unpack(image: iBE1)
                 if let iBE2 = currentCompare.imageBeingEdited2 { unpack(thumbnail: iBE2) }
@@ -461,8 +470,16 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func unpack(image iBE: imageBeingEdited) {
+        print("unpack image called")
         currentImage = iBE.iBEimageBlurredUncropped
         currentTitle = iBE.iBEtitle
+        print("currentTitle is: \(currentTitle)")
+        titleTextField.text = currentTitle
+        if currentTitle != "" {
+            showTitleTextField()
+        } else {
+            hideTitleTextField()
+        }
         currentCaption = iBE.iBEcaption
         captionTextField.isHidden = !iBE.iBEcaption.exists //hide captionTextField if caption doesn't exist, otherwise, show it.
         unblurredImageSave = iBE.iBEimageCleanUncropped
@@ -477,6 +494,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /// Accesses the helper class EQVCVerticalConstraints to arrange the housing views in such a way that makes the member's experience intuitive based on what image is being edited
     func setupHousingViews() {
+        print("setupHousingViews() called")
+        
         print("is titleTextField visible? \(Bool(!titleTextField.isHidden))")
         print("what is the titleTextField height?  \(String(describing: titleTextFieldHeightConstraint.constant))")
         let constraintCalculator = EQVCVerticalConstraints(
@@ -571,7 +590,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         let draggedLoc: CGPoint = dragCaptionGesture.location(in: self.view)
         
         let captionLocationToSet = draggedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight) - scrollHousingViewTopConstraint.constant - titleTextFieldHeight
-        print("titleTextFieldHeight is \(titleTextFieldHeight)")
+        print("inside userDragged()... titleTextFieldHeight is \(titleTextFieldHeight)")
         self.captionTextFieldTopConstraint.constant = vetCaptionTopConstraint(captionLocationToSet)
         self.captionYValue = self.captionTextFieldTopConstraint.constant
     }
@@ -653,12 +672,16 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // If the user has entered no text in the titleTextField, reset it to how it was originally:
         if self.titleTextField.text == "" {
             self.titleTextField.text = enterTitleConstant
-            self.titleTextField.textColor = UIColor.gray
+//            self.titleTextField.textColor = UIColor.gray
             self.titleHasBeenTapped = false
             
             if captionTextField.text != "" {
                 centerFlexibleSpace.isEnabled = true //deprecated
             }
+            // MARK: This mirror caption button is now being used as an edit title button so we need to clean up some of this linkage to the caption
+            
+            hideTitleTextField()
+            
         } else if titleTextField.text != enterTitleConstant  {
             centerFlexibleSpace.isEnabled = false //deprecated
         }
@@ -681,7 +704,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func resetTitleTextField() {
         self.titleTextField.text = enterTitleConstant
-        self.titleTextField.textColor = UIColor.gray
+//        self.titleTextField.textColor = UIColor.gray
         currentTitle = ""
     }
     
@@ -691,6 +714,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func toggleCompareImage() {
+        print("toggleCompareImage called")
         switch currentCompare.creationPhase {
         case .secondPhotoTaken:
             // MARK need something here to acknowledge image was tapped but we're not doing anything
@@ -993,11 +1017,37 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func addTitleButtonTapped(_ sender: Any) {
         print("Add title button tapped")
+        showTitleTextField()
+        titleTextField.becomeFirstResponder()
+    }
+    
+    /// Checks if there is any text stored for a title and hides or displays the titleTextField as appropriate
+    func configureTitleTextFieldConstraints() {
+        if currentTitle != "" {
+            showTitleTextField()
+        } else {
+            hideTitleTextField()
+        }
+    }
+    
+    /// makes the titleTF visible with 30.0 height
+    /// then calls setupHousingViews()
+    func showTitleTextField() {
+        print("showTitleTextField() called")
         titleTextField.isHidden = false
         titleTextField.isEnabled = true
         titleTextFieldHeightConstraint.constant = 30.0
         setupHousingViews()
-        titleTextField.becomeFirstResponder()
+    }
+    
+    /// makes the titleTF visible with 30.0 height
+    /// then calls setupHousingViews()
+    func hideTitleTextField() {
+        print("hideTitleTextField() called")
+        titleTextField.isHidden = true
+        titleTextField.isEnabled = false
+        titleTextFieldHeightConstraint.constant = 0.0
+        setupHousingViews()
     }
     
     
@@ -1019,7 +1069,13 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func createImageBeingEdited() -> imageBeingEdited {
+        print("createImageBeingEdited() called")
         let captionToBePassed = createCaption()
+        
+        if let titleToStore = titleTextField.text {
+            currentTitle = titleToStore
+        }
+        
         
         var unblurredImageToBePassed: UIImage
         
@@ -1316,8 +1372,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             if titleTextFieldIsBlank == false {
                 // if the title is not blank, then:
                 titleTextField.textColor = .label
+                showTitleTextField()
             } else { //aka if tTF is one of the 3 blank conditions:
                 titleTextField.text = enterTitleConstant
+                hideTitleTextField()
                 //titleTextField.textColor should already be gray
             }
         }
@@ -1342,6 +1400,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     /// Stores the image and caption currently being displayed in the image editor view (EditQuestionVC) to a Compare. This method checks if we are creating the first image of a compare and if it is, creates a new compare and stores the image to it, then segues to the AVCamera to pick the second image.
     /// If the first image is already created, this method stores it as the second image in the compare and segues to the ComparePreviewVC for final publishing approval.
     func createHalfOfCompare() {
+        print("createHalfOfCompare called")
         let iBE = createImageBeingEdited()
         
         if currentCompare.creationPhase == .firstPhotoTaken {

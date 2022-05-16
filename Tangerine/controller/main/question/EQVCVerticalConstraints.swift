@@ -26,11 +26,12 @@ public class EQVCVerticalConstraints {
     init(titleTextFieldHeight: CGFloat, screenWidth: CGFloat, captionTextFieldHeight: CGFloat, scrollAndCompareHousingViewHeight: CGFloat) {
         // calculate scrollHousingViewHeight:
         // title + scrollView + captionButton
-        print("initializing the EQVC Vertical Constraints object")
+        print("-- initializing the EQVC Vertical Constraints object --")
         print("titleTextFieldHeight to be used is: \(String(describing: titleTextFieldHeight))")
         print("screenWidth = \(screenWidth) \ncaptionTextFieldHeight = \(captionTextFieldHeight)")
         self.scrollHousingViewHeight = titleTextFieldHeight + screenWidth + captionTextFieldHeight + 6
         print("scrollHousingViewHeight = \(scrollHousingViewHeight)")
+        print("- - -")
         // we use captionTextFieldHeight instead of the caption button's height because the button derives its height from the captionTextField's height.
         
         // calculate scrollAndCompareHousingViewHeight:
@@ -66,7 +67,7 @@ public class EQVCVerticalConstraints {
     var compareHousingViewTopConstraint: CGFloat {
         switch photoBeingEdited {
         case .top:
-            print("comparetopheight\(String(describing: scrollHousingViewHeight))")
+            print("compareTopHeight computed as: \(String(describing: scrollHousingViewHeight))")
             return self.scrollHousingViewHeight
         case .bottom:
             return CGFloat(0.0)
