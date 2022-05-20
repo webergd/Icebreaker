@@ -3578,7 +3578,7 @@ Date of last revision: October 25, 2021
                                                 <state key="normal" title="" image="camera.badge.ellipsis" catalog="system"/>
                                                 <buttonConfiguration key="configuration" style="gray" image="camera.badge.ellipsis" catalog="system" imagePlacement="top">
                                                     <attributedString key="attributedTitle">
-                                                        <fragment content="Compare With">
+                                                        <fragment content="Compare Against">
                                                             <attributes>
                                                                 <font key="NSFont" size="14" name="Helvetica"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -3800,6 +3800,7 @@ Date of last revision: October 25, 2021
                         <outlet property="otherImageThumbnail" destination="aHj-J9-xEO" id="Ypu-G2-6fa"/>
                         <outlet property="publishButton" destination="Aor-aq-xe9" id="taD-EO-tfx"/>
                         <outlet property="questionTypeLabel" destination="sVJ-Wy-wf7" id="lPc-sD-Cqx"/>
+                        <outlet property="questionTypeLabelHeightConstraint" destination="5Kc-EY-a2E" id="ibJ-PT-XPj"/>
                         <outlet property="scrollAndCompareHousingView" destination="ajh-qr-aFH" id="TqN-Mp-A8l"/>
                         <outlet property="scrollHousingView" destination="Or1-CF-jJM" id="8mp-Yv-7W2"/>
                         <outlet property="scrollHousingViewHeightConstraint" destination="awv-yZ-va5" id="Z2B-8c-6cB"/>

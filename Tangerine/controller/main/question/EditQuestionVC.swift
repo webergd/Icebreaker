@@ -32,8 +32,11 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     // so we can hide the deleteThumnailButton:
     @IBOutlet weak var deleteThumbnailButton: UIButton!
     
-    // These are the small image icons that tell user whether user is creating an ask or a compare
+    
     @IBOutlet weak var questionTypeLabel: UILabel!
+    @IBOutlet weak var questionTypeLabelHeightConstraint: NSLayoutConstraint!
+    
+    // These are the small image icons that tell user whether user is creating an ask or a compare
     @IBOutlet weak var topImageIndicator: UIImageView!
     @IBOutlet weak var bottomImageIndicator: UIImageView!
     
@@ -222,8 +225,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 .paragraphStyle : paragraphStyle,
             ]
             
-            // set compareToggleButton text and image up to give user the option to add a second image
-            let attributedTitle = NSAttributedString(string: "Compare With", attributes: buttonTitleAttributes)
+            /// sets compareToggleButton text and image up to give user the option to add a second image
+            let attributedTitle = NSAttributedString(string: "Compare Against", attributes: buttonTitleAttributes)
             compareToggleButton.setAttributedTitle(attributedTitle, for: .normal)
             compareToggleButton.setImage(UIImage(systemName: "camera.badge.ellipsis"), for: .normal)
 
@@ -298,6 +301,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidAppear(_ animated: Bool) {
         print("viewDidAppear called in EQVC")
         //if this could animate at twice the speed, it would look better (and be less annoying when switching between thumbnails that are zoomed in far)
+        updateQuestionTypeLabel()
         scrollView.setZoomScale(zoomScaleToLoad, animated: true)
         setupHousingViews()
 
@@ -324,6 +328,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         imagePicker.delegate = self
         captionTextField.delegate = self
+        titleTextField.delegate = self
         self.scrollView.minimumZoomScale = 1.0
         self.scrollView.maximumZoomScale = 6.0
         // Hides keyboard when user taps outside of text field
@@ -1050,6 +1055,22 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         setupHousingViews()
     }
     
+    /// Limits titleTextField length to the specified number of characters (currently 12)
+    internal func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                            replacementString string: String) -> Bool {
+        let maxCharacters: Int = 12
+        if let thisText = textField.text {
+            if textField == titleTextField {
+                let maxLength = maxCharacters - 1 // systems adds one extra (I think it's counting from zero), this - 1 fixes that
+                return thisText.count <= maxLength
+            } else {
+                return true
+            }
+        } else {
+            return true
+        }
+    }
+    
     
     /// This method clears the text field to be ready to be typed in and it also reverses the value of titleHasBeenTapped.
     @IBAction func titleTextFieldBeginEditing(_ sender: AnyObject) {
@@ -1058,6 +1079,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func titleTextFieldValueChanged(_ sender: AnyObject) {
     }
+    
+    
+    
     /// this sets the text field that we pass in to no text and black text, as long as we have a variable to track whether it has been tapped already:
     func resetTextField(_ textField: UITextField, tappedYet: Bool) -> Bool {
         // print("resetTextField called")
@@ -1294,31 +1318,63 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         reduceToAsk()
     }
     
-    
+    // MARK: Deprecated
     @objc func topImageIndicatorTapped(_ topImageIndicatorTappedGestureRecognizer: UITapGestureRecognizer)
     {
-        questionTypeLabel.text = correctQuestionTypeLabel()
+//        questionTypeLabel.text = correctQuestionTypeLabel()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
             self.questionTypeLabel.fadeInAfter(seconds: 0.0)
             self.questionTypeLabel.fadeOutAfter(seconds: 6.0)
         }
     }
     
+    // MARK: Deprecated
     @objc func bottomImageIndicatorTapped(_ bottomImageIndicatorTappedGestureRecognizer: UITapGestureRecognizer)
     {
-        questionTypeLabel.text = correctQuestionTypeLabel()
+//        questionTypeLabel.text = correctQuestionTypeLabel()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
             self.questionTypeLabel.fadeInAfter(seconds: 0.0)
             self.questionTypeLabel.fadeOutAfter(seconds: 6.0)
         }
     }
     
-    func correctQuestionTypeLabel() -> String{
-        if currentCompare.creationPhase == .firstPhotoTaken {
-            return "SINGLE IMAGE FOR REVIEW"
-        } else {
-            return "IMAGE 1 vs IMAGE 2"
+    
+    func updateQuestionTypeLabel() {
+        let top = "EDITING TOP IMAGE"
+        let bottom = "EDITING BOTTOM IMAGE"
+        var labelText = ""
+        
+        switch currentCompare.creationPhase {
+        case .firstPhotoTaken:
+            makeQuestionTypeLabel(visible: false)
+            labelText = ""
+        case .secondPhotoTaken:
+            makeQuestionTypeLabel(visible: true)
+            labelText = bottom
+        case .reEditingFirstPhoto:
+            makeQuestionTypeLabel(visible: true)
+            labelText = top
+        case .reEditingSecondPhoto:
+            makeQuestionTypeLabel(visible: true)
+            labelText = bottom
+        case .noPhotoTaken: // should never execute
+            makeQuestionTypeLabel(visible: true)
+            labelText = "Error- return to camera"
         }
+        
+        questionTypeLabel.text = labelText
+    }
+    
+    /// hides or unhides the questionTypeLabel and sets its height to either 0.0 or 15.0 as appropriate
+    func makeQuestionTypeLabel(visible: Bool) {
+        if visible {
+            questionTypeLabel.isHidden = false
+            questionTypeLabelHeightConstraint.constant = CGFloat(15.0)
+        } else {
+            questionTypeLabel.isHidden = true
+            questionTypeLabelHeightConstraint.constant = CGFloat(0.0)
+        }
+        
     }
     
     
