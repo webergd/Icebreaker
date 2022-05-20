@@ -50,6 +50,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var compareHousingViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollHousingViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var compareToggleButtonHeightConstraint: NSLayoutConstraint!
     
     
     
@@ -303,7 +304,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         //if this could animate at twice the speed, it would look better (and be less annoying when switching between thumbnails that are zoomed in far)
         updateQuestionTypeLabel()
         scrollView.setZoomScale(zoomScaleToLoad, animated: true)
-        setupHousingViews()
+//        setupHousingViews()
 
         
         print("compareHousingView height VIEW DID APPEAR \(compareHousingView.frame.size.height)")
@@ -313,6 +314,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         print("EQVC viewDidLoad() called")
+        print("compareHousingViewHeight * 0.8 in EQVC VDL is: \(compareHousingView.frame.size.height * 0.8)")
 //        titleTextFieldHeightConstraint.constant = 0.0
 //        titleTextField.translatesAutoresizingMaskIntoConstraints = false
 //        self.view.layoutIfNeeded()
@@ -407,12 +409,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         print("viewDidLayoutSubviews() called")
         
         print("compareHousingView height VIEW DID LAYOUT SUBVIEWS \(compareHousingView.frame.size.height)")
-        
-        if currentCompare.creationPhase == .firstPhotoTaken {
-            //add border to button if there is no thumbnail
-            compareToggleButton.addDashedBorder()
-        }
-        
+
         compareToggleButton.layer.cornerRadius = 5
         otherImageThumbnail.layer.cornerRadius = 5
         
@@ -420,6 +417,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
               
         print("title height in view DidLayoutSubviews is \(titleTextField.frame.height)")
         setupHousingViews()
+        
     }
     
     
@@ -520,7 +518,31 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         scrollHousingViewTopConstraint.constant = constraintCalculator.scrollHousingViewTopConstraint
         compareHousingViewTopConstraint.constant = constraintCalculator.compareHousingViewTopConstraint
+        
+        // sets size of compareToggleButton (and thumbnail image) to a proportion of the compareHousingView's size
+        // width and height are interchangeable since the button is 1:1 H:W ratio (square)
+        
 
+        
+        
+        adjustThumbnailHeight(thumbnailImageWidth: constraintCalculator.thumbnailImageWidth)
+        
+
+    }
+    
+    func adjustThumbnailHeight(thumbnailImageWidth: CGFloat) {
+        if currentCompare.creationPhase == .firstPhotoTaken {
+            // smaller if there is no image (and it is only a button)
+            compareToggleButtonHeightConstraint.constant = thumbnailImageWidth * 0.5
+            compareToggleButton.addDashedBorder(with: thumbnailImageWidth * 0.5)
+            
+        } else {
+            // larger if there is a thumnail image in the button
+            compareToggleButtonHeightConstraint.constant = thumbnailImageWidth
+            compareToggleButton.removeDashedBorder()
+            
+        }
+        
     }
     
     

@@ -3510,7 +3510,7 @@ Date of last revision: October 25, 2021
                                             </textField>
                                             <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwv-eL-4Tr">
                                                 <rect key="frame" x="96.5" y="349" width="127" height="31"/>
-                                                <color key="backgroundColor" red="0.52648091320000001" green="0.52648091320000001" blue="0.52648091320000001" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="gray" image="plus.message" catalog="system" title="Add Caption"/>
@@ -3563,7 +3563,7 @@ Date of last revision: October 25, 2021
                                         <rect key="frame" x="0.0" y="380" width="320" height="70"/>
                                         <subviews>
                                             <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHj-J9-xEO">
-                                                <rect key="frame" x="127.5" y="2.5" width="65" height="65"/>
+                                                <rect key="frame" x="130" y="5" width="60" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="aHj-J9-xEO" secondAttribute="height" multiplier="1:1" id="x25-Iu-Ubq"/>
                                                 </constraints>
@@ -3573,8 +3573,11 @@ Date of last revision: October 25, 2021
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tcj-Ge-v93" userLabel="CompareToggleButton">
-                                                <rect key="frame" x="127.5" y="2.5" width="65" height="65"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <rect key="frame" x="130" y="5" width="60" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="m3Q-yg-jWb"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="6" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="" image="camera.badge.ellipsis" catalog="system"/>
                                                 <buttonConfiguration key="configuration" style="gray" image="camera.badge.ellipsis" catalog="system" imagePlacement="top">
                                                     <attributedString key="attributedTitle">
@@ -3597,7 +3600,7 @@ Date of last revision: October 25, 2021
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="destructive" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-a9-8dG">
-                                                <rect key="frame" x="94" y="20.5" width="29.5" height="29.5"/>
+                                                <rect key="frame" x="96.5" y="20.5" width="29.5" height="29.5"/>
                                                 <color key="tintColor" systemColor="systemRedColor"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <size key="titleShadowOffset" width="1" height="1"/>
@@ -3759,7 +3762,6 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="teb-yz-XMi" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" multiplier="0.35" id="2SO-Vh-x8l"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="top" secondItem="bgT-Fd-9N3" secondAttribute="bottom" priority="950" constant="15" id="8Ka-XW-kkb"/>
                             <constraint firstItem="ajh-qr-aFH" firstAttribute="top" secondItem="sVJ-Wy-wf7" secondAttribute="bottom" id="ASB-dT-YZc"/>
-                            <constraint firstItem="aHj-J9-xEO" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" multiplier="0.2" constant="1" id="Afk-tw-boe"/>
                             <constraint firstItem="ajh-qr-aFH" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" id="BVg-io-Oy0"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="leading" secondItem="bgT-Fd-9N3" secondAttribute="leading" constant="8" id="C7U-n8-fXP"/>
                             <constraint firstItem="ajh-qr-aFH" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="EQi-wK-whq"/>
@@ -3790,6 +3792,7 @@ Date of last revision: October 25, 2021
                         <outlet property="compareHousingViewHeightConstraint" destination="KqI-eY-5XQ" id="l3j-7O-pAW"/>
                         <outlet property="compareHousingViewTopConstraint" destination="166-fW-UO1" id="kYm-0W-o5M"/>
                         <outlet property="compareToggleButton" destination="tcj-Ge-v93" id="Mtu-23-B48"/>
+                        <outlet property="compareToggleButtonHeightConstraint" destination="m3Q-yg-jWb" id="0Xr-AD-SsD"/>
                         <outlet property="deleteThumbnailButton" destination="3ed-a9-8dG" id="sja-Fd-KYd"/>
                         <outlet property="enableBlurringButton" destination="bmK-bq-jck" id="rgc-cp-4Xn"/>
                         <outlet property="helpAskOrCompareLabel" destination="teb-yz-XMi" id="ozc-88-pg6"/>

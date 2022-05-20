@@ -50,6 +50,7 @@ public class EQVCVerticalConstraints {
     // The thumbnail is a 1:1 aspect ratio so width == height.
     // We want to leave a buffer around the image so we'll make it a percentage of the housingView
     var thumbnailImageWidth: CGFloat {
+        print("compareHousingViewHeight * 0.8 = \(compareHousingViewHeight * 0.8)")
         return self.compareHousingViewHeight * 0.8
     }
     
