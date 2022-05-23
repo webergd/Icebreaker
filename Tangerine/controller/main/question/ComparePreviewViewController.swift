@@ -172,6 +172,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     }
     /// Segues back to the image editor View so that the user can change the image that they just tapped on.
     func returnForEditing(editTopImage: Bool) {
+        print("returnForEditing called from ComparePreviewVC")
         // set the flag so we know which image to display in EditQuestionVC
         if editTopImage == true {
             currentCompare.creationPhase = .reEditingFirstPhoto
