@@ -300,6 +300,13 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         print("EQVC viewDidLoad() called")
+        
+        if let thisIBE1 = currentCompare.imageBeingEdited1 {
+            topImageIndicator.image = thisIBE1.iBEimageBlurredCropped
+        }
+        if let thisIBE2 = currentCompare.imageBeingEdited2 {
+            bottomImageIndicator.image = thisIBE2.iBEimageBlurredCropped
+        }
 
 //        titleTextFieldHeightConstraint.constant = 0.0
 //        titleTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -397,6 +404,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // It's weird that we have to call this here. If we don't, the button text sometimes gets switched to whatever is the default in the storyboard.
         configurePublishButton()
+        print("publishButton text is: \(self.publishButton.titleLabel!.text) (inside viewDidLayoutSubviews)")
     
 
         setupHousingViews()
@@ -527,10 +535,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let thisLabel = publishButton.titleLabel {
             if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .noPhotoTaken {
                 publishButton.setBackgroundColor(.systemBlue, forState: .normal)
-                thisLabel.text = "       PUBLISH"
+                thisLabel.text = "PUBLISH"
             } else {
                 publishButton.setBackgroundColor(.systemGreen, forState: .normal)
-                thisLabel.text = "       PREVIEW"
+                thisLabel.text = "PREVIEW"
             }
         }
         

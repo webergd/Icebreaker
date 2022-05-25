@@ -3318,6 +3318,7 @@ Date of last revision: October 25, 2021
                                             <constraint firstAttribute="width" secondItem="XFj-Q6-G28" secondAttribute="height" multiplier="1:1" id="ksn-Pg-2Pz"/>
                                             <constraint firstAttribute="width" constant="45" id="xP6-Sy-gM3"/>
                                         </constraints>
+                                        <size key="titleShadowOffset" width="1" height="1"/>
                                         <state key="normal" image="Xsmall_white"/>
                                         <connections>
                                             <action selector="cancelPhotoButtonTapped:" destination="2lw-m3-QmY" eventType="touchUpInside" id="udb-IM-52A"/>
@@ -3407,13 +3408,6 @@ Date of last revision: October 25, 2021
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" systemColor="tintColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text=":: blurring in progress ::" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEb-1g-pRd">
-                                <rect key="frame" x="113.5" y="394" width="93" height="10"/>
-                                <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EDITING TOP IMAGE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVJ-Wy-wf7">
@@ -3641,9 +3635,9 @@ Date of last revision: October 25, 2021
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgT-Fd-9N3" userLabel="PublishButton">
-                                <rect key="frame" x="105.5" y="453" width="109" height="48"/>
+                                <rect key="frame" x="80" y="453" width="160" height="48"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="       PUBLISH"/>
+                                <buttonConfiguration key="configuration" style="filled" title="PUBLISH"/>
                                 <connections>
                                     <action selector="publishButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="fKT-qf-ymk"/>
                                 </connections>
@@ -3659,7 +3653,17 @@ Date of last revision: October 25, 2021
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sFo-rO-TvZ">
                                             <rect key="frame" x="16" y="0.0" width="48" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="square arrow left"/>
+                                            <state key="normal">
+                                                <color key="titleColor" systemColor="labelColor"/>
+                                                <imageReference key="image" image="arrow.uturn.backward" catalog="system" renderingMode="hierarchical-single">
+                                                    <hierarchicalColors>
+                                                        <color systemColor="labelColor"/>
+                                                        <color systemColor="secondaryLabelColor"/>
+                                                        <color systemColor="tertiaryLabelColor"/>
+                                                    </hierarchicalColors>
+                                                </imageReference>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                            </state>
                                             <connections>
                                                 <action selector="menuButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="mqL-xc-X8M"/>
                                             </connections>
@@ -3668,9 +3672,17 @@ Date of last revision: October 25, 2021
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="8eO-M3-DMN"/>
                                     <barButtonItem title="Item" style="plain" id="b6B-y9-QDp">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zii-Fl-nwT">
-                                            <rect key="frame" x="80.5" y="0.0" width="48" height="40"/>
+                                            <rect key="frame" x="88" y="0.0" width="48" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="question circle blue"/>
+                                            <state key="normal">
+                                                <imageReference key="image" image="question circle blue" symbolScale="large" renderingMode="hierarchical-single">
+                                                    <hierarchicalColors>
+                                                        <color systemColor="systemBlueColor"/>
+                                                        <color systemColor="secondaryLabelColor"/>
+                                                        <color systemColor="tertiaryLabelColor"/>
+                                                    </hierarchicalColors>
+                                                </imageReference>
+                                            </state>
                                             <connections>
                                                 <action selector="helpButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="15c-Vl-Voh"/>
                                             </connections>
@@ -3680,10 +3692,19 @@ Date of last revision: October 25, 2021
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="OPs-kj-ywf"/>
                                     <barButtonItem style="plain" id="GqO-hj-aUU">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bmK-bq-jck">
-                                            <rect key="frame" x="161.5" y="9" width="21.5" height="22"/>
+                                            <rect key="frame" x="183.5" y="7" width="26" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <accessibility key="accessibilityConfiguration" identifier="enableBlurring"/>
-                                            <state key="normal" image="person.wave.2" catalog="system"/>
+                                            <state key="normal">
+                                                <imageReference key="image" image="face.dashed" catalog="system" renderingMode="hierarchical-single">
+                                                    <hierarchicalColors>
+                                                        <color systemColor="labelColor"/>
+                                                        <color systemColor="secondaryLabelColor"/>
+                                                        <color systemColor="tertiaryLabelColor"/>
+                                                    </hierarchicalColors>
+                                                </imageReference>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                            </state>
                                             <connections>
                                                 <action selector="enableBlurring:" destination="htq-oV-YgK" eventType="touchUpInside" id="CDd-vv-4Gf"/>
                                             </connections>
@@ -3691,9 +3712,18 @@ Date of last revision: October 25, 2021
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="iDX-8Z-x7l">
                                         <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PmH-6G-spq">
-                                            <rect key="frame" x="183" y="9" width="19" height="22"/>
+                                            <rect key="frame" x="209.5" y="7" width="26" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="person" catalog="system"/>
+                                            <state key="normal">
+                                                <imageReference key="image" image="face.smiling" catalog="system" renderingMode="hierarchical-single">
+                                                    <hierarchicalColors>
+                                                        <color systemColor="labelColor"/>
+                                                        <color systemColor="secondaryLabelColor"/>
+                                                        <color systemColor="tertiaryLabelColor"/>
+                                                    </hierarchicalColors>
+                                                </imageReference>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                            </state>
                                             <connections>
                                                 <action selector="clearBlursTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="ukN-7l-5Cn"/>
                                             </connections>
@@ -3702,27 +3732,30 @@ Date of last revision: October 25, 2021
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="jac-4U-0AU"/>
                                     <barButtonItem style="plain" id="e0I-aR-Ohi">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C74-K5-x0i">
-                                            <rect key="frame" x="218.5" y="5" width="29" height="30"/>
+                                            <rect key="frame" x="259.5" y="5" width="36.5" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="rectangle.and.pencil.and.ellipsis" catalog="system"/>
+                                            <state key="normal">
+                                                <color key="titleColor" systemColor="secondaryLabelColor"/>
+                                                <imageReference key="image" image="rectangle.and.pencil.and.ellipsis" catalog="system" renderingMode="hierarchical-single">
+                                                    <hierarchicalColors>
+                                                        <color systemColor="labelColor"/>
+                                                        <color systemColor="secondaryLabelColor"/>
+                                                        <color systemColor="tertiaryLabelColor"/>
+                                                    </hierarchicalColors>
+                                                </imageReference>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                            </state>
                                             <connections>
                                                 <action selector="addTitleButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="Hac-yR-Vxe"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="pfI-yP-fy9"/>
-                                    <barButtonItem style="plain" id="7RN-RS-A2o">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Aor-aq-xe9" userLabel="Right Arrow">
-                                            <rect key="frame" x="264" y="0.0" width="40" height="40"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="square-arrow"/>
-                                        </button>
-                                    </barButtonItem>
                                 </items>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lR-5A-tiq" userLabel="ThumbnailView">
-                                <rect key="frame" x="113.5" y="453" width="24" height="48"/>
+                                <rect key="frame" x="88" y="453" width="24" height="48"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.crop.square.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="QzW-RH-GLS">
                                         <rect key="frame" x="0.0" y="1" width="24" height="21.5"/>
@@ -3733,7 +3766,7 @@ Date of last revision: October 25, 2021
                                         </constraints>
                                     </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Hkd-LA-rmR">
-                                        <rect key="frame" x="0.0" y="21" width="24" height="21.5"/>
+                                        <rect key="frame" x="0.0" y="25" width="24" height="21.5"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Hkd-LA-rmR" secondAttribute="height" multiplier="1:1" id="xYR-4E-7s9"/>
@@ -3743,7 +3776,7 @@ Date of last revision: October 25, 2021
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="Hkd-LA-rmR" firstAttribute="top" secondItem="QzW-RH-GLS" secondAttribute="bottom" constant="-4" id="4g1-aE-VVs"/>
+                                    <constraint firstItem="Hkd-LA-rmR" firstAttribute="top" secondItem="QzW-RH-GLS" secondAttribute="bottom" id="4g1-aE-VVs"/>
                                     <constraint firstItem="Hkd-LA-rmR" firstAttribute="width" secondItem="QzW-RH-GLS" secondAttribute="width" id="9uI-jv-2y5"/>
                                     <constraint firstItem="QzW-RH-GLS" firstAttribute="top" secondItem="5lR-5A-tiq" secondAttribute="top" id="FdI-qG-ch2"/>
                                     <constraint firstItem="QzW-RH-GLS" firstAttribute="centerX" secondItem="5lR-5A-tiq" secondAttribute="centerX" id="Qw6-Lz-vVx"/>
@@ -3752,6 +3785,13 @@ Date of last revision: October 25, 2021
                                     <constraint firstItem="QzW-RH-GLS" firstAttribute="width" secondItem="5lR-5A-tiq" secondAttribute="width" id="iGD-Yg-YrH"/>
                                 </constraints>
                             </view>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":: blurring in progress ::" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEb-1g-pRd">
+                                <rect key="frame" x="113.5" y="550" width="93" height="10"/>
+                                <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Mw1-wG-myY"/>
                         <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
@@ -3765,6 +3805,7 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="bgT-Fd-9N3" firstAttribute="top" secondItem="ajh-qr-aFH" secondAttribute="bottom" priority="950" constant="15" id="M0c-ol-uXV"/>
                             <constraint firstItem="sVJ-Wy-wf7" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="Nrb-9G-jmb"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="centerY" secondItem="bgT-Fd-9N3" secondAttribute="centerY" id="Odc-88-9RM"/>
+                            <constraint firstItem="bgT-Fd-9N3" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" multiplier="0.5" id="QlM-rL-pQO"/>
                             <constraint firstItem="bgT-Fd-9N3" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="RNk-XN-XUP"/>
                             <constraint firstItem="mEb-1g-pRd" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="UV3-UG-vwE"/>
                             <constraint firstItem="sVJ-Wy-wf7" firstAttribute="top" secondItem="Mw1-wG-myY" secondAttribute="top" id="YAW-71-rON"/>
@@ -3773,6 +3814,7 @@ Date of last revision: October 25, 2021
                             <constraint firstAttribute="bottom" secondItem="8jP-xj-wJv" secondAttribute="bottom" constant="12" id="haq-1A-gU1"/>
                             <constraint firstItem="teb-yz-XMi" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" constant="20" id="iB8-Ar-DxZ"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="height" secondItem="bgT-Fd-9N3" secondAttribute="height" id="mHC-tH-BoL"/>
+                            <constraint firstItem="Mw1-wG-myY" firstAttribute="bottom" secondItem="mEb-1g-pRd" secondAttribute="bottom" constant="8" id="o2C-CP-32s"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5UT-1h-svu"/>
@@ -7920,12 +7962,15 @@ Tap the image that you think this person should go with.
         <image name="Xsmall_white" width="512" height="512"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="arrow.right.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="arrow.uturn.backward" catalog="system" width="128" height="112"/>
         <image name="arrow_white" width="512" height="512"/>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
         <image name="camera.badge.ellipsis" catalog="system" width="128" height="92"/>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="circle_white" width="512" height="512"/>
+        <image name="face.dashed" catalog="system" width="128" height="121"/>
+        <image name="face.smiling" catalog="system" width="128" height="121"/>
         <image name="flag_white" width="40" height="40"/>
         <image name="friends_icon" width="341" height="341"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
@@ -7941,7 +7986,6 @@ Tap the image that you think this person should go with.
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="person.badge.plus" catalog="system" width="128" height="124"/>
         <image name="person.crop.square.fill" catalog="system" width="128" height="114"/>
-        <image name="person.wave.2" catalog="system" width="128" height="119"/>
         <image name="plus.circle" catalog="system" width="128" height="121"/>
         <image name="plus.message" catalog="system" width="128" height="113"/>
         <image name="profile_settings_icon" width="341" height="341"/>
@@ -7950,7 +7994,6 @@ Tap the image that you think this person should go with.
         <image name="review_others_icon" width="326" height="288"/>
         <image name="share_photo_icon" width="341" height="341"/>
         <image name="speech_bubble" width="40" height="40"/>
-        <image name="square arrow left" width="40" height="40"/>
         <image name="square-arrow" width="40" height="40"/>
         <image name="square-icon_white" width="512" height="512"/>
         <image name="swipe_right" width="96" height="96"/>
@@ -7962,6 +8005,9 @@ Tap the image that you think this person should go with.
         </systemColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemGroupedBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -7986,6 +8032,9 @@ Tap the image that you think this person should go with.
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
