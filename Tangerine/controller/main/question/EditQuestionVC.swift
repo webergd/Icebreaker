@@ -63,7 +63,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     //@IBOutlet weak var returnToZoomButton: UIButton!
     /// displays to let the user know that the image is being blurred while they long tap on it
     @IBOutlet weak var blurringInProgressLabel: UILabel!
+    @IBOutlet weak var helpAskOrCompareLabel: UILabel!
     
+
     /// Adds a comparision image or toggles between two compare images
     @IBOutlet weak var compareToggleButton: UIButton!
     
@@ -81,7 +83,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var helpPressBlurLabel: UILabel!
     @IBOutlet weak var helpZoomCropLabel: UILabel!
-    @IBOutlet weak var helpAskOrCompareLabel: UILabel!
     
     // many of these are 0.0 becuase I didn't want to bother with an initializer method since they all get set before use anyway.
     let imagePicker = UIImagePickerController()
@@ -164,8 +165,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
 //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
         
-        let makeCompareHelpMessage: String = "Add 2nd image for comparison"
-        let revertToAskHelpMessage: String = "Tap ❌ to revert to single image"
+        let makeCompareHelpMessage: String = "This is a single image so reviewers will vote YES or NO."
+        let revertToAskHelpMessage: String = "Reviewers will vote for the TOP or BOTTOM image."
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -301,12 +302,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         print("EQVC viewDidLoad() called")
         
-        if let thisIBE1 = currentCompare.imageBeingEdited1 {
-            topImageIndicator.image = thisIBE1.iBEimageBlurredCropped
-        }
-        if let thisIBE2 = currentCompare.imageBeingEdited2 {
-            bottomImageIndicator.image = thisIBE2.iBEimageBlurredCropped
-        }
+        loadPublishButtonThumnails()
+
 
 //        titleTextFieldHeightConstraint.constant = 0.0
 //        titleTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -534,15 +531,63 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if let thisLabel = publishButton.titleLabel {
             if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .noPhotoTaken {
-                publishButton.setBackgroundColor(.systemBlue, forState: .normal)
+//                publishButton.setBackgroundColor(.systemBlue, forState: .normal)
                 thisLabel.text = "PUBLISH"
+//                thisLabel.textColor = .white
             } else {
-                publishButton.setBackgroundColor(.systemGreen, forState: .normal)
+                // none of these background color change attempts work at the moment. I'd like to make it green.
+//                publishButton.setBackgroundColor(.systemGreen, forState: .normal)
+//                publishButton.backgroundColor = UIColor.systemGreen //.systemGreen
+//                publishButton.layer.backgroundColor = .init(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
                 thisLabel.text = "PREVIEW"
+//                thisLabel.textColor = .systemGreen
             }
         }
         
         publishButton.layer.cornerRadius = 5.0
+    }
+    
+
+    
+    /// Loads a reduced size version of each image in the currentCompare into the publishButton for display.
+    func loadPublishButtonThumnails() {
+        print("loadPublishButtonThumnails called")
+                
+        if let thisIBE1 = currentCompare.imageBeingEdited1 {
+            let rawImg = thisIBE1.iBEimageBlurredCropped
+            topImageIndicator.image = rawImg.resizeWithPercent(percentage: 0.05)  //thisIBE1.iBEimageBlurredCropped.resizeWithPercent(percentage: 0.05)
+            
+        }
+        if let thisIBE2 = currentCompare.imageBeingEdited2 {
+            let rawImg = thisIBE2.iBEimageBlurredCropped
+            bottomImageIndicator.image = rawImg.resizeWithPercent(percentage: 0.05)
+        }
+
+    }
+    
+    /// Resizes the publish button thumbnail corresponding to the image currently being edited
+    func resizePublishButtonThumbnail() {
+        print("resizePublishButtonThumbnail() called")
+        print("currentCompare.creationPhase = \(currentCompare.creationPhase.rawValue)")
+        
+        if let rawImg = imageView.image {
+            let croppedImg = cropImage(rawImg)
+            if currentCompare.creationPhase == compareImageState.firstPhotoTaken || currentCompare.creationPhase == .reEditingFirstPhoto {
+                // Change the TOP thumbnail if that's the one being edited
+                topImageIndicator.image = croppedImg.resizeWithPercent(percentage: 0.05)
+                print("resizing top thumb")
+            } else { // Change the BOTTOM thumbnail if that's the one being edited
+                bottomImageIndicator.image = croppedImg.resizeWithPercent(percentage: 0.05)
+                print("resizing bottom thumb")
+            }
+        }
+        
+    }
+
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print("scrollView ended dragging ++++++ +++++")
+        resizePublishButtonThumbnail()
     }
     
     
