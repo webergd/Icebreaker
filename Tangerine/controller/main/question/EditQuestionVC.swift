@@ -78,6 +78,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
 
     @IBOutlet weak var publishButton: UIButton!
+    @IBOutlet weak var topImageIndicatorTopConstraint: NSLayoutConstraint!
+    
     
     @IBOutlet weak var helpButton: UIButton!
     
@@ -195,6 +197,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             bottomImageIndicator.isHidden  = true
             bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
             helpAskOrCompareLabel.text = makeCompareHelpMessage
+            
+            // lowers the top image publish button thumbnail by half of its total height (24.0) in order to center it in the publish button when there is only one image (Ask). The bottom thumnail still exists, it's just hidden and therefore it's not noticable when the lower thumnail gets pushed down and partially "off the screen." A more complete way to do this would be to actually change the height of the lower thumbnail to 0.0 so that it wasn't off the screen, but as of now, it works fine like this. 
+            topImageIndicatorTopConstraint.constant = 12.0
 
 //            publishButton.setImage(#imageLiteral(resourceName: "square-arrow.png"), for: UIControl.State.normal)
             
@@ -229,6 +234,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             bottomImageIndicator.isHidden  = false
             bottomImageIndicator.alpha = 1.0
             helpAskOrCompareLabel.text = revertToAskHelpMessage
+            
+            // raises the top image publish button thumbnail's top back up to the top of the publish button in order to make room for the image below it since now there are 2 (Compare)
+            topImageIndicatorTopConstraint.constant = 0.0
             
 //            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
             
@@ -584,7 +592,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
 
-    
+    // Called when member zooms or pans around the image being edited
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         print("scrollView ended dragging ++++++ +++++")
         resizePublishButtonThumbnail()
