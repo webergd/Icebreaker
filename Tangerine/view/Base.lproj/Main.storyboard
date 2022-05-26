@@ -3641,8 +3641,8 @@ Date of last revision: October 25, 2021
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgT-Fd-9N3" userLabel="PublishButton">
                                 <rect key="frame" x="64" y="453" width="192" height="48"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="     PUBLISH      🚀" cornerStyle="capsule">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                                <buttonConfiguration key="configuration" style="filled" title="       PUBLISH     🚀" cornerStyle="capsule">
+                                    <fontDescription key="titleFontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="20"/>
                                     <color key="baseBackgroundColor" systemColor="systemBlueColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -3679,7 +3679,7 @@ Date of last revision: October 25, 2021
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="8eO-M3-DMN"/>
                                     <barButtonItem style="plain" id="GqO-hj-aUU">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bmK-bq-jck">
-                                            <rect key="frame" x="98.5" y="7" width="26" height="26"/>
+                                            <rect key="frame" x="98" y="7" width="26" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <accessibility key="accessibilityConfiguration" identifier="enableBlurring"/>
                                             <state key="normal">
@@ -3699,10 +3699,10 @@ Date of last revision: October 25, 2021
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="iDX-8Z-x7l">
                                         <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PmH-6G-spq">
-                                            <rect key="frame" x="124.5" y="7" width="26" height="26"/>
+                                            <rect key="frame" x="124" y="6" width="28" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal">
-                                                <imageReference key="image" image="face.smiling" catalog="system" renderingMode="hierarchical-single">
+                                                <imageReference key="image" image="livephoto.slash" catalog="system" renderingMode="hierarchical-single">
                                                     <hierarchicalColors>
                                                         <color systemColor="labelColor"/>
                                                         <color systemColor="secondaryLabelColor"/>
@@ -3719,7 +3719,7 @@ Date of last revision: October 25, 2021
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="jac-4U-0AU"/>
                                     <barButtonItem style="plain" id="e0I-aR-Ohi">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C74-K5-x0i">
-                                            <rect key="frame" x="185" y="5" width="36.5" height="30"/>
+                                            <rect key="frame" x="185.5" y="5" width="36.5" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal">
                                                 <color key="titleColor" systemColor="secondaryLabelColor"/>
@@ -3798,13 +3798,13 @@ Date of last revision: October 25, 2021
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blur Faces" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFM-EB-5C8">
-                                <rect key="frame" x="84" y="501.5" width="61.5" height="14.5"/>
+                                <rect key="frame" x="92" y="501.5" width="61.5" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <color key="textColor" systemColor="tintColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeX-Ad-dde">
-                                <rect key="frame" x="177" y="501.5" width="53" height="14.5"/>
+                                <rect key="frame" x="169" y="501.5" width="53" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <color key="textColor" systemColor="tintColor"/>
                                 <nil key="highlightedColor"/>
@@ -3830,8 +3830,8 @@ Date of last revision: October 25, 2021
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="centerX" secondItem="Mw1-wG-myY" secondAttribute="centerX" id="a7w-9x-mSr"/>
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" id="aNc-Uy-FNc"/>
                             <constraint firstAttribute="bottom" secondItem="8jP-xj-wJv" secondAttribute="bottom" constant="12" id="haq-1A-gU1"/>
-                            <constraint firstItem="HFM-EB-5C8" firstAttribute="leading" secondItem="Mw1-wG-myY" secondAttribute="leading" constant="84" id="iQd-vr-zxy"/>
-                            <constraint firstItem="Mw1-wG-myY" firstAttribute="trailing" secondItem="eeX-Ad-dde" secondAttribute="trailing" constant="90" id="kAa-GE-YnQ"/>
+                            <constraint firstItem="HFM-EB-5C8" firstAttribute="leading" secondItem="Mw1-wG-myY" secondAttribute="leading" priority="950" constant="92" id="iQd-vr-zxy"/>
+                            <constraint firstItem="Mw1-wG-myY" firstAttribute="trailing" secondItem="eeX-Ad-dde" secondAttribute="trailing" priority="950" constant="98" id="kAa-GE-YnQ"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="height" secondItem="bgT-Fd-9N3" secondAttribute="height" id="mHC-tH-BoL"/>
                             <constraint firstItem="Mw1-wG-myY" firstAttribute="bottom" secondItem="mEb-1g-pRd" secondAttribute="bottom" constant="8" id="o2C-CP-32s"/>
                         </constraints>
@@ -3853,7 +3853,9 @@ Date of last revision: October 25, 2021
                         <outlet property="compareToggleButtonHeightConstraint" destination="m3Q-yg-jWb" id="0Xr-AD-SsD"/>
                         <outlet property="deleteThumbnailButton" destination="3ed-a9-8dG" id="sja-Fd-KYd"/>
                         <outlet property="enableBlurringButton" destination="bmK-bq-jck" id="rgc-cp-4Xn"/>
+                        <outlet property="helpAddTitleLabel" destination="eeX-Ad-dde" id="m32-P2-2VH"/>
                         <outlet property="helpAskOrCompareLabel" destination="RfM-8a-o74" id="wQW-LB-9JF"/>
+                        <outlet property="helpBlurFacesLabel" destination="HFM-EB-5C8" id="njd-Qy-113"/>
                         <outlet property="helpButton" destination="Zii-Fl-nwT" id="vmd-Tu-mFy"/>
                         <outlet property="helpPressBlurLabel" destination="soN-CG-X3B" id="Cdo-Zj-eA2"/>
                         <outlet property="helpZoomCropLabel" destination="yaA-n3-1BA" id="Jh2-c5-7eh"/>
@@ -8004,13 +8006,13 @@ Tap the image that you think this person should go with.
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="circle_white" width="512" height="512"/>
         <image name="face.dashed" catalog="system" width="128" height="121"/>
-        <image name="face.smiling" catalog="system" width="128" height="121"/>
         <image name="flag_white" width="40" height="40"/>
         <image name="friends_icon" width="341" height="341"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="generic_user" width="256" height="256"/>
         <image name="greencheck" width="512" height="512"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="livephoto.slash" catalog="system" width="128" height="122"/>
         <image name="loading_large_black" width="324" height="324"/>
         <image name="loading_small_black" width="50" height="50"/>
         <image name="menu_white" width="40" height="40"/>

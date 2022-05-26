@@ -85,9 +85,18 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var helpPressBlurLabel: UILabel!
     @IBOutlet weak var helpZoomCropLabel: UILabel!
+    @IBOutlet weak var helpBlurFacesLabel: UILabel!
+    @IBOutlet weak var helpAddTitleLabel: UILabel!
     
     // many of these are 0.0 becuase I didn't want to bother with an initializer method since they all get set before use anyway.
     let imagePicker = UIImagePickerController()
+    
+    // constants for help labels
+    let blurFacesMessage: String = "Blur Faces"
+    let unBlurFacesMessage: String = "Clear Blurs"
+    let addTitleMessage: String = "Add Title"
+    let editTitleMessage: String = "Edit Title"
+
     var titleHasBeenTapped: Bool = false
     var captionHasBeenTapped: Bool = false
     var tappedLoc: CGPoint = CGPoint(x: 0.0, y: 0.0)
@@ -169,8 +178,11 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
 //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
         
+        
+        // define constants for help messages depending on different circumstances
         let makeCompareHelpMessage: String = "This is a single image so reviewers will vote YES or NO."
-        let revertToAskHelpMessage: String = "Reviewers will vote for the TOP or BOTTOM image."
+        let revertToAskHelpMessage: String = "Reviewers will decide between the TOP or BOTTOM image."
+        
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -548,14 +560,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let thisLabel = publishButton.titleLabel {
             if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .noPhotoTaken {
 //                publishButton.setBackgroundColor(.systemBlue, forState: .normal)
-                thisLabel.text = "     PUBLISH      🚀"
+                thisLabel.text = "        PUBLISH     🚀"
 //                thisLabel.textColor = .white
             } else {
                 // none of these background color change attempts work at the moment. I'd like to make it green.
 //                publishButton.setBackgroundColor(.systemGreen, forState: .normal)
 //                publishButton.backgroundColor = UIColor.systemGreen //.systemGreen
 //                publishButton.layer.backgroundColor = .init(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
-                thisLabel.text = "     PREVIEW      🔍"
+                thisLabel.text = "        PREVIEW     🔍"
 //                thisLabel.textColor = .systemGreen
             }
         }
@@ -810,12 +822,11 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     // this should be renamed to autoBlurFaces, because that's really what it does
     @IBAction func enableBlurring(_ sender: UIButton) {
         //self.lockScrollView()
-        
-        
-        
+ 
         blurringInProgressLabel.isHidden = false
         self.enableBlurringButton.isHidden = true
         self.clearBlursButton.isHidden = false
+        self.helpBlurFacesLabel.text = unBlurFacesMessage
         //self.returnToZoomButton.isHidden = false
         self.blurringEnabled = true
         //the next 2 lines blur detected faces but don't set the blurred image to currentImage yet
@@ -845,6 +856,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     func manualBlur(location: CGPoint, radius: CGFloat) {
         
         blurFace.setImage(image: imageView.image)
+        
+        self.clearBlursButton.isHidden = false
+        self.enableBlurringButton.isHidden = true
+        self.helpBlurFacesLabel.text = unBlurFacesMessage
         
         // These are handled by the computeOrig() method in ImageMethods.swift
         //I needed a way to pass the tapped location on the image rather than on the screen.
@@ -936,6 +951,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.enableBlurringButton.isHidden = false
         self.clearBlursButton.isHidden = true
         self.blurringEnabled = false
+        self.helpBlurFacesLabel.text = blurFacesMessage
     }
     
     func lockScrollView() {
@@ -1103,6 +1119,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         titleTextField.isHidden = false
         titleTextField.isEnabled = true
         titleTextFieldHeightConstraint.constant = 30.0
+        helpAddTitleLabel.text = editTitleMessage
         setupHousingViews()
     }
     
@@ -1113,6 +1130,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         titleTextField.isHidden = true
         titleTextField.isEnabled = false
         titleTextFieldHeightConstraint.constant = 0.0
+        helpAddTitleLabel.text = addTitleMessage
         setupHousingViews()
     }
     
@@ -1296,10 +1314,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func helpButtonTapped(_ sender: Any) {
         //        print("help button tapped")
         
-        let hidden = helpZoomCropLabel.isHidden || helpAskOrCompareLabel.isHidden || helpPressBlurLabel.isHidden
-        
-        
-        
+        let hidden = helpZoomCropLabel.isHidden || helpAskOrCompareLabel.isHidden || helpPressBlurLabel.isHidden || helpBlurFacesLabel.isHidden || helpAddTitleLabel.isHidden
+
         if hidden {
             
             if let image = UIImage(named: "question circle green") {
@@ -1309,6 +1325,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.helpPressBlurLabel.fadeInAfter(seconds: 0.0)
             self.helpZoomCropLabel.fadeInAfter(seconds: 0.0)
             self.helpAskOrCompareLabel.fadeInAfter(seconds: 0.0)
+            self.helpBlurFacesLabel.fadeInAfter(seconds: 0.0)
+            self.helpAddTitleLabel.fadeInAfter(seconds: 0.0)
             
         } else {
             if let image = UIImage(named: "question circle blue") {
@@ -1318,7 +1336,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.helpPressBlurLabel.fadeOutAfter(seconds: 0.0)
             self.helpZoomCropLabel.fadeOutAfter(seconds: 0.0)
             self.helpAskOrCompareLabel.fadeOutAfter(seconds: 0.0)
-            
+            self.helpBlurFacesLabel.fadeOutAfter(seconds: 0.0)
+            self.helpAddTitleLabel.fadeOutAfter(seconds: 0.0)
         }
     }
     
