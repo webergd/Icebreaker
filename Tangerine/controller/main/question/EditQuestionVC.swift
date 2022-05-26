@@ -164,6 +164,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewWillAppear(true)
         print("viewWillAppear called in EQVC")
         print("creationPhase is: \(currentCompare.creationPhase)")
+        
+        configureTitleTextFieldConstraints()
 
 //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
         
@@ -358,7 +360,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // This gets us the height of the title text field to be used later for spacing things out correctly
         // Shouldn't need this anymore now that title is below imageView
-        self.titleTextFieldHeight = self.titleTextField.frame.height
+//        self.titleTextFieldHeight = self.titleTextField.frame.height
         
         // This sets up the min and max values that the caption's top constraint can have and still be over the image
         //        self.captionTopLimit = self.topLayoutGuide.length //+ self.titleTextFieldHeight  **********
@@ -392,11 +394,13 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomImageIndicator.isUserInteractionEnabled = true
         bottomImageIndicator.addGestureRecognizer(bottomImageIndicatorTappedGestureRecognizer)
         
-        if currentTitle != "" {
-            showTitleTextField()
-        } else {
-            hideTitleTextField()
-        }
+        configureTitleTextFieldConstraints()
+        
+//        if currentTitle != "" {
+//            showTitleTextField()
+//        } else {
+//            hideTitleTextField()
+//        }
 
     }
     
@@ -472,11 +476,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         currentTitle = iBE.iBEtitle
         print("currentTitle is: \(currentTitle)")
         titleTextField.text = currentTitle
-        if currentTitle != "" {
-            showTitleTextField()
-        } else {
-            hideTitleTextField()
-        }
+        
+        configureTitleTextFieldConstraints()
+        
+//        if currentTitle != "" {
+//            showTitleTextField()
+//        } else {
+//            hideTitleTextField()
+//        }
         currentCaption = iBE.iBEcaption
         captionTextField.isHidden = !iBE.iBEcaption.exists //hide captionTextField if caption doesn't exist, otherwise, show it.
         unblurredImageSave = iBE.iBEimageCleanUncropped
@@ -492,6 +499,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     /// Accesses the helper class EQVCVerticalConstraints to arrange the housing views in such a way that makes the member's experience intuitive based on what image is being edited
     func setupHousingViews() {
         print("setupHousingViews() called")
+        print("titleTF height is: \(titleTextFieldHeightConstraint.constant)")
         
 
         let constraintCalculator = EQVCVerticalConstraints(
@@ -540,14 +548,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let thisLabel = publishButton.titleLabel {
             if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .noPhotoTaken {
 //                publishButton.setBackgroundColor(.systemBlue, forState: .normal)
-                thisLabel.text = "PUBLISH"
+                thisLabel.text = "     PUBLISH      🚀"
 //                thisLabel.textColor = .white
             } else {
                 // none of these background color change attempts work at the moment. I'd like to make it green.
 //                publishButton.setBackgroundColor(.systemGreen, forState: .normal)
 //                publishButton.backgroundColor = UIColor.systemGreen //.systemGreen
 //                publishButton.layer.backgroundColor = .init(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
-                thisLabel.text = "PREVIEW"
+                thisLabel.text = "     PREVIEW      🔍"
 //                thisLabel.textColor = .systemGreen
             }
         }
@@ -559,8 +567,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /// Loads a reduced size version of each image in the currentCompare into the publishButton for display.
     func loadPublishButtonThumnails() {
-        print("loadPublishButtonThumnails called")
-                
         if let thisIBE1 = currentCompare.imageBeingEdited1 {
             let rawImg = thisIBE1.iBEimageBlurredCropped
             topImageIndicator.image = rawImg.resizeWithPercent(percentage: 0.05)  //thisIBE1.iBEimageBlurredCropped.resizeWithPercent(percentage: 0.05)
@@ -575,18 +581,13 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /// Resizes the publish button thumbnail corresponding to the image currently being edited
     func resizePublishButtonThumbnail() {
-        print("resizePublishButtonThumbnail() called")
-        print("currentCompare.creationPhase = \(currentCompare.creationPhase.rawValue)")
-        
         if let rawImg = imageView.image {
             let croppedImg = cropImage(rawImg)
             if currentCompare.creationPhase == compareImageState.firstPhotoTaken || currentCompare.creationPhase == .reEditingFirstPhoto {
                 // Change the TOP thumbnail if that's the one being edited
                 topImageIndicator.image = croppedImg.resizeWithPercent(percentage: 0.05)
-                print("resizing top thumb")
             } else { // Change the BOTTOM thumbnail if that's the one being edited
                 bottomImageIndicator.image = croppedImg.resizeWithPercent(percentage: 0.05)
-                print("resizing bottom thumb")
             }
         }
         
@@ -594,7 +595,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     // Called when member zooms or pans around the image being edited
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print("scrollView ended dragging ++++++ +++++")
         resizePublishButtonThumbnail()
     }
     
@@ -687,8 +687,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // This is called in the viewDidLoad section in our NSNotificationCenter command
     @objc func keyboardWillShow(_ notification: Notification) {
-        
-        print("keyboardWillShow called in EQVC")
         // Basically all this is for moving the caption out of the way of the keyboard while we're editing it:
         if self.captionTextField.isEditing == true { //aka if the title is editing, don't do any of this
             view.bringSubviewToFront(captionTextField)
@@ -724,8 +722,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        print("keyboard will HIDE called in EQVC")
-        
         if self.captionTextField.text == "" {
             self.captionTextField.isHidden = true
             centerFlexibleSpace.isEnabled = false //deprecated
