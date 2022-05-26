@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 extension UIView {
     // to show the loading
     private var loadingIndicator : UIActivityIndicatorView {
@@ -33,6 +34,91 @@ extension UIView {
         if let indicator = viewWithTag(myTag!){
             indicator.removeFromSuperview()
         }
+    }
+    
+
+    func addShadow() {
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: -1, height: 2)
+        self.layer.shadowRadius = 1.8
+        self.layer.shadowOpacity = 0.3
+    }
+    
+    func addDashedBorder() {
+        //first, remove any existing borders
+        self.removeDashedBorder()
+        
+        print("addDashedBorder() called")
+        let color = UIColor.separator.cgColor
+        
+        let shapeLayer:CAShapeLayer = CAShapeLayer()
+        let frameSize = self.frame.size
+        let shapeRect = CGRect(x: 0, y: 0, width: frameSize.width, height: frameSize.height)
+        
+        shapeLayer.bounds = shapeRect
+        shapeLayer.position = CGPoint(x: frameSize.width/2, y: frameSize.height/2)
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = color
+        shapeLayer.lineWidth = 2
+        shapeLayer.lineJoin = CAShapeLayerLineJoin.round
+        shapeLayer.lineDashPattern = [6,3]
+        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 5).cgPath
+        shapeLayer.name = "dashedBorder"
+        
+        self.layer.addSublayer(shapeLayer)
+    }
+    
+    /// Alternative to addDashedBorder() that takes a passed frame size
+    func addDashedBorder(with sideLength: CGFloat) {
+        //first, remove any existing borders
+        self.removeDashedBorder()
+        let width: CGFloat =  sideLength
+        let height:CGFloat = sideLength
+        
+        print("addDashedBorder() called")
+        let color = UIColor.separator.cgColor
+        
+        let shapeLayer:CAShapeLayer = CAShapeLayer()
+//        let frameSize = CGSize(width: sideLength, height: sideLength)
+        let shapeRect = CGRect(x: 0, y: 0, width: width, height: height)
+        
+        shapeLayer.bounds = shapeRect
+        shapeLayer.position = CGPoint(x: width/2, y: height/2)
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = color
+        shapeLayer.lineWidth = 2
+        shapeLayer.lineJoin = CAShapeLayerLineJoin.round
+        shapeLayer.lineDashPattern = [6,3]
+        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 5).cgPath
+        shapeLayer.name = "dashedBorder"
+        
+        self.layer.addSublayer(shapeLayer)
+    }
+    
+    
+    
+    /// This doesn't exactly work right. It just makes the dotted line less bold. Need more experimenting. //I could potentially just move the border to the back instead of deleting. 
+    func removeDashedBorder() {
+//        self.layer.sublayers?.forEach { layer in
+//           layer.removeFromSuperlayer()
+//        }
+        
+        
+        if let sublayers = self.layer.sublayers {
+
+            for layer in sublayers {
+                if layer.name == "dashedBorder" {
+                    layer.isHidden = true
+                    layer.removeFromSuperlayer()
+//                    layer.borderColor = UIColor.clear.cgColor
+                }
+            }
+        }
+        
+        
+//        self.layer.removeFromSuperlayer()
+        
+        //self.layer.borderWidth = 0
     }
     
 }

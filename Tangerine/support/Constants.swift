@@ -27,7 +27,7 @@ class Constants {
     // for phone auth, for saving in UD
     //static let PHONE_NUMBER = "phone_auth_pn"
     
-    static let ORIENTATIONS = ["Straight Woman","Straight Man","Lesbian","Gay Man","Other"]
+    static let ORIENTATIONS = ["straight woman","straight man","lesbian","gay man","other"]
 
     
     

@@ -119,6 +119,8 @@ public var currentImage: UIImage = UIImage(named: "tangerineImage2")!
 public var currentTitle: String = "" //realistically this should probably be an optional
 public var currentCaption: Caption = Caption(text: "", yLocation: 0.0)
 
+/// This is part of a bandaid fix for the keyboardWillShow() firing multiple times issue
+public var keyboardIsVisible: Bool = false
 
 
 /// this object holds a max of 2 images that are currently being edited. It stores the first image in, then if the user creates a second image, isAsk is set to false:
@@ -1284,10 +1286,10 @@ struct Breakdown {
 }
 
 
-// remove / empty all collection related to question
-// called from logout button tap
-// ensures that when user log in using same/different id
-// it doesn't show cached data
+/// remove / empty all collection related to question
+/// called from logout button tap
+/// ensures that when user log in using same/different id
+/// it doesn't show cached data
 public func resetQuestionRelatedThings(){
     
     rawQuestions.removeAll()
