@@ -4055,7 +4055,7 @@ Date of last revision: October 25, 2021
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <buttonConfiguration key="configuration" style="filled" title="     PUBLISH      🚀" cornerStyle="capsule">
+                                <buttonConfiguration key="configuration" style="filled" title="     PUBLISH!      🚀" cornerStyle="capsule">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" systemColor="systemBlueColor"/>
                                     </backgroundConfiguration>
