@@ -1380,7 +1380,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     // continue button
     @IBAction func publishButtonTapped(_ sender: Any) {
         if currentCompare.creationPhase == compareImageState.firstPhotoTaken { //aka there is only one image and it should make an Ask
-                self.createAsk()
+//                self.createAsk() // not sure why this was here. System was creating 2 asks for every tap of the publish button. If no issue after a while, delete this line. -5/27/22 WW
             finishEditing(whatToCreate: .ask)
         } else { //aka we are for sure making a compare
                 self.createHalfOfCompare()
@@ -1596,9 +1596,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         print("Finish Editing")
         /* ********* Explanation *************** *
          if we're in case 1:
-         check for title, make an ask
+         make an ask
+         
          if we're in case 2:
-         check for title
          store the recent changes to the current iBE
          segue to cPVC
          else that means we're in case 3 or 4
@@ -1607,33 +1607,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
          segue to cPVC
          * ************************************** */
         
-        //This causes the system to bypass the title checker if the user has come back from ComparePreviewViewController to edit
-//        if currentCompare.creationPhase == .reEditingFirstPhoto || currentCompare.creationPhase == .reEditingSecondPhoto {
-//            createHalfOfCompare()
-//            return
-//        }
-//
-//        if let title = titleTextField.text {
-//            if titleTextFieldIsBlank == true {
-//                let alertController = UIAlertController(title: "You Didn't Enter A Title", message: "It's Recommended but Not Required", preferredStyle: .actionSheet)
-//
-//                // the following code is added to fix crash on iPad : 03 Oct, MM
-//                if let popoverController = alertController.popoverPresentationController {
-//                    popoverController.sourceView = self.view
-//                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-//                }
-//
-//                let actionNo = UIAlertAction(title: "Let Me Enter One", style: .cancel) {
-//                    UIAlertAction in
-//                    self.titleTextField.becomeFirstResponder()
-//
-//                    // if user elects to go back to editing the image, we need to keep the assumption that they still might create an ask so that we don't take away the createCompare button if they navigate back to the avCamera and reload the view without creating anything
-//                }
-//                alertController.addAction(actionNo)
-//                alertController.addAction(actionYes)
-//                present(alertController, animated: true, completion: nil)
-//
-//            } else {
+
         var titleToStore = "" // defaults to blank
         if let title = titleTextField.text  {
             titleToStore = title

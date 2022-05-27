@@ -6967,23 +6967,16 @@ time remaining is zero. </string>
                                 <rect key="frame" x="10" y="184" width="300" height="200"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Right to GO BACK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGG-fX-8kk">
-                                        <rect key="frame" x="0.0" y="8" width="300" height="25"/>
+                                        <rect key="frame" x="0.0" y="2" width="300" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="i5E-84-sNO"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" systemColor="tintColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_right" translatesAutoresizingMaskIntoConstraints="NO" id="eDd-2W-1W0">
-                                        <rect key="frame" x="10" y="41" width="75" height="75"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="75" id="26P-yc-0GO"/>
-                                            <constraint firstAttribute="height" constant="75" id="VKA-ag-Uip"/>
-                                        </constraints>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PGB-ai-7in">
-                                        <rect key="frame" x="106" y="115" width="88" height="35"/>
+                                        <rect key="frame" x="106" y="127" width="88" height="35"/>
                                         <color key="backgroundColor" systemColor="systemBlueColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="w1g-4u-xUt"/>
@@ -7002,7 +6995,7 @@ time remaining is zero. </string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tUm-0s-J69">
-                                        <rect key="frame" x="85" y="165" width="130.5" height="25"/>
+                                        <rect key="frame" x="85" y="170" width="130.5" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="e38-rH-pSw"/>
                                         </constraints>
@@ -7014,19 +7007,48 @@ time remaining is zero. </string>
                                             <action selector="onNeverShowAgainTapped:" destination="QYR-SP-1Ms" eventType="touchUpInside" id="3Ud-tV-UZZ"/>
                                         </connections>
                                     </button>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="delete_swipe" translatesAutoresizingMaskIntoConstraints="NO" id="2rI-XO-ioD">
+                                        <rect key="frame" x="78" y="64" width="144" height="61"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Left to Delete" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmF-LY-fSZ">
+                                        <rect key="frame" x="78" y="76.5" width="108" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand.draw.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zXq-5D-Bwa">
+                                        <rect key="frame" x="177" y="65.5" width="21" height="59"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_right" translatesAutoresizingMaskIntoConstraints="NO" id="eDd-2W-1W0">
+                                        <rect key="frame" x="10" y="22" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="26P-yc-0GO"/>
+                                            <constraint firstAttribute="height" constant="40" id="VKA-ag-Uip"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="eDd-2W-1W0" firstAttribute="top" secondItem="AGG-fX-8kk" secondAttribute="bottom" constant="8" id="5Zt-oC-l42"/>
-                                    <constraint firstItem="AGG-fX-8kk" firstAttribute="top" secondItem="842-jW-ynv" secondAttribute="top" constant="8" id="ENu-BG-cJ7"/>
+                                    <constraint firstItem="PGB-ai-7in" firstAttribute="top" secondItem="2rI-XO-ioD" secondAttribute="bottom" constant="2" id="95k-Gz-hOr"/>
+                                    <constraint firstItem="eDd-2W-1W0" firstAttribute="top" secondItem="AGG-fX-8kk" secondAttribute="bottom" constant="-5" id="9XU-EI-chk"/>
+                                    <constraint firstItem="2rI-XO-ioD" firstAttribute="top" secondItem="eDd-2W-1W0" secondAttribute="bottom" constant="2" id="AYX-rk-h6w"/>
+                                    <constraint firstItem="AGG-fX-8kk" firstAttribute="top" secondItem="842-jW-ynv" secondAttribute="top" constant="2" id="ENu-BG-cJ7"/>
+                                    <constraint firstItem="dmF-LY-fSZ" firstAttribute="width" secondItem="2rI-XO-ioD" secondAttribute="width" multiplier="0.75" id="H9g-IT-zQj"/>
                                     <constraint firstItem="eDd-2W-1W0" firstAttribute="leading" secondItem="842-jW-ynv" secondAttribute="leading" constant="10" id="IOZ-yv-AKL"/>
+                                    <constraint firstItem="zXq-5D-Bwa" firstAttribute="centerY" secondItem="2rI-XO-ioD" secondAttribute="centerY" id="KZ9-1H-dXM"/>
                                     <constraint firstAttribute="trailing" secondItem="AGG-fX-8kk" secondAttribute="trailing" id="Msv-Mk-4Yx"/>
+                                    <constraint firstItem="dmF-LY-fSZ" firstAttribute="centerY" secondItem="2rI-XO-ioD" secondAttribute="centerY" id="OFd-zF-P5s"/>
+                                    <constraint firstItem="dmF-LY-fSZ" firstAttribute="leading" secondItem="2rI-XO-ioD" secondAttribute="leading" id="UAp-mS-FuZ"/>
+                                    <constraint firstItem="zXq-5D-Bwa" firstAttribute="trailing" secondItem="2rI-XO-ioD" secondAttribute="trailing" constant="-24" id="XJC-O6-9co"/>
                                     <constraint firstItem="AGG-fX-8kk" firstAttribute="leading" secondItem="842-jW-ynv" secondAttribute="leading" id="XmH-Fc-6nX"/>
                                     <constraint firstItem="PGB-ai-7in" firstAttribute="centerX" secondItem="842-jW-ynv" secondAttribute="centerX" id="ac3-5c-X7F"/>
                                     <constraint firstAttribute="height" constant="200" id="eYo-ZB-4A9"/>
-                                    <constraint firstItem="tUm-0s-J69" firstAttribute="top" secondItem="PGB-ai-7in" secondAttribute="bottom" constant="15" id="hwv-Ru-tY1"/>
+                                    <constraint firstItem="zXq-5D-Bwa" firstAttribute="height" secondItem="2rI-XO-ioD" secondAttribute="height" id="fiY-81-GJK"/>
+                                    <constraint firstItem="tUm-0s-J69" firstAttribute="top" secondItem="PGB-ai-7in" secondAttribute="bottom" constant="8" id="hwv-Ru-tY1"/>
                                     <constraint firstItem="tUm-0s-J69" firstAttribute="centerX" secondItem="842-jW-ynv" secondAttribute="centerX" id="qdZ-dF-jN2"/>
-                                    <constraint firstAttribute="bottom" secondItem="tUm-0s-J69" secondAttribute="bottom" constant="10" id="y8q-lb-hzh"/>
+                                    <constraint firstItem="2rI-XO-ioD" firstAttribute="centerX" secondItem="842-jW-ynv" secondAttribute="centerX" id="ugL-XD-F9V"/>
+                                    <constraint firstAttribute="bottom" secondItem="tUm-0s-J69" secondAttribute="bottom" constant="5" id="y8q-lb-hzh"/>
                                     <constraint firstAttribute="width" constant="300" id="ycd-V5-REh"/>
                                 </constraints>
                             </view>
@@ -7036,6 +7058,7 @@ time remaining is zero. </string>
                         <constraints>
                             <constraint firstItem="842-jW-ynv" firstAttribute="centerY" secondItem="NYI-Yi-hCV" secondAttribute="centerY" id="HWj-sj-TSS"/>
                             <constraint firstItem="842-jW-ynv" firstAttribute="centerX" secondItem="NYI-Yi-hCV" secondAttribute="centerX" id="vhg-mE-yoX"/>
+                            <constraint firstItem="2rI-XO-ioD" firstAttribute="width" secondItem="i6k-hk-bKh" secondAttribute="width" multiplier="0.45" id="vy2-Yg-iOn"/>
                         </constraints>
                     </view>
                     <connections>
@@ -7046,7 +7069,7 @@ time remaining is zero. </string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y6i-xF-Vhk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="14617" y="-1698"/>
+            <point key="canvasLocation" x="14615.625" y="-1698.5915492957747"/>
         </scene>
         <!--BlueVC-->
         <scene sceneID="gtd-fh-f2w">
@@ -8005,12 +8028,14 @@ Tap the image that you think this person should go with.
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="circle_white" width="512" height="512"/>
+        <image name="delete_swipe" width="1125" height="318"/>
         <image name="face.dashed" catalog="system" width="128" height="121"/>
         <image name="flag_white" width="40" height="40"/>
         <image name="friends_icon" width="341" height="341"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="generic_user" width="256" height="256"/>
         <image name="greencheck" width="512" height="512"/>
+        <image name="hand.draw.fill" catalog="system" width="128" height="109"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="livephoto.slash" catalog="system" width="128" height="122"/>
         <image name="loading_large_black" width="324" height="324"/>
