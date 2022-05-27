@@ -835,7 +835,7 @@ Date of last revision: October 25, 2021
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xtD-NJ-Hcm">
-                                <rect key="frame" x="85" y="438" width="150" height="30"/>
+                                <rect key="frame" x="83.5" y="438" width="150" height="30"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="AyV-NS-Ef3"/>
@@ -848,7 +848,7 @@ Date of last revision: October 25, 2021
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ury-iq-LWw">
-                                <rect key="frame" x="50" y="165" width="220" height="50"/>
+                                <rect key="frame" x="50" y="165" width="217" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tGI-1q-5Po">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="50"/>
@@ -860,27 +860,27 @@ Date of last revision: October 25, 2021
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ncJ-0Z-66D">
-                                        <rect key="frame" x="37.5" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="37" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yol-hl-Y7b">
-                                        <rect key="frame" x="75" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="74" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HoP-Oh-wgJ">
-                                        <rect key="frame" x="113" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="111" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pQ5-un-e2U">
-                                        <rect key="frame" x="150.5" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="148" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jFY-NR-5np">
-                                        <rect key="frame" x="188" y="0.0" width="32" height="50"/>
+                                        <rect key="frame" x="185" y="0.0" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="tel"/>
                                     </textField>
@@ -900,25 +900,25 @@ Date of last revision: October 25, 2021
                                 </constraints>
                             </stackView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="That's not the right code!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sA-72-HKN">
-                                <rect key="frame" x="20" y="235" width="280" height="20.5"/>
+                                <rect key="frame" x="20" y="235" width="277" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Confirmation Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KHh-wI-wXS">
-                                <rect key="frame" x="50" y="94" width="220" height="20.5"/>
+                                <rect key="frame" x="50" y="94" width="217" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZvP-MR-Mc5">
-                                <rect key="frame" x="50" y="124.5" width="220" height="20.5"/>
+                                <rect key="frame" x="50" y="124.5" width="217" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="6" currentPage="3" translatesAutoresizingMaskIntoConstraints="NO" id="4bE-F0-EuX">
-                                <rect key="frame" x="76.5" y="44" width="167.5" height="26"/>
+                                <rect key="frame" x="75" y="44" width="167.5" height="26"/>
                                 <color key="pageIndicatorTintColor" systemColor="systemGrayColor"/>
                                 <color key="currentPageIndicatorTintColor" systemColor="systemOrangeColor"/>
                             </pageControl>
@@ -3602,8 +3602,8 @@ Date of last revision: October 25, 2021
                                                     <action selector="deleteThumbnailButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="KHP-XN-Ao2"/>
                                                 </connections>
                                             </button>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a single image so reviewers will vote YES or NO." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RfM-8a-o74">
-                                                <rect key="frame" x="198" y="6.5" width="114" height="57.5"/>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a single image so reviewers will vote YES or NO. Tap to compare this image against another one. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RfM-8a-o74">
+                                                <rect key="frame" x="194" y="-8" width="122" height="86"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                                 <color key="textColor" systemColor="tintColor"/>
                                                 <nil key="highlightedColor"/>
@@ -3611,7 +3611,7 @@ Date of last revision: October 25, 2021
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="RfM-8a-o74" secondAttribute="trailing" constant="8" id="0Nn-8h-Rxa"/>
+                                            <constraint firstAttribute="trailing" secondItem="RfM-8a-o74" secondAttribute="trailing" constant="4" id="0Nn-8h-Rxa"/>
                                             <constraint firstItem="tcj-Ge-v93" firstAttribute="centerX" secondItem="aHj-J9-xEO" secondAttribute="centerX" id="1I7-eS-2fr"/>
                                             <constraint firstItem="aHj-J9-xEO" firstAttribute="centerY" secondItem="xOq-vN-HDw" secondAttribute="centerY" id="59c-iR-xmJ"/>
                                             <constraint firstAttribute="height" constant="70" id="KqI-eY-5XQ"/>
@@ -3622,7 +3622,7 @@ Date of last revision: October 25, 2021
                                             <constraint firstItem="aHj-J9-xEO" firstAttribute="centerX" secondItem="xOq-vN-HDw" secondAttribute="centerX" id="pgS-KP-xQa"/>
                                             <constraint firstItem="tcj-Ge-v93" firstAttribute="leading" secondItem="3ed-a9-8dG" secondAttribute="trailing" constant="4" id="qBN-0f-1Xh"/>
                                             <constraint firstItem="3ed-a9-8dG" firstAttribute="centerY" secondItem="tcj-Ge-v93" secondAttribute="centerY" id="vVK-yc-DW9"/>
-                                            <constraint firstItem="RfM-8a-o74" firstAttribute="leading" secondItem="tcj-Ge-v93" secondAttribute="trailing" constant="8" id="yCb-gi-hqp"/>
+                                            <constraint firstItem="RfM-8a-o74" firstAttribute="leading" secondItem="tcj-Ge-v93" secondAttribute="trailing" constant="4" id="yCb-gi-hqp"/>
                                         </constraints>
                                     </view>
                                 </subviews>

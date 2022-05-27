@@ -175,13 +175,15 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         print("creationPhase is: \(currentCompare.creationPhase)")
         
         configureTitleTextFieldConstraints()
+        
+        
 
 //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
         
         
         // define constants for help messages depending on different circumstances
-        let makeCompareHelpMessage: String = "This is a single image so reviewers will vote YES or NO."
-        let revertToAskHelpMessage: String = "Reviewers will decide between the TOP or BOTTOM image."
+        let makeCompareHelpMessage: String = "This is a single image so reviewers will vote YES or NO. Tap to compare this image against another one."
+        let revertToAskHelpMessage: String = "Reviewers will decide between the TOP or BOTTOM image. Delete one to return to a single YES/NO image."
         
         
         // Hide the navigation bar on the this view controller
@@ -337,8 +339,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
 //        deleteThumbnailButton.addShadow()
         
-        self.enableBlurringButton.isHidden = false
-        self.clearBlursButton.isHidden = !blursAddedByEditor
+//        self.enableBlurringButton.isHidden = !blursAddedByEditor
+//        // once we've got the enableBlurringButton in the opposite configuration from what we want, we toggle the blur buttons to reset it to the right configuration
+//        toggleBlurButtons()
+        
+//        // if there are not blurs added to the image, we want to be able to blur it, and if there are, we want to have an unBlur option
+//        self.configureBlurButtonsFor(blurring: !blursAddedByEditor)
+        
+//        self.clearBlursButton.isHidden = !blursAddedByEditor
         
         imagePicker.delegate = self
         captionTextField.delegate = self
@@ -469,6 +477,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             print("Error: images did not unpack")
         }
         
+        // if there are not blurs added to the image, we want to be able to blur it, and if there are, we want to have an unBlur option
+        configureBlurButtonsFor(blurring: !blursAddedByEditor)
         
         imageView.image = currentImage
         titleTextField.text = currentTitle
@@ -490,18 +500,14 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         titleTextField.text = currentTitle
         
         configureTitleTextFieldConstraints()
-        
-//        if currentTitle != "" {
-//            showTitleTextField()
-//        } else {
-//            hideTitleTextField()
-//        }
         currentCaption = iBE.iBEcaption
         captionTextField.isHidden = !iBE.iBEcaption.exists //hide captionTextField if caption doesn't exist, otherwise, show it.
         unblurredImageSave = iBE.iBEimageCleanUncropped
-        blursAddedByEditor = iBE.blursAdded
+        blursAddedByEditor = iBE.isBlurred
         contentOffsetToLoad = iBE.iBEContentOffset
         zoomScaleToLoad = iBE.iBEZoomScale
+        
+        
     }
     
     func unpack(thumbnail iBE: imageBeingEdited) {
@@ -952,7 +958,34 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.clearBlursButton.isHidden = true
         self.blurringEnabled = false
         self.helpBlurFacesLabel.text = blurFacesMessage
+//        toggleBlurButtons()
     }
+    
+    /// Shows the other one and hides the current one.
+    /// Ex: enableBlurring button is showing? hide it and show the clearBlursButton.
+    /// Also changes the helpBlurFacesLabel text to the approprate phrase.
+    func toggleBlurButtons() {
+        switch enableBlurringButton.isHidden {
+        case true: // clear blurs button is showing
+            clearBlursButton.isHidden = true
+            enableBlurringButton.isHidden = false
+            helpBlurFacesLabel.text = blurFacesMessage
+        case false: // blurring enabled button is showing
+            clearBlursButton.isHidden = false
+            enableBlurringButton.isHidden = true
+            helpBlurFacesLabel.text = unBlurFacesMessage
+        }
+    }
+    
+    /// Sets up the enableBlurring/clearBlurs buttons in the correct configuration based on the Bool passed in.
+    /// If it's false, the clear button will be shown instead of the blurring one.
+    func configureBlurButtonsFor(blurring: Bool) {
+        // set the blurring button to the opposite of what we eventually want
+        enableBlurringButton.isHidden = blurring
+        // then toggle it to the correct configuration
+        toggleBlurButtons()
+    }
+    
     
     func lockScrollView() {
         self.scrollView.minimumZoomScale = 1.0

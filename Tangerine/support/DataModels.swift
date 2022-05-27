@@ -1171,7 +1171,15 @@ public struct imageBeingEdited {
     var iBEimageBlurredCropped: UIImage
     var iBEContentOffset: CGPoint
     var iBEZoomScale: CGFloat
+    
+    /// deprecated
     var blursAdded: Bool = false
+    
+    /// TRUE when the image has been blurred, either manually or automatically.
+    /// Compares the clean image to the one that holds blurs to determine whether they are different (i.e. blurred).
+    var isBlurred: Bool {
+        return !(iBEimageCleanUncropped == iBEimageBlurredUncropped)
+    }
 }
 /// This enum helps the client keep track of which stage of Compare Question creation that it is currently in (using the compareBeingEdited object below).
 public enum compareImageState: String {
