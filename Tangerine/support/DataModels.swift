@@ -86,6 +86,7 @@ public var filteredQuestionsToReview = [PrioritizedQuestion]()
 ///a local dictionary of Questions localUser has already reviewed (may be deprecated based on new Q2R query)
 public var questionReviewed = [String:String]()
 
+
 ///questions that the localUser has asked and have not yet been deleted
 public var myActiveQuestions = [ActiveQuestion]()
 
@@ -1541,16 +1542,13 @@ public func checkForQuestionsToFetch(action: @escaping ()->Void){
 
 /// This function will filter the questions as per the doc
 /// Matches specialty first then ages.
-public func filterQuestionsAndPrioritize(onComplete: () -> Void){
+public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: () -> Void){
     
-    print("Before filter we have \(rawQuestions.count) question in db")
-    //    if rawQuestions.count <= filteredQuestionsToReview.count {
-    //        // we haven't fetched anything new
-    //        print("We haven't found question to fetch")
-    //        // return to the caller
-    //        onComplete()
-    //    }else{
-    //
+    
+    print("Before filter we have \(rawQuestions.count) question in raw Q")
+    
+
+    
     var tempFilterQ = [PrioritizedQuestion]()
     
     // to reset the count so it doesn't add up old counts
@@ -1570,7 +1568,6 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
             continue
         }
         
-        print("STARTED FILTERING \(item.question_name)")
         // by any chance if we have question that's reviewed
         if !item.usersNotReviewedBy.contains(myProfile.username) && !item.recipients.contains(myProfile.username){
             print("Skipped FILTERING \(item.question_name) cause NO LIST contains my name")
@@ -1692,24 +1689,53 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
         
     } // end of for loop of questionToReview
     
+    
+    
+    
+    // so when we're on live, we already have some unsolved question that we can't lose
+    // as live only fetches question posted upto 5 mins ago
+    // if we don't keep the filteredQTR, we'll lose them for this review
+        
     // clear old items
-    if !filteredQuestionsToReview.isEmpty{
+    if !filteredQuestionsToReview.isEmpty && !isFromLive{
+        filteredQuestionsToReview.removeAll()
+    }else{
+        // swap to question to tempFilterQ now, so existing questions gets filtered with newQ
+        tempFilterQ.append(contentsOf: filteredQuestionsToReview)
+        
+        // create a set to get the unique question
+        // it prevents duplicating items from live
+        var tempSet = Set(tempFilterQ)
+        // remove the old collection
+        tempFilterQ.removeAll()
+        // make temp unique
+        tempFilterQ.append(contentsOf: tempSet)
+        // remove the temp
+        tempSet.removeAll()
+        
+        // now remove all
         filteredQuestionsToReview.removeAll()
     }
     
     // this line ensures that we have the question that we are seeing on top
-    if let displayedQuestion = questionOnTheScreen {
+    // on live we want to skip putting the top question again, because it's already in the filteredQTR
+    if let displayedQuestion = questionOnTheScreen, !isFromLive {
         print("Adding Top Q to filteredQTR")
         filteredQuestionsToReview.append(displayedQuestion)
     }
-    
+   
+   
+   
     filteredQuestionsToReview.append(contentsOf: tempFilterQ.sorted{ $0.priority < $1.priority})
+    
+   
+    
     
     
     // NOW DOWNLOAD IMAGES IN FIFO
     print("After filter we have \(filteredQuestionsToReview.count) filtered question")
     
-    print("Printing Filtered DB")
+    print("==== Printing Filtered DB ====")
     
     for item in filteredQuestionsToReview{
         print("\(item.question.question_name) \(String(describing: item.priority))")
@@ -1739,7 +1765,7 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
         }
     }
 
-    print("Finished Printing Filtered DB")
+    print("==== Finished Printing Filtered DB ====")
     
     tempFilterQ.removeAll()
     

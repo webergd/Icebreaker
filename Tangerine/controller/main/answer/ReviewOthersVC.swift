@@ -34,6 +34,7 @@ class ReviewOthersVC: UIViewController{
     var shouldPushController = true
     var activeVCType : QType!
     @IBOutlet weak var containerView: UIView!
+    var listener: ListenerRegistration!
     
     
     // ASK and COMPARE VC
@@ -436,6 +437,18 @@ class ReviewOthersVC: UIViewController{
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if listener != nil{
+            print("Listener removing...")
+            listener.remove()
+            listener = nil
+        }else{
+            print("Listener nil")
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         if filteredQuestionsToReview.count > 0 {
             // filters available question and store to realm and shows
@@ -450,52 +463,61 @@ class ReviewOthersVC: UIViewController{
         let upToFiveMins = NSDate(timeIntervalSinceNow: -60 * 5)
         let ts = Timestamp(date: upToFiveMins as Date)
         
-        Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION)
-            .whereField(Constants.USER_CREATED_KEY, isGreaterThanOrEqualTo: ts)
-            .limit(to: searchLimit).addSnapshotListener { snapshot, error in
-            
-                // usual error handling
-                if error != nil{
-                    print("LIVE: An error occured while getting questions")
-                }
+        // to prevent listening on multiple instance
+        if listener == nil {
+            print("Listening to live...")
+            listener = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION)
+                .whereField(Constants.USER_CREATED_KEY, isGreaterThanOrEqualTo: ts)
+                .limit(to: searchLimit).addSnapshotListener { snapshot, error in
                 
-                defer{
-                    print("LIVE: Filtering...")
-                          filterQuestionsAndPrioritize{
-                        }
-                    
-                }
-                // process the data fetched by this query:
-                if let snaps = snapshot?.documents{
-                    if snaps.count > 0 {
-                        print("LIVE: Total questions fetched: \(snaps.count)")
-                        
-                        for item in snaps{
-                            let doc = item.data()
-                            // create a question object
-                            let question = Question(firebaseDict: doc)
-                            
-                            if question.is_circulating == false{
-                                print("LIVE: Returning from question:\(question.question_name) not in circulation")
-                                continue
-                            }
-                            
-                            // to prevent already reviewed ones
-                            if let _ = questionReviewed[question.question_name]{
-                                print("LIVE: This Q is already reviewed and in qReviewed, not adding to raw")
-                            }else{
-                                // save to local db
-                                rawQuestions.insert(question)
-                            }
-                            
-                        } // end of for loop of snaps
+                    // usual error handling
+                    if error != nil{
+                        print("LIVE: An error occured while getting questions")
                     }
                     
-                }
-                
-                
-                
+                    defer{
+                        print("LIVE: Filtering...")
+                              filterQuestionsAndPrioritize(isFromLive: true,onComplete:{
+                              })
+                        
+                    }
+                    // process the data fetched by this query:
+                    if let snaps = snapshot?.documents{
+                        if snaps.count > 0 {
+                            print("LIVE: Total questions fetched: \(snaps.count)")
+                            
+                            for item in snaps{
+                                let doc = item.data()
+                                // create a question object
+                                let question = Question(firebaseDict: doc)
+                                
+                                if question.is_circulating == false{
+                                    print("LIVE: Returning from question:\(question.question_name) not in circulation")
+                                    continue
+                                }
+                                
+                                // to prevent already reviewed ones
+                                if let _ = questionReviewed[question.question_name]{
+                                    print("LIVE: This Q is already reviewed and in qReviewed, not adding to raw")
+                                }else{
+                                    // save to local db
+                                    rawQuestions.insert(question)
+                                }
+                                
+                            } // end of for loop of snaps
+                        }
+                        
+                    }
+                    
+                    
+                    
+            }
+        }else{
+            print("Listener already attached...")
         }
+        
+        
+        
     }
     
     @objc func returnToMenu() {
