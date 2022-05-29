@@ -131,12 +131,12 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
     func setDefaultState(_ isOn: Bool){
         
         if(isOn){
-            // means no pref, so turn off all sw
-            stWomenSw.setOn(!isOn, animated: true)
-            stMenSw.setOn(!isOn, animated: true)
-            gaySw.setOn(!isOn, animated: true)
-            lesbianSw.setOn(!isOn, animated: true)
-            otherSw.setOn(!isOn, animated: true)
+            // means all pref, so turn on all sw
+            stWomenSw.setOn(isOn, animated: true)
+            stMenSw.setOn(isOn, animated: true)
+            gaySw.setOn(isOn, animated: true)
+            lesbianSw.setOn(isOn, animated: true)
+            otherSw.setOn(isOn, animated: true)
             
             
             minimumAge = 18
@@ -150,14 +150,16 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
             ageRangePicker.selectRow(0, inComponent: 0, animated: true)
             ageRangePicker.selectRow(81, inComponent: 1, animated: true)
             
-        }else{
-            
-            print("Setting to firebase")
-            
+        }
+        
+        else{
+
+            print("pull the settings from firebase")
+
             minimumAge = prefs.integer(forKey: Constants.UD_MIN_AGE_INT)
             maximumAge = prefs.integer(forKey: Constants.UD_MAX_AGE_INT)
-            
-            
+
+
             // with default value
             var isNoPrefEnabled = prefs.bool(forKey: Constants.UD_NO_PREF_Bool)
             var isStWomenEnabled = prefs.bool(forKey: Constants.UD_ST_WOMAN_Bool)
@@ -165,7 +167,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
             var isStMenEnabled = prefs.bool(forKey: Constants.UD_ST_MAN_Bool)
             var isLesbianEnabled = prefs.bool(forKey: Constants.UD_GWOMAN_Bool)
             var isOtherEnabled = prefs.bool(forKey: Constants.UD_OTHER_Bool)
-            
+
             // access the auth object, we saved the username as displayname
             if let user = Auth.auth().currentUser, let username = user.displayName{
                 // save to target demo
@@ -176,14 +178,14 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
                     .document(Constants.USERS_PRIVATE_INFO_DOC).getDocument(completion: {snapshot, err in
                         if let err = err{
                             self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
-                            
+
                             return
                         }
-                        
+
                         if let doc = snapshot?.data(){
                             // we know it exists, but firebase doesn't so it yells at us
                             let data = doc[Constants.USER_TD_KEY] as! [String : Any]
-                            
+
                             isStWomenEnabled = data[Constants.UD_ST_WOMAN_Bool] as? Bool ?? false
                             isGayEnabled = data[Constants.UD_GMAN_Bool] as? Bool ?? false
                             isStMenEnabled = data[Constants.UD_ST_MAN_Bool] as? Bool ?? false
@@ -191,14 +193,14 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
                             isOtherEnabled = data[Constants.UD_OTHER_Bool] as? Bool ?? false
                             self.minimumAge = data[Constants.UD_MIN_AGE_INT] as? Int ?? 18
                             self.maximumAge = data[Constants.UD_MAX_AGE_INT] as? Int ?? 99
-                            
-                            if isStWomenEnabled || isGayEnabled || isStMenEnabled || isLesbianEnabled || isOtherEnabled{
-                                isNoPrefEnabled = false
-                            }else{
+
+                            if isStWomenEnabled && isGayEnabled && isStMenEnabled && isLesbianEnabled && isOtherEnabled{
                                 isNoPrefEnabled = true
+                            }else{
+                                isNoPrefEnabled = false
                             }
-                            
-                            
+
+
                             // MARK: These really need to be changed to the actual orientations, not the old ones
                             self.allDemoSw.setOn(isNoPrefEnabled, animated: true)
                             self.stWomenSw.setOn(isStWomenEnabled, animated: true)
@@ -206,19 +208,19 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
                             self.lesbianSw.setOn(isLesbianEnabled, animated: true)
                             self.gaySw.setOn(isGayEnabled, animated: true)
                             self.otherSw.setOn(isOtherEnabled, animated: true)
-                            
+
                             // set the label to default
                             self.setAgeLabel(self.minimumAge, self.maximumAge)
-                            
+
                             if self.minimumAge == 0{
                                 self.minimumAge = 18
                             }
-                            
+
                             if self.maximumAge == 0{
                                 self.maximumAge = 99
                             }
-                            
-                            
+
+
                             // set the picker value to saved
                             // age starts from 18 instead of 0, so minus it to balance
                             self.ageRangePicker.selectRow(self.minimumAge-18, inComponent: 0, animated: true)
@@ -228,7 +230,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
                         }
                     })
             }// end of user
-            
+
         }
         
         
@@ -245,11 +247,16 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
     
     func setStateOfNoPref(_ isOn: Bool) {
         tickBtn.isHidden = false
-        // only apply when any sw is on
-        if(isOn){
+        
+        // only apply when any sw is off
+        if(!isOn){
             allDemoSw.setOn(false, animated: true)
         }
         
+        // also check all sw
+        if(stWomenSw.isOn && stMenSw.isOn && lesbianSw.isOn && gaySw.isOn && otherSw.isOn){
+            allDemoSw.setOn(true, animated: true)
+        }
         
     }
     
@@ -437,7 +444,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
         allDemoSw = UISwitch()
         
         let allDemoLabel = UILabel()
-        allDemoLabel.text = "All Demo"
+        allDemoLabel.text = "No Preference"
         allDemoLabel.textColor = .label
         allDemoLabel.font = UIFont.systemFont(ofSize: 17)
         
