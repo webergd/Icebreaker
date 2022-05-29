@@ -399,6 +399,8 @@ class FriendDetailsVC: UIViewController {
         
         // set the default switch
         setDefaultSW()
+        
+        view.attachDismissToRightSwipe()
     }
     
     // MARK: PROGRAMMATIC UI

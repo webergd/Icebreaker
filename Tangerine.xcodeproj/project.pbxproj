@@ -20,6 +20,7 @@
 		510D8CE4263C2B940028CC4E /* FriendDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D8CE3263C2B940028CC4E /* FriendDetailsVC.swift */; };
 		5111900025FE06CD00AFE7C1 /* UNService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51118FFF25FE06CD00AFE7C1 /* UNService.swift */; };
 		5111900B25FE9C2000AFE7C1 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5111900A25FE9C2000AFE7C1 /* LoginVC.swift */; };
+		51186D6C284319BB00E91C0D /* UIResponder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51186D6B284319BA00E91C0D /* UIResponder+Ext.swift */; };
 		511936CF27C0883900B5E63C /* ContinueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511936CE27C0883900B5E63C /* ContinueButton.swift */; };
 		512E1A1B2622637000D0E89C /* ProfileSettingsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1A1A2622637000D0E89C /* ProfileSettingsTabBarController.swift */; };
 		51320025260E00CA00DA4C5A /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51320024260E00CA00DA4C5A /* UIViewController+Ext.swift */; };
@@ -130,6 +131,7 @@
 		510D8CE3263C2B940028CC4E /* FriendDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailsVC.swift; sourceTree = "<group>"; };
 		51118FFF25FE06CD00AFE7C1 /* UNService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNService.swift; sourceTree = "<group>"; };
 		5111900A25FE9C2000AFE7C1 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		51186D6B284319BA00E91C0D /* UIResponder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Ext.swift"; sourceTree = "<group>"; };
 		511936CE27C0883900B5E63C /* ContinueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueButton.swift; sourceTree = "<group>"; };
 		51266DEC25FDF41400F58791 /* Tangerine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tangerine.entitlements; sourceTree = "<group>"; };
 		512E1A1A2622637000D0E89C /* ProfileSettingsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTabBarController.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				2ABCE72E273587D800103040 /* Int+Ext.swift */,
 				5100470727784278002C8046 /* Question+Ext.swift */,
 				514C47B327AF3BEB00796DEC /* UIView+Ext.swift */,
+				51186D6B284319BA00E91C0D /* UIResponder+Ext.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -823,6 +826,7 @@
 				517BF3AC269AFAD00044DE61 /* CompareReviewDetailsViewController.swift in Sources */,
 				510A348327875CFD002F77F4 /* Reachability.swift in Sources */,
 				517BF39C269ACDBB0044DE61 /* CompareViewController.swift in Sources */,
+				51186D6C284319BB00E91C0D /* UIResponder+Ext.swift in Sources */,
 				510D8CE4263C2B940028CC4E /* FriendDetailsVC.swift in Sources */,
 				51C997DB25FBDE9000DC54B4 /* AppDelegate.swift in Sources */,
 				517BF39B269ACDBB0044DE61 /* AskViewController.swift in Sources */,

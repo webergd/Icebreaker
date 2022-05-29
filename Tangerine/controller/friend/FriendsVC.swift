@@ -57,6 +57,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         dismiss(animated: true, completion: nil)
     }
     
+    
     @objc func addFriendPressed() {
         let vc = AddFriendVC()
         vc.modalPresentationStyle = .fullScreen
@@ -468,6 +469,11 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         hub.moveCircleBy(x: 40.0, y: 0)
         // set the indicator
         setupIndicator()
+        
+        // enables swipe navigation
+        
+        view.attachDismissToRightSwipe()
+  
         
         
     }

@@ -997,7 +997,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         // fetch the firebase version and sync with personList
         syncPersonList()
         
-        
+        view.attachDismissToRightSwipe()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -21,6 +21,24 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     
     //var stillImageOutput: AVCaptureStillImageOutput?
     
+    var outputVolumeObserver: NSKeyValueObservation?
+    let audioSession = AVAudioSession.sharedInstance()
+    
+
+    func startListenToVolButtons() {
+        do {
+            try audioSession.setActive(true)
+        } catch {}
+
+        outputVolumeObserver = audioSession.observe(\.outputVolume) { [weak self] (audioSession, changes) in
+            /// TODOs
+            guard let self = self else{return}
+            print("CAPTURE")
+            self.takePhoto(self.takePhotoButton)
+            
+        }
+    }
+   
     
     //belongs to the pre-iOS10 av camera (but I think also to the new one)
     var captureSession: AVCaptureSession! //these 3 might need to be question marks instead of  exclamation points
@@ -74,6 +92,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         super.viewDidLoad()
         imagePicker.delegate = self
         
+        startListenToVolButtons()
         
         print("justFinishedPicking is \(justFinishedPicking) (inside AVCameraViewController.ViewDidLoad)")
         //Enabes user to swipe right to return to main menu
@@ -201,7 +220,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     /// Snaps a picture
-    @IBAction func takePhoto(_ sender: Any) {
+    @IBAction func takePhoto(_ sender: UIButton) {
         print("snap")
         
         // AVCapturePhotoOutput code:

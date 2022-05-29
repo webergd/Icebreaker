@@ -312,6 +312,8 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         // anytime, specially when return from detail view
         self.requestList.removeAll()
         self.friendRequestList.reloadData()
+        
+        view.attachDismissToRightSwipe()
     }
     
     override func viewDidAppear(_ animated: Bool) {
