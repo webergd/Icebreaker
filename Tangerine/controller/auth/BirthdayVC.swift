@@ -27,8 +27,27 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
     // MARK: Actions
     
     @objc func onContinueClicked() {
-        // save the bday and move to next page
-        saveBirthdayToFirestore()
+        
+        // check the date
+        let cal = Calendar.current
+        let minimumBDay = cal.date(byAdding: .year, value: -18, to: Date())
+        
+        
+        if let validMinimumDate = minimumBDay{
+            let result: ComparisonResult = datePicker.date.compare(validMinimumDate)
+            print(result.rawValue)
+            if result == .orderedDescending || result == .orderedSame{
+                print("Invalid")
+                presentDismissAlertOnMainThread(title: "Invalid Birthday", message: "Tangerine is currently only available to adults 18 and older.")
+                return
+            }else{
+                print("Valid")
+                // save the bday and move to next page
+
+                saveBirthdayToFirestore()
+            }
+        }
+        
     }
     
     
@@ -43,17 +62,6 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
     func setupUI(){
         continueButton.disable()
         
-        // set the date 18 years before
-        let cal = Calendar.current
-        let past = cal.date(byAdding: .year, value: -18, to: Date())
-        
-        if let date = past{
-            // past date set
-            datePicker.maximumDate = date
-            datePicker.setDate(date, animated: true)
-            // set the TF as well, so at start we can see the date
-            setDateString(datePicker)
-        }
       
         datePicker.addTarget(self, action: #selector(onDateChanged), for: .valueChanged)
         
