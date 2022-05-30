@@ -1959,7 +1959,7 @@ public func updateNumLockedQuestionsInFirestore() {
 
 /// Counts the number of locked questions in myActiveQuestions and stores that value to lockedQuestionsCount to ensure they are the same
 public func syncLockedQuestionsCount() {
-    print("synching locked questions count")
+    print("syncing locked questions count")
     let prefs = UserDefaults.standard
     var countedLockedQuestions = 0
     for question in myActiveQuestions {

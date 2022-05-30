@@ -539,7 +539,7 @@ class ActiveQuestionsVC: UITableViewController {
     }
     
     @objc func showHelp() {
-        let alertController = UIAlertController(title: "Tap a row to view its details.", message: "-Showing reviews from Target Demographic.  \n-Swipe right to return to main. \n-Swipe left on a row to delete it.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Tap a row to view its details.", message: "Displaying feedback from Target Demo.  \n-Swipe right to return to main. \n-Swipe left on a row to delete it.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
