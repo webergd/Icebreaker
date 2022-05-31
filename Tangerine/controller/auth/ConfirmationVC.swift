@@ -17,55 +17,37 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
     static var isEditingProfile = false
     static var usernumber = ""
     
+    // MARK: UI Items
+    var pageControl: UIPageControl!
     
-    @IBOutlet weak var pageControl: UIPageControl!
+    var editingBackButton: UIButton!
     
-    @IBOutlet weak var editingBack: UIButton!
+    var topLabel: UILabel!
+    var descL: UILabel!
     
-    @IBAction func editingBackTapped(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
-
-    // all 6 input for OTP
-    @IBOutlet weak var otpTF: UITextField!
-    @IBOutlet weak var otp2TF: UITextField!
-    @IBOutlet weak var otp3TF: UITextField!
-    @IBOutlet weak var otp4TF: UITextField!
-    @IBOutlet weak var otp5TF: UITextField!
-    @IBOutlet weak var otp6TF: UITextField!
+    var otpTF: UITextField!
+    var errorLabel: UILabel!
+    
+    var continueButton: ContinueButton!
     
     // our final var for OTP
     var oneTimePass = ""
-    
-    // the outlets
-    @IBOutlet weak var continueBtn: UIButton!
-    @IBOutlet weak var errorL: UILabel!
-    @IBOutlet weak var enterDescL: UILabel!
-    
-    
-    // the loading
-    var indicator: UIActivityIndicatorView!
     
     // otp time count
     var otpTimer: Timer?
     // didn't find firebase default, so being safe
     var timeoutSeconds = 60
     
-    /******************************************************** ************************************************/
+    // MARK: Actions
+    
+    @objc func editingBackTapped(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func continueBtnClicked(_ sender: Any) {
         
         // check if resend or not
-        if continueBtn.titleLabel?.text == "Resend"{
+        if continueButton.titleLabel?.text == "Resend"{
             resendOTP()
         }else{
             // verify again if it is 6 digit
@@ -80,22 +62,11 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
     
     // as always, make UI nice looking
     func setupUI(){
-        // let's customize our only button
-        continueBtn.layer.borderWidth = 2.0
-        continueBtn.layer.cornerRadius = 6.0
-        continueBtn.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        continueBtn.disable()
-        // set the indicator
-        setupIndicator()
+        
+        continueButton.disable()
         
         // set the delegate to check and move focus
         otpTF.delegate = self
-        otp2TF.delegate = self
-        otp3TF.delegate = self
-        
-        otp4TF.delegate = self
-        otp5TF.delegate = self
-        otp6TF.delegate = self
         // make it first responder
         otpTF.becomeFirstResponder()
         
@@ -103,7 +74,7 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
         // set the number to label as per doc format
         
             //\(number[5..<8])-\(number[8..<number.count])
-            enterDescL.text = "Enter the code we sent to (\(ConfirmationVC.usernumber.subString(from: 2, to: 5))) \(ConfirmationVC.usernumber.subString(from: 5, to: 8))-\(ConfirmationVC.usernumber.subString(from: 8, to: ConfirmationVC.usernumber.count))"
+            descL.text = "Enter the code we sent to (\(ConfirmationVC.usernumber.subString(from: 2, to: 5))) \(ConfirmationVC.usernumber.subString(from: 5, to: 8))-\(ConfirmationVC.usernumber.subString(from: 8, to: ConfirmationVC.usernumber.count))"
         
         
         //dismiss keyboard, call the extension
@@ -114,10 +85,10 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
         // hide the page control and show the editing backbutton
         
         if ConfirmationVC.isEditingProfile {
-            editingBack.isHidden = false
+            editingBackButton.isHidden = false
             pageControl.isHidden = true
         }else{
-            editingBack.isHidden = true
+            editingBackButton.isHidden = true
             pageControl.isHidden = false
         }
         
@@ -126,14 +97,6 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    // to show the loading
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-    }
     
     // verify the phone number
     
@@ -147,7 +110,7 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
             return
         }
         // show the progress
-        indicator.startAnimating()
+        view.showActivityIndicator()
         // create a credential
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
         
@@ -170,11 +133,14 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
                     if let err = error{
                         self.presentDismissAlertOnMainThread(title: "Update Failed", message: err.localizedDescription)
                         print(err.localizedDescription)
-                        self.indicator.stopAnimating()
+                        self.view.hideActivityIndicator()
+                        // reset and restart countdown
+                        self.timeoutSeconds = 60
+                        self.startCountdown()
                         return
                     }
                     
-                    self.indicator.stopAnimating()
+                    self.view.hideActivityIndicator()
                     
                     // dismiss this view and present previous view
                     // set the value of firestore and local before that
@@ -185,6 +151,9 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
                         
                         if let error = error{
                             self.presentDismissAlertOnMainThread(title: "Update Failed", message: error.localizedDescription)
+                            // reset and restart countdown
+                            self.timeoutSeconds = 60
+                            self.startCountdown()
                             return
                         }
                         
@@ -205,13 +174,7 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
                         }
                         
                         // go back to our parent
-                                 
-                                 let story = UIStoryboard.init(name: "Main", bundle: nil)
-                                 let vc = story.instantiateViewController(identifier: "editprofile_vc") as! EditProfileVC
-                                 
-                                 vc.modalPresentationStyle = .fullScreen
-                                 
-                                 self.dismiss(animated: true, completion: nil)
+                        // TODO: Implement go back to editProfileVc
                     } // end of firebase call
                     
                     
@@ -226,13 +189,19 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
                     if let err = error{
                         self.presentDismissAlertOnMainThread(title: "Verification Failed", message: err.localizedDescription)
                         print(err.localizedDescription)
-                        self.indicator.stopAnimating()
+                        self.view.hideActivityIndicator()
+                        // reset and restart countdown
+                        self.timeoutSeconds = 60
+                        self.startCountdown()
                         return
                     }
                     
-                    self.indicator.stopAnimating()
+                    self.view.hideActivityIndicator()
                     // move to next screen
-                    self.performSegue(withIdentifier: "birthday_vc", sender: self)
+                    let vc = BirthdayVC()
+                    vc.modalPresentationStyle = .fullScreen
+                    //self.present(vc, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(vc, animated: true)
                     
                 }// end of user link
             } // end of else of if isEditingProfile
@@ -244,13 +213,13 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
     
     func resendOTP(){
         // show the loader
-        indicator.startAnimating()
+        view.showActivityIndicator()
         print("Resending \(ConfirmationVC.usernumber)")
         // start verifying, send sms here
         PhoneAuthProvider.provider().verifyPhoneNumber(ConfirmationVC.usernumber, uiDelegate: nil) { (verificationID, error) in
             if let error = error {
                 self.presentDismissAlertOnMainThread(title: "Auth Error", message: error.localizedDescription)
-                self.indicator.stopAnimating()
+                self.view.hideActivityIndicator()
                 return
               }
             
@@ -259,7 +228,7 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
             UserDefaults.standard.setValue(verificationID, forKey: Constants.VERIFICATION_ID)
             
             // stop the loading indicator
-            self.indicator.stopAnimating()
+            self.view.hideActivityIndicator()
             // to capture otp again
             self.otpTF.becomeFirstResponder()
             
@@ -277,19 +246,19 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
                 self?.timeoutSeconds -= 1
                 if self?.timeoutSeconds == 0 {
                     // time out, enable resend
-                    self?.continueBtn.enable()
-                    self?.continueBtn.setTitle("Resend", for: .normal)
+                    self?.continueButton.enable()
+                    self?.continueButton.setTitle("Resend", for: .normal)
                     timer.invalidate()
                     
                     self?.navigationItem.hidesBackButton = false
                     
                 } else if let seconds = self?.timeoutSeconds {
                     // disable and show counter
-                    self?.continueBtn.disable()
+                    self?.continueButton.disable()
                     // codes needed for prevent flashing
                     UIView.setAnimationsEnabled(false)
-                    self?.continueBtn.layoutIfNeeded()
-                    self?.continueBtn.setTitle("Resend (\(seconds))", for: .disabled)
+                    self?.continueButton.layoutIfNeeded()
+                    self?.continueButton.setTitle("Resend (\(seconds))", for: .disabled)
                     UIView.setAnimationsEnabled(false)
                     
                     // to block ui from moving
@@ -303,7 +272,7 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
             otpTimer?.invalidate()
         }
     
-    /******************************************************** ************************************************/
+    // MARK: Delegates
     
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -317,96 +286,38 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
             // spilit the code
             
             if code.count==6{
-                let codes = code.map{
-                    String($0)
-                }
-                
-                // set one digit to each field
-                otpTF.text = codes[0]
-                otp2TF.text = codes[1]
-                
-                otp3TF.text = codes[2]
-                otp4TF.text = codes[3]
-                
-                otp5TF.text = codes[4]
-                otp6TF.text = codes[5]
+                // set digits to field
+                otpTF.text = code
                 // it was the first responder here
                 otpTF.resignFirstResponder()
             }else{
                 // this code must be one digit
                 // keep showing error label
-                errorL.isHidden = false
-                // check the responder and move the focus
-                if otpTF.isFirstResponder{
-                    if let singleCode = textField.text, singleCode.count == 1{
-                        otp2TF.becomeFirstResponder()
-                    }
-                    
-                }else if otp2TF.isFirstResponder{
-                    if let singleCode = textField.text, singleCode.count == 1{
-                        otp3TF.becomeFirstResponder()
-                    }else{
-                        otpTF.becomeFirstResponder()
-                    }
-                    
-                }else if otp3TF.isFirstResponder{
-                    
-                    if let singleCode = textField.text, singleCode.count == 1{
-                        otp4TF.becomeFirstResponder()
-                    }else{
-                        otp2TF.becomeFirstResponder()
-                    }
-                    
-                }else if otp4TF.isFirstResponder{
-                    if let singleCode = textField.text, singleCode.count == 1{
-                        otp5TF.becomeFirstResponder()
-                        
-                    }else{
-                        otp3TF.becomeFirstResponder()
-                    }
-                   
-                    
-                }else if otp5TF.isFirstResponder{
-                    if let singleCode = textField.text, singleCode.count == 1{
-                        otp6TF.becomeFirstResponder()
-                    }else{
-                        otp4TF.becomeFirstResponder()
-                    }
+                errorLabel.isHidden = false
                   
-                }else {
-                    if let singleCode = textField.text, singleCode.count == 1{
-                            otp6TF.resignFirstResponder()
-                        
-                    }else{
-                        otp5TF.becomeFirstResponder()
-                    }
-                }
+                }// end of code count not 6
                 
-                
-                
-                
-            } // end of code count not 6
             
-            if let code1 = otpTF.text, let code2 = otp2TF.text, let code3 = otp3TF.text, let code4 = otp4TF.text, let code5 = otp5TF.text, let code6 = otp6TF.text{
+            if let otpCode = otpTF.text{
                 // check if all good
-                let valid = code1.count + code2.count + code3.count + code4.count + code5.count + code6.count == 6
+                let valid = otpCode.count == 6
                 
                 // hide or show error?
                 // depends on valid
-                errorL.isHidden = valid
+                errorLabel.isHidden = valid
                 
                 if valid{
-                    continueBtn.enable()
+                    continueButton.enable()
                     // save the one time pass
-                    oneTimePass = code1+code2+code3+code4+code5+code6;
+                    oneTimePass = otpCode
                     // stop the timer
                     otpTimer?.invalidate()
                     // change the text to continue
-                    continueBtn.setTitle("Continue", for: .normal)
+                    continueButton.setTitle("Continue", for: .normal)
                     
                     
                 }else{
-                    continueBtn.disable()
+                    continueButton.disable()
                     otpTimer?.invalidate()
                     startCountdown()
                 }
@@ -417,23 +328,173 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
         // this block fires when we delete all text field, it immediately disables the continue button
         else{
             // if any of those TF has no number, disable continue
-            continueBtn.disable()
+            continueButton.disable()
             otpTimer?.invalidate()
             startCountdown()
         }
         
     }
     
-    /******************************************************** ************************************************/
+    // MARK: VC Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // name will suggest what they do
+        view.backgroundColor = .systemBackground
         title = "Confirmation"
+        
+        configureBackButton()
+        
+        configureTopLabel()
+        configureDescLabel()
+        
+        configureOtpTF()
+        
+        configureErrorLabel()
+        
+        configureContinueButton()
+        
+        configurePageControl()
+        
         setupUI()
         
 
     }
     
+    // MARK: PROGRAMMATIC UI
+    
+    func configureBackButton(){
+        
+        editingBackButton = UIButton()
+        editingBackButton.setTitle("Back", for: .normal)
+        editingBackButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        editingBackButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        
+        editingBackButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(editingBackButton)
+        
+        NSLayoutConstraint.activate([
+            editingBackButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            editingBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+        ])
+        
+        editingBackButton.addTarget(self, action: #selector(editingBackTapped), for: .touchUpInside)
+        
+    }
+    
+    func configureTopLabel(){
+        topLabel = UILabel()
+        topLabel.text = "Enter Confirmation Code"
+        // to make it dark/light friendly
+        topLabel.textColor = .label
+        topLabel.textAlignment = .center
+        topLabel.font = UIFont.systemFont(ofSize: 17,weight: .semibold)
+        view.addSubview(topLabel)
+        
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            topLabel.heightAnchor.constraint(equalToConstant: 50),
+            topLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            topLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            topLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+        ])
+    } // end conf topLabel
+    
+    func configureDescLabel(){
+        descL = UILabel()
+        descL.text = ""
+        descL.numberOfLines = 3
+        // to make it dark/light friendly
+        descL.textColor = .label
+        descL.textAlignment = .center
+        descL.font = UIFont.systemFont(ofSize: 17)
+        view.addSubview(descL)
+        
+        descL.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            descL.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 10),
+            descL.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            descL.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+        ])
+        
+    } // end conf descLabel
+    
+    func configureOtpTF(){
+        
+        otpTF = UITextField()
+        otpTF.textColor = .label
+        otpTF.font = UIFont.systemFont(ofSize: 16)
+        otpTF.textAlignment = .center
+        otpTF.placeholder = "xxxxxx"
+        otpTF.borderStyle = .roundedRect
+        otpTF.textContentType = .oneTimeCode
+        otpTF.keyboardType = .numberPad
+        otpTF.autocapitalizationType = .none
+        
+        view.addSubview(otpTF)
+        otpTF.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            
+            otpTF.heightAnchor.constraint(equalToConstant: 50),
+            otpTF.topAnchor.constraint(equalTo: descL.bottomAnchor, constant: 50),
+            otpTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            otpTF.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50)
+        ])
+    } // end otp tf
+    
+    func configureErrorLabel(){
+        errorLabel = UILabel()
+        errorLabel.text = "That's not the right code!"
+        errorLabel.textColor = .systemRed
+        errorLabel.numberOfLines = 2
+        errorLabel.textAlignment = .center
+        errorLabel.font = UIFont.systemFont(ofSize: 17)
+        view.addSubview(errorLabel)
+        
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            errorLabel.heightAnchor.constraint(equalToConstant: 30),
+            errorLabel.topAnchor.constraint(equalTo: otpTF.bottomAnchor, constant: 20),
+            errorLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            errorLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+    } // end conf errorLabel
+    
+    func configureContinueButton(){
+        continueButton = ContinueButton(title: "Continue")
+        
+        view.addSubview(continueButton)
+        
+        continueButton.addTarget(self, action: #selector(continueBtnClicked), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            continueButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+        ])
+        
+    }// end conf continue button
 
+    
+    func configurePageControl(){
+        pageControl = UIPageControl()
+        pageControl.numberOfPages = 6
+        pageControl.currentPage = 3
+        pageControl.pageIndicatorTintColor = .systemGray
+        pageControl.currentPageIndicatorTintColor = .systemOrange
+        
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            pageControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            
+        ])
+    }
 }

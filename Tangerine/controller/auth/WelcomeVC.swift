@@ -12,28 +12,33 @@ import FirebaseStorage
 import RealmSwift
 
 class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
     
-    @IBOutlet weak var jumpBtn: UIButton!
-    @IBOutlet weak var displayUsernameL: UILabel!
-    @IBOutlet weak var displayFriendsCountL: UILabel!
+    // MARK: UI Items
     
-    @IBOutlet weak var profileImageView: UIImageView!
-   
-    @IBOutlet weak var uploadIndicator: UIActivityIndicatorView!
+    var topLabel: UILabel!
+    var jumpBtn: UIButton!
+    var descLabel: UITextView!
     
-    @IBOutlet weak var displayNameUpdatingIndicator: UIActivityIndicatorView!
+    var settingsImage: UIImageView!
     
-    /******************************************************************************************************************************/
+    var updateDisplayNameLabel: UILabel! // to update it
+    // the one that show's currently displays as
+    var displayUsernameL: UILabel!
+    
+    var updateTDLabel: UILabel! // to update
+    
+    var targetDemoDescLabel: UILabel! // to show the message
+    
+    var addFriendsLabel: UILabel! // to add friend
+    
+    var displayFriendsCountL: UILabel! // the one that shows friends count
+    
+    // the image view that shows PP
+    var profileImageView: UIImageView!
+    var profileImageDescLabel: UILabel! // to show below PP frame
+    
+    var displayNameIndicator: UIActivityIndicatorView!
+    var profileImageIndicator: UIActivityIndicatorView!
 
     // this is where we'll save the profile image or any other image
     var profileRef: StorageReference!
@@ -41,14 +46,21 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
     // we'll use this variable to show friends count if this vc is used multiple times in future
     static var friendsCount = 0
     
-    /******************************************************************************************************************************/
     
-    @IBAction func onJumpClicked(_ sender: UIButton) {
+    
+    // MARK: Actions
+    
+    @objc func onJumpClicked() {
         print("Jump")
-        performSegue(withIdentifier: "main_vc", sender: self)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated: false, completion: nil)
     }
     
-    @IBAction func updateDisplayNameClicked(_ sender: UITapGestureRecognizer) {
+    @objc func updateDisplayNameClicked() {
         print("Display name")
         
         let dname = UserDefaults.standard.string(forKey: Constants.UD_USER_DISPLAY_NAME) ?? ""
@@ -69,7 +81,8 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
                 // Force unwrapping because we know it exists.
                 // we added this textfield in the above line
                 // show the update indicator, as it takes few seconds to update
-                self.displayNameUpdatingIndicator.isHidden = false
+                self.displayNameIndicator.isHidden = false
+                
                 
                 let textField = alert?.textFields![0]
                 if let text = textField?.text{
@@ -82,7 +95,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
                                 return
                             }
                             UserDefaults.standard.setValue(text, forKey: Constants.UD_USER_DISPLAY_NAME)
-                            self.displayNameUpdatingIndicator.isHidden = true
+                            self.displayNameIndicator.isHidden = true
                             
                             self.displayUsernameL.text = "Currently appearing as \(text)"
         
@@ -123,17 +136,23 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
         
     }
     
-    @IBAction func updateTargetDemoClicked(_ sender: UITapGestureRecognizer) {
+    @objc func updateTargetDemoClicked() {
         print("Update Target Demo")
-        performSegue(withIdentifier: "targetdemo_vc", sender: self)
+        let vc = TargetDemoVC()
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated: true, completion: nil)
     }
     
-    @IBAction func addFriendClicked(_ sender: UITapGestureRecognizer) {
+    @objc func addFriendClicked() {
         print("Add Friend")
-        performSegue(withIdentifier: "addfriend_vc", sender: self)
+        let vc = AddFriendVC()
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated: true, completion: nil)
     }
     
-    @IBAction func profilePictureClicked(_ sender: UITapGestureRecognizer) {
+    @objc func profilePictureClicked() {
         
         // let user choose which way he would like to go
         // camera or photo
@@ -167,10 +186,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
             })
     }
     
-    /******************************************************************************************************************************/
-    
-    
-    
+     
     func selectImageFrom(_ sourceType: UIImagePickerController.SourceType){
         // set the camera
         let cameraVc = UIImagePickerController()
@@ -187,16 +203,8 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
     
     
     func setupUI(){
-        // style the jump button
-        jumpBtn.layer.borderWidth = 2.0
-        jumpBtn.layer.cornerRadius = 6.0
-        jumpBtn.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        jumpBtn.enable()
         
-        // put some border on profile picture
-        profileImageView.layer.borderWidth = 1.0
-        profileImageView.layer.borderColor = UIColor.systemBlue.cgColor
-        profileImageView.layer.cornerRadius = 4.0
+        jumpBtn.enable()
         
         // set the name and pic ref
         
@@ -317,7 +325,8 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
         }// end of Auth user check
     }
     
-    /******************************************************************************************************************************/
+    
+    // MARK: Delegates
     
     // this delegate is called when image selecting is done
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -411,20 +420,20 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
           // A progress event occured
             let _ = 100.0 * Double(snapshot.progress!.completedUnitCount)
                 / Double(snapshot.progress!.totalUnitCount)
-            self.uploadIndicator.isHidden = false
+            self.profileImageIndicator.isHidden = false
             
         } // end of progress observer
         
         
         uploadTask.observe(.success) { (snapshot) in
             // success ? hide the progress
-            self.uploadIndicator.isHidden = true
+            self.profileImageIndicator.isHidden = true
         }
         
         // observe the failure here
         uploadTask.observe(.failure) { snapshot in
             // failed? hide the progress
-            self.uploadIndicator.isHidden = true
+            self.profileImageIndicator.isHidden = true
             
             if let error = snapshot.error as NSError? {
             switch (StorageErrorCode(rawValue: error.code)!) {
@@ -454,11 +463,37 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
     } // end of failure observe
 }
     
-    /******************************************************************************************************************************/
+    
+    
+    // MARK: VC Methods
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .systemBackground
+        
+        
+        // proUI
+        configureTopLabel()
+        configureJumpButton()
+        configureDescLabel()
+        
+        configureSettingsImage()
+        
+        configureUpdateDisplayNameLabel()
+        configureDisplayName()
+        
+        configureUpdateTDLabel()
+        configureTDMessage()
+        
+        configureAddFriendsLabel()
+        configureFriendsCount()
+        
+        configurePP()
+        configurePPLabel()
+        
+        configureIndicatorView()
+        
         
         fetchUserData()
         // Do any additional setup after loading the view.
@@ -473,8 +508,278 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
         self.navigationController?.viewControllers = navigationArray
         // when this view runs for the first time, we need to have these data saved
         
-    
     }
     
 
+    // MARK: PROGRAMMATIC UI
+    
+    func configureTopLabel(){
+        topLabel = UILabel()
+        topLabel.text = "Welcome to the Tangerine Community!"
+        topLabel.textColor = .label
+        topLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        topLabel.numberOfLines = 2
+        
+        topLabel.textAlignment = .center
+        
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(topLabel)
+        
+        NSLayoutConstraint.activate([
+            topLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            topLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            topLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            topLabel.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    func configureJumpButton(){
+        jumpBtn = ContinueButton(title: "Start Tangerining")
+        
+        jumpBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(jumpBtn)
+        
+        NSLayoutConstraint.activate([
+            jumpBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            jumpBtn.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 20),
+            jumpBtn.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        jumpBtn.addTarget(self, action: #selector(onJumpClicked), for: .touchUpInside)
+        
+        
+    }
+    
+    func configureDescLabel(){
+        descLabel = UITextView()
+        descLabel.text = "Feel free to use the links below to customize your experience. You can always adjust these later in settings"
+        descLabel.textColor = .label
+        descLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        descLabel.textAlignment = .center
+        
+        descLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(descLabel)
+        
+        NSLayoutConstraint.activate([
+            descLabel.topAnchor.constraint(equalTo: jumpBtn.bottomAnchor, constant: 20),
+            descLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            descLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            descLabel.heightAnchor.constraint(equalToConstant: 70)
+        ])
+    }
+    
+    
+    func configureSettingsImage(){
+        settingsImage = UIImageView()
+        settingsImage.image = UIImage(systemName: "gearshape")
+        settingsImage.tintColor = .label
+        
+        settingsImage.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(settingsImage)
+        
+        NSLayoutConstraint.activate([
+            settingsImage.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 0),
+            settingsImage.heightAnchor.constraint(equalToConstant: 20),
+            settingsImage.widthAnchor.constraint(equalToConstant: 20),
+            settingsImage.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+        ])
+    }
+    
+    
+    func configureUpdateDisplayNameLabel(){
+        updateDisplayNameLabel = UILabel()
+        updateDisplayNameLabel.text = "Update Display Name"
+        
+        updateDisplayNameLabel.textColor = .link
+        updateDisplayNameLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        updateDisplayNameLabel.textAlignment = .center
+        
+        updateDisplayNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(updateDisplayNameLabel)
+        
+        updateDisplayNameLabel.isUserInteractionEnabled = true
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(updateDisplayNameClicked))
+        updateDisplayNameLabel.addGestureRecognizer(gesture)
+        
+        NSLayoutConstraint.activate([
+            updateDisplayNameLabel.topAnchor.constraint(equalTo: settingsImage.bottomAnchor, constant: 30),
+            updateDisplayNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+        ])
+        
+    }
+    
+    func configureDisplayName(){
+        displayUsernameL = UILabel()
+        
+        displayUsernameL.textColor = .label
+        displayUsernameL.font = UIFont.systemFont(ofSize: 17)
+        displayUsernameL.textAlignment = .center
+        
+        displayUsernameL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(displayUsernameL)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            displayUsernameL.topAnchor.constraint(equalTo: updateDisplayNameLabel.bottomAnchor, constant: 0),
+            displayUsernameL.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+        ])
+    }
+    
+    
+    func configureUpdateTDLabel(){
+        updateTDLabel = UILabel()
+        updateTDLabel.text = "Update Target Demo"
+        
+        updateTDLabel.textColor = .link
+        updateTDLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        updateTDLabel.textAlignment = .center
+        
+        updateTDLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(updateTDLabel)
+        
+        updateTDLabel.isUserInteractionEnabled = true
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(updateTargetDemoClicked))
+        updateTDLabel.addGestureRecognizer(gesture)
+        
+        NSLayoutConstraint.activate([
+            updateTDLabel.topAnchor.constraint(equalTo: displayUsernameL.bottomAnchor, constant: 25),
+            updateTDLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+        ])
+    }
+    
+    func configureTDMessage(){
+        targetDemoDescLabel = UILabel()
+        targetDemoDescLabel.text = "Customize the age range and orientation of users you’d like feedback from."
+        targetDemoDescLabel.textColor = .label
+        targetDemoDescLabel.font = UIFont.systemFont(ofSize: 17)
+        targetDemoDescLabel.numberOfLines = 3
+        targetDemoDescLabel.textAlignment = .center
+        
+        targetDemoDescLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(targetDemoDescLabel)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            targetDemoDescLabel.topAnchor.constraint(equalTo: updateTDLabel.bottomAnchor, constant: 0),
+            targetDemoDescLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            targetDemoDescLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            targetDemoDescLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+        ])
+    }
+    
+    
+    func configureAddFriendsLabel(){
+        addFriendsLabel = UILabel()
+        addFriendsLabel.text = "Add Friends"
+        
+        addFriendsLabel.textColor = .link
+        addFriendsLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        addFriendsLabel.textAlignment = .center
+        
+        addFriendsLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(addFriendsLabel)
+        
+        addFriendsLabel.isUserInteractionEnabled = true
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(addFriendClicked))
+        addFriendsLabel.addGestureRecognizer(gesture)
+        
+        NSLayoutConstraint.activate([
+            addFriendsLabel.topAnchor.constraint(equalTo: targetDemoDescLabel.bottomAnchor, constant: 25),
+            addFriendsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+        ])
+    }
+    
+    func configureFriendsCount(){
+        displayFriendsCountL = UILabel()
+        displayFriendsCountL.textColor = .label
+        displayFriendsCountL.font = UIFont.systemFont(ofSize: 17)
+        displayFriendsCountL.textAlignment = .center
+        
+        displayFriendsCountL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(displayFriendsCountL)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            displayFriendsCountL.topAnchor.constraint(equalTo: addFriendsLabel.bottomAnchor, constant: 0),
+            displayFriendsCountL.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+        ])
+    }
+    
+    
+    func configurePP(){
+        profileImageView = UIImageView()
+        profileImageView.image = UIImage(systemName: "person.badge.plus")
+        profileImageView.tintColor = .link
+        
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(profileImageView)
+        
+        profileImageView.isUserInteractionEnabled = true
+        
+        NSLayoutConstraint.activate([
+            profileImageView.heightAnchor.constraint(equalToConstant: 50),
+            profileImageView.widthAnchor.constraint(equalToConstant: 50),
+            profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(profilePictureClicked))
+        profileImageView.addGestureRecognizer(gesture)
+        
+    }
+    
+    func configurePPLabel(){
+        profileImageDescLabel = UILabel()
+        profileImageDescLabel.text = "Profile Picture"
+        
+        profileImageDescLabel.textColor = .label
+        profileImageDescLabel.font = UIFont.systemFont(ofSize: 17)
+        
+        profileImageDescLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(profileImageDescLabel)
+        
+        profileImageDescLabel.isUserInteractionEnabled = true
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(profilePictureClicked))
+        profileImageDescLabel.addGestureRecognizer(gesture)
+        
+        NSLayoutConstraint.activate([
+            profileImageDescLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
+            profileImageDescLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            profileImageDescLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
+    
+    func configureIndicatorView(){
+        displayNameIndicator = UIActivityIndicatorView()
+        profileImageIndicator = UIActivityIndicatorView()
+        
+        displayNameIndicator.startAnimating()
+        profileImageIndicator.startAnimating()
+        
+        displayNameIndicator.isHidden = true
+        profileImageIndicator.isHidden = true
+        
+        displayNameIndicator.translatesAutoresizingMaskIntoConstraints = false
+        profileImageIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(displayNameIndicator)
+        view.addSubview(profileImageIndicator)
+        
+        
+        NSLayoutConstraint.activate([
+            displayNameIndicator.leadingAnchor.constraint(equalTo: updateDisplayNameLabel.trailingAnchor, constant: 10),
+            displayNameIndicator.centerYAnchor.constraint(equalTo: updateDisplayNameLabel.centerYAnchor),
+            
+            profileImageIndicator.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
+            profileImageIndicator.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            
+        ])
+    }
+    
 }

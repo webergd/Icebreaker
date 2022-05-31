@@ -11,18 +11,11 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 import RealmSwift
 import MessageUI
+import grpc
 
 class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, MFMessageComposeViewControllerDelegate {
-    
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
+
+    // MARK: UI Items
     
     // this var saves all contact from device
     // we'll take 10 each time and run query
@@ -62,35 +55,34 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     
     
     // the search bar and segment
-    @IBOutlet weak var searchbar: UISearchBar!
-    @IBOutlet weak var searchSegment: UISegmentedControl!
+    var searchbar: UISearchBar!
+    var searchSegment: UISegmentedControl!
     // cancel and back buttons with width + the table view
-    @IBOutlet weak var cancelBtn: UIButton!
-    @IBOutlet weak var buttonWidth: NSLayoutConstraint!
-    @IBOutlet weak var friendTableView: UITableView!
-    @IBOutlet weak var backBtn: UIButton!
-    @IBOutlet weak var backButtonWidth: NSLayoutConstraint!
-    /******************************************************************************************************************************/
+    var cancelBtn: UIButton!
+    var buttonWidth: NSLayoutConstraint!
+    var friendTableView: UITableView!
+    var backBtn: UIButton!
+    var backButtonWidth: NSLayoutConstraint!
+    
+    // MARK: Actions
     
     // when back and cancel is clicked, searchbar is between them in view
-    @IBAction func onCancelTapped(_ sender: UIButton) {
+    @objc func onCancelTapped() {
         hideCancelButton()
     }
     
-    @IBAction func onBackClicked(_ sender: UIButton) {
+    @objc func onBackClicked() {
         dismiss(animated: true, completion: nil)
     }
     // when we change local/cloud, reload the table
-    @IBAction func onSegmentChanged(_ sender: UISegmentedControl) {
+    @objc func onSegmentChanged(_ sender: UISegmentedControl) {
         isCloudSearch = sender.selectedSegmentIndex == 1
         print("Searching cloud? \(isCloudSearch)")
         
         friendTableView.reloadData()
     }
     
-    
-    /******************************************************************************************************************************/
-    /******************************************************************************************************************************/
+
     
     // do initial setup on view load
     func setupUI(){
@@ -105,6 +97,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
         // hide the button
         hideCancelButton()
+
     }
     
     // this makes the cancel button gone when search ends
@@ -125,7 +118,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     
     // this makes the cancel button visible when search starts
     func showCancelButton(){
+        
         // when cancel is visible, back should be gone
+        
         backButtonWidth.constant = 0
         backBtn.isHidden = true
         backBtn.layoutIfNeeded()
@@ -136,13 +131,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         cancelBtn.isHidden = false
         cancelBtn.layoutIfNeeded()
         cancelBtn.setNeedsUpdateConstraints()
+        
     }
     
-    
-    /******************************************************************************************************************************/
-    /********************************************  FIRESTORE CALLS WILL BE PLACED BELOW*****************************************/
-    /******************************************************************************************************************************/
-    /******************************************************************************************************************************/
     
     // this will fetch data from firestore without search, the first segment
     func fetchDataFromFirestore(){
@@ -220,10 +211,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         }
     }// end of fetch data from firestore
     
-    /******************************************************************************************************************************/
-    /********************************************  FIRESTORE CALLS WILL BE PLACED BELOW*****************************************/
-    /******************************************************************************************************************************/
-    /******************************************************************************************************************************/
     
     func searchDataOnFirestore(_ searchTerm: String){
         
@@ -690,7 +677,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
             break;
         }
     }
-    /******************************************************************************************************************************/
+    
+    // MARK: Delegates
     // when search on keyboard is clicked
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // handle search, when the search from keyboard is clicked
@@ -748,6 +736,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         hideCancelButton()
     }
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        
         showCancelButton()
     }
     
@@ -945,8 +934,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
         //
         if shouldShow {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "frienddetails_vc") as! FriendDetailsVC
+            let vc = FriendDetailsVC()
             vc.modalPresentationStyle = .fullScreen
             vc.username = username
             vc.parentVC = PARENTVC.ADD
@@ -987,20 +975,34 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
     }
     
-    /******************************************************************************************************************************/
+    
+    // MARK: VC Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // setup the indicator
+        view.backgroundColor = .systemBackground
+        
+        // proUI
+        
+        configureBackButton()
+        configureSearchBar()
+        configureCancelButton()
+        configureSegmentControl()
+        configureAFTableView()
+        
+        
         setupIndicator()
         searchbar.delegate = self
         
-        
         // fetch the firebase version and sync with personList
-        syncPersonList()    }
+        syncPersonList()
+        
+        view.attachDismissToRightSwipe()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+       
         
         // if we are searching on cloud
         // reload the list
@@ -1012,4 +1014,97 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         }
     }
     
+    
+    // MARK: PROGRAMMATIC UI
+    func configureBackButton(){
+        backBtn = UIButton()
+        backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        
+        backBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backBtn)
+        
+        backButtonWidth = NSLayoutConstraint()
+        backButtonWidth = backBtn.widthAnchor.constraint(equalToConstant: 30)
+        backButtonWidth.isActive = true
+        
+        NSLayoutConstraint.activate([
+            backBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            backBtn.heightAnchor.constraint(equalToConstant: 30),
+        ])
+        
+        backBtn.addTarget(self, action: #selector(onBackClicked), for: .touchUpInside)
+    }
+    
+    func configureSearchBar(){
+        searchbar = UISearchBar()
+        searchbar.placeholder = "Search for a Friend"
+        
+        searchbar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchbar)
+        
+        NSLayoutConstraint.activate([
+            searchbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchbar.centerYAnchor.constraint(equalTo: backBtn.centerYAnchor),
+            searchbar.leadingAnchor.constraint(equalTo: backBtn.trailingAnchor),
+            
+        ])
+    }
+    
+    func configureCancelButton(){
+        cancelBtn = UIButton()
+        cancelBtn.setTitle("Cancel", for: .normal)
+        cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        cancelBtn.backgroundColor = .systemBackground
+        cancelBtn.setTitleColor(UIColor.link, for: .normal)
+        
+        cancelBtn.addTarget(self, action: #selector(onCancelTapped), for: .touchUpInside)
+        
+        cancelBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cancelBtn)
+        
+        buttonWidth = NSLayoutConstraint()
+        buttonWidth = cancelBtn.widthAnchor.constraint(equalToConstant: 0)
+        buttonWidth.isActive = true
+        
+        
+        NSLayoutConstraint.activate([
+            cancelBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            cancelBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -16),
+            cancelBtn.leadingAnchor.constraint(equalTo: searchbar.trailingAnchor),
+            cancelBtn.centerYAnchor.constraint(equalTo: searchbar.centerYAnchor)
+        ])
+        
+    }
+    
+    func configureSegmentControl(){
+        searchSegment = UISegmentedControl(items: ["My Contacts", "All Users"])
+        searchSegment.selectedSegmentIndex = 0
+        
+        searchSegment.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchSegment)
+        
+        NSLayoutConstraint.activate([
+            searchSegment.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 50),
+            searchSegment.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            searchSegment.topAnchor.constraint(equalTo: searchbar.bottomAnchor, constant: 0)
+        ])
+        
+        searchSegment.addTarget(self, action: #selector(onSegmentChanged), for: .valueChanged)
+        
+    }
+    
+    func configureAFTableView(){
+        friendTableView = UITableView()
+        
+        friendTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(friendTableView)
+        
+        NSLayoutConstraint.activate([
+            friendTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            friendTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            friendTableView.topAnchor.constraint(equalTo: searchSegment.bottomAnchor,constant: 20),
+            friendTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
 }

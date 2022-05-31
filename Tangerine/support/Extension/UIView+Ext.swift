@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 extension UIView {
     // to show the loading
     private var loadingIndicator : UIActivityIndicatorView {
@@ -25,8 +24,10 @@ extension UIView {
         }
     }
     
+    
     func showActivityIndicator(){
         self.loadingIndicator.startAnimating()
+        
     }
     
     func hideActivityIndicator(){
@@ -36,7 +37,6 @@ extension UIView {
         }
     }
     
-
     func addShadow() {
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: -1, height: 2)
@@ -120,7 +120,7 @@ extension UIView {
         
         //self.layer.borderWidth = 0
     }
-    
+
     @objc func userSwiped(_ gesture: UISwipeGestureRecognizer) {
         
             if gesture.direction == UISwipeGestureRecognizer.Direction.right {

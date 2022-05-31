@@ -84,7 +84,7 @@ class MainVC: UIViewController {
         
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "blue_vc") as! BlueVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "blue_vc") as! ReviewOthersVC
         
         vc.modalPresentationStyle = .fullScreen
         
@@ -96,15 +96,18 @@ class MainVC: UIViewController {
     
     @IBAction func onFriendsTapped(_ sender: Any) {
         print("Friends")
-        performSegue(withIdentifier: "friends_vc", sender: self)
+        let vc = FriendsVC()
+        vc.modalPresentationStyle = .fullScreen
+        
+        self.present(vc, animated: true, completion: nil)
     }
     
     
     // when the profile and settings tapped
     @IBAction func onProfileTapped(_ sender: Any) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "settings_vc") as! ProfileSettingsTabBarController
+        
+        let vc = ProfileSettingsTabBarController()
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated: true, completion: nil)
@@ -125,8 +128,8 @@ class MainVC: UIViewController {
             resetQuestionRelatedThings() // detailed on declaration of this func => Cmd+Click (Jump to Definition)
             // Move to login
             
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "login_vc") as! LoginVC
+            
+            let vc = LoginVC()
             vc.modalPresentationStyle = .fullScreen
             
             self.present(vc, animated: true, completion: nil)

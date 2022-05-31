@@ -33,7 +33,11 @@
                                     <segue destination="2lw-m3-QmY" kind="presentation" identifier="camera_vc" modalPresentationStyle="fullScreen" id="EKg-2o-wWN"/>
                                 </connections>
                             </button>
+<<<<<<< HEAD
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share Photo for Review" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uU-bL-Xlp">
+=======
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Opinions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uU-bL-Xlp">
+>>>>>>> main
                                 <rect key="frame" x="50" y="110" width="220" height="21"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -63,8 +67,13 @@
                                     <action selector="onAQTapped:" destination="l5o-ST-kah" eventType="touchUpInside" id="Paj-Oc-NlI"/>
                                 </connections>
                             </button>
+<<<<<<< HEAD
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review Others" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85F-Zl-Yqt">
+                                <rect key="frame" x="102.5" y="211" width="115" height="30"/>
+=======
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Give Opinons" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85F-Zl-Yqt">
                                 <rect key="frame" x="107.5" y="211" width="105.5" height="30"/>
+>>>>>>> main
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="wcS-BI-eTf"/>
@@ -196,10 +205,17 @@
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qH-rV-I3a" userLabel="websiteButton">
+<<<<<<< HEAD
+                                <rect key="frame" x="16" y="472" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="0wc-mM-thJ"/>
+                                    <constraint firstAttribute="width" secondItem="0qH-rV-I3a" secondAttribute="height" multiplier="1:1" id="Igt-M9-3ti"/>
+=======
                                 <rect key="frame" x="18.5" y="472" width="27" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="0wc-mM-thJ"/>
                                     <constraint firstAttribute="width" secondItem="0qH-rV-I3a" secondAttribute="height" multiplier="1:1.2" id="Igt-M9-3ti"/>
+>>>>>>> main
                                 </constraints>
                                 <state key="normal" image="Tangerine.slice"/>
                                 <connections>
@@ -227,7 +243,11 @@
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="letstangerine.com &amp; tutorial video" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vKy-hB-tZU" userLabel="helpHomepageLabel">
+<<<<<<< HEAD
+                                <rect key="frame" x="56" y="472" width="96" height="32"/>
+=======
                                 <rect key="frame" x="53.5" y="472" width="96" height="32"/>
+>>>>>>> main
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
@@ -273,6 +293,10 @@
                             <constraint firstItem="QKa-aq-g5K" firstAttribute="centerY" secondItem="dkB-NT-RQS" secondAttribute="centerY" id="Ysg-X5-Y2a"/>
                             <constraint firstItem="QKa-aq-g5K" firstAttribute="trailing" secondItem="dkB-NT-RQS" secondAttribute="leading" constant="6" id="Zdb-BF-Hv1"/>
                             <constraint firstItem="ySE-J5-i9C" firstAttribute="height" secondItem="Eqb-83-P9I" secondAttribute="height" multiplier="1.4" id="bKJ-Y5-Ilz"/>
+<<<<<<< HEAD
+                            <constraint firstItem="0qH-rV-I3a" firstAttribute="width" secondItem="0qH-rV-I3a" secondAttribute="height" multiplier="1:1" id="cMC-jD-VlK"/>
+=======
+>>>>>>> main
                             <constraint firstItem="1uU-bL-Xlp" firstAttribute="centerX" secondItem="cwC-Pi-cSV" secondAttribute="centerX" id="cTR-3A-dY6"/>
                             <constraint firstItem="vKy-hB-tZU" firstAttribute="leading" secondItem="0qH-rV-I3a" secondAttribute="trailing" constant="8" symbolic="YES" id="diH-UY-Edw"/>
                             <constraint firstItem="kin-HV-uAf" firstAttribute="centerY" secondItem="T0D-lV-Dh8" secondAttribute="centerY" id="dso-Qp-bwe"/>
@@ -299,6 +323,7 @@
                             <constraint firstItem="8H8-Ob-q2I" firstAttribute="centerY" secondItem="9dx-fB-ucV" secondAttribute="centerY" id="ytl-jG-qe4"/>
                         </constraints>
                     </view>
+<<<<<<< HEAD
                     <connections>
                         <outlet property="friendsBtn" destination="bPG-oj-7KD" id="NHP-fj-9Nb"/>
                         <outlet property="glassView" destination="anp-dQ-uzQ" id="xdG-lz-Nrp"/>
@@ -323,6 +348,32 @@
                     <connections>
                         <action selector="onLogoutTapped:" destination="l5o-ST-kah" id="k0g-9B-Luz"/>
                     </connections>
+=======
+                    <connections>
+                        <outlet property="friendsBtn" destination="bPG-oj-7KD" id="NHP-fj-9Nb"/>
+                        <outlet property="glassView" destination="anp-dQ-uzQ" id="xdG-lz-Nrp"/>
+                        <outlet property="helpButton" destination="9dx-fB-ucV" id="F3I-oH-kol"/>
+                        <outlet property="helpFriendsLabel" destination="I98-ui-vi0" id="7D6-T0-KiC"/>
+                        <outlet property="helpHomepageLabel" destination="vKy-hB-tZU" id="5ea-uD-gfK"/>
+                        <outlet property="helpProfileAndSettingsLabel" destination="ySE-J5-i9C" id="xpo-Ld-P9Q"/>
+                        <outlet property="helpReviewOthersLabel" destination="QKa-aq-g5K" id="phJ-Jv-HYT"/>
+                        <outlet property="helpSharePhotoLabel" destination="kin-HV-uAf" id="cfS-te-RYx"/>
+                        <outlet property="helpTutorialLabel" destination="8H8-Ob-q2I" id="Hfu-va-gfm"/>
+                        <outlet property="helpViewResultsLabel" destination="CRN-oE-zIu" id="idB-Lk-dBZ"/>
+                        <outlet property="reviewOthersBtn" destination="dkB-NT-RQS" id="GFt-mQ-QqC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yqu-tM-Rfz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="iUY-bB-UhW" userLabel="onProfileTapped">
+                    <connections>
+                        <action selector="onProfileTapped:" destination="l5o-ST-kah" id="J0B-xV-wZn"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="BG9-kd-iZY" userLabel="onLogoutTapped">
+                    <connections>
+                        <action selector="onLogoutTapped:" destination="l5o-ST-kah" id="k0g-9B-Luz"/>
+                    </connections>
+>>>>>>> main
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="LIi-SQ-JLj" userLabel="answerQuestionTapped">
                     <connections>
@@ -345,12 +396,21 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
+<<<<<<< HEAD
+            <point key="canvasLocation" x="3041" y="-121"/>
+        </scene>
+        <!--Send To FriendsVC-->
+        <scene sceneID="080-mE-57d">
+            <objects>
+                <viewController storyboardIdentifier="cq_vc" id="AdZ-eT-MO6" customClass="SendToFriendsVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
+=======
             <point key="canvasLocation" x="7417.5" y="-289.43661971830988"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="080-mE-57d">
             <objects>
                 <viewController storyboardIdentifier="cq_vc" id="AdZ-eT-MO6" customClass="CQViewController" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
+>>>>>>> main
                     <view key="view" contentMode="scaleToFill" id="yyv-XV-lmY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -362,6 +422,22 @@
                                     <constraint firstAttribute="width" constant="25" id="VD7-zL-q9K"/>
                                 </constraints>
                             </imageView>
+<<<<<<< HEAD
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo Sent to the Community for Review!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhU-DD-VZl">
+                                <rect key="frame" x="-3.5" y="27" width="327" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Friends to Make Sure They See It" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnZ-g1-5j6">
+                                <rect key="frame" x="-25.5" y="52.5" width="371" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GTf-1W-ncy">
+                                <rect key="frame" x="0.0" y="84" width="320" height="398.5"/>
+=======
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Photo is Now Live for Review!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhU-DD-VZl">
                                 <rect key="frame" x="3" y="27" width="314.5" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
@@ -375,13 +451,20 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GTf-1W-ncy">
                                 <rect key="frame" x="0.0" y="81.5" width="320" height="401"/>
+>>>>>>> main
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default to These Friends Next Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kX3-Dg-Z6A">
                                 <rect key="frame" x="20" y="487.5" width="268" height="20.5"/>
+<<<<<<< HEAD
+                                <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+=======
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
+>>>>>>> main
                                 <nil key="highlightedColor"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -4306,10 +4389,10 @@ time remaining is zero. </string>
             </objects>
             <point key="canvasLocation" x="14615.625" y="-1698.5915492957747"/>
         </scene>
-        <!--BlueVC-->
+        <!--Review OthersVC-->
         <scene sceneID="gtd-fh-f2w">
             <objects>
-                <viewController storyboardIdentifier="blue_vc" id="rqR-Xh-EVG" customClass="BlueVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="blue_vc" id="rqR-Xh-EVG" customClass="ReviewOthersVC" customModule="Tangerine" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JXC-ZP-RdK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5239,25 +5322,37 @@ Tap the image that you think this person should go with.
         <image name="Tangerine.slice" width="505" height="622"/>
         <image name="Xsmall_white" width="512" height="512"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
+<<<<<<< HEAD
+        <image name="arrow_white" width="512" height="512"/>
+        <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
+=======
         <image name="arrow.uturn.backward" catalog="system" width="128" height="112"/>
         <image name="arrow_white" width="512" height="512"/>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
         <image name="camera.badge.ellipsis" catalog="system" width="128" height="92"/>
+>>>>>>> main
         <image name="circle_white" width="512" height="512"/>
         <image name="delete_swipe" width="1125" height="318"/>
         <image name="face.dashed" catalog="system" width="128" height="121"/>
         <image name="flag_white" width="40" height="40"/>
         <image name="friends_icon" width="341" height="341"/>
         <image name="greencheck" width="512" height="512"/>
+<<<<<<< HEAD
+=======
         <image name="hand.draw.fill" catalog="system" width="128" height="109"/>
         <image name="livephoto.slash" catalog="system" width="128" height="122"/>
+>>>>>>> main
         <image name="loading_large_black" width="324" height="324"/>
         <image name="loading_small_black" width="50" height="50"/>
         <image name="menu_white" width="40" height="40"/>
         <image name="muscle_emoji" width="160" height="160"/>
         <image name="no-flash_white" width="512" height="512"/>
+<<<<<<< HEAD
+        <image name="person.crop.square" catalog="system" width="128" height="114"/>
+=======
         <image name="person.crop.square.fill" catalog="system" width="128" height="114"/>
         <image name="plus.message" catalog="system" width="128" height="113"/>
+>>>>>>> main
         <image name="profile_settings_icon" width="341" height="341"/>
         <image name="question circle blue" width="48" height="48"/>
         <image name="rectangle.and.pencil.and.ellipsis" catalog="system" width="128" height="81"/>
@@ -5294,6 +5389,8 @@ Tap the image that you think this person should go with.
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
+<<<<<<< HEAD
+=======
         <systemColor name="tertiaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -5303,6 +5400,7 @@ Tap the image that you think this person should go with.
         <systemColor name="tertiarySystemFillColor">
             <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
+>>>>>>> main
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

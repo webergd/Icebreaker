@@ -15,29 +15,29 @@ import RealmSwift
 
 class LoginVC: UIViewController, UITextFieldDelegate {
     
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
-    // to resize the view when keyboard pops
-    @IBOutlet weak var usernameTFTopConstraint: NSLayoutConstraint!
     
+    // MARK: UI Items
+    // to resize the view when keyboard pops
+    var usernameTFTopConstraint: NSLayoutConstraint!
+    
+    // the image at top
+    var topLogoImage: UIImageView!
     // TextField outlets
     
-    @IBOutlet weak var usernameTF: MDCOutlinedTextField!
-    @IBOutlet weak var passwordTF: MDCOutlinedTextField!
+    var usernameTF: MDCOutlinedTextField!
+    var passwordTF: MDCOutlinedTextField!
     
     // If user should logged in? Default : True
     
-    @IBOutlet weak var stayLoggedInSW: UISwitch!
+    var stayLoggedInSW: UISwitch!
     
     // the login button
-    @IBOutlet weak var loginBtn: UIButton!
+    var loginBtn: UIButton!
+    
+    var forgotPasswordLabel: UILabel!
+    
+    var plusSignupBtn: UIButton!
+    var createNewAccLabel: UILabel!
     
     // this will determine if we show password
     // default false
@@ -51,62 +51,43 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     var eyeIconView : UIImageView!
     
     
-    // the loading
-    var indicator: UIActivityIndicatorView!
-    
     // user default
     let ud = UserDefaults.standard
     
     let TEXTFIELDTOPCONSTRAINTDEFAULTVALUE: CGFloat = 40.0
 
-    /******************************************************** ************************************************/
+    // MARK: Actions
     // fires when loginButton is tapped
-    
-    @IBAction func onLoginTapped(_ sender: UIButton) {
-        print("login tapped")
-        
+    @objc func onLoginTapped() {
         doLogin()
-        
     }
     
     // when the stayLoggedInSW is changed
     // ie: clicked/tapped by user
     
-    @IBAction func stayLoginSwitched(_ sender: Any) {
+    @objc func stayLoginSwitched() {
+        print("Stay loggedIn Tapped")
         ud.set(stayLoggedInSW.isOn, forKey: Constants.UD_SHOULD_PERSIST_LOGIN_Bool)
-        let shouldKeepLoggedIn = ud.bool(forKey: Constants.UD_SHOULD_PERSIST_LOGIN_Bool)
-        print("Saved stayLoginSW \(shouldKeepLoggedIn)")
+        ud.bool(forKey: Constants.UD_SHOULD_PERSIST_LOGIN_Bool)
     }
     
     // when the forgot pasword label is tapped
     
-    @IBAction func forgotPasswordTapped(_ sender: UITapGestureRecognizer) {
-        print("forgot my pass")
-        
+    @objc func forgotPasswordTapped() {
         let vc = UINavigationController(rootViewController: ReAuthPhoneVC())
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)
     }
     
     // when signup button tapped
-    @IBAction func onSignupTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "username_vc", sender: self)
+    @objc func onSignupTapped() {
+        let vc = UINavigationController(rootViewController: UserNameVC())
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
     
     
-    
-    /******************************************************** ************************************************/
-    
-    
-    // to show the loading
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-    }
-    
+    // show error when password isn't satisfied as per our rule (and firebase's as well)
     func showError(_ errorTF: MDCOutlinedTextField){
         print("show error")
         //set and hide the error text at the beggining
@@ -124,16 +105,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }// end of show error
     
     func hideError(_ errorTF: MDCOutlinedTextField){
-        
-        print("hide error")
-        //set and hide the error text at the beggining
+        // set and hide the error text at the beggining
         // isHidden not working
         errorTF.leadingAssistiveLabel.text = ""
         
     }// end of hide error
     
     
-    
+    // fires when we press the login button
     func doLogin(){
         
         // check this regex, as per firebase doc
@@ -141,11 +120,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         let regex = try! NSRegularExpression(pattern: "__.*__")
         
         
-        
-        
         // if there is space at the end, we remove it
         if let name = usernameTF.text, (name.hasSuffix(" ") || name.hasPrefix(" ")){
-            print("found spaces in username") //MARK: Added by Wyatt, feel free to remove.
+            print("found spaces in username")
             usernameTF.text = name.replacingOccurrences(of: " ", with: "")
         }
         
@@ -167,11 +144,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     // hide the password error if any
                     hideError(passwordTF)
                     
-                        self.indicator.startAnimating()
+                    self.view.showActivityIndicator()
                         Auth.auth().signIn(withEmail: name+Constants.CUSTOM_EMAIL_DOMAIN, password: password) { (result, error) in
                             // got an error, return
                             if let err = error{
-                                self.indicator.stopAnimating()
+                                self.view.hideActivityIndicator()
                                 self.presentDismissAlertOnMainThread(title: "Login Error", message: err.localizedDescription)
                                 return
                             }
@@ -189,10 +166,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     // Additional Setup on the UI
     func setupUI(){
-        // set the labels
-        usernameTF.label.text = "Username"
-        passwordTF.label.text = "Password"
-        
         eye = UIImage(systemName: "eye")
         eyeSlash = UIImage(systemName: "eye.slash")
         
@@ -243,8 +216,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // removes old user data
     func removeOldData(){
-        print("REMOVING OLD USER DATA")
+        
         // so if a different user logs in we can be sure that he is not getting value of other user
         do {
             let database = try Realm()
@@ -269,6 +243,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     } // end of delete old data
     
 
+    //makes sure that we have a valid user against the username
     func validateLoginUsingFirestore(){
         // we are going to check if the current user has finished signup completely
         // if not, we'll remove this account, this can happen if user force closes the app during signing up
@@ -290,13 +265,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 self.removeOldData()
             }
             
-            self.indicator.startAnimating()
+            self.view.showActivityIndicator()
             
             
             Firestore.firestore().collection(Constants.USERS_COLLECTION).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
                 (snap, error) in
                 // stop the loader
-                self.indicator.stopAnimating()
+                self.view.hideActivityIndicator()
                 // handle the error
                 if let error = error{
                     
@@ -357,12 +332,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         //let vc = storyboard.instantiateViewController(withIdentifier: "welcome_vc") as! WelcomeVC
                         //let vc = storyboard.instantiateViewController(withIdentifier: "friends_vc") as! FriendsVC
                         
-
-                        
                         let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
                         vc.modalPresentationStyle = .fullScreen
-                        
-
                         
                         self.present(vc, animated: false, completion: nil)
                         
@@ -396,7 +367,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     // delete the temp user from auth profiles
     func delete(_ user : FirebaseAuth.User){
         // stop the loader
-        self.indicator.stopAnimating()
+        self.view.hideActivityIndicator()
         
         user.delete { (error) in
             print("Deleting temp user")
@@ -410,23 +381,18 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    /******************************************************** ************************************************/
-    
+    // MARK: Delegates
     // Delegate method
     // called when user presses return key on keyboard
     // for username, next : for password, go
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // check which textfield has called this function
-        print("Return Login")
-        
         if textField.returnKeyType == .next{
-            // this is the username TF
-            print("moving to next")
+            // switching to next TF
             usernameTF.resignFirstResponder()
             passwordTF.becomeFirstResponder()
         } else if passwordTF.returnKeyType == .go{
-            // this is the username TF
             passwordTF.resignFirstResponder()
             // do login
             doLogin()
@@ -435,12 +401,23 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return true
     }
 
-    /******************************************************** ************************************************/
     
+    // MARK: VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        // start firing proUI methods
+        view.backgroundColor = .systemBackground
         
-        // call this function first to give user
+        configureTopImage()
+        configureUserNameTF()
+        configurePasswordTF()
+        configureLoginBtn()
+        configureStayLoginSw()
+        configureForgotPassLabel()
+        configurePlusSignupBtn()
+        configureCreateNewAccountLabel()
+        
+        // call this function to give user
         // a nice UI
         setupUI()
         
@@ -457,7 +434,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         
         print("LoginVC View will appear")
-        setupIndicator()
         configureKeyboard()
         
         // we don't want to see navbar here
@@ -489,14 +465,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    
-    
-    
-    
     // This portion copied from other project to push view above keyboard
-    
-    
-    
     func configureKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(LoginVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -536,6 +505,187 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         
     }
     
+    // MARK: PROGRAMMATIC UI
+    // method names will say what they do
+    func configureTopImage(){
+        topLogoImage = UIImageView()
+        topLogoImage.image = UIImage(named: "Tangerine_Icon_blue_grad")
+        
+        view.addSubview(topLogoImage)
+        topLogoImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        usernameTFTopConstraint = NSLayoutConstraint()
+        usernameTFTopConstraint.constant = 20
+        
+        NSLayoutConstraint.activate([
+            topLogoImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            topLogoImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            topLogoImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
+            topLogoImage.widthAnchor.constraint(equalTo: topLogoImage.heightAnchor, multiplier: 1)
+            
+        ])
+        
+        
+        
+    } // end conf topImage
+    
+    func configureUserNameTF(){
+        
+        usernameTF = MDCOutlinedTextField()
+        usernameTF.label.text = "Username"
+        usernameTF.textColor = .label
+        usernameTF.font = UIFont.systemFont(ofSize: 12)
+        usernameTF.placeholder = "Username"
+        usernameTF.containerRadius = 6
+        usernameTF.autocapitalizationType = .none
+        usernameTF.returnKeyType = .next
+        usernameTF.autocorrectionType = .no
+        usernameTF.textContentType = .username
+        usernameTF.spellCheckingType = .no
+        usernameTF.enablesReturnKeyAutomatically = true
+        
+        
+        usernameTF.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(usernameTF)
+        
+        
+        NSLayoutConstraint.activate([
+            usernameTF.topAnchor.constraint(equalTo: topLogoImage.bottomAnchor, constant: 33),
+            usernameTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            usernameTF.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -70),
+        ])
+        
+        
+    } // end conf usernameTF
+    
+    func configurePasswordTF(){
+        passwordTF = MDCOutlinedTextField()
+        passwordTF.label.text = "Password"
+        passwordTF.textColor = .label
+        passwordTF.font = UIFont.systemFont(ofSize: 12)
+        passwordTF.placeholder = "Password"
+        passwordTF.containerRadius = 6
+        passwordTF.autocapitalizationType = .none
+        passwordTF.returnKeyType = .go
+        passwordTF.enablesReturnKeyAutomatically = true
+        passwordTF.isSecureTextEntry = true
+        
+        view.addSubview(passwordTF)
+        passwordTF.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            passwordTF.topAnchor.constraint(equalTo: usernameTF.bottomAnchor, constant: 10),
+            passwordTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            passwordTF.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -70),
+        ])
+    } // end conf passwordTF
+    
+    func configureLoginBtn(){
+        loginBtn = UIButton()
+        loginBtn.setBackgroundImage(UIImage(systemName: "arrow.right.circle.fill"), for: .normal)
+        loginBtn.tintColor = .systemGreen
+        
+        
+        loginBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loginBtn)
+        
+        loginBtn.addTarget(self, action: #selector(onLoginTapped), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            loginBtn.widthAnchor.constraint(equalToConstant: 50),
+            loginBtn.heightAnchor.constraint(equalToConstant: 50),
+            loginBtn.centerYAnchor.constraint(equalTo: passwordTF.centerYAnchor, constant: 0),
+            loginBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            loginBtn.leadingAnchor.constraint(equalTo: passwordTF.trailingAnchor, constant: 10)
+            
+        ])
+        
+    } // end conf loginBtn
+    
+    func configureStayLoginSw(){
+        stayLoggedInSW = UISwitch()
+        
+        stayLoggedInSW.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stayLoggedInSW)
+        
+        let swLabel = UILabel()
+        swLabel.text = "Stay Logged in"
+        swLabel.textColor = .label
+        swLabel.font = UIFont.systemFont(ofSize: 17)
+        
+        swLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(swLabel)
+        
+        NSLayoutConstraint.activate([
+            stayLoggedInSW.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            stayLoggedInSW.topAnchor.constraint(equalTo: passwordTF.bottomAnchor, constant: 10),
+            swLabel.leadingAnchor.constraint(equalTo: stayLoggedInSW.trailingAnchor, constant: 10),
+            swLabel.topAnchor.constraint(equalTo: passwordTF.bottomAnchor, constant: 10),
+            swLabel.heightAnchor.constraint(equalTo: stayLoggedInSW.heightAnchor, multiplier: 1),
+            swLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+        ])
+        
+        stayLoggedInSW.addTarget(self, action: #selector(stayLoginSwitched), for: .touchUpInside)
+        
+    } // end conf stayLoginSw
+    
+    func configureForgotPassLabel(){
+        forgotPasswordLabel = UILabel()
+        forgotPasswordLabel.text = "Forgot Password?"
+        forgotPasswordLabel.font = UIFont.systemFont(ofSize: 17)
+        forgotPasswordLabel.textColor = .link
+        forgotPasswordLabel.isUserInteractionEnabled = true
+        
+        
+        forgotPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(forgotPasswordLabel)
+        
+        NSLayoutConstraint.activate([
+            forgotPasswordLabel.topAnchor.constraint(equalTo: stayLoggedInSW.bottomAnchor, constant: 45),
+            forgotPasswordLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+        ])
+        
+        let forgetGesture = UITapGestureRecognizer(target: self, action: #selector(forgotPasswordTapped))
+        forgotPasswordLabel.addGestureRecognizer(forgetGesture)
+        
+        
+    } // end conf forgotPassLabel
+    
+    func configurePlusSignupBtn(){
+        plusSignupBtn = UIButton()
+        plusSignupBtn.setBackgroundImage(UIImage(systemName: "plus.circle"), for: .normal)
+        plusSignupBtn.tintColor = .systemOrange
+        
+        plusSignupBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(plusSignupBtn)
+        
+        plusSignupBtn.addTarget(self, action: #selector(onSignupTapped), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            plusSignupBtn.heightAnchor.constraint(equalToConstant: 50),
+            plusSignupBtn.widthAnchor.constraint(equalToConstant: 50),
+            plusSignupBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+        ])
+    } // end conf plusSignBtn
+    
+    func configureCreateNewAccountLabel(){
+        createNewAccLabel = UILabel()
+        createNewAccLabel.text = "Create New Account"
+        createNewAccLabel.textColor = .link
+        createNewAccLabel.font = UIFont.systemFont(ofSize: 17)
+        createNewAccLabel.isUserInteractionEnabled = true
+        createNewAccLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(createNewAccLabel)
+        
+        NSLayoutConstraint.activate([
+            createNewAccLabel.topAnchor.constraint(equalTo: plusSignupBtn.bottomAnchor, constant: 5),
+            createNewAccLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            createNewAccLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+        ])
+        
+        let cnlG = UITapGestureRecognizer(target: self, action: #selector(onSignupTapped))
+        createNewAccLabel.addGestureRecognizer(cnlG)
+    } // end conf createNewAccLabel
     
     
     

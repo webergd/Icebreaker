@@ -15,7 +15,7 @@ import FirebaseFirestore
 class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
     
     // for calling methods of BLUEVC
-    weak var blueVC: BlueVC?
+    weak var blueVC: ReviewOthersVC?
     
     @IBOutlet var mainView: UIView!
     
@@ -86,6 +86,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     var recipientList = [String]()
     var usersNotReviewedList = [String]()
     
+    
     func configureView() {
         strongFlag = false
         strongImageView.isHidden = true
@@ -111,20 +112,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
             indicator.startAnimating()
             
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: thisAsk.question_name, type: thisAsk.type),
-                forPath: thisAsk.imageURL_1) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    print("RAVC Image Downloaded for \(thisAsk.question_name)")
-                    // hide the indicator as we have the image now
-                    self.indicator.stopAnimating()
-                    
-                    self.imageView.image = image
-                }
+            
             
             print(thisAsk.captionText_1.isEmpty)
             askCaptionTextField.isHidden = thisAsk.captionText_1.isEmpty // if true hide, else show
@@ -135,8 +123,52 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
             
             resetTextView(textView: commentsTextView, blankText: enterCommentConstant)
+            
+            
+            startImageLoading(thisAsk)
         }
         
+    }
+    
+    func startImageLoading(_ thisAsk: Question){
+        
+        
+        downloadOrLoadFirebaseImage(
+            ofName: getFilenameFrom(qName: thisAsk.question_name, type: thisAsk.type),
+            forPath: thisAsk.imageURL_1) { [weak self] image, error in
+                
+                guard let self = self else {return}
+                
+                if let error = error{
+                    print("Error: \(error.localizedDescription)")
+                    self.checkAndLoadAgain(getFilenameFrom(qName: thisAsk.question_name, type: thisAsk.type))
+                    return
+                }
+                
+                print("RAVC Image Downloaded for \(thisAsk.question_name)")
+                // hide the indicator as we have the image now
+                self.indicator.stopAnimating()
+                self.imageView.image = image
+            }
+        
+        
+    }
+    
+    // checks if we've been able to download the image already, if not try again
+    func checkAndLoadAgain(_ filename: String){
+        guard let image = loadImageFromDiskWith(fileName: filename) else {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                guard let self = self else {return}
+                self.checkAndLoadAgain(filename)
+            }
+            
+            return
+        }
+        
+        print("LIVE CHECKING THIS LINE")
+        self.indicator.stopAnimating()
+        self.imageView.image = image
     }
     
     // handles the user taps NO button image or words

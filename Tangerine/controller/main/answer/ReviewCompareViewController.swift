@@ -16,7 +16,7 @@ import FirebaseFirestore
 class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
     
     // for calling methods of BLUEVC
-    weak var blueVC: BlueVC?
+    weak var blueVC: ReviewOthersVC?
     
     @IBOutlet var mainView: UIView!
     
@@ -89,6 +89,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     var recipientList = [String]()
     var usersNotReviewedList = [String]()
     
+    
     func configureView() {
         strongImageView.isHidden = true
         topCenterBackgroundView.isHidden = true
@@ -101,20 +102,6 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
             topIndicator.startAnimating()
             
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type),
-                forPath: thisCompare.imageURL_1) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    print("RCVC Image Downloaded for \(thisCompare.question_name)")
-                    // hide the indicator as we have the image now
-                    self.topIndicator.stopAnimating()
-                    self.topImageView.image = image
-                }
-            
             
             loadCaptions(
                 within: topView,
@@ -124,19 +111,8 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
             // if saved image is found, load it.
             bottomIndicator.startAnimating()
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type,secondPhoto: true),
-                forPath: thisCompare.imageURL_2) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    print("RCVC Image Downloaded for \(thisCompare.question_name)")
-                    // hide the indicator as we have the image now
-                    self.bottomIndicator.stopAnimating()
-                    self.bottomImageView.image = image
-                }
+            
+            
             
             loadCaptions(
                 within: bottomView,
@@ -147,13 +123,90 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             lockedContainersLabel.text = "🗝" + String(describing: lockedQuestionsCount)
             obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
             
-            
+            startTopImageLoading(thisCompare)
+            startBottomImageLoading(thisCompare)
             
         }
         
         
     }
     
+    func startTopImageLoading(_ thisCompare: Question){
+        downloadOrLoadFirebaseImage(
+            ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type),
+            forPath: thisCompare.imageURL_1) { [weak self] image, error in
+                
+                guard let self = self else {return}
+                
+                if let error = error{
+                    print("Error: \(error.localizedDescription)")
+                    self.checkAndLoadTopAgain(getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type))
+                    return
+                }
+                
+                print("RCVC Image Downloaded for \(thisCompare.question_name)")
+                // hide the indicator as we have the image now
+                self.topIndicator.stopAnimating()
+                self.topImageView.image = image
+            }
+    }
+    
+    // checks if we've been able to download the top image already, if not try again
+    func checkAndLoadTopAgain(_ filename: String){
+        guard let image = loadImageFromDiskWith(fileName: filename) else {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                guard let self = self else {return}
+                self.checkAndLoadTopAgain(filename)
+            }
+            
+            return
+        }
+        
+        print("LIVE CHECKING THIS LINE Compare 1")
+        self.topIndicator.stopAnimating()
+        self.topImageView.image = image
+    }
+    
+    
+    func startBottomImageLoading(_ thisCompare: Question){
+        downloadOrLoadFirebaseImage(
+            ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type,secondPhoto: true),
+            forPath: thisCompare.imageURL_2) { [weak self]  image, error in
+                
+                guard let self = self else {return}
+                
+                if let error = error{
+                    print("Error: \(error.localizedDescription)")
+                    self.checkAndLoadBottomAgain(getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type, secondPhoto: true))
+                    
+                    return
+                }
+                
+                print("RCVC Image Downloaded for \(thisCompare.question_name)")
+                // hide the indicator as we have the image now
+                self.bottomIndicator.stopAnimating()
+                self.bottomImageView.image = image
+            }
+        
+    }
+    
+    // checks if we've been able to download the top image already, if not try again
+    func checkAndLoadBottomAgain(_ filename: String){
+        guard let image = loadImageFromDiskWith(fileName: filename) else {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                guard let self = self else {return}
+                self.checkAndLoadBottomAgain(filename)
+            }
+            
+            return
+        }
+        
+        print("LIVE CHECKING THIS LINE Compare 2")
+        self.bottomIndicator.stopAnimating()
+        self.bottomImageView.image = image
+    }
     
     
     override func viewDidLoad() {

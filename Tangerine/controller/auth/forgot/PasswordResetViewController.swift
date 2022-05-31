@@ -200,7 +200,7 @@ class PasswordResetViewController: UIViewController, UITextFieldDelegate {
     } // end conf topLabel
     
 
-    // MARK: OTP TF
+    // MARK: PASS TF
     func configurePassTF(){
         
         newPassTF = MDCOutlinedTextField()
@@ -219,7 +219,7 @@ class PasswordResetViewController: UIViewController, UITextFieldDelegate {
             newPassTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
             newPassTF.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50)
         ])
-    } // end otp tf
+    } // end pass tf
     
     
     // MARK: ContinueButton

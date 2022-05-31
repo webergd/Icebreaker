@@ -86,6 +86,7 @@ public var filteredQuestionsToReview = [PrioritizedQuestion]()
 ///a local dictionary of Questions localUser has already reviewed (may be deprecated based on new Q2R query)
 public var questionReviewed = [String:String]()
 
+
 ///questions that the localUser has asked and have not yet been deleted
 public var myActiveQuestions = [ActiveQuestion]()
 
@@ -93,7 +94,7 @@ public var myActiveQuestions = [ActiveQuestion]()
 // called from only DataModels
 
 public var rawQuestions = Set<Question>()
-public var questionOnTheScreen = ""
+public var questionOnTheScreen: PrioritizedQuestion!
 public var qFFCount = 0
 
 /// this is bascially a {get set} portal to the number of locked questions in the UserDefaults Constants object
@@ -1304,7 +1305,7 @@ public func resetQuestionRelatedThings(){
     filteredQuestionsToReview.removeAll()
     myActiveQuestions.removeAll() // we are removing realm on logout, no point of keeping this either
     questionReviewed.removeAll()
-    questionOnTheScreen = ""
+    questionOnTheScreen = nil
     
 }
 
@@ -1442,6 +1443,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
 
 
 /// to fetch a UIImage from firebase gs and set the UIImageView
+/// filename: to save in storage, path: firebase storage path
 public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: String?,asThumb isThumb:Bool = false, completion: @escaping (UIImage?,Error?) -> Void ){
     
     // need to check if it is a thumb or not, based on that we'll know if we are calling it from AskTableVC
@@ -1449,7 +1451,7 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
     
     
     if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
-        print("Loading thumb")
+        
         completion(image,nil)
         
         return
@@ -1461,7 +1463,6 @@ public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: S
         if let path = path {
             // create the reference
             let imageRef = Storage.storage().reference(forURL: path)
-            
             
             // max size 5 MB (was 2, need a better mechanism to keep the size down in later versions)
             imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
@@ -1551,19 +1552,15 @@ public func checkForQuestionsToFetch(action: @escaping ()->Void){
 
 /// This function will filter the questions as per the doc
 /// Matches specialty first then ages.
-public func filterQuestionsAndPrioritize(onComplete: () -> Void){
+public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: () -> Void){
     
-    print("Before filter we have \(rawQuestions.count) question in db")
-    //    if rawQuestions.count <= filteredQuestionsToReview.count {
-    //        // we haven't fetched anything new
-    //        print("We haven't found question to fetch")
-    //        // return to the caller
-    //        onComplete()
-    //    }else{
-    //
+    
+    print("Before filter we have \(rawQuestions.count) question in raw Q")
+    
+
+    
     var tempFilterQ = [PrioritizedQuestion]()
     
-    var displayedQuestion : PrioritizedQuestion?
     // to reset the count so it doesn't add up old counts
     qFFCount = 0
     // load the ones matches specialty
@@ -1577,10 +1574,10 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
         
         if let _ = questionReviewed[item.question_name]{
             // found one that we reviewed, so skip it
+            print("Skipped FILTERING \(item.question_name) cause already reviewed")
             continue
         }
         
-        print("STARTED FILTERING \(item.question_name)")
         // by any chance if we have question that's reviewed
         if !item.usersNotReviewedBy.contains(myProfile.username) && !item.recipients.contains(myProfile.username){
             print("Skipped FILTERING \(item.question_name) cause NO LIST contains my name")
@@ -1589,13 +1586,13 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
         }
         
         
-        if item.question_name.elementsEqual(questionOnTheScreen){
-            print("Question currently on Display \(item.question_name) Needs to on top, so -999")
-            // we are reviewing this one
-            displayedQuestion = PrioritizedQuestion()
-            displayedQuestion?.question = item
-            displayedQuestion?.priority = -999
-            continue
+        if let qOS = questionOnTheScreen, item.question_name.elementsEqual(qOS.question.question_name){
+            
+                print("Question currently on Display \(item.question_name) Needs to on top, so -999")
+                // we are reviewing this one
+                // we'll add that later anyways
+                continue
+            
         }
         
         // make the question the toppest, no exception
@@ -1702,22 +1699,56 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
         
     } // end of for loop of questionToReview
     
+    
+    
+    
+    // so when we're on live, we already have some unsolved question that we can't lose
+    // as live only fetches question posted upto 5 mins ago
+    // if we don't keep the filteredQTR, we'll lose them for this review
+        
     // clear old items
-    if !filteredQuestionsToReview.isEmpty{
+    if !filteredQuestionsToReview.isEmpty && !isFromLive{
+        filteredQuestionsToReview.removeAll()
+    }else{
+        // swap to question to tempFilterQ now, so existing questions gets filtered with newQ
+        tempFilterQ.append(contentsOf: filteredQuestionsToReview)
+        
+        // create a set to get the unique question
+        // it prevents duplicating items from live
+        var tempSet = Set(tempFilterQ)
+        // remove the old collection
+        tempFilterQ.removeAll()
+        // make temp unique
+        tempFilterQ.append(contentsOf: tempSet)
+        // remove the temp
+        tempSet.removeAll()
+        
+        // now remove all
         filteredQuestionsToReview.removeAll()
     }
     
     // this line ensures that we have the question that we are seeing on top
-    if let displayedQuestion = displayedQuestion {
+    // on live we want to skip putting the top question again, because it's already in the filteredQTR
+    if let displayedQuestion = questionOnTheScreen, !isFromLive {
+        print("Adding Top Q to filteredQTR")
         filteredQuestionsToReview.append(displayedQuestion)
     }
-    
+   
+   
+   
     filteredQuestionsToReview.append(contentsOf: tempFilterQ.sorted{ $0.priority < $1.priority})
+    
+   
+    
     
     
     // NOW DOWNLOAD IMAGES IN FIFO
+    print("After filter we have \(filteredQuestionsToReview.count) filtered question")
+    
+    print("==== Printing Filtered DB ====")
     
     for item in filteredQuestionsToReview{
+        print("\(item.question.question_name) \(String(describing: item.priority))")
         // Ask or Compare both has same name for first question, so download one regardless of the qType
         downloadOrLoadFirebaseImage(
             ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type),
@@ -1743,40 +1774,8 @@ public func filterQuestionsAndPrioritize(onComplete: () -> Void){
                 }
         }
     }
-    
-    
-    print("After filter we have \(filteredQuestionsToReview.count) filtered question")
-    
-    print("Printing Filtered DB")
-    for item in filteredQuestionsToReview{
-        // save the image to device for later quick access
-        print("\(item.question.question_name) \(item.priority)")
-        // Ask or Compare both has same name for first question, so download one regardless of the qType
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type),
-            forPath: item.question.imageURL_1) { image, error in
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    return
-                }
-                
-            }
-        
-        // Then check if it's compare so we may download the second image
-        if item.question.type == .COMPARE{
-            
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type, secondPhoto: true),
-                forPath: item.question.imageURL_2) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                }
-        }
-    } // end for
-    print("Finished Printing Filtered DB")
+
+    print("==== Finished Printing Filtered DB ====")
     
     tempFilterQ.removeAll()
     

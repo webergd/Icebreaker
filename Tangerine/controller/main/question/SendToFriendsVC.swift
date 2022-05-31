@@ -10,7 +10,7 @@ import Firebase
 import Contacts
 
 /// This is the view that displays after a user has created a Question, and is deciding whether to send it to any of their friends.
-class CQViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     

@@ -18,52 +18,43 @@ enum PARENTVC {
 
 class FriendDetailsVC: UIViewController {
     
+    // MARK: UI Items
     // just some default
     var username = ""
     var parentVC = PARENTVC.FRIENDS
     var status = Status.NONE
     var addedList = [String]()
-    /************************************************************ Organization of Code ************************************************/
-    /*
-     - Outlets
-     - Storyboard Actions
-     - Custom methods
-     - Delegates
-     - View Controller methods
-     */
-    /******************************************************************************************************************************/
     
+    var backBtn: UIButton!
+    var addBtn: UIButton!
     
-    @IBOutlet weak var addBtn: UIButton!
+    var defaultText: UILabel!
+    var defaultSw: UISwitch!
     
-    @IBOutlet weak var defaultText: UILabel!
-    @IBOutlet weak var defaultSw: UISwitch!
+    var deleteBtn: UIButton!
+    var blockBtn: UIButton!
     
-    @IBOutlet weak var deleteBtn: UIButton!
-    @IBOutlet weak var blockBtn: UIButton!
+    var profileImage: UIImageView!
     
-    @IBOutlet weak var profileImage: UIImageView!
+    var nameL: UILabel!
+    var ageL: UILabel!
     
-    @IBOutlet weak var nameL: UILabel!
-    @IBOutlet weak var ageL: UILabel!
-    
-    @IBOutlet weak var reviewerText: UILabel!
-    @IBOutlet weak var reviewerScoreL: UILabel!
-    @IBOutlet weak var totalReviewText: UILabel!
-    @IBOutlet weak var reviewsL: UILabel!
-    
-    // the loading
-    var indicator: UIActivityIndicatorView!
+    var reviewerText: UILabel!
+    var reviewerScoreL: UILabel!
+    var totalReviewText: UILabel!
+    var reviewsL: UILabel!
     
     var friend : Friend!
-    /******************************************************************************************************************************/
     
-    @IBAction func onBackPressed(_ sender: UIButton) {
+    
+    // MARK: Actions
+    
+    @objc func onBackPressed() {
         self.dismiss(animated: true, completion: nil)
     }
     
     
-    @IBAction func onAddPressed(_ sender: UIButton) {
+    @objc func onAddPressed() {
         print("Added to friend")
         
         
@@ -161,8 +152,8 @@ class FriendDetailsVC: UIViewController {
     }
     
     
-    @IBAction func defaultSwitched(_ sender: UISwitch) {
-        
+    @objc func defaultSwitched(_ sender: UISwitch) {
+        print("Default Switched")
         if self.defaultSw.isOn {
             RealmManager.sharedInstance.addOrUpdateFriend(object: self.friend,sendStatus: .DEFAULT)
         }else{
@@ -172,7 +163,7 @@ class FriendDetailsVC: UIViewController {
     }
     
     
-    @IBAction func onDeletePressed(_ sender: UIButton) {
+    @objc func onDeletePressed(_ sender: UIButton) {
         // In MY FIREBASE
         if let user = Auth.auth().currentUser, let name = user.displayName{
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
@@ -199,7 +190,7 @@ class FriendDetailsVC: UIViewController {
     }
     
     
-    @IBAction func onBlockPressed(_ sender: UIButton) {
+    @objc func onBlockPressed(_ sender: UIButton) {
         // In MY FIREBASE
         if let user = Auth.auth().currentUser, let name = user.displayName{
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
@@ -223,7 +214,6 @@ class FriendDetailsVC: UIViewController {
     }
     
     
-    /******************************************************************************************************************************/
     
     func getUserDetail(){
         
@@ -233,7 +223,7 @@ class FriendDetailsVC: UIViewController {
             
             // handle the error
             if let error = error{
-                self.indicator.stopAnimating()
+                self.view.hideActivityIndicator()
                 
                 print("An error occured")
                 self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
@@ -281,7 +271,7 @@ class FriendDetailsVC: UIViewController {
                 
                 
                 
-                self.indicator.stopAnimating()
+                self.view.hideActivityIndicator()
                 self.showViews()
                 
                 
@@ -324,15 +314,6 @@ class FriendDetailsVC: UIViewController {
         defaultSw.setOn(savedFriend?.sendStatus == .DEFAULT, animated: true)
     }
     
-    // indicator while loading
-    
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-    }
     
     func showViews() {
         // basic views
@@ -384,29 +365,250 @@ class FriendDetailsVC: UIViewController {
         reviewsL.isHidden = false
         
     }
-    /******************************************************************************************************************************/
+    
+    // MARK: Delegates
+    // MARK: VC Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
+        // proUI
+        
+        configureProfileImageView()
+        configureBackButton()
+        
+        configureNameLabel()
+        configureAgeLabel()
+        
+        configureAddButton()
+        configureDefaultSw()
+        
+        configureReviewerScore()
+        configureTotalReviews()
+        
+        configureBlockButton()
+        configureDeleteButton()
         
         
-        // do some makeup with our button
-        addBtn.layer.borderWidth = 2.0
-        addBtn.layer.cornerRadius = 6.0
-        addBtn.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        addBtn.backgroundColor = .systemGreen
-        addBtn.tintColor = .white
         
-        
-        
-        setupIndicator()
         // Do any additional setup after loading the view.
-        indicator.startAnimating()
+        view.showActivityIndicator()
         // fetch detail
         getUserDetail()
         
         // set the default switch
         setDefaultSW()
+        
+        view.attachDismissToRightSwipe()
     }
     
+    // MARK: PROGRAMMATIC UI
+    
+    func configureBackButton(){
+        backBtn = UIButton()
+        backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        
+        backBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backBtn)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            backBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            backBtn.heightAnchor.constraint(equalToConstant: 40),
+            backBtn.widthAnchor.constraint(equalToConstant: 40)
+            
+        ])
+        
+        backBtn.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
+    }
+    
+    func configureProfileImageView(){
+        profileImage = UIImageView()
+        profileImage.image = UIImage(named: "generic_user")
+        
+        profileImage.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(profileImage)
+        
+        NSLayoutConstraint.activate([
+            profileImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            profileImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            profileImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4)
+        ])
+    }
+    
+    func configureNameLabel(){
+        nameL = UILabel()
+        nameL.text = ""
+        nameL.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        nameL.textColor = .label
+        nameL.textAlignment = .center
+        nameL.numberOfLines = 2
+        
+        nameL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(nameL)
+        
+        NSLayoutConstraint.activate([
+            nameL.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            nameL.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 10),
+            nameL.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    func configureAgeLabel(){
+        ageL = UILabel()
+        ageL.text = ""
+        ageL.font = UIFont.systemFont(ofSize: 17)
+        ageL.textColor = .label
+        ageL.textAlignment = .center
+        
+        ageL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(ageL)
+        
+        NSLayoutConstraint.activate([
+            ageL.leadingAnchor.constraint(equalTo: nameL.trailingAnchor, constant: 10),
+            ageL.centerYAnchor.constraint(equalTo: nameL.centerYAnchor),
+            ageL.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50)
+        ])
+        
+    }
+    
+    func configureAddButton(){
+        addBtn = UIButton(type: .system)
+        addBtn.setTitle("Add", for: .normal)
+        addBtn.isHidden = true
+        addBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(addBtn)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            addBtn.topAnchor.constraint(equalTo: ageL.bottomAnchor, constant: 25),
+            addBtn.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            addBtn.widthAnchor.constraint(equalToConstant: 100),
+            addBtn.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        addBtn.addTarget(self, action: #selector(onAddPressed), for: .touchUpInside)
+        
+    }
+    
+    func configureDefaultSw(){
+        defaultText = UILabel()
+        defaultText.text = "Default recipient of Questions"
+        defaultText.font = UIFont.systemFont(ofSize: 17)
+        defaultText.textColor = .label
+        defaultText.isHidden = true
+        
+        defaultText.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(defaultText)
+        
+        defaultSw = UISwitch()
+        defaultSw.setOn(true, animated: false)
+        defaultSw.isHidden = true
+        defaultSw.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(defaultSw)
+        
+        
+        NSLayoutConstraint.activate([
+            defaultText.topAnchor.constraint(equalTo: addBtn.bottomAnchor, constant: 25),
+            defaultText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            defaultSw.leadingAnchor.constraint(equalTo: defaultText.trailingAnchor, constant: 10),
+            defaultSw.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            defaultSw.centerYAnchor.constraint(equalTo: defaultText.centerYAnchor)
+        ])
+        
+        defaultSw.addTarget(self, action: #selector(defaultSwitched), for: .valueChanged)
+    }
+    
+    func configureReviewerScore(){
+        
+        reviewerText = UILabel()
+        reviewerText.text = "Reviewer Score"
+        reviewerText.font = UIFont.systemFont(ofSize: 17)
+        
+        reviewerScoreL = UILabel()
+        reviewerScoreL.text = "0"
+        reviewerScoreL.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        
+        reviewerText.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(reviewerText)
+        
+        reviewerScoreL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(reviewerScoreL)
+        
+        NSLayoutConstraint.activate([
+            reviewerText.topAnchor.constraint(equalTo: defaultText.bottomAnchor, constant: 20),
+            reviewerText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            reviewerScoreL.widthAnchor.constraint(equalToConstant: 70),
+            reviewerScoreL.leadingAnchor.constraint(equalTo: reviewerText.trailingAnchor, constant: 20),
+            reviewerScoreL.centerYAnchor.constraint(equalTo: reviewerText.centerYAnchor),
+            reviewerScoreL.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+        ])
+        
+    }
+    func configureTotalReviews(){
+        totalReviewText = UILabel()
+        totalReviewText.text = "Total Reviews"
+        totalReviewText.font = UIFont.systemFont(ofSize: 17)
+        
+        reviewsL = UILabel()
+        reviewsL.text = "0"
+        reviewsL.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        
+        totalReviewText.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(totalReviewText)
+        
+        reviewsL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(reviewsL)
+        
+        NSLayoutConstraint.activate([
+            totalReviewText.topAnchor.constraint(equalTo: reviewerText.bottomAnchor, constant: 20),
+            totalReviewText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            reviewsL.widthAnchor.constraint(equalToConstant: 70),
+            reviewsL.leadingAnchor.constraint(equalTo: totalReviewText.trailingAnchor, constant: 20),
+            reviewsL.centerYAnchor.constraint(equalTo: totalReviewText.centerYAnchor),
+            reviewsL.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+        ])
+    }
+    
+    func configureDeleteButton(){
+        deleteBtn = UIButton(type: .system)
+        
+        deleteBtn.setTitle("Delete", for: .normal)
+        deleteBtn.isHidden = true
+        
+        deleteBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(deleteBtn)
+        
+        NSLayoutConstraint.activate([
+            deleteBtn.bottomAnchor.constraint(equalTo: blockBtn.topAnchor, constant: -20),
+            deleteBtn.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            deleteBtn.widthAnchor.constraint(equalToConstant: 100),
+            deleteBtn.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        deleteBtn.addTarget(self, action: #selector(onDeletePressed), for: .touchUpInside)
+    }
+    
+    func configureBlockButton(){
+        blockBtn = UIButton(type: .system)
+        blockBtn.setTitle("Block", for: .normal)
+        blockBtn.isHidden = true
+        blockBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(blockBtn)
+        
+        
+        NSLayoutConstraint.activate([
+            blockBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            blockBtn.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            blockBtn.widthAnchor.constraint(equalToConstant: 100),
+            blockBtn.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        blockBtn.addTarget(self, action: #selector(onBlockPressed), for: .touchUpInside)
+    }
 }
