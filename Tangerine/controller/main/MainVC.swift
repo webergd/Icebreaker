@@ -292,26 +292,27 @@ class MainVC: UIViewController {
         print("MainVC Appeared")
         
         //setup qff count hub
-
         
-
-            // checks if we have enough questions, if not fetches some
-            checkForQuestionsToFetch(){
-                print("Completed fetching Questions from MainVC")
-                self.updateQFFCount()
+        keyboardIsVisible = false // there is no keyboard option on main vc so let's reset this field to false
+        
+        
+        // checks if we have enough questions, if not fetches some
+        checkForQuestionsToFetch(){
+            print("Completed fetching Questions from MainVC")
+            self.updateQFFCount()
+        }
+        
+        // fetch the active question or questions that I posted
+        fetchActiveQuestions { questions, error in
+            if error != nil{
+                print("Fetch Active: \(error?.localizedDescription)")
+                return
             }
             
-            // fetch the active question or questions that I posted
-            fetchActiveQuestions { questions, error in
-                if error != nil{
-                    print("Fetch Active: \(error?.localizedDescription)")
-                    return
-                }
-                
-                print("Success fetching my active Questions! Total Questions downloaded: \(myActiveQuestions.count)")
-            } // end fetch active
-            
-  
+            print("Success fetching my active Questions! Total Questions downloaded: \(myActiveQuestions.count)")
+        } // end fetch active
+        
+        
         
         // wyatt knows
         clearOutCurrentCompare()

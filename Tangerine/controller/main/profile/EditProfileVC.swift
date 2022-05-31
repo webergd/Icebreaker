@@ -285,7 +285,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         let isOtherEnabled = userDefault.bool(forKey: Constants.UD_OTHER_Bool)
         
         // check bool and add text to the label
-        mytargetDemoL.text = "\(isStWEnabled ? "Straight Women\n" : "")\(isGMEnabled ? "Gay Men\n" : "")\(isStMEnabled ? "Straight Men\n" : "")\(isLBEnabled ? "Lesbians\n" : "")\(isOtherEnabled ? "Others" : "")"
+        mytargetDemoL.text = "\(isStWEnabled ? "straight women\n" : "")\(isGMEnabled ? "gay men\n" : "")\(isStMEnabled ? "straight men\n" : "")\(isLBEnabled ? "lesbians\n" : "")\(isOtherEnabled ? "others" : "")"
         
         
         // set the age label

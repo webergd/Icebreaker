@@ -397,7 +397,7 @@ class ActiveQuestionsVC: UITableViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             if swipeGesture.direction == UISwipeGestureRecognizer.Direction.right {
                 // go back to previous view by swiping right
-                needToMoveBack() // added the original code there
+                returnToMain() // added the original code there
                 //                self.dismiss(animated: true, completion: nil)
             }
         }
@@ -533,9 +533,16 @@ class ActiveQuestionsVC: UITableViewController {
     }
     
 
-    @objc func needToMoveBack(){
+    @objc func returnToMain(){
         self.dismissToRight()
         dismissAllViewControllers()
+    }
+    
+    @objc func showHelp() {
+        let alertController = UIAlertController(title: "Tap a row to view its details.", message: "Displaying feedback from Target Demo.  \n-Swipe right to return to main. \n-Swipe left on a row to delete it.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     func addTitleToVC(){
@@ -544,9 +551,13 @@ class ActiveQuestionsVC: UITableViewController {
 
 
         let navItem = UINavigationItem(title: "My Active Questions")
-        let backBtn = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .done, target: nil, action: #selector(needToMoveBack))
+        let backBtn = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .done, target: nil, action: #selector(returnToMain))
+        
+        let helpBtn = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .done, target: nil, action: #selector(showHelp))
 
         navItem.leftBarButtonItem = backBtn
+        
+        navItem.rightBarButtonItem = helpBtn
 
         navBar.setItems([navItem], animated: true)
         view.addSubview(navBar)

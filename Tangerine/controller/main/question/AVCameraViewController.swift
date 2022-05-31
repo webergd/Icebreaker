@@ -94,6 +94,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         
         startListenToVolButtons()
         
+        
         print("justFinishedPicking is \(justFinishedPicking) (inside AVCameraViewController.ViewDidLoad)")
         //Enabes user to swipe right to return to main menu
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.returnToMenu))
@@ -142,6 +143,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         super.viewWillAppear(animated)
         
         print("inside viewWillAppear() in AVCameraViewController")
+        print("presenting VC of AVCameraVC is: \(String(describing: self.presentingViewController))")
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -610,7 +612,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             //first photo was already taken so we will store this one as the second image
             currentCompare.imageBeingEdited2 = iBE
             
-            currentCompare.creationPhase = .secondPhotoTaken //update the creationPhase flag se we know the 2nd image has also been taken
+            ///used to set .secondPhotoTaken but changed this because we want user to be able to edit both photos right away.
+            currentCompare.creationPhase = .reEditingSecondPhoto//.secondPhotoTaken //update the creationPhase flag se we know the 2nd image has also been taken
             //whatToCreate = .ask // The next time EditQuestionVC loads, it will be ready to create an ask unless user taps compareButton
             
         case .noPhotoTaken: //Store image1

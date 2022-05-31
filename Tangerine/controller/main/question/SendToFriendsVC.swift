@@ -558,10 +558,59 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     /// This pops all existing view controllers all the way down to login view to break the strong references that cause a memory leak otherwise. There is most likely a better solution involving a weak var declaration in AVCameraViewController. The issue seems to be eminating from that VC after the continue button is tapped.
     func dismissAllViewControllers() {
         // this comment added from copy_of_wyatt....
-        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-       // self.dismiss(animated: true, completion: nil)
-    }
+        print("dismissAllViewControllers() called from CQVC")
+        
+        
+        
+//        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        
+//        let eqvcThatPresented = self.presentingViewController
+        
+//        self.presentingViewController?.dismiss(animated: false)
+        
+        print("presenting VC of CQVC is: \(String(describing: self.presentingViewController))")
+        
+//        self.presentingViewController?.presentingViewController?.presentingViewController?.dismiss(animated: false)
+        
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+            print("inside completion hander of dimiss")
+//
+//            eqvcThatPresented?.dismiss(animated: true)
+//
+//            print("eqvcThatPresented is: \(String(describing: eqvcThatPresented))")
 
+        })
+        
+        
+       // self.dismiss(animated: true, completion: nil)
+
+        
+        
+//        self.view.window?.rootViewController?.navigationController
+    }
+    
+    
+    // Experimenting with this. It doesn't work right now.
+    func backThree() {
+        print("backThree called")
+        guard let navController = self.navigationController else {
+            print("error executing backThree. Could not find the navigationController.")
+            return
+        }
+        let viewControllers: [UIViewController] = navController.viewControllers as [UIViewController]
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: true)
+    }
+    
+    //This fails too
+    func otherBackThree() {
+        print("otherBackThree called")
+        guard let navController = self.view.window?.rootViewController?.navigationController else {
+            print("error executing otherBackThree. Could not find the navigationController.")
+            return
+        }
+        let viewControllers: [UIViewController] = navController.viewControllers as [UIViewController]
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: true)
+    }
     
     
 }

@@ -27,7 +27,6 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     @IBOutlet weak var topCaptionTextField: UITextField!
     //    @IBOutlet weak var topCaptionTextField: UITextField!
     @IBOutlet weak var topCaptionTextFieldTopConstraint: NSLayoutConstraint!
-
     
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomScrollView: UIScrollView!
@@ -35,13 +34,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     @IBOutlet weak var bottomCaptionTextField: UITextField!
     @IBOutlet weak var bottomCaptionTextFieldTopConstraint: NSLayoutConstraint!
     
-    
-    @IBOutlet weak var helpTapEditLabelTop: UILabel!
-    @IBOutlet weak var helpTapEditLabelBottom: UILabel!
-    @IBOutlet weak var helpTapPublishLabelBottom: UILabel!
-    
-    @IBOutlet weak var publishButtonBackgroundView: UIView!
-    
+        
     
     var topButtonLocked: Bool = false
     var bottomButtonLocked: Bool = false
@@ -75,7 +68,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
         bottomScrollView.delegate = self
         
 //        self.publishButtonBackgroundView.backgroundColor = .white
-        makeCircle(view: self.publishButtonBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+//        makeCircle(view: self.publishButtonBackgroundView, alpha: self.backgroundCirclesAlphaValue)
         
         // unwraps the Compare to be displayed (passed from EditQuestionVC)
         if let iE1: UIImage = currentCompare.imageBeingEdited1?.iBEimageBlurredCropped,
@@ -121,25 +114,25 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     }
     
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        // show help labels
-        let inWaitTime: Double = 3.0
-        let outWaitTime: Double = 8.0
-        
-//        self.helpTapEditLabelTop.bringSubviewToFront(topView)
-//        self.helpTapEditLabelBottom.bringSubviewToFront(bottomView)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
-            self.helpTapEditLabelTop.fadeInAfter(seconds: inWaitTime)
-            self.helpTapEditLabelBottom.fadeInAfter(seconds: inWaitTime)
-            self.helpTapPublishLabelBottom.fadeInAfter(seconds: inWaitTime)
-            
-            self.helpTapEditLabelTop.fadeOutAfter(seconds: outWaitTime)
-            self.helpTapEditLabelBottom.fadeOutAfter(seconds: outWaitTime)
-            self.helpTapPublishLabelBottom.fadeOutAfter(seconds: outWaitTime)
-        }
-        
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//
+//        // show help labels
+//        let inWaitTime: Double = 3.0
+//        let outWaitTime: Double = 8.0
+//
+////        self.helpTapEditLabelTop.bringSubviewToFront(topView)
+////        self.helpTapEditLabelBottom.bringSubviewToFront(bottomView)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
+//            self.helpTapEditLabelTop.fadeInAfter(seconds: inWaitTime)
+//            self.helpTapEditLabelBottom.fadeInAfter(seconds: inWaitTime)
+//            self.helpTapPublishLabelBottom.fadeInAfter(seconds: inWaitTime)
+//
+//            self.helpTapEditLabelTop.fadeOutAfter(seconds: outWaitTime)
+//            self.helpTapEditLabelBottom.fadeOutAfter(seconds: outWaitTime)
+//            self.helpTapPublishLabelBottom.fadeOutAfter(seconds: outWaitTime)
+//        }
+//
+//    }
     
 //    override func viewDidAppear() {
 //        super.viewDidAppear(true)
@@ -160,7 +153,15 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
 //        self.helpTapEditLabelTop.fadeOutAfter(seconds: outWaitTime)
 //        self.helpTapEditLabelBottom.fadeOutAfter(seconds: outWaitTime)
 //    }
-
+    
+    @IBAction func editTopButtonTapped(_ sender: Any) {
+        returnForEditing(editTopImage: true)
+    }
+    
+    @IBAction func editBottomButtonTapped(_ sender: Any) {
+        returnForEditing(editTopImage: false)
+    }
+    
     @objc func userTappedTop(_ pressImageGesture: UITapGestureRecognizer){
         print("user tap top")
         returnForEditing(editTopImage: true)
@@ -172,6 +173,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     }
     /// Segues back to the image editor View so that the user can change the image that they just tapped on.
     func returnForEditing(editTopImage: Bool) {
+        print("returnForEditing called from ComparePreviewVC")
         // set the flag so we know which image to display in EditQuestionVC
         if editTopImage == true {
             currentCompare.creationPhase = .reEditingFirstPhoto

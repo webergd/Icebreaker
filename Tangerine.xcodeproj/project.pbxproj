@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< HEAD
+=======
+		2A2CDC0C27C3D7E70051253A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A2CDC0B27C3D7E70051253A /* GoogleService-Info.plist */; };
+		2A970FF0281CD3D80093111B /* EQVCVerticalConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A970FEF281CD3D80093111B /* EQVCVerticalConstraints.swift */; };
+>>>>>>> main
 		2AA4BFDB270E720400606A08 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */; };
 		2ABCE72F273587D800103040 /* Int+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABCE72E273587D800103040 /* Int+Ext.swift */; };
 		42B016B7ECDE4A899D31792C /* Pods_TangerineTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 381E812095A52F447B90E724 /* Pods_TangerineTests.framework */; };
@@ -116,6 +121,11 @@
 
 /* Begin PBXFileReference section */
 		234E47B20017FB9E1BC20492 /* Pods-TangerineTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangerineTests.debug.xcconfig"; path = "Target Support Files/Pods-TangerineTests/Pods-TangerineTests.debug.xcconfig"; sourceTree = "<group>"; };
+<<<<<<< HEAD
+=======
+		2A2CDC0B27C3D7E70051253A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2A970FEF281CD3D80093111B /* EQVCVerticalConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQVCVerticalConstraints.swift; sourceTree = "<group>"; };
+>>>>>>> main
 		2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		2ABCE72E273587D800103040 /* Int+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Ext.swift"; sourceTree = "<group>"; };
 		381E812095A52F447B90E724 /* Pods_TangerineTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TangerineTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -403,6 +413,7 @@
 			children = (
 				51E61DAA2684C8DD000D6B30 /* ComparePreviewViewController.swift */,
 				51E50E52267FDD510055CCC1 /* EditQuestionVC.swift */,
+				2A970FEF281CD3D80093111B /* EQVCVerticalConstraints.swift */,
 				51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */,
 				518DBD1E26277D13008314A7 /* SendToFriendsVC.swift */,
 			);
@@ -835,7 +846,12 @@
 				512E1A1B2622637000D0E89C /* ProfileSettingsTabBarController.swift in Sources */,
 				517BF3A2269AD0880044DE61 /* AskReviewDetailsViewController.swift in Sources */,
 				51C997DD25FBDE9000DC54B4 /* SceneDelegate.swift in Sources */,
+<<<<<<< HEAD
 				515EDDD326865CF900696B8C /* ReviewOthersVC.swift in Sources */,
+=======
+				2A970FF0281CD3D80093111B /* EQVCVerticalConstraints.swift in Sources */,
+				515EDDD326865CF900696B8C /* BlueVC.swift in Sources */,
+>>>>>>> main
 				510A324F262CF216004F48BA /* QFriendCell.swift in Sources */,
 				510BB24C26225975001B6B63 /* ProfileVC.swift in Sources */,
 				51585F1D2602A419001D8267 /* OrientationVC.swift in Sources */,

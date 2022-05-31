@@ -120,6 +120,8 @@ public var currentImage: UIImage = UIImage(named: "tangerineImage2")!
 public var currentTitle: String = "" //realistically this should probably be an optional
 public var currentCaption: Caption = Caption(text: "", yLocation: 0.0)
 
+/// This is part of a bandaid fix for the keyboardWillShow() firing multiple times issue
+public var keyboardIsVisible: Bool = false
 
 
 /// this object holds a max of 2 images that are currently being edited. It stores the first image in, then if the user creates a second image, isAsk is set to false:
@@ -1170,7 +1172,15 @@ public struct imageBeingEdited {
     var iBEimageBlurredCropped: UIImage
     var iBEContentOffset: CGPoint
     var iBEZoomScale: CGFloat
+    
+    /// deprecated
     var blursAdded: Bool = false
+    
+    /// TRUE when the image has been blurred, either manually or automatically.
+    /// Compares the clean image to the one that holds blurs to determine whether they are different (i.e. blurred).
+    var isBlurred: Bool {
+        return !(iBEimageCleanUncropped == iBEimageBlurredUncropped)
+    }
 }
 /// This enum helps the client keep track of which stage of Compare Question creation that it is currently in (using the compareBeingEdited object below).
 public enum compareImageState: String {
@@ -1285,10 +1295,10 @@ struct Breakdown {
 }
 
 
-// remove / empty all collection related to question
-// called from logout button tap
-// ensures that when user log in using same/different id
-// it doesn't show cached data
+/// remove / empty all collection related to question
+/// called from logout button tap
+/// ensures that when user log in using same/different id
+/// it doesn't show cached data
 public func resetQuestionRelatedThings(){
     
     rawQuestions.removeAll()
@@ -1948,7 +1958,7 @@ public func updateNumLockedQuestionsInFirestore() {
 
 /// Counts the number of locked questions in myActiveQuestions and stores that value to lockedQuestionsCount to ensure they are the same
 public func syncLockedQuestionsCount() {
-    print("synching locked questions count")
+    print("syncing locked questions count")
     let prefs = UserDefaults.standard
     var countedLockedQuestions = 0
     for question in myActiveQuestions {
