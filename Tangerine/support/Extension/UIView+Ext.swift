@@ -121,4 +121,21 @@ extension UIView {
         //self.layer.borderWidth = 0
     }
     
+    @objc func userSwiped(_ gesture: UISwipeGestureRecognizer) {
+        
+            if gesture.direction == UISwipeGestureRecognizer.Direction.right {
+                // go back to previous view by swiping right
+                let vc: UIViewController? = self.parentViewController
+                guard let vc = vc else {return}
+                vc.dismissToRight()
+            }
+        
+    }
+    
+    func attachDismissToRightSwipe(){
+        let swipeViewGesture = UISwipeGestureRecognizer(target: self, action: #selector(userSwiped(_:)))
+        self.addGestureRecognizer(swipeViewGesture)
+       
+    }
+    
 }
