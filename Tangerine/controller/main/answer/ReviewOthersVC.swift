@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseFirestore
 
-
 class ReviewOthersVC: UIViewController{
     
     
