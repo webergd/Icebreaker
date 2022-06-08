@@ -81,7 +81,7 @@ class ReviewOthersVC: UIViewController{
         
         askController.question = ques
         askController.blueVC = self
-        askController.configureView()
+//        askController.configureView()
     }
     // show Compare
     
@@ -94,7 +94,7 @@ class ReviewOthersVC: UIViewController{
         
         compareController.question = ques
         compareController.blueVC = self
-        compareController.configureView()
+//        compareController.configureView()
         
         
     }

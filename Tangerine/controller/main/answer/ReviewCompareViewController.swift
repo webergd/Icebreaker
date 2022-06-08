@@ -102,7 +102,6 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
             topIndicator.startAnimating()
             
-            
             loadCaptions(
                 within: topView,
                 caption: Caption(text: thisCompare.captionText_1, yLocation: thisCompare.yLoc_1),
@@ -260,6 +259,18 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
     }
     
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        configureView()
+//    }
+    
+    override func viewDidLayoutSubviews() {
+        print("view did layout subviews called in RCVC")
+        super.viewDidLayoutSubviews()
+        configureView()
+    }
+
     // Allows the user to zoom within the scrollView that the user is manipulating at the time.
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         if scrollView == topScrollView {

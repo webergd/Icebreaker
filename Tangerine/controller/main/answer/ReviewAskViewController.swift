@@ -350,6 +350,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ReviewAskVC viewDidLoad() called")
+        
         centerPoint = mainView.center
         // setup the indicator
         setupIndicator()
@@ -433,6 +435,18 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         
         
     } // end of viewDidLoad method
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        // Calling configureView() any earlier this here messes up the caption location, presumably because the imageView that the top constraint is relative to has not reached its final size yet.
+//        configureView()
+//    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Calling configureView() any earlier this here messes up the caption location, presumably because the imageView that the top constraint is relative to has not reached its final size yet.
+        configureView()
+    }
     
     
     

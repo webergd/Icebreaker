@@ -52,7 +52,7 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
         
         
         guard let question = question else {
-            print("container was nil")
+            print("question was nil")
             return
         }
         // unwraps the compare that the tableView sent over:

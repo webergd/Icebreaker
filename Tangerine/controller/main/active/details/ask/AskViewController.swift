@@ -116,9 +116,12 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                 thisCaptionTextField.text = thisAsk.question.captionText_1
             }
             
-            if let thisCaptionTopConstraint = self.askCaptionTopConstraint {
-                thisCaptionTopConstraint.constant = askImageView.frame.height * CGFloat(thisAsk.question.yLoc_1)
-            }
+//            if let thisCaptionTopConstraint = self.askCaptionTopConstraint {
+//                thisCaptionTopConstraint.constant = askImageView.frame.height * CGFloat(thisAsk.question.yLoc_1)
+//            }
+            // it looks like I was unwrapping it for no reason
+            
+            askCaptionTopConstraint.constant = askImageView.frame.height * CGFloat(thisAsk.question.yLoc_1)
             
             
             /// ---------- Heart Displays -----------
@@ -193,11 +196,16 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         scrollView.delegate = self
-        self.configureView()
+//        self.configureView()
         
         //let swipeViewGesture = UISwipeGestureRecognizer(target: self, action: #selector(AskViewController.userSwiped))
         //askView.addGestureRecognizer(swipeViewGesture)
@@ -222,6 +230,12 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
         let arTap = UITapGestureRecognizer(target: self, action: #selector(AskViewController.userTappedAllReviewsLabel))
         allReviewsLabel.addGestureRecognizer(arTap)
   
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        configureView()
     }
     
     // Allows the user to zoom within the scrollView that the user is manipulating at the time.

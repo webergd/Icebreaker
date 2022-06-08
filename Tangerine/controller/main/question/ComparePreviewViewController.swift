@@ -83,7 +83,24 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
         } else {
             print("Could not unwrap one or both images in ComparePreviewViewController")
         }
+              
+        // For tapping the images to edit:
+        let tapTopImageGesture = UITapGestureRecognizer(target: self, action: #selector(ComparePreviewViewController.userTappedTop(_:) ))
+        topImageView.addGestureRecognizer(tapTopImageGesture)
         
+        let tapBottomImageGesture = UITapGestureRecognizer(target: self, action: #selector(ComparePreviewViewController.userTappedBottom(_:) ))
+        bottomImageView.addGestureRecognizer(tapBottomImageGesture)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // configureCaptions is called here because calling it in viewDidLoad results in wrong topConstraint values being calculated because it's too early.
+        // for some reason, calling configureCaptions in viewDidLayoutSubViews() like we do in the ReviewAskVC and ReviewCompareVC messes it up bigtime. Not sure why.
+        configureCaptions()
+    }
+    
+    /// Sets up the captions using local values that are initalized in viewDidLoad().
+    func configureCaptions() {
         topCaptionTextField.isHidden = !topCaption.exists
         topCaptionTextField.text = topCaption.text
         
@@ -99,20 +116,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
         // ensures user cannot tap on the text fields to edit them in this View
         topCaptionTextField.isEnabled = false
         bottomCaptionTextField.isEnabled = false
-
-        
-        // For tapping the images to edit:
-        let tapTopImageGesture = UITapGestureRecognizer(target: self, action: #selector(ComparePreviewViewController.userTappedTop(_:) ))
-        topImageView.addGestureRecognizer(tapTopImageGesture)
-        
-        let tapBottomImageGesture = UITapGestureRecognizer(target: self, action: #selector(ComparePreviewViewController.userTappedBottom(_:) ))
-        bottomImageView.addGestureRecognizer(tapBottomImageGesture)
-        
-        
-        
-
     }
-    
     
 //    override func viewDidAppear(_ animated: Bool) {
 //
@@ -136,7 +140,9 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     
 //    override func viewDidAppear() {
 //        super.viewDidAppear(true)
-//
+
+
+        
 //        let inWaitTime: Double = 0.2
 //        let outWaitTime: Double = 4.0
 //
