@@ -176,6 +176,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         configureTitleTextFieldConstraints()
         
+        addCaptionButton.isHidden = !captionTextField.isHidden
+        
         
 
 //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
@@ -731,7 +733,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                         self.view.layoutIfNeeded()
                     })
                 }
-                
+
             } else {
                 print("keyboard was already visible, no caption constraint data stored or manipulated")
             }

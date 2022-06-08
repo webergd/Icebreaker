@@ -650,6 +650,83 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajh-qr-aFH" userLabel="scrollAndCompareHousingView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="438"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xOq-vN-HDw" userLabel="compareHousingView">
+                                        <rect key="frame" x="0.0" y="380" width="320" height="70"/>
+                                        <subviews>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHj-J9-xEO">
+                                                <rect key="frame" x="130" y="5" width="60" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="aHj-J9-xEO" secondAttribute="height" multiplier="1:1" id="x25-Iu-Ubq"/>
+                                                </constraints>
+                                                <state key="normal" image="tangerineImage2"/>
+                                                <connections>
+                                                    <action selector="otherImageThumbnailTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="uS3-Kp-MgL"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tcj-Ge-v93" userLabel="CompareToggleButton">
+                                                <rect key="frame" x="130" y="5" width="60" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="m3Q-yg-jWb"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="" image="camera.badge.ellipsis" catalog="system"/>
+                                                <buttonConfiguration key="configuration" style="gray" image="camera.badge.ellipsis" catalog="system" imagePlacement="top">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment content="Compare Against">
+                                                            <attributes>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <directionalEdgeInsets key="contentInsets" top="4" leading="0.0" bottom="4" trailing="0.0"/>
+                                                </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="compareToggleButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="tYx-bR-zYL"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="destructive" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-a9-8dG">
+                                                <rect key="frame" x="96.5" y="20.5" width="29.5" height="29.5"/>
+                                                <color key="tintColor" systemColor="systemRedColor"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <size key="titleShadowOffset" width="1" height="1"/>
+                                                <state key="normal" image="trash.circle.fill" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" scale="large" weight="bold">
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                    </preferredSymbolConfiguration>
+                                                </state>
+                                                <connections>
+                                                    <action selector="deleteThumbnailButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="KHP-XN-Ao2"/>
+                                                </connections>
+                                            </button>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a single image so reviewers will vote YES or NO. Tap to compare this image against another one. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RfM-8a-o74">
+                                                <rect key="frame" x="194" y="-8" width="122" height="86"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                                <color key="textColor" systemColor="tintColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="RfM-8a-o74" secondAttribute="trailing" constant="4" id="0Nn-8h-Rxa"/>
+                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="centerX" secondItem="aHj-J9-xEO" secondAttribute="centerX" id="1I7-eS-2fr"/>
+                                            <constraint firstItem="aHj-J9-xEO" firstAttribute="centerY" secondItem="xOq-vN-HDw" secondAttribute="centerY" id="59c-iR-xmJ"/>
+                                            <constraint firstAttribute="height" constant="70" id="KqI-eY-5XQ"/>
+                                            <constraint firstItem="RfM-8a-o74" firstAttribute="centerY" secondItem="xOq-vN-HDw" secondAttribute="centerY" id="UdP-7Z-KEF"/>
+                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="centerY" secondItem="aHj-J9-xEO" secondAttribute="centerY" id="Y5E-rB-mgl"/>
+                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="height" secondItem="aHj-J9-xEO" secondAttribute="height" id="haM-0Q-b22"/>
+                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="width" secondItem="aHj-J9-xEO" secondAttribute="width" id="jDj-6E-YWJ"/>
+                                            <constraint firstItem="aHj-J9-xEO" firstAttribute="centerX" secondItem="xOq-vN-HDw" secondAttribute="centerX" id="pgS-KP-xQa"/>
+                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="leading" secondItem="3ed-a9-8dG" secondAttribute="trailing" constant="4" id="qBN-0f-1Xh"/>
+                                            <constraint firstItem="3ed-a9-8dG" firstAttribute="centerY" secondItem="tcj-Ge-v93" secondAttribute="centerY" id="vVK-yc-DW9"/>
+                                            <constraint firstItem="RfM-8a-o74" firstAttribute="leading" secondItem="tcj-Ge-v93" secondAttribute="trailing" constant="4" id="yCb-gi-hqp"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Or1-CF-jJM" userLabel="scrollHousingView">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="350"/>
                                         <subviews>
@@ -781,83 +858,6 @@
                                             <constraint firstItem="RK8-0K-0Pr" firstAttribute="top" secondItem="Uj3-PS-3tI" secondAttribute="top" id="eLc-Ij-4H6"/>
                                             <constraint firstItem="yaA-n3-1BA" firstAttribute="centerX" secondItem="Or1-CF-jJM" secondAttribute="centerX" id="erS-AA-cIh"/>
                                             <constraint firstItem="Uj3-PS-3tI" firstAttribute="bottom" secondItem="bwv-eL-4Tr" secondAttribute="top" constant="1" id="q9i-TO-b1Z"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xOq-vN-HDw" userLabel="compareHousingView">
-                                        <rect key="frame" x="0.0" y="380" width="320" height="70"/>
-                                        <subviews>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHj-J9-xEO">
-                                                <rect key="frame" x="130" y="5" width="60" height="60"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="aHj-J9-xEO" secondAttribute="height" multiplier="1:1" id="x25-Iu-Ubq"/>
-                                                </constraints>
-                                                <state key="normal" image="tangerineImage2"/>
-                                                <connections>
-                                                    <action selector="otherImageThumbnailTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="uS3-Kp-MgL"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tcj-Ge-v93" userLabel="CompareToggleButton">
-                                                <rect key="frame" x="130" y="5" width="60" height="60"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="m3Q-yg-jWb"/>
-                                                </constraints>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="" image="camera.badge.ellipsis" catalog="system"/>
-                                                <buttonConfiguration key="configuration" style="gray" image="camera.badge.ellipsis" catalog="system" imagePlacement="top">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment content="Compare Against">
-                                                            <attributes>
-                                                                <font key="NSFont" size="14" name="Helvetica"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
-                                                    <directionalEdgeInsets key="contentInsets" top="4" leading="0.0" bottom="4" trailing="0.0"/>
-                                                </buttonConfiguration>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="compareToggleButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="tYx-bR-zYL"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="destructive" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-a9-8dG">
-                                                <rect key="frame" x="96.5" y="20.5" width="29.5" height="29.5"/>
-                                                <color key="tintColor" systemColor="systemRedColor"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <size key="titleShadowOffset" width="1" height="1"/>
-                                                <state key="normal" image="trash.circle.fill" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" scale="large" weight="bold">
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                                    </preferredSymbolConfiguration>
-                                                </state>
-                                                <connections>
-                                                    <action selector="deleteThumbnailButtonTapped:" destination="htq-oV-YgK" eventType="touchUpInside" id="KHP-XN-Ao2"/>
-                                                </connections>
-                                            </button>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a single image so reviewers will vote YES or NO. Tap to compare this image against another one. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RfM-8a-o74">
-                                                <rect key="frame" x="194" y="-8" width="122" height="86"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                                <color key="textColor" systemColor="tintColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="RfM-8a-o74" secondAttribute="trailing" constant="4" id="0Nn-8h-Rxa"/>
-                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="centerX" secondItem="aHj-J9-xEO" secondAttribute="centerX" id="1I7-eS-2fr"/>
-                                            <constraint firstItem="aHj-J9-xEO" firstAttribute="centerY" secondItem="xOq-vN-HDw" secondAttribute="centerY" id="59c-iR-xmJ"/>
-                                            <constraint firstAttribute="height" constant="70" id="KqI-eY-5XQ"/>
-                                            <constraint firstItem="RfM-8a-o74" firstAttribute="centerY" secondItem="xOq-vN-HDw" secondAttribute="centerY" id="UdP-7Z-KEF"/>
-                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="centerY" secondItem="aHj-J9-xEO" secondAttribute="centerY" id="Y5E-rB-mgl"/>
-                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="height" secondItem="aHj-J9-xEO" secondAttribute="height" id="haM-0Q-b22"/>
-                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="width" secondItem="aHj-J9-xEO" secondAttribute="width" id="jDj-6E-YWJ"/>
-                                            <constraint firstItem="aHj-J9-xEO" firstAttribute="centerX" secondItem="xOq-vN-HDw" secondAttribute="centerX" id="pgS-KP-xQa"/>
-                                            <constraint firstItem="tcj-Ge-v93" firstAttribute="leading" secondItem="3ed-a9-8dG" secondAttribute="trailing" constant="4" id="qBN-0f-1Xh"/>
-                                            <constraint firstItem="3ed-a9-8dG" firstAttribute="centerY" secondItem="tcj-Ge-v93" secondAttribute="centerY" id="vVK-yc-DW9"/>
-                                            <constraint firstItem="RfM-8a-o74" firstAttribute="leading" secondItem="tcj-Ge-v93" secondAttribute="trailing" constant="4" id="yCb-gi-hqp"/>
                                         </constraints>
                                     </view>
                                 </subviews>
