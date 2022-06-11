@@ -9,6 +9,9 @@ import UIKit
 
 class ProfileSettingsTabBarController: UITabBarController {
 
+    var settingsView: UIView!
+    var profileView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,11 +25,8 @@ class ProfileSettingsTabBarController: UITabBarController {
         
         self.viewControllers = [settingsVC, profileVC]
         
-        
-        
-        
-        
-        
+        settingsView = settingsVC.view
+        profileView = profileVC.view
         
         // Do any additional setup after loading the view.
         self.selectedIndex = 1
@@ -47,12 +47,17 @@ class ProfileSettingsTabBarController: UITabBarController {
     // function to handle
     @objc func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
         // swipe from right to left
-      if gesture.direction == .left {
-        self.selectedIndex = 1
-        // swipe from left to right
-      } else if gesture.direction == .right {
-        self.selectedIndex = 0
-      }
+        
+        
+            if gesture.direction == .left {
+                _ = self.tabBarController(self, shouldSelect: self.viewControllers![1])
+              // swipe from left to right
+
+            } else if gesture.direction == .right {
+                _ = self.tabBarController(self, shouldSelect: self.viewControllers![0])
+            }
+        
+        
     }
     
     
@@ -63,4 +68,24 @@ class ProfileSettingsTabBarController: UITabBarController {
     }
 
 
+}
+
+@objc extension ProfileSettingsTabBarController: UITabBarControllerDelegate  {
+    @objc func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+
+        guard let fromView = selectedViewController?.view, let toView = viewController.view else {
+            return false // Make sure you want this as false
+        }
+
+        if fromView != toView {
+            
+            UIView.transition(from: fromView, to: toView, duration: 0.3, options: selectedIndex == 0 ?  .transitionFlipFromRight : .transitionFlipFromLeft, completion: { (true) in
+
+            })
+
+            self.selectedViewController = viewController
+        }
+
+        return true
+    }
 }
