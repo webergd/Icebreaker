@@ -42,7 +42,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     /// the loading
     var indicator: UIActivityIndicatorView!
     // limit of search from firestore, can't be more than 10
-    var searchLimit = 5
+    var searchLimit = 10
     
     /// badge
     var hub : BadgeHub!
