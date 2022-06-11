@@ -256,7 +256,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             
             // From MY FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.displayedFriends[indexPath.row].username)
+            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.displayedFriends[indexPath.section].username)
                 .delete { (error) in
                     if let error = error{
                         self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
@@ -265,17 +265,17 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                     
                     // From THIS PERSON'S FIREBASE
                     
-                    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.displayedFriends[indexPath.row].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+                    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.displayedFriends[indexPath.section].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                         .delete { (error) in
                             if let error = error{
                                 self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
                                 return
                             }
                             
-                            self.presentDismissAlertOnMainThread(title: "Friendship Removed", message: "💔 You are no longer friends with \(self.displayedFriends[indexPath.row].username!)")
+                            self.presentDismissAlertOnMainThread(title: "Friendship Removed", message: "💔 You are no longer friends with \(self.displayedFriends[indexPath.section].username!)")
                             
                             // delete the row
-                            self.displayedFriends.remove(at: indexPath.row)
+                            self.displayedFriends.remove(at: indexPath.section)
                             tableView.deleteRows(at: [indexPath], with: .automatic)
                         }
                 }
@@ -297,12 +297,26 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         return  UILocalizedIndexedCollation.current().sectionTitles
     }
     
+    //handles the side click
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return UILocalizedIndexedCollation.current().section(forSectionIndexTitle: index)
+        print("You clicked on index \(title) with index \(index)")
+        // find the first type that starts with the letter title:(A-Z)
+        for item in displayedFriends{
+            if item.displayName.uppercased().starts(with: title.uppercased()) {
+                guard let sectionPosition = displayedFriends.firstIndex(of: item) else {continue}
+                return sectionPosition
+            }
+        }
+        
+        return 0
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1//displayedFriends.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return displayedFriends.count
     }
     
@@ -311,12 +325,12 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("loading cell")
+        print("loading cell with section \(indexPath.section)")
         let cell = Bundle.main.loadNibNamed("QFriendCell", owner: self, options: nil)?.first as! QFriendCell // we already know it is on our project list
         var friend : Friend!
         
         if displayedFriends.count > 0{
-            friend = displayedFriends[indexPath.row]
+            friend = displayedFriends[indexPath.section]
             
             // DISPLAY THE CELL DATA
             let today = Date()
@@ -364,13 +378,17 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         return cell
     }
     
+    
+    // for using side indexes with this version we switched rows with section
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("row selected at \(indexPath.row)")
+        
+        print("section selected at \(indexPath.section)")
         
         var username = ""
         // only allow contact those are registered
         
-        let person = displayedFriends[indexPath.row]
+        let person = displayedFriends[indexPath.section]
         username = person.username
         
         let vc = FriendDetailsVC()
