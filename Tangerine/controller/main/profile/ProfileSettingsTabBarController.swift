@@ -12,6 +12,8 @@ class ProfileSettingsTabBarController: UITabBarController {
     var settingsView: UIView!
     var profileView: UIView!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +33,8 @@ class ProfileSettingsTabBarController: UITabBarController {
         // Do any additional setup after loading the view.
         self.selectedIndex = 1
         setupSwipe()
+        
+        delegate = self
     }
     
     // this will add swipe functionality as the doc asked
@@ -71,6 +75,7 @@ class ProfileSettingsTabBarController: UITabBarController {
 }
 
 @objc extension ProfileSettingsTabBarController: UITabBarControllerDelegate  {
+    
     @objc func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
 
         guard let fromView = selectedViewController?.view, let toView = viewController.view else {
@@ -88,4 +93,5 @@ class ProfileSettingsTabBarController: UITabBarController {
 
         return true
     }
+    
 }
