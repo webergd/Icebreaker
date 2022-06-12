@@ -50,7 +50,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     // the loading
     var indicator: UIActivityIndicatorView!
     // limit of search from firestore
-    var searchLimit = 5
+    var searchLimit = 10
     // to save last doc of each call, so we can fetch next 10
     var lastSnap: QueryDocumentSnapshot!
     var newlyCreatedDocID: String = ""
