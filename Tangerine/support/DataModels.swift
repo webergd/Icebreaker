@@ -341,9 +341,9 @@ extension TimeInterval { //got this off the internet to convert an NSTimeInterva
     var activeHourMin: String {
         
         if hour < 24 {
-            return "deleting in \(String(format:"%d:%02d", hour, minute))"
+            return "Deleting in \(String(format:"%d:%02d", hour, minute))"
         }else{
-            return "Time Remaining: \(String(format:"%d:%02d", hour, minute))"
+            return "Expires in: \(String(format:"%d:%02d", hour, minute))"
         }
         
         

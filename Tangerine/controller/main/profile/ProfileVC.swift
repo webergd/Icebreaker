@@ -70,6 +70,8 @@ class ProfileVC: UIViewController {
         profileImage.layer.borderColor = UIColor.systemBlue.cgColor
         profileImage.layer.cornerRadius = 4.0
         
+
+        
         
         displaynameL.text = myProfile.display_name
         usernameL.text = myProfile.username
@@ -273,6 +275,8 @@ class ProfileVC: UIViewController {
         editProfileButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         editProfileButton.setTitleColor(.white, for: .normal)
         editProfileButton.backgroundColor = .systemBlue
+        editProfileButton.layer.cornerRadius = 15.0
+
         
         editProfileButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(editProfileButton)
