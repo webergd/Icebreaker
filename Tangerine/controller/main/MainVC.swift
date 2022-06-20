@@ -47,6 +47,9 @@ class MainVC: UIViewController {
     @IBOutlet weak var helpTutorialLabel: UILabel!
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var glassView: UIView!
+    @IBOutlet weak var cameraButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var spacerView1: UIView!
+    
     
     /// Other ViewControllers can access this to take themselves back to this VC.
     /// Detailed instructions on an 'unwind' segue and its use here: https://www.andrewcbancroft.com/2015/12/18/working-with-unwind-segues-programmatically-in-swift/
@@ -295,7 +298,7 @@ class MainVC: UIViewController {
         
         keyboardIsVisible = false // there is no keyboard option on main vc so let's reset this field to false
         
-        
+        centerMainIconsVertically()
         // checks if we have enough questions, if not fetches some
         checkForQuestionsToFetch(){
             print("Completed fetching Questions from MainVC")
@@ -402,6 +405,26 @@ class MainVC: UIViewController {
         }else{
             qffBadgeHub.setCount(0)
         }
+        
+    }
+    
+    /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
+    func centerMainIconsVertically() {
+//        cameraButtonTopConstraint.constant = 10.0
+        let topDistance: CGFloat = cameraButtonTopConstraint.constant
+        let bottomDistance: CGFloat = spacerView1.frame.height
+
+        let combinedDistance = topDistance + bottomDistance
+        let halfDistance = combinedDistance / 2.0
+        
+        
+        print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
+        print("bottomConstraint before reset is \(spacerView1.frame.height)")
+        cameraButtonTopConstraint.constant = halfDistance
+//        spacerView1.frame.height = halfDistance
+        
+        print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
+        print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
         
     }
     
