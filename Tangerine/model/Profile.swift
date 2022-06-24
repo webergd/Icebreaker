@@ -29,7 +29,7 @@ import Firebase
     dynamic var rating : Double = 0
     
     dynamic var created : Int64 = 0
-    dynamic var orientation = "Other"
+    dynamic var orientation = Constants.ORIENTATIONS.last!
     dynamic var phone_number = ""
     
     override public class func primaryKey() -> String? {

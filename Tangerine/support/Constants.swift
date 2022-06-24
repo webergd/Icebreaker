@@ -51,12 +51,6 @@ class Constants {
 
     
     
-    
-    
-    
-    
-    
-    
     // FIELDS IN USERS
     static let USER_CREATED_KEY = "created"
     static let USER_ORIENTATION_KEY = "orientation"
