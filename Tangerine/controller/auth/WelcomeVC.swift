@@ -556,6 +556,8 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
         descLabel.textColor = .label
         descLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         descLabel.textAlignment = .center
+        descLabel.isEditable = false
+        descLabel.isSelectable = false
         
         descLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descLabel)
