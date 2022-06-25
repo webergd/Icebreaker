@@ -47,7 +47,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     // the text that has been searched
     var searchedText : String!
     // limit of search from firestore
-    var searchLimit = 5
+    var searchLimit = 10
     // Persons I added already
     var addedList = [String]()
     // person I won't show on list => block/got blocked by those

@@ -205,6 +205,7 @@ class OrientationVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         specialtyTF.borderStyle = .roundedRect
         specialtyTF.textAlignment = .center
         
+        specialtyTF.isEnabled = false
         
         specialtyTF.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(specialtyTF)
