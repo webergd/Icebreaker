@@ -13,7 +13,7 @@ import RealmSwift
 import MessageUI
 import grpc
 
-class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, MFMessageComposeViewControllerDelegate {
+class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewControllerDelegate, UICollectionViewDelegate {
 
     // MARK: UI Items
     
@@ -23,13 +23,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     // all number from phone
     var allNumbers = [String]()
     // shows the current displayed Persons
-    var displayedContacts = [String:Person]()
-    // shows the current displayed Person's Dictionary keys for iteration
-    var displayedKeys = [String]()
-    // this will store the chunked contact either from all/filtered
-    var chunkedContacts = [[Person]]()
-    // this variable will keep track of our chunk of contacts
-    var currentChunk = -1
+    var displayedContacts = [Person]()
     //flag that tells if we are fetching data
     var loadingFromFirestore = false
     // the loading
@@ -60,7 +54,12 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     // cancel and back buttons with width + the table view
     var cancelBtn: UIButton!
     var buttonWidth: NSLayoutConstraint!
-    var friendTableView: UITableView!
+    
+    var friendsCollectionView: UICollectionView!
+    let contentView = UIView()
+    
+    var dataSource: UICollectionViewDiffableDataSource<Section, Person>!
+    
     var backBtn: UIButton!
     var backButtonWidth: NSLayoutConstraint!
     
@@ -79,7 +78,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         isCloudSearch = sender.selectedSegmentIndex == 1
         print("Searching cloud? \(isCloudSearch)")
         
-        friendTableView.reloadData()
+        updateData()
     }
     
 
@@ -92,8 +91,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         //fetch the contacts
         fetchContacts()
         
-        friendTableView.delegate = self
-        friendTableView.dataSource = self
+        //friendTableView.delegate = self
+        //friendTableView.dataSource = self
         
         // hide the button
         hideCancelButton()
@@ -135,80 +134,15 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     }
     
     
-    // this will fetch data from firestore without search, the first segment
-    func fetchDataFromFirestore(){
-        
-        print("fetching data from firestore \(chunkedContacts.count)")
-        //take 10 contacts and query for them
-        currentChunk+=1
-        if currentChunk != chunkedContacts.count {
+    // this will refresh the list of displayed contact with all contacts
+    func refillDisplayedContacts(){
+        for item in contacts{
             
-            
-            indicator.startAnimating()
-            
-            let newChunk = chunkedContacts[currentChunk]
-            // get the phone number in a list
-            var numbers = [String]()
-            var newDict = [String:Person]()
-            
-            for item in newChunk {
-                let number =  item.phoneNumberField
-                // making the number formated to our specification
+            displayedContacts.append(item)
                 
-                if myProfile.phone_number != number {
-                    numbers.append(number)
-                    // also feeding the list
-                    newDict[number] = item
-                    // and we will need the keys for later
-                    displayedKeys.append(number)
-                }
-            }
-            
-            // query in firestore against these contacts
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).whereField(Constants.USER_NUMBER_KEY, in: numbers).getDocuments { (snapshots, error) in
-                
-                print("Firestore call done")
-                if let error = error{
-                    print(error.localizedDescription)
-                    return
-                }
-                
-                if let docs = snapshots?.documents {
-                    if docs.count > 0 {
-                        // itereate over the collection
-                        for item in docs{
-                            print("From general search we got \(docs.count) person")
-                            // check if blocked user or not
-                            
-                            if !self.blockList.contains(item.documentID){
-                                // get the dictionary from the item/one document
-                                // it is easier to turn it into dict in swift
-                                let dict = item.data()
-                                // find the number associated with this user
-                                let phone = dict[Constants.USER_NUMBER_KEY] as! String
-                                
-                                newDict[phone] = self.getPersonFromDict(dict, item.documentID, phone)[phone]
-                            }
-                            
-                            
-                        }
-                    } // end of for each
-                }// end if let
-                
-                // as we done loading before reloading data
-                // set the flag to opposite
-                self.loadingFromFirestore = false
-                // merge the fetch + edited data
-                self.displayedContacts.merge(newDict){(_,new) in new}
-                print("DC size in fetch contact \(self.displayedContacts.count)")
-                // hide the indicator
-                self.indicator.stopAnimating()
-                // load the table with new data
-                self.friendTableView.reloadData()
-                
-            }// end of firebase call
-            
         }
+        
+        updateData()
     }// end of fetch data from firestore
     
     
@@ -293,7 +227,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 group.leave()
                 self.indicator.stopAnimating()
                 // load the table with new data
-                self.friendTableView.reloadData()
+                self.updateData()
                 
             }// end of if let
             
@@ -371,7 +305,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 group.leave()
                 self.indicator.stopAnimating()
                 // load the table with new data
-                self.friendTableView.reloadData()
+                self.updateData()
                 
             }// end of if name
             
@@ -453,7 +387,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                         // as per the doc
                         if let phoneNumber = contact.phoneNumbers.first?.value.stringValue, phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined().count >= 10{
                             
-                            let number = formatNumber(phoneNumber)
+                            let number = self.formatNumber(phoneNumber)
                             // fill the all contact Array to reuse later
                             
                             let person = Person()
@@ -475,11 +409,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                     })
                     
                     if(self.contacts.count > 0){
-                        // divide the contacts into chunks of 10 so that we can query on firestore
-                        self.chunkedContacts = self.contacts.chunked(by: 10)
-                        
+                         
                         DispatchQueue.main.async {
-                            self.fetchDataFromFirestore()
+                            self.refillDisplayedContacts()
                         }
                         
                     }
@@ -519,7 +451,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
             
             // add to local list
             addedList.append(person.username)
-            self.friendTableView.reloadData()
+            updateData()
             
         } catch {
             print("Error occured while updating realm")
@@ -583,7 +515,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
             database.add(object, update: .modified)
             try database.commitWrite()
             
-            self.friendTableView.reloadData()
+            updateData()
             
         } catch {
             print("Error occured while updating realm")
@@ -599,7 +531,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
             database.delete(currentList)
             try database.commitWrite()
             
-            self.friendTableView.reloadData()
+            updateData()
             
         } catch {
             print("Error occured while updating realm")
@@ -691,45 +623,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 self.displayedCloudKeys.removeAll()
                 self.searchedText = searchedText
                 searchDataOnFirestore(searchedText.lowercased())
-            }else{
-                // do search on local here
-                // actually filter
-                // displayedContact might have filtered result, so remove it first
-                
-                displayedContacts.removeAll()
-                displayedKeys.removeAll()
-                
-                // clear the chunk to set again for filtered list
-                chunkedContacts.removeAll()
-                currentChunk = -1
-                
-                // temp var for chunking again
-                var filteredContact = [Person]()
-                
-                for item in contacts{
-                    // checks if this item matches with our search
-                    if(item.displayName.lowercased().contains(searchedText.lowercased()) || item.username.lowercased().contains(searchedText.lowercased())){
-                        // match found, add
-                        displayedContacts[item.phoneNumberField] = item
-                        displayedKeys.append(item.phoneNumberField)
-                        
-                        // add to chunk contacts as well
-                        filteredContact.append(item)
-                        
-                    }
-                }
-                
-                // fetch data from firestore to match against the filtered list
-                if filteredContact.count > 0 {
-                    chunkedContacts = filteredContact.chunked(by: 10)
-                    fetchDataFromFirestore()
-                }else{
-                    // else reload to remove all item
-                    friendTableView.reloadData()
-                }
-                
             }
-            
         }
         
         // hide the button now
@@ -757,192 +651,73 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                 // displayedContact might have filtered result, so remove it first
                 
                 displayedContacts.removeAll()
-                displayedKeys.removeAll()
                 
-                // clear the chunk to set again for filtered list
-                chunkedContacts.removeAll()
-                currentChunk = -1// displayedContact might have filtered result, so remove it first
-                
-                // reset the chunks again and fetch matches
-                chunkedContacts = contacts.chunked(by: 10)
-                fetchDataFromFirestore()
+                refillDisplayedContacts()
             }
             
+        }else {
+            // we have some text
+            // do search on local here
+            if let searchedText = searchbar.text{
+            displayedContacts.removeAll()
+            
+            
+            for item in contacts{
+                // checks if this item matches with our search
+                if(item.displayName.lowercased().contains(searchedText.lowercased()) || item.username.lowercased().contains(searchedText.lowercased())){
+                    // match found, add
+                    displayedContacts.append(item)
+                    
+                }
+            }
+                // update UI
+                updateData()
+            
+            } // if let
         }
     }
     
     
     // return the number of rows in tableview
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isCloudSearch ? displayedCloudContacts.count : displayedContacts.count
-    }
     
-    // sets the data for the row
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        print("add friend table invalidated")
-        let cell = Bundle.main.loadNibNamed("FriendCell", owner: self, options: nil)?.first as! FriendCell // we already know it is on our project list
-        var person : Person!
-        
-        // for checking if we are trying to fill will nil data
-        var isDataAvailable = false
-        if isCloudSearch {
-            print(displayedCloudKeys.count)
-            if displayedCloudKeys.count > 0 {
-                person = displayedCloudContacts[displayedCloudKeys[indexPath.row]]!
-                isDataAvailable = true
-            }
-        }else{
-            if displayedKeys.count > 0{
-                // with all the display key we can go over all the dictionary Persons
-                person = displayedContacts[displayedKeys[indexPath.row]]!
-                isDataAvailable = true
-            }
-        }
-        
-        if isDataAvailable{
-            
-            // Default data
-            cell.title.text = person.displayName
-            cell.subtitle.text = person.username
-            
-            if person.imageString.starts(with: "https"){
-                // firebase
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: person.username, type: .ASK),
-                    forPath: person.imageString) { image, error in
-                        if let error = error{
-                            print("Error: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        print("AFVC Image Downloaded for \(String(describing: person.username))")
-                        cell.profileImageView.image = image
-                    }
-                
-                
-            }else{
-                cell.profileImageView.image = convertBase64StringToImage(imageBase64String: person.imageString)
-            }
-            
-            
-            
-            
-            // DISPLAY THE CELL DATA
-            if person.status == Status.REGISTERED {
-                // set the button based on status
-                // function names saying what are they for
-                
-                cell.button.setTitle("Add", for: .normal)
-                cell.button.backgroundColor = UIColor.systemGreen
-                cell.button.setTitleColor(UIColor.white, for: .normal)
-                cell.button.layer.borderWidth = 1.0
-                cell.button.layer.cornerRadius = 6.0
-                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-                cell.button.isEnabled = true
-                cell.handleClick={
-                    self.addPersonToFirestoreAndLocal(person)
-                    
-                }
-                
-                // WYATT ADD 2/1/22
-                // A good result looks like this:
-                // Search for a person who is already a friend
-                // Cell should have green "Friend" button that is disabled
-            } else if person.status == Status.FRIEND {
-                cell.button.setTitle("Friends", for: .normal)
-                cell.button.backgroundColor = UIColor.systemGreen
-                cell.button.setTitleColor(UIColor.white, for: .normal)
-                cell.button.layer.borderWidth = 1.0
-                cell.button.layer.cornerRadius = 6.0
-                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-                cell.button.isEnabled = false
-                
-                
-            }else if person.status == .REQUESTED{
-                cell.button.setTitle("Requested", for: .normal)
-                cell.button.backgroundColor = UIColor.systemOrange
-                cell.button.setTitleColor(UIColor.white, for: .normal)
-                cell.button.layer.borderWidth = 1.0
-                cell.button.layer.cornerRadius = 6.0
-                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-                cell.button.isEnabled = true
-                cell.handleClick={
-                    
-                    // self.presentDismissAlertOnMainThread(title: "Hey!", message: "This person is already added")
-                }
-            }
-            else{
-                // this block never execute on local search
-                
-                cell.button.setTitle("Invite", for: .normal)
-                cell.button.backgroundColor = UIColor.systemGreen.darker()
-                cell.button.setTitleColor(UIColor.white, for: .normal)
-                cell.button.layer.borderWidth = 1.0
-                cell.button.layer.cornerRadius = 6.0
-                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-                cell.button.isEnabled = true
-                cell.handleClick={
-                    print("Invited")
-                    guard MFMessageComposeViewController.canSendText() else {
-                        return
-                    }
-                    
-                    let messageVC = MFMessageComposeViewController()
-                    
-                    messageVC.body = "Take off that doubtfit \(person.displayName)! Do you know about Tangerine yet? \(myProfile.display_name) is inviting you to be a member. Only available for iOS. http://www.letstangerine.com to learn more. 'Confident Comfort through Connection.'";
-                    messageVC.recipients = ["\(person.phoneNumberField)"]
-                    messageVC.messageComposeDelegate = self;
-                    
-                    self.present(messageVC, animated: false, completion: nil)
-                } // end handle click
-            }
-            return cell
-        }
-        
-        return UITableViewCell()
-        
-    }
+    //return isCloudSearch ? displayedCloudContacts.count : displayedContacts.count
+    //let cell = Bundle.main.loadNibNamed("FriendCell", owner: self, options: nil)?.first as! FriendCell
     
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("row selected at \(indexPath.row)")
-        var username = ""
-        var userstatus = Status.NONE
-        // only allow contact those are registered
-        var shouldShow = false
-        if isCloudSearch {
-            // cloud searched person's are always registered
-            shouldShow = true
-            if let name = displayedCloudContacts[displayedCloudKeys[indexPath.row]]?.username{
-                username = name
-            }
-            
-        }else{
-            let person = displayedContacts[displayedKeys[indexPath.row]]
-            // if registered or requested
-            if let person = person, person.status == Status.REQUESTED || person.status == Status.REGISTERED {
-                shouldShow = true
-                username = person.username
-                userstatus = person.status
-            }
-        } // else
-        
-        //
-        if shouldShow {
-            let vc = FriendDetailsVC()
-            vc.modalPresentationStyle = .fullScreen
-            vc.username = username
-            vc.parentVC = PARENTVC.ADD
-            vc.status = userstatus
-            self.present(vc, animated: true, completion: nil)
-        } // should show
-        
-    } // end of did select row
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("row selected at \(indexPath.row)")
+//        var username = ""
+//        var userstatus = Status.NONE
+//        // only allow contact those are registered
+//        var shouldShow = false
+//        if isCloudSearch {
+//            // cloud searched person's are always registered
+//            shouldShow = true
+//            if let name = displayedCloudContacts[displayedCloudKeys[indexPath.row]]?.username{
+//                username = name
+//            }
+//
+//        }else{
+//            let person = displayedContacts[displayedKeys[indexPath.row]]
+//            // if registered or requested
+//            if let person = person, person.status == Status.REQUESTED || person.status == Status.REGISTERED {
+//                shouldShow = true
+//                username = person.username
+//                userstatus = person.status
+//            }
+//        } // else
+//
+//        //
+//        if shouldShow {
+//            let vc = FriendDetailsVC()
+//            vc.modalPresentationStyle = .fullScreen
+//            vc.username = username
+//            vc.parentVC = PARENTVC.ADD
+//            vc.status = userstatus
+//            self.present(vc, animated: true, completion: nil)
+//        } // should show
+//
+//    } // end of did select row
     
     
     
@@ -965,9 +740,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
                     searchDataOnFirestore(searchedText)
                 }
                 
-            }else {
-                // fetch the data
-                fetchDataFromFirestore()
             }
             
             
@@ -988,8 +760,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         configureSearchBar()
         configureCancelButton()
         configureSegmentControl()
-        configureAFTableView()
-        
+        configureCollectionView()
+        configureDataSource()
         
         setupIndicator()
         searchbar.delegate = self
@@ -1094,17 +866,209 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
         
     }
     
-    func configureAFTableView(){
-        friendTableView = UITableView()
+ 
+    func configureCollectionView(){
         
-        friendTableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(friendTableView)
+        view.addSubview(contentView)
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            friendTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            friendTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            friendTableView.topAnchor.constraint(equalTo: searchSegment.bottomAnchor,constant: 20),
-            friendTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            contentView.topAnchor.constraint(equalTo: searchSegment.bottomAnchor,constant: 20),
+            contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+     
         ])
+        
+        
+        // invalidate the frames
+        contentView.layoutIfNeeded()
+        
+        friendsCollectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: createAddFriendLayout())
+        
+
+        contentView.addSubview(friendsCollectionView)
+        
+        friendsCollectionView.delegate = self
+        
+        friendsCollectionView.register(UINib(nibName: "FriendCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: FriendCollectionViewCell.reuseID)
+        
+        // to prevent going behind tabbar
+        friendsCollectionView.autoresizingMask = .flexibleHeight
+        
+        
+        
+    }
+    
+    func configureDataSource(){
+        dataSource = UICollectionViewDiffableDataSource<Section, Person>(collectionView: friendsCollectionView, cellProvider: { collectionView, indexPath, item in
+            
+            let cell = self.friendsCollectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as! FriendCollectionViewCell
+    
+            // we already know it is on our project list
+           var person : Person!
+           
+           // for checking if we are trying to fill will nil data
+           var isDataAvailable = false
+            if self.isCloudSearch {
+                print(self.displayedCloudKeys.count)
+                if self.displayedCloudKeys.count > 0 {
+                    person = self.displayedCloudContacts[self.displayedCloudKeys[indexPath.row]]!
+                   isDataAvailable = true
+               }
+           }else{
+                   // with all the display key we can go over all the dictionary Persons
+                   person = item
+                   isDataAvailable = true
+               
+           }
+           
+           if isDataAvailable{
+               
+               // Default data
+               cell.title.text = person.displayName
+               cell.subtitle.text = person.username
+               
+               if person.imageString.starts(with: "https"){
+                   // firebase
+                   downloadOrLoadFirebaseImage(
+                       ofName: getFilenameFrom(qName: person.username, type: .ASK),
+                       forPath: person.imageString) { image, error in
+                           if let error = error{
+                               print("Error: \(error.localizedDescription)")
+                               return
+                           }
+                           
+                           print("AFVC Image Downloaded for \(String(describing: person.username))")
+                           cell.profileImageView.image = image
+                       }
+                   
+                   
+               }else{
+                   cell.profileImageView.image = self.convertBase64StringToImage(imageBase64String: person.imageString)
+               }
+               
+               
+               
+               
+               // DISPLAY THE CELL DATA
+               if person.status == Status.REGISTERED {
+                   // set the button based on status
+                   // function names saying what are they for
+                   
+                   cell.button.setTitle("Add", for: .normal)
+                   cell.button.backgroundColor = UIColor.systemGreen
+                   cell.button.setTitleColor(UIColor.white, for: .normal)
+                   cell.button.layer.borderWidth = 1.0
+                   cell.button.layer.cornerRadius = 6.0
+                   cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                   cell.button.isEnabled = true
+                   cell.handleClick={
+                       self.addPersonToFirestoreAndLocal(person)
+                       
+                   }
+                   
+                   // WYATT ADD 2/1/22
+                   // A good result looks like this:
+                   // Search for a person who is already a friend
+                   // Cell should have green "Friend" button that is disabled
+               } else if person.status == Status.FRIEND {
+                   cell.button.setTitle("Friends", for: .normal)
+                   cell.button.backgroundColor = UIColor.systemGreen
+                   cell.button.setTitleColor(UIColor.white, for: .normal)
+                   cell.button.layer.borderWidth = 1.0
+                   cell.button.layer.cornerRadius = 6.0
+                   cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                   cell.button.isEnabled = false
+                   
+                   
+               }else if person.status == .REQUESTED{
+                   cell.button.setTitle("Requested", for: .normal)
+                   cell.button.backgroundColor = UIColor.systemOrange
+                   cell.button.setTitleColor(UIColor.white, for: .normal)
+                   cell.button.layer.borderWidth = 1.0
+                   cell.button.layer.cornerRadius = 6.0
+                   cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                   cell.button.isEnabled = true
+                   cell.handleClick={
+                       
+                       // self.presentDismissAlertOnMainThread(title: "Hey!", message: "This person is already added")
+                   }
+               }
+               else{
+                   // this block never execute on local search
+                   
+                   cell.button.setTitle("Invite", for: .normal)
+                   cell.button.backgroundColor = UIColor.systemGreen.darker()
+                   cell.button.setTitleColor(UIColor.white, for: .normal)
+                   cell.button.layer.borderWidth = 1.0
+                   cell.button.layer.cornerRadius = 6.0
+                   cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                   cell.button.isEnabled = true
+                   cell.handleClick={
+                       print("Invited")
+                       guard MFMessageComposeViewController.canSendText() else {
+                           return
+                       }
+                       
+                       let messageVC = MFMessageComposeViewController()
+                       
+                       messageVC.body = "Take off that doubtfit \(person.displayName)! Do you know about Tangerine yet? \(myProfile.display_name) is inviting you to be a member. Only available for iOS. http://www.letstangerine.com to learn more. 'Confident Comfort through Connection.'";
+                       messageVC.recipients = ["\(person.phoneNumberField)"]
+                       messageVC.messageComposeDelegate = self;
+                       
+                       self.present(messageVC, animated: false, completion: nil)
+                   } // end handle click
+               }
+               return cell
+           }
+            
+//                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewAdDidTapped))
+//                cell.addGestureRecognizer(tap)
+                
+                return cell
+            
+             
+         })
+        
+     }
+    
+    func updateData(){
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Person>()
+        
+        snapshot.appendSections([Section(category: "All")])
+        
+        snapshot.appendItems(displayedContacts, toSection: Section(category: "All"))
+        
+        dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+        
+        
+    }
+    
+    
+    
+    public func createAddFriendLayout() -> UICollectionViewLayout {
+        return oneColumnLayout()
+    }
+    
+    private func oneColumnLayout() -> UICollectionViewLayout{
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                             heightDimension: .fractionalHeight(1.0))
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.18))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let spacing = CGFloat(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
 }
