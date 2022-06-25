@@ -201,7 +201,6 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
                             }
 
 
-                            // MARK: These really need to be changed to the actual orientations, not the old ones
                             self.allDemoSw.setOn(isNoPrefEnabled, animated: true)
                             self.stWomenSw.setOn(isStWomenEnabled, animated: true)
                             self.stMenSw.setOn(isStMenEnabled, animated: true)

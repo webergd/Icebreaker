@@ -714,6 +714,14 @@ public func returnProfilePic(image: UIImage?) -> UIImage {
 /// Searches an array of Questions for those with a particular questionName and returns the index, or nil if not found.
 
 
+/// Returns an "s" to be appended to the end of a word if the Int passed in is greater than one
+public func sIfNeeded(number: Int) -> String {
+    if number > 1 {
+        return "s"
+    } else {
+        return ""
+    }
+}
 
 
 /// takes a String and an array of strings, deletes all instances of the String from the passed array, and returns an updated array that contains no instances of the passed String
@@ -2343,9 +2351,9 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
     //let theseLockedQuestionNames = self.privateInfo.lockedQuestionNames
     
     guard let indexOfQuestionName = index(of: question.question_name, in: myActiveQuestions) else {
-        print("returning zero in reviewsRequiredToUnlock because questionName: \(question.question_name) with title was not found in the lockedQuestionNames list.")
+//        print("returning zero in reviewsRequiredToUnlock because questionName: \(question.question_name) with title was not found in the lockedQuestionNames list.") // print statement is depricated
         
-        return 0 //in this case, the container is not in the list and is therefore already unlocked. We return 0 to indicate that.
+        return 0 //in this case, the container is not in the list and is therefore already unlocked. We return 0 to indicate that. // comment deprecated
     }
     // locked = 5, to unlock = 15
     // active = 7

@@ -96,7 +96,7 @@ class CompareTableViewCell: UITableViewCell {
         if hide == true {
             percentImage1Label.text = "🗝"
             percentImage2Label.text = "🗝"
-            reviewsRequiredToUnlockLabel.text = "Please review \(reviewsNeeded) more users to unlock your results."
+            reviewsRequiredToUnlockLabel.text = "Please review \(reviewsNeeded) more user\(sIfNeeded(number: reviewsNeeded)) to unlock your results."
         }
         
     }

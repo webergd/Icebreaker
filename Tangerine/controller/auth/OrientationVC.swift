@@ -13,7 +13,7 @@ import FirebaseDatabase
 class OrientationVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: UI Items
-    var specialtyPicker: UIPickerView!
+    var specialtyPicker: UIPickerView! // MARK: We should rename these from specialty to orientation
     var specialtyTF: UITextField!
     var finishButton: UIButton!
     var topLabel: UILabel!
@@ -30,7 +30,7 @@ class OrientationVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         saveSpecialtyToFirestore()
     }
     
-    
+    // MARK: We should rename these from specialty to orientation
     func saveSpecialtyToFirestore(){
         // this username is still valid, although we can take from Auth.auth().user.displayname
         
