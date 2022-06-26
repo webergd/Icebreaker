@@ -10,6 +10,7 @@ import UIKit
 class FriendCollectionViewCell: UICollectionViewCell {
 
     static let reuseID = "friendCCell"
+    var item: Person!
     
     @IBOutlet weak var delete_width: NSLayoutConstraint!
     

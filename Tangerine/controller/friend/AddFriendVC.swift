@@ -21,9 +21,10 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     // we'll take 10 each time and run query
     var contacts = [Person]()
     // all number from phone
-    var allNumbers = [String]()
+    var allNumbers: String = ""
     // shows the current displayed Persons
     var displayedContacts = [Person]()
+    var displayedContactsKeys = [String: Int]() // holds phone and index of displayedContacts for quick lookup
     //flag that tells if we are fetching data
     var loadingFromFirestore = false
     // the loading
@@ -78,7 +79,12 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         isCloudSearch = sender.selectedSegmentIndex == 1
         print("Searching cloud? \(isCloudSearch)")
         
-        updateData()
+        if isCloudSearch {
+            
+        } else{
+            updateLocalData()
+        }
+        
     }
     
 
@@ -90,9 +96,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         
         //fetch the contacts
         fetchContacts()
-        
-        //friendTableView.delegate = self
-        //friendTableView.dataSource = self
         
         // hide the button
         hideCancelButton()
@@ -136,15 +139,16 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     
     // this will refresh the list of displayed contact with all contacts
     func refillDisplayedContacts(){
-        for item in contacts{
+        print("Refilling")
+        for (index, item) in contacts.enumerated(){
             
             displayedContacts.append(item)
-                
+            displayedContactsKeys[item.phoneNumberField] = index
         }
         
-        updateData()
+        
+        updateLocalData()
     }// end of fetch data from firestore
-    
     
     func searchDataOnFirestore(_ searchTerm: String){
         
@@ -227,7 +231,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                 group.leave()
                 self.indicator.stopAnimating()
                 // load the table with new data
-                self.updateData()
+                //self.updateData(with: displayedCloudContacts)
                 
             }// end of if let
             
@@ -305,7 +309,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                 group.leave()
                 self.indicator.stopAnimating()
                 // load the table with new data
-                self.updateData()
+                //self.updateData()
                 
             }// end of if name
             
@@ -399,9 +403,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                             
                             self.contacts.append(person)
                             // save the numbers to be used as keys
-                            self.allNumbers.append(number)
-                            
-                            
+                            self.allNumbers += "\(person.phoneNumberField),"
                             
                         }
                         
@@ -414,6 +416,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                             self.refillDisplayedContacts()
                         }
                         
+                        invalidateContacts()
                     }
                     
                     
@@ -426,7 +429,44 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         }// end of req access
     } // end of fetch
     
-    
+    // this one sends all phone to cloudSQL and returns the one matches
+    // then updates the UI with the registered ones at top
+    func invalidateContacts(){
+        allNumbers += "0"
+        // send them to server
+        NetworkManager.shared.getRegisteredContacts(for: allNumbers) { result in
+            switch result{
+                
+            case .success(let users):
+                
+                for user in users{
+                    
+                    guard let key = self.displayedContactsKeys[user.phone] else {
+                        continue
+                    }
+                    
+                    self.displayedContacts[key].status = .REGISTERED
+                    self.displayedContacts[key].username = user.username
+                    
+                    
+                }
+                
+                DispatchQueue.main.async {
+                    
+                    self.dataSource = nil
+                    self.configureLocalDataSource()
+                    
+                    self.updateLocalData()
+                }
+                
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        // see the result
+        // update display value
+    }
     // indicator while loading
     
     func setupIndicator() {
@@ -437,7 +477,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         indicator.bringSubviewToFront(view)
     }
     
-    
+    // when Add button is tapped, ensures that we don't request multiple times
     func addPersonToFirestoreAndLocal(_ person: Person){
         print("Person saved in added list is \(addedList.count)")
         // add to local
@@ -451,7 +491,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             
             // add to local list
             addedList.append(person.username)
-            updateData()
+            updateLocalData()
             
         } catch {
             print("Error occured while updating realm")
@@ -481,10 +521,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         
     }
     
-    
-    
     // fetch device saved persons
-    
+    // the one already saved with different status to show at first/after sync from firestore
     func getSaved(){
         
         let list = RealmManager.sharedInstance.getRequestedPersonList()
@@ -505,7 +543,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         setupUI()
     }
     
-    // add personlist object
+    // add personlist object, from sync
     func addOrUpdatePersonList(_ object : PersonList)   {
         print("PersonList saved in realm")
         // add to local
@@ -515,13 +553,15 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             database.add(object, update: .modified)
             try database.commitWrite()
             
-            updateData()
+            updateLocalData()
             
         } catch {
             print("Error occured while updating realm")
         }
     } // end of add
     
+    // called just before syncing from firestore
+    // to have a fresh slate to write
     func removePersonsList(){
         print("Reseting persons list")
         let currentList = RealmManager.sharedInstance.getPersonList()
@@ -531,13 +571,13 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             database.delete(currentList)
             try database.commitWrite()
             
-            updateData()
+            updateLocalData()
             
         } catch {
             print("Error occured while updating realm")
         }
     }// end of remove
-    
+    // read below
     func syncPersonList(){
         // for invited to work, change the array on "in" field
         // We are requesting for
@@ -590,9 +630,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     } // end of sync
     
     
-    
-    
-    
     // sending msg
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch (result.rawValue) {
@@ -629,6 +666,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         // hide the button now
         hideCancelButton()
     }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         
         showCancelButton()
@@ -651,6 +689,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                 // displayedContact might have filtered result, so remove it first
                 
                 displayedContacts.removeAll()
+                displayedContactsKeys.removeAll()
                 
                 refillDisplayedContacts()
             }
@@ -658,69 +697,28 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         }else {
             // we have some text
             // do search on local here
+            // cloud search is in another delegate above, as local needs to be realtime
+            // cloud is only when SearchButton is tapped
             if let searchedText = searchbar.text{
             displayedContacts.removeAll()
+            displayedContactsKeys.removeAll()
             
             
-            for item in contacts{
+                for (index, item) in contacts.enumerated(){
                 // checks if this item matches with our search
                 if(item.displayName.lowercased().contains(searchedText.lowercased()) || item.username.lowercased().contains(searchedText.lowercased())){
                     // match found, add
                     displayedContacts.append(item)
+                    displayedContactsKeys[item.phoneNumberField] = index
                     
                 }
             }
                 // update UI
-                updateData()
+                updateLocalData()
             
             } // if let
         }
     }
-    
-    
-    // return the number of rows in tableview
-    
-    //return isCloudSearch ? displayedCloudContacts.count : displayedContacts.count
-    //let cell = Bundle.main.loadNibNamed("FriendCell", owner: self, options: nil)?.first as! FriendCell
-    
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("row selected at \(indexPath.row)")
-//        var username = ""
-//        var userstatus = Status.NONE
-//        // only allow contact those are registered
-//        var shouldShow = false
-//        if isCloudSearch {
-//            // cloud searched person's are always registered
-//            shouldShow = true
-//            if let name = displayedCloudContacts[displayedCloudKeys[indexPath.row]]?.username{
-//                username = name
-//            }
-//
-//        }else{
-//            let person = displayedContacts[displayedKeys[indexPath.row]]
-//            // if registered or requested
-//            if let person = person, person.status == Status.REQUESTED || person.status == Status.REGISTERED {
-//                shouldShow = true
-//                username = person.username
-//                userstatus = person.status
-//            }
-//        } // else
-//
-//        //
-//        if shouldShow {
-//            let vc = FriendDetailsVC()
-//            vc.modalPresentationStyle = .fullScreen
-//            vc.username = username
-//            vc.parentVC = PARENTVC.ADD
-//            vc.status = userstatus
-//            self.present(vc, animated: true, completion: nil)
-//        } // should show
-//
-//    } // end of did select row
-    
-    
-    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let isReachingEnd = scrollView.contentOffset.y >= 0
@@ -761,7 +759,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         configureCancelButton()
         configureSegmentControl()
         configureCollectionView()
-        configureDataSource()
+        configureLocalDataSource()
         
         setupIndicator()
         searchbar.delegate = self
@@ -901,7 +899,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         
     }
     
-    func configureDataSource(){
+    func configureLocalDataSource(){
         dataSource = UICollectionViewDiffableDataSource<Section, Person>(collectionView: friendsCollectionView, cellProvider: { collectionView, indexPath, item in
             
             let cell = self.friendsCollectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as! FriendCollectionViewCell
@@ -912,7 +910,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
            // for checking if we are trying to fill will nil data
            var isDataAvailable = false
             if self.isCloudSearch {
-                print(self.displayedCloudKeys.count)
+                print("Cloud Count: \(self.displayedCloudKeys.count)")
                 if self.displayedCloudKeys.count > 0 {
                     person = self.displayedCloudContacts[self.displayedCloudKeys[indexPath.row]]!
                    isDataAvailable = true
@@ -921,6 +919,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                    // with all the display key we can go over all the dictionary Persons
                    person = item
                    isDataAvailable = true
+               cell.item = item
                
            }
            
@@ -1024,8 +1023,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                return cell
            }
             
-//                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewAdDidTapped))
-//                cell.addGestureRecognizer(tap)
                 
                 return cell
             
@@ -1034,17 +1031,57 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         
      }
     
-    func updateData(){
+    func updateLocalData(){
+        
+        let sorted = displayedContacts.sorted{ p1, p2 in
+            p1.status == .REGISTERED
+        }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Person>()
         
         snapshot.appendSections([Section(category: "All")])
         
-        snapshot.appendItems(displayedContacts, toSection: Section(category: "All"))
+        snapshot.appendItems(sorted, toSection: Section(category: "All"))
         
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
         
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("row selected at \(indexPath.row)")
+        let cell = collectionView.cellForItem(at: indexPath) as? FriendCollectionViewCell
+        guard let person = cell?.item else {return}
+        
+        var username = ""
+        var userstatus = Status.NONE
+        // only allow contact those are registered
+        var shouldShow = false
+        if isCloudSearch {
+            // cloud searched person's are always registered
+            shouldShow = true
+            if let name = displayedCloudContacts[displayedCloudKeys[indexPath.row]]?.username{
+                username = name
+            }
+
+        }else{
+            // if registered or requested
+            if person.status == Status.REQUESTED || person.status == Status.REGISTERED {
+                shouldShow = true
+                username = person.username
+                userstatus = person.status
+            }
+        } // else
+
+        //
+        if shouldShow {
+            let vc = FriendDetailsVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.username = username
+            vc.parentVC = PARENTVC.ADD
+            vc.status = userstatus
+            self.present(vc, animated: true, completion: nil)
+        } // should show
     }
     
     

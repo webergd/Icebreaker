@@ -76,6 +76,8 @@
 		51A073FF261A80740055F245 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A073FE261A80730055F245 /* Friend.swift */; };
 		51A07404261A85D30055F245 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A07403261A85D30055F245 /* Array+Ext.swift */; };
 		51A881E32846714700D8108A /* EQVCVerticalConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A881E22846714700D8108A /* EQVCVerticalConstraints.swift */; };
+		51AA109C2868CAED0092E6DE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109B2868CAED0092E6DE /* NetworkManager.swift */; };
+		51AA109E2868CE140092E6DE /* RegisteredUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109D2868CE140092E6DE /* RegisteredUsers.swift */; };
 		51B34CEA260FCCFB004BE6F1 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */; };
 		51B34CEF260FCD3A004BE6F1 /* TargetDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */; };
 		51B34CF4260FD062004BE6F1 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CF3260FD062004BE6F1 /* MainVC.swift */; };
@@ -192,6 +194,8 @@
 		51A073FE261A80730055F245 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		51A07403261A85D30055F245 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		51A881E22846714700D8108A /* EQVCVerticalConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EQVCVerticalConstraints.swift; sourceTree = "<group>"; };
+		51AA109B2868CAED0092E6DE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		51AA109D2868CE140092E6DE /* RegisteredUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUsers.swift; sourceTree = "<group>"; };
 		51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDemoVC.swift; sourceTree = "<group>"; };
 		51B34CF3260FD062004BE6F1 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -520,6 +524,7 @@
 				515EDDCC2685206F00696B8C /* TargetDemo.swift */,
 				517BF392269920F80044DE61 /* ActiveQuestion.swift */,
 				51F7C34B26AE272C0065F9BE /* PrioritizedQuestion.swift */,
+				51AA109D2868CE140092E6DE /* RegisteredUsers.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -527,6 +532,7 @@
 		51C9982F25FBE9B400DC54B4 /* support */ = {
 			isa = PBXGroup;
 			children = (
+				51AA109B2868CAED0092E6DE /* NetworkManager.swift */,
 				513AC80E2867852F00FAA309 /* Section.swift */,
 				510D5DCD27CA2D1E0047D18F /* TermsOfService.swift */,
 				51E50E56267FDED70055CCC1 /* DataModels.swift */,
@@ -825,6 +831,7 @@
 				5170DC422637B55400F34354 /* FriendRequestVC.swift in Sources */,
 				51585F04260297D1001D8267 /* UserNameVC.swift in Sources */,
 				515EDDD126862B6900696B8C /* ReviewCompareViewController.swift in Sources */,
+				51AA109C2868CAED0092E6DE /* NetworkManager.swift in Sources */,
 				51B34CEA260FCCFB004BE6F1 /* WelcomeVC.swift in Sources */,
 				510BB24426225967001B6B63 /* SettingsVC.swift in Sources */,
 				5170DC3826373A1400F34354 /* Person.swift in Sources */,
@@ -863,6 +870,7 @@
 				515EDDD52687863400696B8C /* Review.swift in Sources */,
 				51E925E0261BCC7C006AA4D5 /* UIColor+Ext.swift in Sources */,
 				51A881E32846714700D8108A /* EQVCVerticalConstraints.swift in Sources */,
+				51AA109E2868CE140092E6DE /* RegisteredUsers.swift in Sources */,
 				51BEF69F268B3B6100FB9400 /* UIPanGestureRecognizer+Ext.swift in Sources */,
 				2AA4BFDB270E720400606A08 /* UILabel+Ext.swift in Sources */,
 				51796FB7260D0BA40093E18B /* ToSVC.swift in Sources */,
