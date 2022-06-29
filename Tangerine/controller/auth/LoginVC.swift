@@ -300,6 +300,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         
                         let profile_pic = doc[Constants.USER_IMAGE_KEY] as? String ?? DEFAULT_USER_IMAGE_URL
                         let specialty = doc[Constants.USER_ORIENTATION_KEY] as? String ?? "Other"
+                        
+                        // New Credits
+                        let credits = doc[Constants.USER_CREDIT_KEY] as? Int ?? 0
+                        let lastReviewed = doc[Constants.USER_LAST_REVIEWED_KEY] as! Timestamp
                        
                         // create the profile
                         
@@ -313,6 +317,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         profile.username = name
                         profile.profile_pic = profile_pic
                         profile.orientation = specialty
+                        // New update on 30 June
+                        profile.reviewCredits = credits
+                        profile.lastReviewedTime = lastReviewed.seconds
                         
                         
                         // Save to realm database

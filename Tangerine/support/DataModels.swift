@@ -2047,6 +2047,12 @@ public func syncObligatoryQuestionsToReviewCount() {
     print("obligatoryQuestionsToReviewCount calculated to be \(obligatoryQuestionsToReviewCount). \nend of syncObligatoryQuestionsToReviewCount()")
 }
 
+public func applyReviewCredits(){
+    let numberOfCredits = 11
+    let creditRemains = numberOfCredits % obligatoryReviewsPerQuestion
+    
+    print("Credit: \(creditRemains)")
+}
 
 // to fetch question I made
 

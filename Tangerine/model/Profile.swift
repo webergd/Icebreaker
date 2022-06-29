@@ -30,7 +30,7 @@ import Firebase
     dynamic var reviewCredits: Int = 0
     dynamic var lastReviewedTime: Int64 = 0 // we'll turn into timestamp by FieldValue
     
-    dynamic var created : Int64 = 0 // Later Turns into Timestamp by firebase function
+    dynamic var created : Int64 = 0 // Later Turns into Timestamp by firebase function and we save as seconds in RealmManager, see LoginVC
     dynamic var orientation = Constants.ORIENTATIONS.last!
     dynamic var phone_number = ""
     
