@@ -288,8 +288,7 @@ class MainVC: UIViewController {
         friendBadgeHub.scaleCircleSize(by: 0.75)
         friendBadgeHub.moveCircleBy(x: 5.0, y: 0)
 
-        let p = RealmManager.sharedInstance.getProfile()
-        print("Credits Saved: \(p.reviewCredits)")
+        increaseCreditToUser(by: 1)
     }
     
     override func viewDidAppear(_ animated: Bool) {
