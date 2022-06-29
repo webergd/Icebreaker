@@ -27,6 +27,8 @@ import Firebase
     dynamic var profile_pic = ""
     dynamic var reviews = 0
     dynamic var rating : Double = 0
+    dynamic var reviewCredits: Int = 0
+    dynamic var lastReviewedTime: Date = Date()
     
     dynamic var created : Int64 = 0
     dynamic var orientation = Constants.ORIENTATIONS.last!

@@ -97,6 +97,10 @@ public var rawQuestions = Set<Question>()
 public var questionOnTheScreen: PrioritizedQuestion!
 public var qFFCount = 0
 
+// MARK: Credits
+public let maxPersistentReviewCredits: Int = 15
+public let maxTimeToRetainAllReviewCredits: Int = 12
+
 /// this is bascially a {get set} portal to the number of locked questions in the UserDefaults Constants object
 public var lockedQuestionsCount = {
     return UserDefaults.standard.integer(forKey: Constants.UD_LOCKED_QUESTION_KEY)
