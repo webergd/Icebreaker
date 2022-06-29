@@ -1852,11 +1852,16 @@ public func updateCountOnDeleteQuestion(){
 
 /// called when user reviews any question
 public func updateCountOnReviewQues(){
+    // User review, no matter the result, update the time first
+    updateLastReviewedTime()
     
     if lockedQuestionsCount <= 0 /*|| questionsToReviewCount <= 0*/{
         // MARK: This is part of the lockedQuestionsCount problem
         lockedQuestionsCount = 0
         obligatoryQuestionsToReviewCount = 0
+        // credit a review
+        increaseCreditToUser(by: 1)
+        
         updateNumLockedQuestionsInFirestore()
         incrementTotalUserNumReviewsInFirestore()
         return
@@ -1903,6 +1908,34 @@ public func updateCountOnReviewQues(){
     incrementTotalUserNumReviewsInFirestore()
     
 }
+// called from updateCountOnReviewQues, when locked question is zero, so we give him credit
+func increaseCreditToUser(by credit: Int){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(myProfile.username).updateData([
+            Constants.USER_CREDIT_KEY:FieldValue.increment(Int64(credit))
+        ])
+}
+
+// calling this function will update the field
+func updateLastReviewedTime(){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(myProfile.username).updateData([
+            Constants.USER_LAST_REVIEWED_KEY: FieldValue.serverTimestamp()
+        ])
+}
+
+
+// should minus one credit from user in any instances
+func decreaseCreditFromUser(by credit: Int){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(myProfile.username).updateData([
+            Constants.USER_CREDIT_KEY:FieldValue.increment(Int64(-credit))
+        ])
+}
+
 /// Adds +1 to the user's review count in firestore. Called from updateCountOnReviewQues() here in DataModels. 
 public func incrementTotalUserNumReviewsInFirestore() {
     //increment on the server
@@ -1915,7 +1948,6 @@ public func incrementTotalUserNumReviewsInFirestore() {
     //    let prefs = UserDefaults.standard
     //    prefs.
     //    Constants.USER_REVIEW_KEY
-    print("1969")
     let reviewsIveDone = myProfile.reviews
     let profileToUpdate = RealmManager.sharedInstance.getProfile()
     
