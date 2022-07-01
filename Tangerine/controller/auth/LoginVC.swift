@@ -303,7 +303,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         
                         // New Credits
                         let credits = doc[Constants.USER_CREDIT_KEY] as? Int ?? 0
-                        let lastReviewed = doc[Constants.USER_LAST_REVIEWED_KEY] as! Timestamp
+                        let lastReviewed = doc[Constants.USER_LAST_REVIEWED_KEY] as? Timestamp ?? Timestamp(date: Date())
                        
                         // create the profile
                         
@@ -318,26 +318,28 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         profile.profile_pic = profile_pic
                         profile.orientation = specialty
                         profile.lastReviewedTime = lastReviewed.seconds
-                        // if time is greater than say 12 hrs and we have more than say 15 credits
-                        if self.isCreditExpired(since: lastReviewed.seconds) && credits > maxPersistentReviewCredits{
-                            
-                            // Reduce the credit and update the time locally
-                            profile.reviewCredits = maxPersistentReviewCredits
-                            // and on server
-                            let creditToDecrease = credits - maxPersistentReviewCredits
-                            decreaseCreditFromUser(by: creditToDecrease)
-
-                        } else {
-                            profile.reviewCredits = credits
-                        }
+                        profile.reviewCredits = credits
                         
-                        
-                        
-                        
-                        
+                        print("Credit Before: \(profile.reviewCredits)")
                         
                         // Save to realm database
                         RealmManager.sharedInstance.addOrUpdateProfile(profile)
+                        print("Credit After Save: \(myProfile.reviewCredits)")
+                        
+                        // if time is greater than say 12 hrs and we have more than say 15 credits
+                        if self.isCreditExpired(since: lastReviewed.seconds) && credits > maxPersistentReviewCredits{
+                            
+                            // Reduce the credit and update locally
+                            
+                            let creditToDecrease = credits - maxPersistentReviewCredits
+                            decreaseCreditFromUser(by: creditToDecrease)
+                            
+                        }
+                        
+                        
+                        print("Credit After Update: \(myProfile.reviewCredits)")
+                        
+                        
                         
                         // Annotate the user's login in Google Analytics
                         Analytics.logEvent(AnalyticsEventLogin, parameters: [

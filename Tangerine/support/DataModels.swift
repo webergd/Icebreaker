@@ -1910,6 +1910,7 @@ public func updateCountOnReviewQues(){
 }
 // called from updateCountOnReviewQues, when locked question is zero, so we give him credit
 func increaseCreditToUser(by credit: Int){
+    print("Credit Added by \(credit)")
     // increase online
     Firestore.firestore()
         .collection(Constants.USERS_COLLECTION)
@@ -1945,6 +1946,7 @@ func updateLastReviewedTime(){
 
 // should minus credit from user in any instances
 func decreaseCreditFromUser(by credit: Int){
+    print("Credit Removed by \(credit)")
     // decrease online
     Firestore.firestore()
         .collection(Constants.USERS_COLLECTION)
