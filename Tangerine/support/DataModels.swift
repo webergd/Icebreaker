@@ -2089,13 +2089,16 @@ public func applyReviewCredits(){
         return
     }else{
         // unlock some questions if we have
-        let numberOfQuestionCanBeUnlocked = userCredits % obligatoryReviewsPerQuestion
-        // reduce locked question
-        lockedQuestionsCount -= numberOfQuestionCanBeUnlocked
-        // reduce the obligatoryQues
-        obligatoryQuestionsToReviewCount -= (numberOfQuestionCanBeUnlocked * obligatoryReviewsPerQuestion)
-        // we used credits, so update it as well
-        decreaseCreditFromUser(by: numberOfQuestionCanBeUnlocked * obligatoryReviewsPerQuestion)
+        if lockedQuestionsCount > 0 {
+            let numberOfQuestionCanBeUnlocked = userCredits % obligatoryReviewsPerQuestion
+            // reduce locked question
+            lockedQuestionsCount -= numberOfQuestionCanBeUnlocked
+            // reduce the obligatoryQues
+            obligatoryQuestionsToReviewCount -= (numberOfQuestionCanBeUnlocked * obligatoryReviewsPerQuestion)
+            // we used credits, so update it as well
+            decreaseCreditFromUser(by: numberOfQuestionCanBeUnlocked * obligatoryReviewsPerQuestion)
+        }
+        
     }
 }
 
