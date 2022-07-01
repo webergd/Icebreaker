@@ -99,7 +99,7 @@ public var qFFCount = 0
 
 // MARK: Credits
 public let maxPersistentReviewCredits: Int = 15
-public let maxTimeToRetainAllReviewCredits: Int = 12
+public let maxTimeToRetainAllReviewCredits: Int = 12 // in hours
 
 /// this is bascially a {get set} portal to the number of locked questions in the UserDefaults Constants object
 public var lockedQuestionsCount = {
@@ -2049,7 +2049,8 @@ public func syncLockedQuestionsCount() {
 
 /// Resets the obligatoryQuestionsToReviewCount to the right number using the number of locked questions left, and the remaining reviews required to unlock the next question
 public func syncObligatoryQuestionsToReviewCount() {
-    
+    // Check and apply reviewCredits
+    applyReviewCredits()
     
     print("synching obligatory questions to review count. calling syncLockedQuestionsCount()")
     syncLockedQuestionsCount()
@@ -2090,9 +2091,9 @@ public func applyReviewCredits(){
         // reduce locked question
         lockedQuestionsCount -= numberOfQuestionCanBeUnlocked
         // reduce the obligatoryQues
-        obligatoryQuestionsToReviewCount -= (numberOfQuestionCanBeUnlocked * 3)
+        obligatoryQuestionsToReviewCount -= (numberOfQuestionCanBeUnlocked * obligatoryReviewsPerQuestion)
         // we used credits, so update it as well
-        decreaseCreditFromUser(by: numberOfQuestionCanBeUnlocked * 3)
+        decreaseCreditFromUser(by: numberOfQuestionCanBeUnlocked * obligatoryReviewsPerQuestion)
     }
 }
 

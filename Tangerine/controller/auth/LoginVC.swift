@@ -317,9 +317,23 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         profile.username = name
                         profile.profile_pic = profile_pic
                         profile.orientation = specialty
-                        // New update on 30 June
-                        profile.reviewCredits = credits
                         profile.lastReviewedTime = lastReviewed.seconds
+                        // if time is greater than say 12 hrs and we have more than say 15 credits
+                        if self.isCreditExpired(since: lastReviewed.seconds) && credits > maxPersistentReviewCredits{
+                            
+                            // Reduce the credit and update the time locally
+                            profile.reviewCredits = maxPersistentReviewCredits
+                            // and on server
+                            let creditToDecrease = credits - maxPersistentReviewCredits
+                            decreaseCreditFromUser(by: creditToDecrease)
+
+                        } else {
+                            profile.reviewCredits = credits
+                        }
+                        
+                        
+                        
+                        
                         
                         
                         // Save to realm database
@@ -694,6 +708,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         createNewAccLabel.addGestureRecognizer(cnlG)
     } // end conf createNewAccLabel
     
-    
+    public func isCreditExpired(since timePosted: Int64)-> Bool{
+        let tdPosted = Date(timeIntervalSince1970: TimeInterval(timePosted))
+        
+        let timeSpent = tdPosted.distance(to: Date())
+        
+        return timeSpent.hour >= maxTimeToRetainAllReviewCredits
+    }
     
 }
