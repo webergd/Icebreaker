@@ -29,6 +29,8 @@ class ProfileVC: UIViewController {
     
     var totalReviewL: UILabel!
     
+    var totalCreditL: UILabel!
+    
     var friendCountL: UILabel!
     
     var memberSinceL: UILabel!
@@ -81,6 +83,8 @@ class ProfileVC: UIViewController {
         
         scoreL.text = "(\(myProfile.rating))"
         totalReviewL.text = "\(myProfile.reviews.roundedWithAbbreviations) Total Reviews"
+        
+        totalCreditL.text = "\(myProfile.reviewCredits) Review Credits 🪙"
         
         let friendCount = userDefault.integer(forKey: Constants.UD_USER_FRIEND_COUNT)
         friendCountL.text = "\(friendCount) Friends"
@@ -323,19 +327,32 @@ class ProfileVC: UIViewController {
         ])
     }
     
-    
+    // with Credits
     func configureTotalReviewsLabel(){
         totalReviewL = UILabel()
+        totalCreditL = UILabel()
+        
         totalReviewL.font = UIFont.systemFont(ofSize: 18)
         totalReviewL.textColor = .label
         totalReviewL.textAlignment = .center
         
+        totalCreditL.font = UIFont.systemFont(ofSize: 18)
+        totalCreditL.textColor = .label
+        totalCreditL.textAlignment = .center
+        
         totalReviewL.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(totalReviewL)
+        
+        totalCreditL.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(totalCreditL)
         
         NSLayoutConstraint.activate([
             totalReviewL.topAnchor.constraint(equalTo: scoreL.bottomAnchor, constant: 32),
             totalReviewL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            totalCreditL.topAnchor.constraint(equalTo: totalReviewL.bottomAnchor, constant: 32),
+            totalCreditL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
         ])
     }
     
@@ -349,7 +366,7 @@ class ProfileVC: UIViewController {
         view.addSubview(friendCountL)
         
         NSLayoutConstraint.activate([
-            friendCountL.topAnchor.constraint(equalTo: totalReviewL.bottomAnchor, constant: 32),
+            friendCountL.topAnchor.constraint(equalTo: totalCreditL.bottomAnchor, constant: 32),
             friendCountL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
     }
