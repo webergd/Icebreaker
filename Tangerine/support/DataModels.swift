@@ -1799,26 +1799,39 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
 
 public func updateCountOnNewQues(){
     
-    lockedQuestionsCount += 1
-    obligatoryQuestionsToReviewCount += obligatoryReviewsPerQuestion
+    // if user have credits, we don't increase the locked count or obligatory count
+    // instead we use the credit and reduce the credit itself
+    // and firebase doesn't need to know about it, just make the question NOT LOCKED
     
-    // these lines may be redundant now since inside of updateNumLockedQuestionsInFirestore, we update obligatoryQuestionsToReviewCount (and by method call obligatoryQuestionsToReviewCount)
-    //    prefs.set(lockedQuestionsCount, forKey: Constants.UD_LOCKED_QUESTION_KEY)
-    //    prefs.set(obligatoryQuestionsToReviewCount, forKey: Constants.UD_QUESTION_TO_REVIEW_KEY)
-    
-    
-    // add to firebase as well
-    updateNumLockedQuestionsInFirestore()
-    
-    //    Firestore.firestore()
-    //    .collection(Constants.USERS_COLLECTION)
-    //        .document(myProfile.username)
-    //    .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
-    //        .document(Constants.USERS_PRIVATE_INFO_DOC).updateData([
-    //            Constants.UD_LOCKED_QUESTION_KEY : FieldValue.increment(Int64(1)),
-    //            Constants.UD_QUESTION_TO_REVIEW_KEY: FieldValue.increment(Int64(obligatoryReviewsPerQuestion)),
-    //        ])
-    //
+    if myProfile.reviewCredits >= obligatoryReviewsPerQuestion {
+        // we decreased the credit
+        decreaseCreditFromUser(by: obligatoryReviewsPerQuestion)
+        // now we update firebase and local collection
+        unlockMyLocalQuestion()
+        
+        
+    }else {
+        lockedQuestionsCount += 1
+        obligatoryQuestionsToReviewCount += obligatoryReviewsPerQuestion
+        
+        // these lines may be redundant now since inside of updateNumLockedQuestionsInFirestore, we update obligatoryQuestionsToReviewCount (and by method call obligatoryQuestionsToReviewCount)
+        //    prefs.set(lockedQuestionsCount, forKey: Constants.UD_LOCKED_QUESTION_KEY)
+        //    prefs.set(obligatoryQuestionsToReviewCount, forKey: Constants.UD_QUESTION_TO_REVIEW_KEY)
+        
+        
+        // add to firebase as well
+        updateNumLockedQuestionsInFirestore()
+        
+        //    Firestore.firestore()
+        //    .collection(Constants.USERS_COLLECTION)
+        //        .document(myProfile.username)
+        //    .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        //        .document(Constants.USERS_PRIVATE_INFO_DOC).updateData([
+        //            Constants.UD_LOCKED_QUESTION_KEY : FieldValue.increment(Int64(1)),
+        //            Constants.UD_QUESTION_TO_REVIEW_KEY: FieldValue.increment(Int64(obligatoryReviewsPerQuestion)),
+        //        ])
+        //
+    }
 }
 
 // add lockedQuestionCount -= 1
@@ -1884,23 +1897,8 @@ public func updateCountOnReviewQues(){
         // need the 1th index now
         // total - locked = 2nd Question
         // 2nd Question index = 1
+        unlockMyLocalQuestion()
         
-        let quesToUpdateIndex = (myActiveQuestions.count - lockedQuestionsCount) - 1
-        
-        // also unlock the question in firebase
-        if let question = myActiveQuestions[quesToUpdateIndex].question{
-            print("Unlocking question \(question.question_name)")
-            
-            //unlock the question locally:
-            myActiveQuestions[quesToUpdateIndex].question.isLocked = false
-            
-            //unlock the question on the server:
-            Firestore.firestore()
-                .collection(Constants.QUESTIONS_COLLECTION)
-                .document(question.question_name).updateData([
-                    "isLocked":false
-                ])
-        }
     }
     
     // add to firebase as well
@@ -1908,6 +1906,26 @@ public func updateCountOnReviewQues(){
     incrementTotalUserNumReviewsInFirestore()
     
 }
+
+func unlockMyLocalQuestion(){
+    let quesToUpdateIndex = (myActiveQuestions.count - lockedQuestionsCount) - 1
+    
+    // also unlock the question in firebase
+    if let question = myActiveQuestions[quesToUpdateIndex].question{
+        print("Unlocking question \(question.question_name)")
+        
+        //unlock the question locally:
+        myActiveQuestions[quesToUpdateIndex].question.isLocked = false
+        
+        //unlock the question on the server:
+        Firestore.firestore()
+            .collection(Constants.QUESTIONS_COLLECTION)
+            .document(question.question_name).updateData([
+                "isLocked":false
+            ])
+    }
+}
+
 // called from updateCountOnReviewQues, when locked question is zero, so we give him credit
 func increaseCreditToUser(by credit: Int){
     print("Credit Added by \(credit)")
@@ -2080,7 +2098,7 @@ public func syncObligatoryQuestionsToReviewCount() {
     print("obligatoryQuestionsToReviewCount calculated to be \(obligatoryQuestionsToReviewCount). \nend of syncObligatoryQuestionsToReviewCount()")
 }
 
-
+// this function checks the reviewCredits user has and unlocks questions accordingly
 public func applyReviewCredits(){
     let userCredits = myProfile.reviewCredits
     
