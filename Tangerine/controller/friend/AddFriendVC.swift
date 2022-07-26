@@ -1038,7 +1038,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, U
     
     func configureSearchBar(){
         searchbar = UISearchBar()
-        searchbar.placeholder = "Search for a Friend"
+        searchbar.placeholder = "Search for a Friend to Add"
         
         searchbar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchbar)

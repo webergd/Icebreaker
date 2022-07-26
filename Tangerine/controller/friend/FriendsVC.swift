@@ -16,6 +16,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     // MARK: UI Items
     
     var backBtn: UIButton!
+    var tableViewTitleLabel: UILabel!
     var friendReqBtn: UIButton!
     var addFriendBtn: UIButton!
     
@@ -459,8 +460,11 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         // proUI
         
         configureBackButton()
-        
+//
         configureFriendReqButton()
+
+        configureTitle()
+        
         configureAddFriendButton()
         
         
@@ -474,6 +478,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         friendList.dataSource = self
         
         searchbar.delegate = self
+        
         
         // The Pull to Refresh
         pullControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -511,49 +516,72 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     
     
     // MARK: PROGRAMMATIC UI
-    
+        
     func configureBackButton(){
         backBtn = UIButton()
         backBtn.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
-        
+
         backBtn.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(backBtn)
-        
-        
-        
+
+
         NSLayoutConstraint.activate([
             backBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
             backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
             backBtn.heightAnchor.constraint(equalToConstant: 40),
             backBtn.widthAnchor.constraint(equalToConstant: 40)
-            
+
         ])
-        
+
         backBtn.addTarget(self, action: #selector(backBtnPressed), for: .touchUpInside)
     }
     
+    // added by Wyatt 7/26/22
+    func configureTitle() {
+        tableViewTitleLabel = UILabel()
+        tableViewTitleLabel.font = UIFont.systemFont(ofSize: 24, weight: .regular)
+        tableViewTitleLabel.textColor = .label
+        tableViewTitleLabel.textAlignment = .center
+        tableViewTitleLabel.text = "My Friends"
+        
+        tableViewTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableViewTitleLabel)
+
+
+
+        NSLayoutConstraint.activate([
+            tableViewTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            tableViewTitleLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            tableViewTitleLabel.centerYAnchor.constraint(equalTo: backBtn.centerYAnchor)
+            
+//            backBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+//            tableViewTitleLabel.heightAnchor.constraint(equalToConstant: 40),
+//            tableViewTitleLabel.widthAnchor.constraint(equalToConstant: 150)
+
+        ])
+    }
     
     
     func configureFriendReqButton(){
         friendReqBtn = UIButton()
         friendReqBtn.setImage(UIImage(systemName: "person.2"), for: .normal)
-        
+
         friendReqBtn.addTarget(self, action: #selector(friendReqPressed), for: .touchUpInside)
-        
+
         friendReqBtn.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(friendReqBtn)
-        
+
         friendReqWidth = NSLayoutConstraint()
         friendReqWidth = friendReqBtn.widthAnchor.constraint(equalToConstant: 0)
         friendReqWidth.isActive = true
-        
-        
+
+
         NSLayoutConstraint.activate([
             friendReqBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
             friendReqBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
             friendReqBtn.heightAnchor.constraint(equalToConstant: 40),
         ])
-        
+
     }
     
     func configureAddFriendButton(){
