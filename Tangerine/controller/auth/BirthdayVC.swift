@@ -62,7 +62,9 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
     func setupUI(){
         continueButton.disable()
         
-      
+        // hides the back button from this VC so that user cannot return to validation code entry
+        self.navigationItem.setHidesBackButton(true, animated: true)
+
         datePicker.addTarget(self, action: #selector(onDateChanged), for: .valueChanged)
         
         
