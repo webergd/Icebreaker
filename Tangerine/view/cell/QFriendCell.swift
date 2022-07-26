@@ -18,6 +18,8 @@ class QFriendCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     var isCQCell = true
     
+    //MARK: DEPRECATED
+    // Age is no longer displayed for friends
     @IBOutlet weak var age: UILabel!
     
     override func awakeFromNib() {

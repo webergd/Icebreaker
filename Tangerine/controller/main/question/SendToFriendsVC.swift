@@ -489,16 +489,16 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             
             // get the age from date component dc
-            if let age = dc.year{
-                if friend.dobMills == 0{
-                    // if age is set 0, for iPhone contacts
-                    // do nothing maybe?
-                    cell.age.text = ""
-                }else{
-                    cell.age.text = "\(age)"
-                }
-                
-            }
+//            if let age = dc.year{
+//                if friend.dobMills == 0{
+//                    // if age is set 0, for iPhone contacts
+//                    // do nothing maybe?
+//                    cell.age.text = ""
+//                }else{
+//                    cell.age.text = "\(age)"
+//                }
+//                
+//            }
             
             cell.rating.text = "(\(friend.rating))"
             

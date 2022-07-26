@@ -359,16 +359,18 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                     }
                 }
             
-            
+            //MARK: DEPRECATED
+            // Age is no longer displayed for friends
             // get the age from date component dc
             if let age = dc.year{
                 if friend.dobMills == 0{
                     // do nothing maybe?
                     cell.age.text = ""
                 }else{
-                    cell.age.text = "\(age)"
+//                    cell.age.text = "\(age)"
+                    cell.age.text = "" // this was the quick fix to remove age. Needs a thorough job to fully remove it from this cell or it throws a key value coding non compliance error -Wyatt
                 }
-                
+
             }
             
             cell.rating.text = "(\(friend.rating))"

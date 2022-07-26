@@ -262,7 +262,8 @@ class FriendDetailsVC: UIViewController {
                         // do nothing maybe?
                         self.ageL.text = ""
                     }else{
-                        self.ageL.text = "\(age)"
+//                        self.ageL.text = "\(age)"
+                        self.ageL.text = "" // this was the quick fix to remove age. Needs a thorough job to fully remove it from this cell or it throws a key value coding non compliance error -Wyatt
                     }
                     
                 }
