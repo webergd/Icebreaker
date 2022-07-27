@@ -120,7 +120,13 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             askCaptionTopConstraint.constant = imageView.frame.height * CGFloat(thisAsk.yLoc_1)
             
             lockedContainersLabel.text = "🗝" + String(describing: lockedQuestionsCount)
-            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
+            
+            if obligatoryQuestionsToReviewCount == 0 {
+                obligatoryReviewsRemainingLabel.text = String(describing: myProfile.reviewCredits) + "🪙"
+            }else {
+                obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
+            }
+            
             
             resetTextView(textView: commentsTextView, blankText: enterCommentConstant)
             

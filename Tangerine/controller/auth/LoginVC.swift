@@ -300,6 +300,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         
                         let profile_pic = doc[Constants.USER_IMAGE_KEY] as? String ?? DEFAULT_USER_IMAGE_URL
                         let specialty = doc[Constants.USER_ORIENTATION_KEY] as? String ?? "Other"
+                        
+                        // New Credits
+                        let credits = doc[Constants.USER_CREDIT_KEY] as? Int ?? 0
+                        let lastReviewed = doc[Constants.USER_LAST_REVIEWED_KEY] as? Timestamp ?? Timestamp(date: Date())
                        
                         // create the profile
                         
@@ -313,10 +317,29 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         profile.username = name
                         profile.profile_pic = profile_pic
                         profile.orientation = specialty
+                        profile.lastReviewedTime = lastReviewed.seconds
+                        profile.reviewCredits = credits
                         
+                        print("Credit Before: \(profile.reviewCredits)")
                         
                         // Save to realm database
                         RealmManager.sharedInstance.addOrUpdateProfile(profile)
+                        print("Credit After Save: \(myProfile.reviewCredits)")
+                        
+                        // if time is greater than say 12 hrs and we have more than say 15 credits
+                        if self.isCreditExpired(since: lastReviewed.seconds) && credits > maxPersistentReviewCredits{
+                            
+                            // Reduce the credit and update locally
+                            
+                            let creditToDecrease = credits - maxPersistentReviewCredits
+                            decreaseCreditFromUser(by: creditToDecrease)
+                            
+                        }
+                        
+                        
+                        print("Credit After Update: \(myProfile.reviewCredits)")
+                        
+                        
                         
                         // Annotate the user's login in Google Analytics
                         Analytics.logEvent(AnalyticsEventLogin, parameters: [
@@ -687,6 +710,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         createNewAccLabel.addGestureRecognizer(cnlG)
     } // end conf createNewAccLabel
     
-    
+    public func isCreditExpired(since timePosted: Int64)-> Bool{
+        let tdPosted = Date(timeIntervalSince1970: TimeInterval(timePosted))
+        
+        let timeSpent = tdPosted.distance(to: Date())
+        
+        return timeSpent.hour >= maxTimeToRetainAllReviewCredits
+    }
     
 }

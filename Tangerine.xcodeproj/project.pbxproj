@@ -25,6 +25,9 @@
 		511936CF27C0883900B5E63C /* ContinueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511936CE27C0883900B5E63C /* ContinueButton.swift */; };
 		512E1A1B2622637000D0E89C /* ProfileSettingsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1A1A2622637000D0E89C /* ProfileSettingsTabBarController.swift */; };
 		51320025260E00CA00DA4C5A /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51320024260E00CA00DA4C5A /* UIViewController+Ext.swift */; };
+		513AC80F2867852F00FAA309 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513AC80E2867852F00FAA309 /* Section.swift */; };
+		513AC81628678D7F00FAA309 /* FriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513AC81428678D7F00FAA309 /* FriendCollectionViewCell.swift */; };
+		513AC81728678D7F00FAA309 /* FriendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 513AC81528678D7F00FAA309 /* FriendCollectionViewCell.xib */; };
 		51406DEF272F3CA2003940F3 /* SwipeFromRightVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51406DEE272F3CA2003940F3 /* SwipeFromRightVC.swift */; };
 		514872ED27C9AA4E000332CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 514872EC27C9AA4E000332CC /* GoogleService-Info.plist */; };
 		514C47B427AF3BEC00796DEC /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514C47B327AF3BEB00796DEC /* UIView+Ext.swift */; };
@@ -73,6 +76,8 @@
 		51A073FF261A80740055F245 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A073FE261A80730055F245 /* Friend.swift */; };
 		51A07404261A85D30055F245 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A07403261A85D30055F245 /* Array+Ext.swift */; };
 		51A881E32846714700D8108A /* EQVCVerticalConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A881E22846714700D8108A /* EQVCVerticalConstraints.swift */; };
+		51AA109C2868CAED0092E6DE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109B2868CAED0092E6DE /* NetworkManager.swift */; };
+		51AA109E2868CE140092E6DE /* RegisteredUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109D2868CE140092E6DE /* RegisteredUsers.swift */; };
 		51B34CEA260FCCFB004BE6F1 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */; };
 		51B34CEF260FCD3A004BE6F1 /* TargetDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */; };
 		51B34CF4260FD062004BE6F1 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CF3260FD062004BE6F1 /* MainVC.swift */; };
@@ -137,6 +142,9 @@
 		51266DEC25FDF41400F58791 /* Tangerine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tangerine.entitlements; sourceTree = "<group>"; };
 		512E1A1A2622637000D0E89C /* ProfileSettingsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTabBarController.swift; sourceTree = "<group>"; };
 		51320024260E00CA00DA4C5A /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		513AC80E2867852F00FAA309 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		513AC81428678D7F00FAA309 /* FriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewCell.swift; sourceTree = "<group>"; };
+		513AC81528678D7F00FAA309 /* FriendCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendCollectionViewCell.xib; sourceTree = "<group>"; };
 		51406DEE272F3CA2003940F3 /* SwipeFromRightVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeFromRightVC.swift; sourceTree = "<group>"; };
 		514872EC27C9AA4E000332CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		514C47B327AF3BEB00796DEC /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
@@ -186,6 +194,8 @@
 		51A073FE261A80730055F245 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		51A07403261A85D30055F245 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		51A881E22846714700D8108A /* EQVCVerticalConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EQVCVerticalConstraints.swift; sourceTree = "<group>"; };
+		51AA109B2868CAED0092E6DE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		51AA109D2868CE140092E6DE /* RegisteredUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUsers.swift; sourceTree = "<group>"; };
 		51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDemoVC.swift; sourceTree = "<group>"; };
 		51B34CF3260FD062004BE6F1 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -430,6 +440,8 @@
 				51B8100C26190C0800F173BB /* FriendCell.xib */,
 				510A324D262CF216004F48BA /* QFriendCell.swift */,
 				510A324E262CF216004F48BA /* QFriendCell.xib */,
+				513AC81428678D7F00FAA309 /* FriendCollectionViewCell.swift */,
+				513AC81528678D7F00FAA309 /* FriendCollectionViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -512,6 +524,7 @@
 				515EDDCC2685206F00696B8C /* TargetDemo.swift */,
 				517BF392269920F80044DE61 /* ActiveQuestion.swift */,
 				51F7C34B26AE272C0065F9BE /* PrioritizedQuestion.swift */,
+				51AA109D2868CE140092E6DE /* RegisteredUsers.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -519,6 +532,8 @@
 		51C9982F25FBE9B400DC54B4 /* support */ = {
 			isa = PBXGroup;
 			children = (
+				51AA109B2868CAED0092E6DE /* NetworkManager.swift */,
+				513AC80E2867852F00FAA309 /* Section.swift */,
 				510D5DCD27CA2D1E0047D18F /* TermsOfService.swift */,
 				51E50E56267FDED70055CCC1 /* DataModels.swift */,
 				518DBD502627AA40008314A7 /* RealmManager.swift */,
@@ -667,6 +682,7 @@
 			files = (
 				51C997E425FBDE9200DC54B4 /* Assets.xcassets in Resources */,
 				51C997E225FBDE9000DC54B4 /* Main.storyboard in Resources */,
+				513AC81728678D7F00FAA309 /* FriendCollectionViewCell.xib in Resources */,
 				514872ED27C9AA4E000332CC /* GoogleService-Info.plist in Resources */,
 				51B8100E26190C0800F173BB /* FriendCell.xib in Resources */,
 				510A3250262CF216004F48BA /* QFriendCell.xib in Resources */,
@@ -815,6 +831,7 @@
 				5170DC422637B55400F34354 /* FriendRequestVC.swift in Sources */,
 				51585F04260297D1001D8267 /* UserNameVC.swift in Sources */,
 				515EDDD126862B6900696B8C /* ReviewCompareViewController.swift in Sources */,
+				51AA109C2868CAED0092E6DE /* NetworkManager.swift in Sources */,
 				51B34CEA260FCCFB004BE6F1 /* WelcomeVC.swift in Sources */,
 				510BB24426225967001B6B63 /* SettingsVC.swift in Sources */,
 				5170DC3826373A1400F34354 /* Person.swift in Sources */,
@@ -842,6 +859,7 @@
 				510A324F262CF216004F48BA /* QFriendCell.swift in Sources */,
 				510BB24C26225975001B6B63 /* ProfileVC.swift in Sources */,
 				51585F1D2602A419001D8267 /* OrientationVC.swift in Sources */,
+				513AC80F2867852F00FAA309 /* Section.swift in Sources */,
 				517BF3842694C5970044DE61 /* AskTableViewCell.swift in Sources */,
 				51E50E57267FDED70055CCC1 /* DataModels.swift in Sources */,
 				51B8100D26190C0800F173BB /* FriendCell.swift in Sources */,
@@ -852,6 +870,7 @@
 				515EDDD52687863400696B8C /* Review.swift in Sources */,
 				51E925E0261BCC7C006AA4D5 /* UIColor+Ext.swift in Sources */,
 				51A881E32846714700D8108A /* EQVCVerticalConstraints.swift in Sources */,
+				51AA109E2868CE140092E6DE /* RegisteredUsers.swift in Sources */,
 				51BEF69F268B3B6100FB9400 /* UIPanGestureRecognizer+Ext.swift in Sources */,
 				2AA4BFDB270E720400606A08 /* UILabel+Ext.swift in Sources */,
 				51796FB7260D0BA40093E18B /* ToSVC.swift in Sources */,
@@ -868,6 +887,7 @@
 				518DBD1F26277D13008314A7 /* SendToFriendsVC.swift in Sources */,
 				517BF3A1269AD0880044DE61 /* AskReviewsTableViewController.swift in Sources */,
 				517BF393269920F80044DE61 /* ActiveQuestion.swift in Sources */,
+				513AC81628678D7F00FAA309 /* FriendCollectionViewCell.swift in Sources */,
 				51F7C34C26AE272C0065F9BE /* PrioritizedQuestion.swift in Sources */,
 				515EDDCB26850ADC00696B8C /* Question.swift in Sources */,
 				51585F182602A3FE001D8267 /* BirthdayVC.swift in Sources */,

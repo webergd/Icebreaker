@@ -51,12 +51,6 @@ class Constants {
 
     
     
-    
-    
-    
-    
-    
-    
     // FIELDS IN USERS
     static let USER_CREATED_KEY = "created"
     static let USER_ORIENTATION_KEY = "orientation"
@@ -68,6 +62,10 @@ class Constants {
     static let USER_IMAGE_KEY = "profile_pic"
     static let USER_RATING_KEY = "rating"
     static let USER_REVIEW_KEY = "reviews"
+    // NEW > Jun, 22
+    static let USER_CREDIT_KEY = "reviewCredits"
+    static let USER_LAST_REVIEWED_KEY = "lastReviewedTime"
+    
     
     
     // USE UD target demo keys for firestore

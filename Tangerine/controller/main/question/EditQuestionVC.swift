@@ -1293,7 +1293,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             // write it to firebase firestore
             
-            // create an ASK here
+            //MARK: THE ASK GETS CREATED HERE
             
             let question = Question(question_name: docID, title_1: currentTitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: captionToCreateAskWith.text, yLoc_1: captionToCreateAskWith.yLocation, creator: name, recipients: [String]())
             
