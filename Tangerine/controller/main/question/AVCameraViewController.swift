@@ -162,6 +162,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func checkPermission(){
+        print("CHECKING PERM")
         let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorizationStatus {
         case .notDetermined: requestCameraPermission()
@@ -196,7 +197,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         showCameraIcons()
         reloadCamera()
         
-        self.viewDidLoad()
+        //MARK: Commented it to see, as viewDidLoad called automatically
+        //self.viewDidLoad()
     }
     
     func requestCameraPermission() {
