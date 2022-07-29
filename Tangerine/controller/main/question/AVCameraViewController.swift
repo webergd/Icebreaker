@@ -116,6 +116,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             currentCompare.creationPhase = .noPhotoTaken
             self.viewDidLoad()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(checkPermission), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -161,13 +163,20 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         
     }
     
-    func checkPermission(){
+    @objc func checkPermission(){
         print("CHECKING PERM")
         let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
         switch cameraAuthorizationStatus {
-        case .notDetermined: requestCameraPermission()
-        case .authorized: presentCamera()
-        case .restricted, .denied: alertCameraAccessNeeded()
+        case .notDetermined:
+            print("Not Determined")
+            requestCameraPermission()
+        case .authorized:
+            print("Authorised")
+            presentCamera()
+        case .restricted, .denied:
+            print("Showing Alert")
+            alertCameraAccessNeeded()
         @unknown default:
             alertCameraAccessNeeded()
         }
@@ -186,8 +195,13 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             self.returnToMenu()
         })
         
-        alert.addAction(UIAlertAction(title: "Enable in Settings", style: .cancel, handler: { (alert) -> Void in
-        UIApplication.shared.open(settingsAppURL, options: [:], completionHandler: nil)
+        alert.addAction(UIAlertAction(title: "Enable in Settings", style: .cancel, handler: { (alertAction) -> Void in
+            
+            
+            UIApplication.shared.open(settingsAppURL, options: [:]){ _ in
+               // self.returnToMenu()
+            }
+            
         }))
 
         present(alert, animated: true, completion: nil)
