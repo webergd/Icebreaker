@@ -459,7 +459,8 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             // DISPLAY THE CELL DATA
             let today = Date()
             let bday = Date(timeIntervalSince1970: friend.dobMills)
-            let dc =  Calendar.current.dateComponents([.year], from: bday, to: today)
+            // was dc, never used, so commented out
+            //_ =  Calendar.current.dateComponents([.year], from: bday, to: today)
             
             cell.display_name.text = friend.displayName
             cell.user_name.text = friend.username

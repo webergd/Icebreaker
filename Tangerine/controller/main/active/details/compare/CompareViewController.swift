@@ -200,8 +200,8 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
                 thisCaptionTopConstraint.constant = calcCaptionTextFieldTopConstraint(imageViewFrameHeight: topImageView.frame.height, captionYLocation: CGFloat(thisCompare.question.yLoc_1))
                 
                 //for troubleshooting purposes only
-                let imageFrameHeightUsed = topImageView.frame.height
-                let calculatedConstraintConstantValue = topCaptionTextFieldTopConstraint.constant
+//                _ = topImageView.frame.height
+//                _ = topCaptionTextFieldTopConstraint.constant
                 print("nothing")
             }
             // Top Image - set caption text

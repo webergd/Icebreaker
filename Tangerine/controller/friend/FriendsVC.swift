@@ -362,7 +362,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             //MARK: DEPRECATED
             // Age is no longer displayed for friends
             // get the age from date component dc
-            if let age = dc.year{
+            if let _ = dc.year{
                 if friend.dobMills == 0{
                     // do nothing maybe?
                     cell.age.text = ""

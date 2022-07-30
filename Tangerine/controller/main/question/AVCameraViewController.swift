@@ -178,7 +178,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             print("Showing Alert")
             alertCameraAccessNeeded()
         @unknown default:
-            alertCameraAccessNeeded()
+            requestCameraPermission()
         }
     }
     
