@@ -255,6 +255,18 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         let blockAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _ ) in
             print("Friend Delete tapped")
             
+            
+            defer {
+                
+                
+                self.presentDismissAlertOnMainThread(title: "Friendship Removed", message: "💔 You are no longer friends with \(self.displayedFriends[indexPath.section].username!)")
+                
+                // delete the row
+                self.displayedFriends.remove(at: indexPath.section)
+                self.friendList.reloadData()
+                
+            }
+            
             // From MY FIREBASE
             
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.displayedFriends[indexPath.section].username)
@@ -264,22 +276,23 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                         return
                     }
                     
-                    // From THIS PERSON'S FIREBASE
-                    
-                    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.displayedFriends[indexPath.section].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
-                        .delete { (error) in
-                            if let error = error{
-                                self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
-                                return
-                            }
-                            
-                            self.presentDismissAlertOnMainThread(title: "Friendship Removed", message: "💔 You are no longer friends with \(self.displayedFriends[indexPath.section].username!)")
-                            
-                            // delete the row
-                            self.displayedFriends.remove(at: indexPath.section)
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        }
+                    print("Friend Removed From My Firebase")
                 }
+            
+            // From THIS PERSON'S FIREBASE
+            
+            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.displayedFriends[indexPath.section].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+                .delete { (error) in
+                    if let error = error{
+                        self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
+                        return
+                    }
+                    
+                    print("Friend Removed From Their Firebase")
+                    
+                }
+            
+            
             
             
         }
@@ -368,7 +381,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                     cell.age.text = ""
                 }else{
 //                    cell.age.text = "\(age)"
-                    cell.age.text = "" // this was the quick fix to remove age. Needs a thorough job to fully remove it from this cell or it throws a key value coding non compliance error -Wyatt
+                    cell.age.text = "" // MARK: this was the quick fix to remove age. Needs a thorough job to fully remove it from this cell or it throws a key value coding non compliance error -Wyatt
                 }
 
             }

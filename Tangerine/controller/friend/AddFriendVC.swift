@@ -44,9 +44,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     // limit of search from firestore
     var searchLimit = 10
     // Persons I added already
-    var addedList = [String]()
+    var addedList = [String]() // username
     // person I won't show on list => block/got blocked by those
-    var blockList = [String]()
+    var blockList = [String]() // username
     
     
     // the search bar and segment
@@ -443,9 +443,17 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                         continue
                     }
                     
-                    self.displayedContacts[key].status = .REGISTERED
-                    self.displayedContacts[key].username = user.username
+                    if self.addedList.contains(user.username) {
+                        print("Found in added list")
+                        self.displayedContacts[key].status = .REQUESTED
+                    } else if myFriendNames.contains(user.username) {
+                        print("Found in friends list")
+                        self.displayedContacts[key].status = .FRIEND
+                    }else{
+                        self.displayedContacts[key].status = .REGISTERED
+                    }
                     
+                    self.displayedContacts[key].username = user.username
                     
                 }
                 
@@ -477,6 +485,16 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     
     // when Add button is tapped, ensures that we don't request multiple times
     func addPersonToFirestoreAndLocal(_ person: Person){
+        
+        defer {
+            print("Defer is called")
+                self.view.hideActivityIndicator()
+                self.presentDismissAlertOnMainThread(title: "Sent!", message: "Friend request sent to \(person.displayName)")
+            
+                isCloudSearch ? updateCloudData() : updateLocalData()
+                self.friendsCollectionView.reloadData()
+        }
+        
         print("Person saved in added list is \(addedList.count)")
         // add to local
         do {
@@ -484,12 +502,16 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             database.beginWrite()
             person.status = .REQUESTED
             database.add(person, update: .modified)
-            self.presentDismissAlertOnMainThread(title: "Sent!", message: "Friend request sent to \(person.displayName)")
+                
+            displayedCloudContacts[person.phoneNumberField] = person
+            
             try database.commitWrite()
             
             // add to local list
             addedList.append(person.username)
-            updateLocalData()
+            
+            
+            
             
         } catch {
             print("Error occured while updating realm")
@@ -914,18 +936,19 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             if self.isCloudSearch {
                 print("Cloud Count: \(self.displayedCloudKeys.count)")
                 if self.displayedCloudKeys.count > 0 {
-                    person = self.displayedCloudContacts[self.displayedCloudKeys[indexPath.row]]!
-                   isDataAvailable = true
-               }
+                    person = item//self.displayedCloudContacts[self.displayedCloudKeys[indexPath.item]]!
+                    isDataAvailable = true
+                }
+                
            }else{
                    // with all the display key we can go over all the dictionary Persons
                    person = item
                    isDataAvailable = true
-               cell.item = item
+                   cell.item = item
                
            }
            
-           if isDataAvailable{
+           if isDataAvailable {
                
                // Default data
                cell.title.text = person.displayName
@@ -966,7 +989,11 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                    cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
                    cell.button.isEnabled = true
                    cell.handleClick={
-                       self.addPersonToFirestoreAndLocal(person)
+                       
+                       self.view.showActivityIndicator()
+                       DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                           self.addPersonToFirestoreAndLocal(person)
+                       })
                        
                    }
                    
@@ -1035,15 +1062,26 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     
     func updateLocalData(){
         
-        let sorted = displayedContacts.sorted{ p1, p2 in
-            p1.status == .REGISTERED
+        let registered = displayedContacts.filter { p in
+            p.status == .REGISTERED
         }
+        
+        let requested = displayedContacts.filter { p in
+            p.status == .REQUESTED
+        }
+        
+        let others = displayedContacts.filter { p in
+            p.status != .REGISTERED && p.status != .REQUESTED
+        }
+        
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Person>()
         
         snapshot.appendSections([Section(category: "All")])
         
-        snapshot.appendItems(sorted, toSection: Section(category: "All"))
+        snapshot.appendItems(registered, toSection: Section(category: "All"))
+        snapshot.appendItems(requested, toSection: Section(category: "All"))
+        snapshot.appendItems(others, toSection: Section(category: "All"))
         
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
         
