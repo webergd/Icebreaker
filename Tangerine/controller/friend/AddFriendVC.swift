@@ -31,7 +31,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     var indicator: UIActivityIndicatorView!
     // for cloud search section
     var isCloudSearch = false
-    // will hold the current displaying contacts fetched from firestore
+    // will hold the current displaying contacts fetched from firestore [Phone:Person]
     var displayedCloudContacts = [String:Person]()
     // will hold phone number of these contacts
     var displayedCloudKeys = [String]()
@@ -80,14 +80,14 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         print("Searching cloud? \(isCloudSearch)")
         
         if isCloudSearch {
-            
+            print("Searching Cloud")
+            updateCloudData()
         } else{
+            print("Searching Local")
             updateLocalData()
         }
         
     }
-    
-
     
     // do initial setup on view load
     func setupUI(){
@@ -154,8 +154,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         
         let group = DispatchGroup()
         let queue = DispatchQueue.global(qos: .userInitiated)
-        
-        
         
         
         print("we are searching for \(searchTerm)")
@@ -231,7 +229,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                 group.leave()
                 self.indicator.stopAnimating()
                 // load the table with new data
-                //self.updateData(with: displayedCloudContacts)
+                self.updateCloudData()
                 
             }// end of if let
             
@@ -309,7 +307,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                 group.leave()
                 self.indicator.stopAnimating()
                 // load the table with new data
-                //self.updateData()
+                self.updateCloudData()
                 
             }// end of if name
             
@@ -699,24 +697,28 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             // do search on local here
             // cloud search is in another delegate above, as local needs to be realtime
             // cloud is only when SearchButton is tapped
-            if let searchedText = searchbar.text{
-            displayedContacts.removeAll()
-            displayedContactsKeys.removeAll()
+            // so prevent local change cloud search is on
             
-            
-                for (index, item) in contacts.enumerated(){
-                // checks if this item matches with our search
-                if(item.displayName.lowercased().contains(searchedText.lowercased()) || item.username.lowercased().contains(searchedText.lowercased())){
-                    // match found, add
-                    displayedContacts.append(item)
-                    displayedContactsKeys[item.phoneNumberField] = index
-                    
+            if !isCloudSearch{
+                if let searchedText = searchbar.text{
+                displayedContacts.removeAll()
+                displayedContactsKeys.removeAll()
+                
+                
+                    for (index, item) in contacts.enumerated(){
+                    // checks if this item matches with our search
+                    if(item.displayName.lowercased().contains(searchedText.lowercased()) || item.username.lowercased().contains(searchedText.lowercased())){
+                        // match found, add
+                        displayedContacts.append(item)
+                        displayedContactsKeys[item.phoneNumberField] = index
+                        
+                    }
                 }
+                    // update UI
+                    updateLocalData()
+                
+                } // if let
             }
-                // update UI
-                updateLocalData()
-            
-            } // if let
         }
     }
     
@@ -1036,6 +1038,21 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         let sorted = displayedContacts.sorted{ p1, p2 in
             p1.status == .REGISTERED
         }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Person>()
+        
+        snapshot.appendSections([Section(category: "All")])
+        
+        snapshot.appendItems(sorted, toSection: Section(category: "All"))
+        
+        dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+        
+        
+    }
+    
+    func updateCloudData(){
+        
+        let sorted = Array(displayedCloudContacts.values)
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Person>()
         
