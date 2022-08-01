@@ -218,7 +218,9 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     func requestCameraPermission() {
         AVCaptureDevice.requestAccess(for: .video, completionHandler: {accessGranted in
             guard accessGranted == true else { return }
-            self.presentCamera()
+            DispatchQueue.main.async {
+                self.presentCamera()
+            }
         })
    }
     
