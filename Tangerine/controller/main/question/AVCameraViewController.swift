@@ -10,7 +10,7 @@
 
 import UIKit
 import AVFoundation
-import MobileCoreServices // enables us to usekUTTypeImage
+import MobileCoreServices // enables us to use kUTTypeImage
 
 public var justFinishedPicking: Bool = false //when it's false, the camera will load upon loading the view. When true, it will show the imageView instead.
 
@@ -116,6 +116,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             currentCompare.creationPhase = .noPhotoTaken
             self.viewDidLoad()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(checkPermission), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -139,6 +141,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
      }
      */
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -156,11 +159,70 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             return
         }
         
+        checkPermission()
+        
+    }
+    
+    @objc func checkPermission(){
+        print("CHECKING PERM")
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch cameraAuthorizationStatus {
+        case .notDetermined:
+            print("Not Determined")
+            requestCameraPermission()
+        case .authorized:
+            print("Authorised")
+            presentCamera()
+        case .restricted, .denied:
+            print("Showing Alert")
+            alertCameraAccessNeeded()
+        @unknown default:
+            requestCameraPermission()
+        }
+    }
+    
+    func alertCameraAccessNeeded() {
+        let settingsAppURL = URL(string: UIApplication.openSettingsURLString)!
+
+        let alert = UIAlertController(
+        title: "Tangerine Requests Access to the Camera",
+        message: "Camera access is required to make full use of this app.",
+        preferredStyle: UIAlertController.Style.alert
+        )
+
+        alert.addAction(UIAlertAction(title: "Ignore", style: .default){_ in
+            self.returnToMenu()
+        })
+        
+        alert.addAction(UIAlertAction(title: "Enable in Settings", style: .cancel, handler: { (alertAction) -> Void in
+            
+            
+            UIApplication.shared.open(settingsAppURL, options: [:]){ _ in
+               // self.returnToMenu()
+            }
+            
+        }))
+
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func presentCamera(){
         showCameraIcons()
         reloadCamera()
         
-        self.viewDidLoad()
+        //MARK: Commented it to see, as viewDidLoad called automatically
+        //self.viewDidLoad()
     }
+    
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video, completionHandler: {accessGranted in
+            guard accessGranted == true else { return }
+            DispatchQueue.main.async {
+                self.presentCamera()
+            }
+        })
+   }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

@@ -257,7 +257,7 @@ class FriendDetailsVC: UIViewController {
                 let dc =  Calendar.current.dateComponents([.year], from: bday, to: today)
                 
                 // get the age from date component dc
-                if let age = dc.year{
+                if let _ = dc.year{
                     if birthday == 0{
                         // do nothing maybe?
                         self.ageL.text = ""
