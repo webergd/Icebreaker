@@ -573,20 +573,41 @@ public func displayData(dataSet: ConsolidatedAskDataSet,
                         totalReviewsLabel: UILabel,
                         displayTool: DataDisplayTool,
                         displayBottom: Bool,
-                        ratingValueLabel: UILabel){
+                        ratingValueLabel: UILabel,
+                        dataFilterType: dataFilterType){
     
-    totalReviewsLabel.text = String(dataSet.numReviews)
+    totalReviewsLabel.text = configureNumReviewsLabel(with: dataSet.numReviews, for: dataFilterType)
     
     displayTool.displayIcons(dataSet: dataSet, forBottom: displayBottom)
     
     if dataSet.numReviews < 1 {
-        ratingValueLabel.text = "No reviews yet"
-        ratingValueLabel.font = ratingValueLabel.font.withSize(10.0)
+        ratingValueLabel.text = ""
+//        ratingValueLabel.font = ratingValueLabel.font.withSize(12.0)
     } else {
-        ratingValueLabel.font = ratingValueLabel.font.withSize(17.0)
+//        ratingValueLabel.font = ratingValueLabel.font.withSize(17.0)
         ratingValueLabel.text = String(dataSet.rating)
     }
 } // end of displayData(Ask)
+
+/// Takes in a filter type (TD, Friends, or All Reviews) and the number of reviews for that category, and returns the string that should be displayed by the numReviews label in the data display tool.
+public func configureNumReviewsLabel(with numReviews: Int, for dataFilterType: dataFilterType) -> String {
+    var pluralS: String {
+        if numReviews > 1 || numReviews < 1 {
+            return "s"
+        } else {
+            return ""
+        }
+    }
+    
+    switch dataFilterType {
+    case .targetDemo:
+        return "\(numReviews) Targeted Review\(pluralS)"
+    case .friends:
+        return "\(numReviews) Review\(pluralS) from Friends"
+    case .allUsers:
+        return "\(numReviews) Total Review\(pluralS)"
+    }
+}
 
 // There used to be a displayData(dataSat: ConsolidatedAskDataSet...) here. It has since been deleted.
 
@@ -1059,7 +1080,7 @@ public func pullConsolidatedData(from reviewCollection: ReviewCollection, filter
     case .COMPARE:
         requestedDataSet = reviewCollection.pullConsolidatedCompareData(requestedDemo: requestedDemo, friendsOnly: friendsOnly)
     }
-    
+        
     // to use this on the receiving end, we will have to cast this to the right type of consolidated data set (ask or compare).
     return requestedDataSet
 }
@@ -1112,6 +1133,18 @@ public struct DataDisplayTool {
     let ratingValueLabel: UILabel
     // rating is a Double from 0.0 to 5.0
     
+    /// Hides or changes the icons based on whether there are reviews or not
+    func configureIconsFor(zeroReviews: Bool) {
+        icon0.isHidden = zeroReviews
+        icon1.isHidden = zeroReviews
+        icon2.isHidden = zeroReviews
+        icon3.isHidden = zeroReviews
+        if zeroReviews {
+            icon4.image = UIImage(systemName: "person.badge.clock")!
+            icon4.tintColor = UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 0.9)//white
+        }
+    }
+    
     /// Displays the appropriate configuration of 'good' and 'bad' images in order to graphically convey the contents of the ConsolidatedDataSet to the local user.
     /// Currently only being used for Asks. Compares use the older displayData method. This method is set up to also work with Compares, if we decide to implement it for displaying compare data as well. 9/28/21: It seems like this is being used for compares now as well.
     func displayIcons(dataSet: isConsolidatedDataSet, forBottom bottom: Bool){
@@ -1119,6 +1152,9 @@ public struct DataDisplayTool {
         /// Sets the value equal to bottom (from the input parameters) so that if this set of display icons IS on the bottom, the displayed rating will be the inverse (ex: if the top image got one heart, the bottom image should show 4 hearts)
         var displayInverseRating = bottom
         
+        /// We use this to determine whether to set the zero review configuration for the DataDisplayTool
+        let questionHasZeroReviews: Bool = dataSet.numReviews < 1
+
         let imageViews: [UIImageView] = [icon0, icon1, icon2, icon3, icon4]
         
         // calculate percentage rating based on aggregated yes and strong yes data:
@@ -1130,10 +1166,9 @@ public struct DataDisplayTool {
         
         
         // If there are no reviews, we'll set displayInverseRating = false, because we don't want to invert the heart values and display 5 yellow hearts for the bottom one, since there aren't any reviews. We want 5 black on the top and the bottom. So this is the lone case when the bottom should be the same as the top, not the inverse.
-        if dataSet.numReviews < 1 {
-            displayInverseRating = false
-            ratingValueLabel.text = "No Reviews Yet"
-        }
+//        if questionHasZeroReviews {
+//            displayInverseRating = false
+//        }
         
         if displayInverseRating { // if we're displaying the bottom image's results, use the inverse
             ratingValue = 5.0 - ratingValue
@@ -1160,6 +1195,8 @@ public struct DataDisplayTool {
             }
             imageIndexValue += 1
         }
+        // Pass the Bool questionHasZeroReviews to determine the final config of the data display tool
+        configureIconsFor(zeroReviews: questionHasZeroReviews)
     }
 }
 

@@ -53,7 +53,8 @@ class AskTableViewCell: UITableViewCell {
                     totalReviewsLabel: numVotesLabel,
                     displayTool: targetDemoDataDisplayTool,
                     displayBottom: false, // because it's an Ask and there is no bottom image data set to display
-                    ratingValueLabel: ratingValueLabel)
+                    ratingValueLabel: ratingValueLabel,
+                    dataFilterType: .targetDemo)
     }
 
     override func awakeFromNib() {

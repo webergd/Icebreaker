@@ -189,7 +189,7 @@ public class ReviewCollection {
                                           percentOT: Int(100 * countOT / countReviews),
                                           numReviews: Int(countReviews))
         } else {
-            // Return zeroes if there are no reviews yet
+            // Return zeros if there are no reviews yet
             return ConsolidatedAskDataSet(percentYes: 0,
                                           percentStrongYes: 0,
                                           percentStrongNo: 0,

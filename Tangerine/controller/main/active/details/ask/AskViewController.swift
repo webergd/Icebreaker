@@ -146,7 +146,8 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                             totalReviewsLabel: targetDemoTotalReviewsLabel,
                             displayTool: targetDemoDataDisplayTool,
                             displayBottom: false,
-                            ratingValueLabel: targetDemoRatingLabel)
+                            ratingValueLabel: targetDemoRatingLabel,
+                            dataFilterType: .targetDemo)
             }
             
             // Configure the Friends data display
@@ -167,7 +168,8 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                             totalReviewsLabel: friendsTotalReviewsLabel,
                             displayTool: friendsDataDisplayTool,
                             displayBottom: false,
-                            ratingValueLabel: friendsRatingLabel)
+                            ratingValueLabel: friendsRatingLabel,
+                            dataFilterType: .friends)
             }
             
             // Configure the All Reviews data display
@@ -188,7 +190,8 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                             totalReviewsLabel: allReviewsTotalReviewsLabel,
                             displayTool: allReviewsDataDisplayTool,
                             displayBottom: false,
-                            ratingValueLabel: allReviewsRatingLabel)
+                            ratingValueLabel: allReviewsRatingLabel,
+                            dataFilterType: .allUsers)
             }
             
         } else {
