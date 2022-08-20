@@ -601,9 +601,9 @@ public func configureNumReviewsLabel(with numReviews: Int, for dataFilterType: d
     
     switch dataFilterType {
     case .targetDemo:
-        return "\(numReviews) Targeted Review\(pluralS)"
+        return "\(numReviews) Review\(pluralS)"
     case .friends:
-        return "\(numReviews) Review\(pluralS) from Friends"
+        return "\(numReviews) Review\(pluralS)"
     case .allUsers:
         return "\(numReviews) Total Review\(pluralS)"
     }
