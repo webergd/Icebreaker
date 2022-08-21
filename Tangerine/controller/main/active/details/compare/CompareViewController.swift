@@ -247,6 +247,7 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
                     self.dismissToRight()
                 } else if swipeGesture.direction == UISwipeGestureRecognizer.Direction.left {
                     // sets the graphical view controller with the storyboard ID "compareBreakdownViewController" to nextVC
+                    helpSwipeLeftForDetailsLabel.isHidden = true
                     let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "compareBreakdownViewController") as! CompareBreakdownViewController
                     // pushes askBreakdownViewController onto the nav stack
                     nextVC.question = self.question

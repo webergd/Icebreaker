@@ -589,23 +589,33 @@ public func displayData(dataSet: ConsolidatedAskDataSet,
     }
 } // end of displayData(Ask)
 
+public func addPuralS(numberOfItems: Int) -> String {
+    if numberOfItems > 1 || numberOfItems < 1 {
+        return "s"
+    } else {
+        return ""
+    }
+}
+
+
 /// Takes in a filter type (TD, Friends, or All Reviews) and the number of reviews for that category, and returns the string that should be displayed by the numReviews label in the data display tool.
 public func configureNumReviewsLabel(with numReviews: Int, for dataFilterType: dataFilterType) -> String {
-    var pluralS: String {
-        if numReviews > 1 || numReviews < 1 {
-            return "s"
-        } else {
-            return ""
-        }
-    }
+    let S: String = addPuralS(numberOfItems: numReviews)
+//    var pluralS: String {
+//        if numReviews > 1 || numReviews < 1 {
+//            return "s"
+//        } else {
+//            return ""
+//        }
+//    }
     
     switch dataFilterType {
     case .targetDemo:
-        return "\(numReviews) Review\(pluralS)"
+        return "\(numReviews) Review\(S)"
     case .friends:
-        return "\(numReviews) Review\(pluralS)"
+        return "\(numReviews) Review\(S)"
     case .allUsers:
-        return "\(numReviews) Total Review\(pluralS)"
+        return "\(numReviews) Total Review\(S)"
     }
 }
 
@@ -1042,6 +1052,20 @@ public struct ConsolidatedCompareDataSet: isConsolidatedDataSet {
         (percentTop * strongYesTopConstant)
         let ratingToReturn: Double = Double(topPercent) / 100 // divided by 100, * 5, same thing as divide by 20
         return ratingToReturn.roundToPlaces(1) // returns the double with only one decimal place
+    }
+    
+    /// Accepts 2 labels (the top and bottom numReviews or numVotes labels for a given dataset, and loads their text with a string containing the number of votes for the top and bottom photos respectively.
+    public func populateNumVotesLabels(topLabel: UILabel?, bottomLabel: UILabel?) {
+        //populate top label
+        if let tL = topLabel {
+            let S: String = addPuralS(numberOfItems: countTop)
+            tL.text = "(\(String(countTop)) Vote\(S))"
+        }
+        //populate bottom label
+        if let bL = bottomLabel {
+            let S: String = addPuralS(numberOfItems: countBottom)
+            bL.text = "(\(String(countBottom)) Vote\(S))"
+        }
     }
 }
 

@@ -25,9 +25,12 @@ class CompareBreakdownViewController: UIViewController {
     @IBOutlet weak var targetDemoView1: UIView!
     @IBOutlet weak var targetDemoView2: UIView!
     
-    @IBOutlet weak var targetDemoNumReviewsLabel: UILabel!
+//    @IBOutlet weak var targetDemoNumReviewsLabel: UILabel!
     @IBOutlet weak var targetDemoRatingLabelTop: UILabel!
     @IBOutlet weak var targetDemoRatingLabelBottom: UILabel!
+    @IBOutlet weak var targetDemoNumReviewsLabelTop: UILabel!
+    @IBOutlet weak var targetDemoNumReviewsLabelBottom: UILabel!
+    
 //    @IBOutlet weak var targetDemoStrongVotePercentageTop: UILabel!
 //    @IBOutlet weak var targetDemoStrongVotePercentageBottom: UILabel!
     @IBOutlet weak var targetDemo100BarTop: UIView!
@@ -49,9 +52,12 @@ class CompareBreakdownViewController: UIViewController {
     @IBOutlet weak var friendsView1: UIView!
     @IBOutlet weak var friendsView2: UIView!
     
-    @IBOutlet weak var friendsNumReviewsLabel: UILabel!
+//    @IBOutlet weak var friendsNumReviewsLabel: UILabel!
     @IBOutlet weak var friendsRatingLabelTop: UILabel!
     @IBOutlet weak var friendsRatingLabelBottom: UILabel!
+    @IBOutlet weak var friendsNumReviewsLabelTop: UILabel!
+    @IBOutlet weak var friendsNumReviewsLabelBottom: UILabel!
+    
 //    @IBOutlet weak var friendsStrongVotePercentageTop: UILabel!
 //    @IBOutlet weak var friendsStrongVotePercentageBottom: UILabel!
     @IBOutlet weak var friends100BarTop: UIView!
@@ -73,10 +79,13 @@ class CompareBreakdownViewController: UIViewController {
     @IBOutlet weak var allReviewsView1: UIView!
     @IBOutlet weak var allReviewsView2: UIView!
     
-    @IBOutlet weak var allReviewsNumReviewsLabel: UILabel!
-
+//    @IBOutlet weak var allReviewsNumReviewsLabel: UILabel!
     @IBOutlet weak var allReviewsRatingLabelTop: UILabel!
     @IBOutlet weak var allReviewsRatingLabelBottom: UILabel!
+    @IBOutlet weak var allReviewsNumReviewsLabelTop: UILabel!
+    @IBOutlet weak var allReviewsNumReviewsLabelBottom: UILabel!
+    
+    
 
     @IBOutlet weak var allReviews100BarTop: UIView!
     @IBOutlet weak var arRatingImage0Top: UIImageView!
@@ -186,9 +195,11 @@ class CompareBreakdownViewController: UIViewController {
             // Configure TARGET DEMO data display:
             let targetDemoDataSet = pullConsolidatedData(from: question.reviewCollection, filteredBy: .targetDemo, type: .COMPARE) as! ConsolidatedCompareDataSet
             
-            if let numRevLabel = targetDemoNumReviewsLabel {
-                numRevLabel.text = "Target Demo:  \(targetDemoDataSet.numReviews)"
-            }
+            targetDemoDataSet.populateNumVotesLabels(topLabel: targetDemoNumReviewsLabelTop, bottomLabel: targetDemoNumReviewsLabelBottom)
+            
+//            if let numRevLabelTop = targetDemoNumReviewsLabelTop {
+//                numRevLabelTop.text = "Target Demo:  \(targetDemoDataSet.countTop)"
+//            }
             /// unwraps all the TD labels and image views
             if let thisTDRatingImage0Top = tdRatingImage0Top, let thisTDRatingImage1Top = tdRatingImage1Top, let thisTDRatingImage2Top = tdRatingImage2Top,let thisTDRatingImage3Top = tdRatingImage3Top, let thisTDRatingImage4Top = tdRatingImage4Top, let thisTDRatingImage0Bottom = tdRatingImage0Bottom, let thisTDRatingImage1Bottom = tdRatingImage1Bottom, let thisTDRatingImage2Bottom = tdRatingImage2Bottom, let thisTDRatingImage3Bottom = tdRatingImage3Bottom, let thisTDRatingImage4Bottom = tdRatingImage4Bottom {
                 /// plugs the outlets into a newly created DataDisplayTool
@@ -215,6 +226,10 @@ class CompareBreakdownViewController: UIViewController {
                     ratingValueLabel: targetDemoRatingLabelBottom)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
                 targetDemoDataDisplayToolBottom.displayIcons(dataSet: targetDemoDataSet, forBottom: true)
+                
+                // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
+                targetDemoDataDisplayToolTop.ratingValueLabel.text = "\(targetDemoDataSet.percentTop)%"
+                targetDemoDataDisplayToolBottom.ratingValueLabel.text = "\(targetDemoDataSet.percentBottom)%"
             } else {
                 print("could not unwrap UIImageViews")
             }//end of target demo rating images unwrapping
@@ -222,9 +237,10 @@ class CompareBreakdownViewController: UIViewController {
             // Configure FRIENDS data display:
             let friendsDataSet = pullConsolidatedData(from: question.reviewCollection, filteredBy: .friends, type: .COMPARE) as! ConsolidatedCompareDataSet
             
-            if let numRevLabel = friendsNumReviewsLabel {
-                numRevLabel.text = "Friends:  \(friendsDataSet.numReviews)"
-            }
+            friendsDataSet.populateNumVotesLabels(topLabel: friendsNumReviewsLabelTop, bottomLabel: friendsNumReviewsLabelBottom)
+//            if let numRevLabel = friendsNumReviewsLabel {
+//                numRevLabel.text = "Friends:  \(friendsDataSet.numReviews)"
+//            }
             
             if let thisFRatingImage0Top = fRatingImage0Top, let thisFRatingImage1Top = fRatingImage1Top, let thisFRatingImage2Top = fRatingImage2Top,let thisFRatingImage3Top = fRatingImage3Top, let thisFRatingImage4Top = fRatingImage4Top, let thisFRatingImage0Bottom = fRatingImage0Bottom, let thisFRatingImage1Bottom = fRatingImage1Bottom, let thisFRatingImage2Bottom = fRatingImage2Bottom, let thisFRatingImage3Bottom = fRatingImage3Bottom, let thisFRatingImage4Bottom = fRatingImage4Bottom {
                 
@@ -249,6 +265,10 @@ class CompareBreakdownViewController: UIViewController {
                     ratingValueLabel: friendsRatingLabelBottom)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
                 friendsDataDisplayToolBottom.displayIcons(dataSet: friendsDataSet, forBottom: true)
+                
+                // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
+                friendsDataDisplayToolTop.ratingValueLabel.text = "\(friendsDataSet.percentTop)%"
+                friendsDataDisplayToolBottom.ratingValueLabel.text = "\(friendsDataSet.percentBottom)%"
             } else {
                 print("could not unwrap UIImageViews")
             }//end of friends rating images unwrapping
@@ -256,9 +276,10 @@ class CompareBreakdownViewController: UIViewController {
             // Configure ALL REVIEWS data display:
             let allReviewsDataSet = pullConsolidatedData(from: question.reviewCollection, filteredBy: .allUsers, type: .COMPARE) as! ConsolidatedCompareDataSet
             
-            if let numRevLabel = allReviewsNumReviewsLabel {
-                numRevLabel.text = "All Reviewers:  \(allReviewsDataSet.numReviews)"
-            }
+            allReviewsDataSet.populateNumVotesLabels(topLabel: allReviewsNumReviewsLabelTop, bottomLabel: allReviewsNumReviewsLabelBottom)
+//            if let numRevLabel = allReviewsNumReviewsLabel {
+//                numRevLabel.text = "All Reviewers:  \(allReviewsDataSet.numReviews)"
+//            }
             
             if let thisARRatingImage0Top = arRatingImage0Top, let thisARRatingImage1Top = arRatingImage1Top, let thisARRatingImage2Top = arRatingImage2Top,let thisARRatingImage3Top = arRatingImage3Top, let thisARRatingImage4Top = arRatingImage4Top, let thisARRatingImage0Bottom = arRatingImage0Bottom, let thisARRatingImage1Bottom = arRatingImage1Bottom, let thisARRatingImage2Bottom = arRatingImage2Bottom, let thisARRatingImage3Bottom = arRatingImage3Bottom, let thisARRatingImage4Bottom = arRatingImage4Bottom {
                 
@@ -283,6 +304,10 @@ class CompareBreakdownViewController: UIViewController {
                     ratingValueLabel: allReviewsRatingLabelBottom)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
                 allReviewsDataDisplayToolBottom.displayIcons(dataSet: allReviewsDataSet, forBottom: true)
+                
+                // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
+                allReviewsDataDisplayToolTop.ratingValueLabel.text = "\(allReviewsDataSet.percentTop)%"
+                allReviewsDataDisplayToolBottom.ratingValueLabel.text = "\(allReviewsDataSet.percentBottom)%"
             } else {
                 print("could not unwrap UIImageViews")
             }//end of all reviews rating images unwrapping
