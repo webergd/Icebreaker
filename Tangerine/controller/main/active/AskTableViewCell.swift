@@ -21,7 +21,9 @@ class AskTableViewCell: UITableViewCell {
     @IBOutlet weak var numVotesLabel: UILabel!
     @IBOutlet weak var reviewsRequiredToUnlockLabel: UILabel!
     @IBOutlet weak var lockLabel: UILabel!
-
+    @IBOutlet weak var wearItLabel: UILabel!
+    @IBOutlet weak var wearItImageView: UIImageView!
+    
     
     // Most of the outlets in this block are not used anymore but cannot just be deleted or commented out because of the underlying design in Interface Builder. They should be eliminated eventually:
     @IBOutlet weak var yesPercentage: UILabel!

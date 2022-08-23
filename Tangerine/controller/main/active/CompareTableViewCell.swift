@@ -37,7 +37,7 @@ class CompareTableViewCell: UITableViewCell {
     @IBOutlet weak var leftRatingImage2: UIImageView!
     @IBOutlet weak var leftRatingImage3: UIImageView!
     @IBOutlet weak var leftRatingImage4: UIImageView!
-    @IBOutlet weak var leftRatingValueLabel: UILabel!
+//    @IBOutlet weak var leftRatingValueLabel: UILabel!
     
     //RIGHT (image 2 or "bottom")
     @IBOutlet weak var rightTD100Bar: UIView!
@@ -46,7 +46,7 @@ class CompareTableViewCell: UITableViewCell {
     @IBOutlet weak var rightRatingImage2: UIImageView!
     @IBOutlet weak var rightRatingImage3: UIImageView!
     @IBOutlet weak var rightRatingImage4: UIImageView!
-    @IBOutlet weak var rightRatingValueLabel: UILabel!
+//    @IBOutlet weak var rightRatingValueLabel: UILabel!
     
     /// Unpacks the Data Set and displays it in form of yellow or black hearts
     func displayCellData(dataSet: ConsolidatedCompareDataSet){
@@ -58,8 +58,11 @@ class CompareTableViewCell: UITableViewCell {
             icon3: leftRatingImage3,
             icon4: leftRatingImage4,
             inverseOrientation: false,
-            ratingValueLabel: leftRatingValueLabel)
+            ratingValueLabel: percentImage1Label)
         leftTargetDemoDataDisplayTool.displayIcons(dataSet: dataSet, forBottom: false)
+        
+        // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
+        leftTargetDemoDataDisplayTool.ratingValueLabel.text = "\(dataSet.percentTop)%"
         
         let rightTargetDemoDataDisplayTool: DataDisplayTool = DataDisplayTool(
             icon0: rightRatingImage0,
@@ -68,15 +71,19 @@ class CompareTableViewCell: UITableViewCell {
             icon3: rightRatingImage3,
             icon4: rightRatingImage4,
             inverseOrientation: true,
-            ratingValueLabel: rightRatingValueLabel)
+            ratingValueLabel: percentImage2Label)
         rightTargetDemoDataDisplayTool.displayIcons(dataSet: dataSet, forBottom: true)
+        
+        rightTargetDemoDataDisplayTool.ratingValueLabel.text = "\(dataSet.percentBottom)%"
 
-        let largeFontSize: CGFloat = 25.0
+
+        let largeFontSize: CGFloat = 17.0
         let smallFontSize: CGFloat = 17.0
         
-        percentImage1Label.font = percentImage1Label.font.withSize(smallFontSize)
-        percentImage2Label.font = percentImage1Label.font.withSize(smallFontSize)
+//        percentImage1Label.font = percentImage1Label.font.withSize(smallFontSize)
+//        percentImage2Label.font = percentImage1Label.font.withSize(smallFontSize)
         
+        // MARK: Adjust this to control winner image etc
         switch dataSet.percentTop {
         case let x where x > dataSet.percentBottom: percentImage1Label.font = percentImage1Label.font.withSize(largeFontSize)
         case let x where x < dataSet.percentBottom: percentImage2Label.font = percentImage1Label.font.withSize(largeFontSize)
@@ -87,11 +94,11 @@ class CompareTableViewCell: UITableViewCell {
     /// Takes a Bool specifying whether the cell is locked or not, and uses it to hide or unhide data display labels as required
     func lockCell(_ hide: Bool, reviewsNeeded: Int) {
         leftTD100Bar.isHidden = hide
-        leftRatingValueLabel.isHidden = hide
+        percentImage1Label.isHidden = hide
         rightTD100Bar.isHidden = hide
-        rightRatingValueLabel.isHidden = hide
+        percentImage2Label.isHidden = hide
         centerDividerView.isHidden = hide
-        numVotesLabel.isHidden = hide
+//        numVotesLabel.isHidden = hide
         reviewsRequiredToUnlockLabel.isHidden = !hide
         if hide == true {
             percentImage1Label.text = "🗝"

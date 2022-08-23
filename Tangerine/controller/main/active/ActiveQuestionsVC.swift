@@ -18,15 +18,13 @@ var pullControl : UIRefreshControl! // for our pull2Refresh
 ///
 class ActiveQuestionsVC: UITableViewController {
 
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //allows the row height to resize to fit the autolayout constraints
         tableView.rowHeight = UITableView.automaticDimension
         //it won't necessarily follow this exact value, it's just an estimate that's required for the above line to work:
-        tableView.estimatedRowHeight = 150
+        tableView.estimatedRowHeight = 200
 
         // enables swipe navigation
         let swipeViewGesture = UISwipeGestureRecognizer(target: self, action: #selector(ActiveQuestionsVC.userSwiped))
@@ -195,7 +193,7 @@ class ActiveQuestionsVC: UITableViewController {
             let isLocked: Bool = question.isLocked
             print("Question is Locked? \(isLocked)")
             
-            // here we build a single ask cell:
+            // here we build a single ASK CELL: - - - - - - -
             if question.type == .ASK {
                 let cellIdentifier: String = "AskTableViewCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! AskTableViewCell
@@ -271,9 +269,12 @@ class ActiveQuestionsVC: UITableViewController {
                 
                 makeCircle(view: cell.photoImageView, alpha: 1.0)
                 
+                //Add border to image (as desired)
+                addCircleBorder(view: cell.photoImageView, color: .systemOrange)
+                
                 return cell
 
-            // here we build a dual compare cell:
+            // here we build a dual COMPARE CELL: - - - - - - -
             }else  if question.type == .COMPARE {
                 
                 let cellIdentifier: String = "CompareTableViewCell"
@@ -331,9 +332,9 @@ class ActiveQuestionsVC: UITableViewController {
                 let reviewsNeeded: Int = reviewsRequiredToUnlock(question: question)
 
                 if reviewCollection.reviews.count > 0 {
-                    cell.numVotesLabel.text = "\(reviewCollection.reviews.count) vote"
+                    cell.numVotesLabel.text = "(\(reviewCollection.reviews.count) review)"
                     if reviewCollection.reviews.count > 1 {
-                        cell.numVotesLabel.text = "\(reviewCollection.reviews.count) votes" // add an s if more than one vote
+                        cell.numVotesLabel.text = "(\(reviewCollection.reviews.count) reviews)" // add an s if more than one vote
                     }
                 }
 
@@ -352,8 +353,8 @@ class ActiveQuestionsVC: UITableViewController {
 
                     cell.leftTD100Bar.isHidden = true
                     cell.rightTD100Bar.isHidden = true
-                    cell.leftRatingValueLabel.isHidden = true
-                    cell.rightRatingValueLabel.isHidden = true
+                    cell.percentImage1Label.isHidden = true
+                    cell.percentImage2Label.isHidden = true
 
                 } else {
                     // all cell locking functionality for a Compare cell is called from the cell vc itself. This is different than the Ask cell, which is all called here in AskTableVC. This should be standardized later for consistency.
@@ -368,6 +369,11 @@ class ActiveQuestionsVC: UITableViewController {
 
                 makeCircle(view: cell.image1, alpha: 1.0)
                 makeCircle(view: cell.image2, alpha: 1.0)
+                
+                //Add border to images
+                addCircleBorder(view: cell.image1, color: .systemOrange)
+                addCircleBorder(view: cell.image2, color: .systemOrange)
+
 
 
 

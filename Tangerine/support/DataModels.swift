@@ -397,6 +397,13 @@ func makeCircle(view: UIView, alpha: CGFloat){
     
 }
 
+/// Adds an outside border to a view of the specified color
+func addCircleBorder(view: UIView, color: UIColor) {
+    view.layer.borderWidth = 4.0
+    view.layer.borderColor = color.cgColor
+    view.clipsToBounds = true
+}
+
 func makeCircleInverse(view: UIView, alpha: CGFloat){
     view.layer.cornerRadius = view.frame.size.height / 2
     view.layer.masksToBounds = true
