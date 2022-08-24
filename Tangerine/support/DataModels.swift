@@ -380,6 +380,22 @@ func ageIfBorn(on birthday: Date) -> Int {
     return age
 }
 
+/// Returns the value of the "distance" that a specified age is from the specified age range.
+/// Ex: If age = 25 and age range = 31 to 55, age distance = 6
+public func ageDistance(of age: Int, from minAge: Int, to maxAge: Int) -> Int {
+    let distance = ((abs(minAge-age)+(minAge-age))/2) + ((abs(age-maxAge)+(age-maxAge))/2)
+    return distance
+}
+
+/// Returns the value of the "distance" that a specified birthday (and calculated age) is from the specified age range.
+/// Ex: If calculated age = 25 and age range = 31 to 55, age distance = 6
+public func ageDistance(of birthday: Double, from minAge: Int, to maxAge: Int) -> Int {
+    let age = getAgeFromBdaySeconds(birthday)
+    let distance = ((abs(minAge-age)+(minAge-age))/2) + ((abs(age-maxAge)+(age-maxAge))/2)
+    return distance
+}
+
+
 /// crops a button into a circle
 func makeCircle(button: UIButton){
     button.layer.cornerRadius = button.frame.size.height / 1.75
@@ -955,6 +971,54 @@ public func friends(with userName: String) -> Bool {
 //    completion(nil)
 //
 //}// end of loadAssignedQuestions()
+
+/// Returns true or false depending on whether the passed orientation and age combination fall within the parameters specified by the passed TargetDemo
+public func memberOf(targetDemo: TargetDemo, reviewerOrientation: String, and reviewerAge: Int) -> Bool {
+    
+    if reviewerAge < targetDemo.min_age_pref || reviewerAge > targetDemo.max_age_pref {
+        return false
+    }
+    
+    switch reviewerOrientation {
+    case Constants.ORIENTATIONS[0]:
+        if targetDemo.straight_woman_pref {return true}
+    case Constants.ORIENTATIONS[1]:
+        if targetDemo.straight_man_pref {return true}
+    case Constants.ORIENTATIONS[2]:
+        if targetDemo.gay_woman_pref {return true}
+    case Constants.ORIENTATIONS[3]:
+        if targetDemo.gay_man_pref {return true}
+    case Constants.ORIENTATIONS[4]:
+        if targetDemo.other_pref {return true}
+
+    default:
+        return false // this could also happen if there is a typo somewhere since we stopped using the isOrientation enum to constrain the value of this field.
+    }
+    
+    return false
+}
+
+/// Returns a Bool indicating whether the specified orientation is one of the preferred orientations in the passed TargetDemo.
+public func inTargetOrientation(targetDemo: TargetDemo, orientation: String) -> Bool {
+    switch orientation {
+    case Constants.ORIENTATIONS[0]:
+        if targetDemo.straight_woman_pref {return true}
+    case Constants.ORIENTATIONS[1]:
+        if targetDemo.straight_man_pref {return true}
+    case Constants.ORIENTATIONS[2]:
+        if targetDemo.gay_woman_pref {return true}
+    case Constants.ORIENTATIONS[3]:
+        if targetDemo.gay_man_pref {return true}
+    case Constants.ORIENTATIONS[4]:
+        if targetDemo.other_pref {return true}
+    default:
+        return false // this could also happen if there is a typo somewhere since we stopped using the isOrientation enum to constrain the value of this field.
+    }
+    print("Error- switch statement did not resolve correctly inside inTargetOrientation (DataModels).")
+    return false
+}
+
+
 
 /// Used so that we can have one pullConsolidatedData method for both Ask's and Compare's.
 public protocol isConsolidatedDataSet {

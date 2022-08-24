@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A140C4028B538A900EE1F04 /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */; };
 		2A19555A28AE9BF600289DDA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A19555928AE9BF600289DDA /* GoogleService-Info.plist */; };
 		2AA4BFDB270E720400606A08 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */; };
 		2ABCE72F273587D800103040 /* Int+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABCE72E273587D800103040 /* Int+Ext.swift */; };
@@ -122,6 +123,7 @@
 
 /* Begin PBXFileReference section */
 		234E47B20017FB9E1BC20492 /* Pods-TangerineTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangerineTests.debug.xcconfig"; path = "Target Support Files/Pods-TangerineTests/Pods-TangerineTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationEngine.swift; sourceTree = "<group>"; };
 		2A19555928AE9BF600289DDA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		2ABCE72E273587D800103040 /* Int+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Ext.swift"; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 				51118FFF25FE06CD00AFE7C1 /* UNService.swift */,
 				51796FBC260D1EF80093E18B /* Constants.swift */,
 				510A348227875CFD002F77F4 /* Reachability.swift */,
+				2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -837,6 +840,7 @@
 				5170DC3826373A1400F34354 /* Person.swift in Sources */,
 				5151F8E52618E49200F2F1E7 /* UIPickerView+Ext.swift in Sources */,
 				517743B5263480DA00AE5BE3 /* EditProfileVC.swift in Sources */,
+				2A140C4028B538A900EE1F04 /* RecommendationEngine.swift in Sources */,
 				5100470827784278002C8046 /* Question+Ext.swift in Sources */,
 				51B810032618FDE600F173BB /* AddFriendVC.swift in Sources */,
 				517BF3AA269AE5780044DE61 /* CompareReviewsTableViewController.swift in Sources */,

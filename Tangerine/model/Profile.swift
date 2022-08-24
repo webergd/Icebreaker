@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 import Firebase
 
-// Constains information about YOU
+// Contains information about YOU
 // as the name suggests
 @objcMembers public class Profile : Object{
 

@@ -222,14 +222,15 @@ class ActiveQuestionsVC: UITableViewController {
 
                 let timeRemaining = calcTimeRemaining(question.created, forActiveQ: true)
                 cell.timeRemainingLabel.text = "\(timeRemaining)"
+                
 
                 if reviewCollection.reviews.count > 0 {
-                    cell.numVotesLabel.text = "\(reviewCollection.reviews.count) vote"
+                    cell.numVotesLabel.text = "(\(reviewCollection.reviews.count) review)"
                     if reviewCollection.reviews.count > 1 {
-                        cell.numVotesLabel.text = "\(reviewCollection.reviews.count) votes" // add an s if more than one vote
+                        cell.numVotesLabel.text = "(\(reviewCollection.reviews.count) reviews)" // add an s if more than one vote
                     }
                 } else {
-                    cell.numVotesLabel.text = "No Votes Yet"
+                    cell.numVotesLabel.text = "No Reviews Yet"
                 }
 
                 cell.reviewsRequiredToUnlockLabel.isHidden = true //defaults to hidden
@@ -348,7 +349,7 @@ class ActiveQuestionsVC: UITableViewController {
 
                 if compareCellDataSet.numReviews < 1 {
                     cell.lockCell(isLocked, reviewsNeeded: reviewsNeeded)
-                    cell.numVotesLabel.text = "No Votes Yet"
+                    cell.numVotesLabel.text = "No Reviews Yet"
                     cell.numVotesLabel.font = cell.numVotesLabel.font.withSize(11.0)
 
                     cell.leftTD100Bar.isHidden = true

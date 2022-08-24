@@ -36,4 +36,14 @@ extension Int {
             return "\(self)"
         }
     }
+    
+    /// Returns a bool indicating whether the Int is within the specified range.
+    /// This includes the first and last number as part of the acceptable the range.
+    func isBetween(minValue: Int, maxValue: Int) -> Bool {
+        if self < minValue || self > maxValue {
+            return false
+        } else {
+            return false
+        }
+    }
 }
