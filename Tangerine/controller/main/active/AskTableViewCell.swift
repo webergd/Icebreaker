@@ -46,17 +46,37 @@ class AskTableViewCell: UITableViewCell {
     @IBOutlet weak var ratingImage4: UIImageView!
     
     
-    func displayCellData(dataSet: ConsolidatedAskDataSet){
+    func displayAskCellData(tangerineScore: TangerineScore){
         
-        let targetDemoDataDisplayTool: DataDisplayTool = DataDisplayTool(icon0: ratingImage0, icon1: ratingImage1, icon2: ratingImage2, icon3: ratingImage3, icon4: ratingImage4, inverseOrientation: false, ratingValueLabel: ratingValueLabel)
+        let tangerineScoreDataDisplayTool: DataDisplayTool = DataDisplayTool(
+            icon0: ratingImage0,
+            icon1: ratingImage1,
+            icon2: ratingImage2,
+            icon3: ratingImage3,
+            icon4: ratingImage4,
+            inverseOrientation: false,
+            ratingValueLabel: ratingValueLabel)
         
         // displayData was rewritten for ask's but not compares
-        displayData(dataSet: dataSet,
-                    totalReviewsLabel: numVotesLabel,
-                    displayTool: targetDemoDataDisplayTool,
-                    displayBottom: false, // because it's an Ask and there is no bottom image data set to display
-                    ratingValueLabel: ratingValueLabel,
-                    dataFilterType: .targetDemo)
+//        displayData(dataSet: dataSet,
+//                    totalReviewsLabel: numVotesLabel,
+//                    displayTool: targetDemoDataDisplayTool,
+//                    displayBottom: false, // because it's an Ask and there is no bottom image data set to display
+//                    ratingValueLabel: ratingValueLabel,
+//                    dataFilterType: .targetDemo)
+
+        
+        displayTangerineScore(tangerineScore: tangerineScore,
+                              totalReviewsLabel: numVotesLabel,
+                              displayTool: tangerineScoreDataDisplayTool,
+                              displayBottom: false,
+                              ratingValueLabel: ratingValueLabel,
+                              wearItLabel: wearItLabel,
+                              wearItImageView: wearItImageView,
+                              photoImageView: photoImageView)
+        
+        tangerineScoreDataDisplayTool.ratingValueLabel.text = "\(tangerineScore.scoreAsPercent)%"
+        
     }
 
     override func awakeFromNib() {

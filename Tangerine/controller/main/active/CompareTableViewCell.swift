@@ -25,6 +25,11 @@ class CompareTableViewCell: UITableViewCell {
     @IBOutlet weak var timeRemainingLabel: UILabel!
     @IBOutlet weak var reviewsRequiredToUnlockLabel: UILabel!
     @IBOutlet weak var numVotesLabel: UILabel!
+    @IBOutlet weak var leftWearItImageView: UIImageView!
+    @IBOutlet weak var rightWearItImageView: UIImageView!
+    @IBOutlet weak var leftWearItLabel: UILabel!
+    @IBOutlet weak var rightWearItLabel: UILabel!
+    
 
     @IBOutlet weak var centerDividerView: UIView!
 
@@ -49,9 +54,9 @@ class CompareTableViewCell: UITableViewCell {
 //    @IBOutlet weak var rightRatingValueLabel: UILabel!
     
     /// Unpacks the Data Set and displays it in form of yellow or black hearts
-    func displayCellData(dataSet: ConsolidatedCompareDataSet){
+    func displayCompareCellData(tangerineScore: TangerineScore){
         
-        let leftTargetDemoDataDisplayTool: DataDisplayTool = DataDisplayTool(
+        let leftTangerineScoreDataDisplayTool: DataDisplayTool = DataDisplayTool(
             icon0: leftRatingImage0,
             icon1: leftRatingImage1,
             icon2: leftRatingImage2,
@@ -59,12 +64,21 @@ class CompareTableViewCell: UITableViewCell {
             icon4: leftRatingImage4,
             inverseOrientation: false,
             ratingValueLabel: percentImage1Label)
-        leftTargetDemoDataDisplayTool.displayIcons(dataSet: dataSet, forBottom: false)
         
-        // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
-        leftTargetDemoDataDisplayTool.ratingValueLabel.text = "\(dataSet.percentTop)%"
+
+        displayTangerineScore(tangerineScore: tangerineScore,
+                              totalReviewsLabel: numVotesLabel,
+                              displayTool: leftTangerineScoreDataDisplayTool,
+                              displayBottom: false,
+                              ratingValueLabel: percentImage1Label,
+                              wearItLabel: leftWearItLabel,
+                              wearItImageView: leftWearItImageView,
+                              photoImageView: image1)
         
-        let rightTargetDemoDataDisplayTool: DataDisplayTool = DataDisplayTool(
+        leftTangerineScoreDataDisplayTool.ratingValueLabel.text = "\(tangerineScore.percentTop)%"
+        
+        
+        let rightTangerineScoreDataDisplayTool: DataDisplayTool = DataDisplayTool(
             icon0: rightRatingImage0,
             icon1: rightRatingImage1,
             icon2: rightRatingImage2,
@@ -72,22 +86,37 @@ class CompareTableViewCell: UITableViewCell {
             icon4: rightRatingImage4,
             inverseOrientation: true,
             ratingValueLabel: percentImage2Label)
-        rightTargetDemoDataDisplayTool.displayIcons(dataSet: dataSet, forBottom: true)
         
-        rightTargetDemoDataDisplayTool.ratingValueLabel.text = "\(dataSet.percentBottom)%"
 
+        displayTangerineScore(tangerineScore: tangerineScore,
+                              totalReviewsLabel: numVotesLabel,
+                              displayTool: rightTangerineScoreDataDisplayTool,
+                              displayBottom: true,
+                              ratingValueLabel: percentImage2Label,
+                              wearItLabel: rightWearItLabel,
+                              wearItImageView: rightWearItImageView,
+                              photoImageView: image2)
+        
+        rightTangerineScoreDataDisplayTool.ratingValueLabel.text = "\(tangerineScore.percentBottom)%"
+        
+        hideLosingRec(tangerineScore: tangerineScore)
 
-        let largeFontSize: CGFloat = 17.0
-        let smallFontSize: CGFloat = 17.0
-        
-//        percentImage1Label.font = percentImage1Label.font.withSize(smallFontSize)
-//        percentImage2Label.font = percentImage1Label.font.withSize(smallFontSize)
-        
-        // MARK: Adjust this to control winner image etc
-        switch dataSet.percentTop {
-        case let x where x > dataSet.percentBottom: percentImage1Label.font = percentImage1Label.font.withSize(largeFontSize)
-        case let x where x < dataSet.percentBottom: percentImage2Label.font = percentImage1Label.font.withSize(largeFontSize)
+    }
+    
+    /// Hides the wearIt imageView and Label for the side with the lower TangerineScore in order to avoid clutter
+    func hideLosingRec(tangerineScore: TangerineScore) {
+        switch tangerineScore.percentTop {
+        case let x where x > tangerineScore.percentBottom:
+            // img1 is the winner, so hide img2 (right) rec
+            rightWearItLabel.text = ""
+            rightWearItImageView.alpha = 0.0
+        case let x where x < tangerineScore.percentBottom:
+            // img2 is the winner, so hide img1 (left) rec
+            leftWearItLabel.text = ""
+            leftWearItImageView.alpha = 0.0
         default: print("tie")
+            // in this case, functionality elsewhere hides the wearItImageView
+            // and we want to display both wearItLabels
         }
     }
 
@@ -98,7 +127,10 @@ class CompareTableViewCell: UITableViewCell {
         rightTD100Bar.isHidden = hide
         percentImage2Label.isHidden = hide
         centerDividerView.isHidden = hide
-//        numVotesLabel.isHidden = hide
+        leftWearItLabel.isHidden = hide
+        rightWearItLabel.isHidden = hide
+        leftWearItImageView.isHidden = hide
+        rightWearItImageView.isHidden = hide
         reviewsRequiredToUnlockLabel.isHidden = !hide
         if hide == true {
             percentImage1Label.text = "🗝"

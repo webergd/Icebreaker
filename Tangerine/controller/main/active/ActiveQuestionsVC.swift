@@ -82,8 +82,6 @@ class ActiveQuestionsVC: UITableViewController {
         
     } // end view did appear
     
-    // adds the back button
-    // ::Code yet to be written::
     
     /// displays a popover animation explaining to the member how to dismiss the tableview by swiping right
     func showHelpSwipeToReturnPopover(){
@@ -189,36 +187,30 @@ class ActiveQuestionsVC: UITableViewController {
         
         if let question = myActiveQuestions[indexPath.row].question{
             let reviewCollection = myActiveQuestions[indexPath.row].reviewCollection
-            print("REVIEWS GOT: \(reviewCollection.reviews.count)")
+            print("Number of reviews in reviewCollection: \(reviewCollection.reviews.count)")
             let isLocked: Bool = question.isLocked
             print("Question is Locked? \(isLocked)")
+            
+            // Calculate a Tangerine Score to pass to the cell (works for both Ask or Compare):
+            let tangerineScore: TangerineScore = reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
             
             // here we build a single ASK CELL: - - - - - - -
             if question.type == .ASK {
                 let cellIdentifier: String = "AskTableViewCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! AskTableViewCell
                 
-                // first, pull a dataSet containing only the targetDemo:
-                var askCellDataSet = pullConsolidatedData(from: reviewCollection, filteredBy: .targetDemo,type: .ASK) as! ConsolidatedAskDataSet
-                
-                // next, if there are no reviews yet from the targetDemo, instead pull a dataSet containing allReviews
-                if askCellDataSet.numReviews < 1 {
-                    askCellDataSet = pullConsolidatedData(from: reviewCollection, filteredBy: .allUsers,type: .ASK) as! ConsolidatedAskDataSet
-                }
-                
-
-                if askCellDataSet.numReviews < 1{
+                if tangerineScore.numReviews < 1 {
                     cell.td100Bar.isHidden = true
                     cell.ratingValueLabel.isHidden = true
-                }else{
+                } else {
                     cell.td100Bar.isHidden = false
                     cell.ratingValueLabel.isHidden = false
                 }
 
                 cell.titleLabel.text = question.title_1
                 
-
-                cell.displayCellData(dataSet: askCellDataSet)
+                // pass the calculated Tangerine Score to the Ask Cell being created by AskTableViewCell
+                cell.displayAskCellData(tangerineScore: tangerineScore)
 
                 let timeRemaining = calcTimeRemaining(question.created, forActiveQ: true)
                 cell.timeRemainingLabel.text = "\(timeRemaining)"
@@ -245,6 +237,9 @@ class ActiveQuestionsVC: UITableViewController {
                     cell.reviewsRequiredToUnlockLabel.isHidden = false
                     cell.lockLabel.isHidden = false
                     cell.reviewsRequiredToUnlockLabel.text = "Please review \(reviewsNeeded) more users to unlock your results."
+                    cell.wearItImageView.isHidden = true
+                    cell.wearItLabel.isHidden = true
+                    removeCircleBorder(view: cell.photoImageView)
                 }
 
                 // started Loading, show it
@@ -270,8 +265,6 @@ class ActiveQuestionsVC: UITableViewController {
                 
                 makeCircle(view: cell.photoImageView, alpha: 1.0)
                 
-                //Add border to image (as desired)
-                addCircleBorder(view: cell.photoImageView, color: .systemOrange)
                 
                 return cell
 
@@ -281,13 +274,8 @@ class ActiveQuestionsVC: UITableViewController {
                 let cellIdentifier: String = "CompareTableViewCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CompareTableViewCell
                 
-                // first, pull a dataSet containing only the targetDemo:
-                var compareCellDataSet = pullConsolidatedData(from: reviewCollection, filteredBy: .targetDemo,type: .COMPARE) as! ConsolidatedCompareDataSet
-                
-                // next, if there are no reviews yet from the targetDemo, instead pull a dataSet containing allReviews
-                if compareCellDataSet.numReviews < 1 {
-                    compareCellDataSet = pullConsolidatedData(from: reviewCollection, filteredBy: .allUsers,type: .COMPARE) as! ConsolidatedCompareDataSet
-                }
+                // Calculate a Tangerine Score to pass to the cell:
+                let tangerineScore: TangerineScore = reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
       
                 // started Loading, show it
                 cell.image1.showActivityIndicator()
@@ -325,8 +313,11 @@ class ActiveQuestionsVC: UITableViewController {
                 //LATER find what compare does if empty
                 cell.title1Label.text = question.title_1
                 cell.title2Label.text = question.title_2
+                
+                cell.displayCompareCellData(tangerineScore: tangerineScore)
+                
 
-                cell.displayCellData(dataSet: compareCellDataSet)
+//                cell.displayCellData(dataSet: compareCellDataSet)
 
                 cell.reviewsRequiredToUnlockLabel.isHidden = true //defaults to hidden
 
@@ -339,15 +330,15 @@ class ActiveQuestionsVC: UITableViewController {
                     }
                 }
 
-                cell.percentImage1Label.text = "\(compareCellDataSet.percentTop)%"
-                cell.percentImage2Label.text = "\(compareCellDataSet.percentBottom)%"
-                if reviewCollection.reviews.count < 0 || compareCellDataSet.numReviews < 1 {
+                cell.percentImage1Label.text = "\(tangerineScore.percentTop)%"
+                cell.percentImage2Label.text = "\(tangerineScore.percentBottom)%"
+                if reviewCollection.reviews.count < 0 || tangerineScore.numReviews < 1 {
                     cell.percentImage1Label.text = "?"
                     cell.percentImage2Label.text = "?"
                     }
 
 
-                if compareCellDataSet.numReviews < 1 {
+                if tangerineScore.numReviews < 1 {
                     cell.lockCell(isLocked, reviewsNeeded: reviewsNeeded)
                     cell.numVotesLabel.text = "No Reviews Yet"
                     cell.numVotesLabel.font = cell.numVotesLabel.font.withSize(11.0)
@@ -371,11 +362,13 @@ class ActiveQuestionsVC: UITableViewController {
                 makeCircle(view: cell.image1, alpha: 1.0)
                 makeCircle(view: cell.image2, alpha: 1.0)
                 
-                //Add border to images
-                addCircleBorder(view: cell.image1, color: .systemOrange)
-                addCircleBorder(view: cell.image2, color: .systemOrange)
+//                //Add border to images
+//                addCircleBorder(view: cell.image1, color: .systemOrange)
+//                addCircleBorder(view: cell.image2, color: .systemOrange)
 
-
+                cell.rightWearItImageView.image = UIImage(named: "gear.badge.questionmark")
+                print("rightWearItImageView.isHidden = \(cell.rightWearItImageView.isHidden)")
+                print("rightWearItImageView.alpha = \(cell.rightWearItImageView.alpha)")
 
 
                 return cell
@@ -389,9 +382,6 @@ class ActiveQuestionsVC: UITableViewController {
         }else {
             return UITableViewCell()
         }
-
-
-
         
     }
     

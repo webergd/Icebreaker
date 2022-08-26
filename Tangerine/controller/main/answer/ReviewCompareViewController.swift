@@ -95,7 +95,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         topCenterBackgroundView.isHidden = true
         strongFlag = false
         
-        // unwraps the Ask that the tableView sent over:
+        // unwraps the Compare that the tableView sent over:
         if let thisCompare = question {
             // if saved image is found, load it.
             // else download it
@@ -120,7 +120,16 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                 captionTopConstraint: bottomCaptionTopConstraint)
             
             lockedContainersLabel.text = "🗝" + String(describing: lockedQuestionsCount)
-            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
+            
+            
+            if obligatoryQuestionsToReviewCount == 0 {
+                obligatoryReviewsRemainingLabel.text = String(describing: myProfile.reviewCredits) + "✨"
+            }else {
+                obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
+            }
+            
+            
+//            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
             
             startTopImageLoading(thisCompare)
             startBottomImageLoading(thisCompare)

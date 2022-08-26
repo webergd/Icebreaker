@@ -397,8 +397,9 @@ public class ReviewCollection {
         /// calculates the percent of total weight that is YES, then multiplies by 5 to get a number from 0.0 to 5.0
         let rawScore: Double = (weightedYesCount / (weightedYesCount + weightedNoCount)) * 5.0
         
-        return TangerineScore(rawScore: rawScore)
+        return TangerineScore(rawScore: rawScore, numReviews: self.reviews.count)
     }
+    
     
 }
 

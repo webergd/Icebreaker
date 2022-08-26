@@ -1220,6 +1220,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let unblurredImageUnwrapped = unblurredImageSave {
             unblurredImageToBePassed = self.sFunc_imageFixOrientation(img: unblurredImageUnwrapped)
         } else {
+            // MARK: Change to a neutral image
             unblurredImageToBePassed = UIImage(named: "whiteConverse")!
         }
         

@@ -420,6 +420,13 @@ func addCircleBorder(view: UIView, color: UIColor) {
     view.clipsToBounds = true
 }
 
+/// removes the border that addCircleBorder added to the view
+func removeCircleBorder(view: UIView){
+    view.layer.borderWidth = 0.0
+    view.clipsToBounds = true
+}
+
+
 func makeCircleInverse(view: UIView, alpha: CGFloat){
     view.layer.cornerRadius = view.frame.size.height / 2
     view.layer.masksToBounds = true
@@ -601,6 +608,7 @@ public func displayData(dataSet: ConsolidatedAskDataSet,
     
     totalReviewsLabel.text = configureNumReviewsLabel(with: dataSet.numReviews, for: dataFilterType)
     
+    // Change this to the tangerine score version
     displayTool.displayIcons(dataSet: dataSet, forBottom: displayBottom)
     
     if dataSet.numReviews < 1 {
@@ -612,8 +620,9 @@ public func displayData(dataSet: ConsolidatedAskDataSet,
     }
 } // end of displayData(Ask)
 
-public func addPuralS(numberOfItems: Int) -> String {
-    if numberOfItems > 1 || numberOfItems < 1 {
+/// Returns an 's' to be added to a word if the specified number of items is any number besides 1, in which case there should be no 's'.
+public func addPluralS(numberOfItems: Int) -> String {
+    if numberOfItems != 1 {
         return "s"
     } else {
         return ""
@@ -623,7 +632,7 @@ public func addPuralS(numberOfItems: Int) -> String {
 
 /// Takes in a filter type (TD, Friends, or All Reviews) and the number of reviews for that category, and returns the string that should be displayed by the numReviews label in the data display tool.
 public func configureNumReviewsLabel(with numReviews: Int, for dataFilterType: dataFilterType) -> String {
-    let S: String = addPuralS(numberOfItems: numReviews)
+    let S: String = addPluralS(numberOfItems: numReviews)
 //    var pluralS: String {
 //        if numReviews > 1 || numReviews < 1 {
 //            return "s"
@@ -1129,12 +1138,12 @@ public struct ConsolidatedCompareDataSet: isConsolidatedDataSet {
     public func populateNumVotesLabels(topLabel: UILabel?, bottomLabel: UILabel?) {
         //populate top label
         if let tL = topLabel {
-            let S: String = addPuralS(numberOfItems: countTop)
+            let S: String = addPluralS(numberOfItems: countTop)
             tL.text = "(\(String(countTop)) Vote\(S))"
         }
         //populate bottom label
         if let bL = bottomLabel {
-            let S: String = addPuralS(numberOfItems: countBottom)
+            let S: String = addPluralS(numberOfItems: countBottom)
             bL.text = "(\(String(countBottom)) Vote\(S))"
         }
     }
@@ -1293,6 +1302,72 @@ public struct DataDisplayTool {
         // Pass the Bool questionHasZeroReviews to determine the final config of the data display tool
         configureIconsFor(zeroReviews: questionHasZeroReviews)
     }
+    
+    
+    func displayIcons(forConsolidatedDataSet dataSet: isConsolidatedDataSet, forBottom bottom: Bool) {
+        self.populateDataDisplayTool(withRating: dataSet.rating, numReviews: dataSet.numReviews, forBottom: bottom)
+    }
+    
+    func displayIcons(forTangerineScore tangerineScore: TangerineScore, forBottom bottom: Bool) {
+        self.populateDataDisplayTool(withRating: tangerineScore.score, numReviews: tangerineScore.numReviews, forBottom: bottom)
+    }
+    
+    // Refactor of displayIcons() on 8/25/22
+    /// Displays the appropriate configuration of 'good' and 'bad' images in order to graphically convey the contents of the specified rating (from 0.0 to 5.0)
+    func populateDataDisplayTool(withRating rating: Double, numReviews: Int, forBottom bottom: Bool){
+        
+
+        /// We use this to determine whether to set the zero review configuration for the DataDisplayTool.
+        if numReviews < 1 {
+            configureIconsFor(zeroReviews: true)
+            return
+            // if the question has zero reviews, there is no point in excecuting the rest of this method.
+        }
+        
+        /// Sets the value equal to bottom (from the input parameters) so that if this set of display icons IS on the bottom, the displayed rating will be the inverse (ex: if the top image got one heart, the bottom image should show 4 hearts)
+        let displayInverseRating = bottom
+        
+
+        let imageViews: [UIImageView] = [icon0, icon1, icon2, icon3, icon4]
+        
+        // this is the score for the top (for compare Compares) or only image (as in an Ask)
+        // copying 'rating' to a var enables us to invert it later as required
+        var ratingValue: Double = rating
+        
+        
+        if displayInverseRating { // if we're displaying the bottom image's results, use the inverse
+            ratingValue = 5.0 - rating
+//            ratingToDisplay = 5.0 - rating
+        }
+        
+        
+        ratingValueLabel.text = (round(ratingValue * 10) / 10.0).description // rounded to the .1 decimal place and converted to a String
+        
+        var imageIndexValue: Double = 0.0
+        for imageView in imageViews {
+            // ex: for position 2 (the 3rd heart), if the rating is 2.5, the imageIndexValue of 2 will be subtracted leaving 0.5
+            //  meaning that 0.5 is less than 0.9 and will therefore display the bad image aka black (empty) heart.
+            if (ratingValue - imageIndexValue) > 0.9 {
+                imageView.image = goodImage
+            } else if (ratingValue - imageIndexValue) > 0.4 {
+                imageView.image = halfImage
+                // Checks to see if we have the DataDisplayTool arranged from right to left, then flips the halfImage as required.
+                if inverseOrientation == true {
+                    imageView.image = halfImage.withHorizontallyFlippedOrientation()
+                }
+            } else {
+                imageView.image = badImage
+            }
+            imageIndexValue += 1
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 }
 
 /// The Caption object contains all elements needed to display a text caption on a Question image that has been submitted for review. Unlike the image's title, which is private, the caption can be seen by any user viewing the Question.
