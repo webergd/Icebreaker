@@ -398,7 +398,7 @@ public func ageDistance(of birthday: Double, from minAge: Int, to maxAge: Int) -
 
 /// crops a button into a circle
 func makeCircle(button: UIButton){
-    button.layer.cornerRadius = button.frame.size.height / 1.75
+    button.layer.cornerRadius = button.frame.size.height / 2
     button.layer.masksToBounds = true
 }
 
@@ -609,15 +609,14 @@ public func displayData(dataSet: ConsolidatedAskDataSet,
     totalReviewsLabel.text = configureNumReviewsLabel(with: dataSet.numReviews, for: dataFilterType)
     
     // Change this to the tangerine score version
-    displayTool.displayIcons(dataSet: dataSet, forBottom: displayBottom)
+    displayTool.displayIcons(forConsolidatedDataSet: dataSet, forBottom: displayBottom)
     
-    if dataSet.numReviews < 1 {
-        ratingValueLabel.text = ""
-//        ratingValueLabel.font = ratingValueLabel.font.withSize(12.0)
-    } else {
-//        ratingValueLabel.font = ratingValueLabel.font.withSize(17.0)
-        ratingValueLabel.text = String(dataSet.rating)
-    }
+    
+//    if dataSet.numReviews < 1 {
+//        ratingValueLabel.text = ""
+//    } else {
+//        ratingValueLabel.text = String(dataSet.rating)
+//    }
 } // end of displayData(Ask)
 
 /// Returns an 's' to be added to a word if the specified number of items is any number besides 1, in which case there should be no 's'.
@@ -1073,6 +1072,13 @@ public struct ConsolidatedAskDataSet: isConsolidatedDataSet {
         let ratingToReturn = Double(rawRating) / 100 // rawRating is out of 500, rating to return is out of 5
         return ratingToReturn.roundToPlaces(1) // returns the double with only one decimal place
     }
+    
+    /// Takes a UILabel and populates it with the number of reviews included in a particular Consolidated **ASK** DataSet
+    public func populateNumReviews(label: UILabel) {
+        let S: String = addPluralS(numberOfItems: numReviews)
+        label.text = "(\(String(numReviews)) Review\(S))"
+
+    }
 }
 
 
@@ -1251,57 +1257,57 @@ public struct DataDisplayTool {
     
     /// Displays the appropriate configuration of 'good' and 'bad' images in order to graphically convey the contents of the ConsolidatedDataSet to the local user.
     /// Currently only being used for Asks. Compares use the older displayData method. This method is set up to also work with Compares, if we decide to implement it for displaying compare data as well. 9/28/21: It seems like this is being used for compares now as well.
-    func displayIcons(dataSet: isConsolidatedDataSet, forBottom bottom: Bool){
-        
-        /// Sets the value equal to bottom (from the input parameters) so that if this set of display icons IS on the bottom, the displayed rating will be the inverse (ex: if the top image got one heart, the bottom image should show 4 hearts)
-        var displayInverseRating = bottom
-        
-        /// We use this to determine whether to set the zero review configuration for the DataDisplayTool
-        let questionHasZeroReviews: Bool = dataSet.numReviews < 1
-
-        let imageViews: [UIImageView] = [icon0, icon1, icon2, icon3, icon4]
-        
-        // calculate percentage rating based on aggregated yes and strong yes data:
-        var ratingValue: Double = dataSet.rating // this returns the score for the top (for compare Compares) or only image (as in an Ask)
-        
-        
-        // this is the value in 0.0 to 5.0
-        var ratingToDisplay =  dataSet.rating
-        
-        
-        // If there are no reviews, we'll set displayInverseRating = false, because we don't want to invert the heart values and display 5 yellow hearts for the bottom one, since there aren't any reviews. We want 5 black on the top and the bottom. So this is the lone case when the bottom should be the same as the top, not the inverse.
-//        if questionHasZeroReviews {
-//            displayInverseRating = false
+//    func displayIcons(dataSet: isConsolidatedDataSet, forBottom bottom: Bool){
+//
+//        /// Sets the value equal to bottom (from the input parameters) so that if this set of display icons IS on the bottom, the displayed rating will be the inverse (ex: if the top image got one heart, the bottom image should show 4 hearts)
+//        var displayInverseRating = bottom
+//
+//        /// We use this to determine whether to set the zero review configuration for the DataDisplayTool
+//        let questionHasZeroReviews: Bool = dataSet.numReviews < 1
+//
+//        let imageViews: [UIImageView] = [icon0, icon1, icon2, icon3, icon4]
+//
+//        // calculate percentage rating based on aggregated yes and strong yes data:
+//        var ratingValue: Double = dataSet.rating // this returns the score for the top (for compare Compares) or only image (as in an Ask)
+//
+//
+//        // this is the value in 0.0 to 5.0
+//        var ratingToDisplay =  dataSet.rating
+//
+//
+//        // If there are no reviews, we'll set displayInverseRating = false, because we don't want to invert the heart values and display 5 yellow hearts for the bottom one, since there aren't any reviews. We want 5 black on the top and the bottom. So this is the lone case when the bottom should be the same as the top, not the inverse.
+////        if questionHasZeroReviews {
+////            displayInverseRating = false
+////        }
+//
+//        if displayInverseRating { // if we're displaying the bottom image's results, use the inverse
+//            ratingValue = 5.0 - ratingValue
+//            ratingToDisplay = 5.0 - dataSet.rating
 //        }
-        
-        if displayInverseRating { // if we're displaying the bottom image's results, use the inverse
-            ratingValue = 5.0 - ratingValue
-            ratingToDisplay = 5.0 - dataSet.rating
-        }
-        
-        
-        ratingValueLabel.text = (round(ratingToDisplay * 10) / 10.0).description // rounded to the .1 decimal place and converted to a String
-        
-        var imageIndexValue: Double = 0.0
-        for imageView in imageViews {
-            // ex: for position 2 (the 3rd heart), if the rating is 2.5, the imageIndexValue of 2 will be subtracted leaving 0.5
-            //  meaning that 0.5 is less than 0.9 and will therefore display the bad image aka black (empty) heart.
-            if (ratingValue - imageIndexValue) > 0.9 {
-                imageView.image = goodImage
-            } else if (ratingValue - imageIndexValue) > 0.4 {
-                imageView.image = halfImage
-                // Checks to see if we have the DataDisplayTool arranged from right to left, then flips the halfImage as required.
-                if inverseOrientation == true {
-                    imageView.image = halfImage.withHorizontallyFlippedOrientation()
-                }
-            } else {
-                imageView.image = badImage
-            }
-            imageIndexValue += 1
-        }
-        // Pass the Bool questionHasZeroReviews to determine the final config of the data display tool
-        configureIconsFor(zeroReviews: questionHasZeroReviews)
-    }
+//
+//
+//        ratingValueLabel.text = (round(ratingToDisplay * 10) / 10.0).description // rounded to the .1 decimal place and converted to a String
+//
+//        var imageIndexValue: Double = 0.0
+//        for imageView in imageViews {
+//            // ex: for position 2 (the 3rd heart), if the rating is 2.5, the imageIndexValue of 2 will be subtracted leaving 0.5
+//            //  meaning that 0.5 is less than 0.9 and will therefore display the bad image aka black (empty) heart.
+//            if (ratingValue - imageIndexValue) > 0.9 {
+//                imageView.image = goodImage
+//            } else if (ratingValue - imageIndexValue) > 0.4 {
+//                imageView.image = halfImage
+//                // Checks to see if we have the DataDisplayTool arranged from right to left, then flips the halfImage as required.
+//                if inverseOrientation == true {
+//                    imageView.image = halfImage.withHorizontallyFlippedOrientation()
+//                }
+//            } else {
+//                imageView.image = badImage
+//            }
+//            imageIndexValue += 1
+//        }
+//        // Pass the Bool questionHasZeroReviews to determine the final config of the data display tool
+//        configureIconsFor(zeroReviews: questionHasZeroReviews)
+//    }
     
     
     func displayIcons(forConsolidatedDataSet dataSet: isConsolidatedDataSet, forBottom bottom: Bool) {
@@ -1319,6 +1325,7 @@ public struct DataDisplayTool {
 
         /// We use this to determine whether to set the zero review configuration for the DataDisplayTool.
         if numReviews < 1 {
+            ratingValueLabel.text = ""
             configureIconsFor(zeroReviews: true)
             return
             // if the question has zero reviews, there is no point in excecuting the rest of this method.
@@ -1340,8 +1347,16 @@ public struct DataDisplayTool {
 //            ratingToDisplay = 5.0 - rating
         }
         
-        
-        ratingValueLabel.text = (round(ratingValue * 10) / 10.0).description // rounded to the .1 decimal place and converted to a String
+        // populate ratingValueLabel
+//        if numReviews < 1 {
+//            ratingValueLabel.text = ""
+//            print("numReviews less than one, setting empty string")
+//        } else {
+            // currently displays all values at percent. To go back to 0.0 to 5.0 rating display, uncomment next line:
+            //ratingValueLabel.text = (round(ratingValue * 10) / 10.0).description)
+            // rounded to the .1 decimal place and converted to a String
+        ratingValueLabel.text = "\(Int(round(ratingValue * 10 * 20) / 10.0).description)%"
+//        }
         
         var imageIndexValue: Double = 0.0
         for imageView in imageViews {
@@ -1361,11 +1376,6 @@ public struct DataDisplayTool {
             imageIndexValue += 1
         }
     }
-    
-    
-    
-    
-    
     
     
 }

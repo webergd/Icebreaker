@@ -2004,17 +2004,48 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="8Wi-MC-gEO">
+                                        <rect key="frame" x="353" y="321" width="40.5" height="47"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="8Wi-MC-gEO" secondAttribute="height" multiplier="6:7" id="44Z-lU-Vwv"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view alpha="0.89999997615814209" contentMode="scaleToFill" restorationIdentifier="votes1BackgroundView" translatesAutoresizingMaskIntoConstraints="NO" id="b0p-n8-qsL" userLabel="votes1BackgroundView">
+                                        <rect key="frame" x="342.5" y="368" width="61.5" height="36"/>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="votes1BackgroundView" label="votes1BackgroundView"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="95%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCv-S4-cT1">
+                                        <rect key="frame" x="342.5" y="368" width="61.5" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <color key="textColor" systemColor="systemOrangeColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="OCr-nD-cfi" secondAttribute="trailing" id="0BS-p2-DzH"/>
                                     <constraint firstItem="51Z-QV-JVd" firstAttribute="centerX" secondItem="F7t-Pw-Gu4" secondAttribute="centerX" id="2jG-Gq-mkB"/>
+                                    <constraint firstItem="b0p-n8-qsL" firstAttribute="top" secondItem="uCv-S4-cT1" secondAttribute="top" id="CqT-Lu-Ngb"/>
                                     <constraint firstItem="51Z-QV-JVd" firstAttribute="width" secondItem="F7t-Pw-Gu4" secondAttribute="width" id="DqS-5u-lHE"/>
+                                    <constraint firstItem="b0p-n8-qsL" firstAttribute="leading" secondItem="uCv-S4-cT1" secondAttribute="leading" id="Rqy-zH-TFs"/>
+                                    <constraint firstItem="b0p-n8-qsL" firstAttribute="bottom" secondItem="uCv-S4-cT1" secondAttribute="bottom" id="Tzo-fd-sJT"/>
                                     <constraint firstAttribute="bottom" secondItem="OCr-nD-cfi" secondAttribute="bottom" id="b1f-1r-fXO"/>
+                                    <constraint firstItem="b0p-n8-qsL" firstAttribute="trailing" secondItem="uCv-S4-cT1" secondAttribute="trailing" id="e08-cd-8Hm"/>
                                     <constraint firstItem="51Z-QV-JVd" firstAttribute="top" secondItem="F7t-Pw-Gu4" secondAttribute="top" id="hNM-87-2do"/>
+                                    <constraint firstItem="8Wi-MC-gEO" firstAttribute="centerX" secondItem="uCv-S4-cT1" secondAttribute="centerX" id="ikf-Mb-uR0"/>
                                     <constraint firstItem="OCr-nD-cfi" firstAttribute="top" secondItem="F7t-Pw-Gu4" secondAttribute="top" id="oDb-Ig-pne"/>
+                                    <constraint firstAttribute="trailing" secondItem="uCv-S4-cT1" secondAttribute="trailing" id="osp-np-mi7"/>
                                     <constraint firstAttribute="width" secondItem="F7t-Pw-Gu4" secondAttribute="height" multiplier="1:1" id="pB3-gF-uCg"/>
+                                    <constraint firstItem="8Wi-MC-gEO" firstAttribute="width" secondItem="F7t-Pw-Gu4" secondAttribute="width" multiplier="0.1" id="u8S-hy-gOX"/>
+                                    <constraint firstAttribute="bottom" secondItem="uCv-S4-cT1" secondAttribute="bottom" id="unv-Qu-Rdg"/>
                                     <constraint firstItem="OCr-nD-cfi" firstAttribute="leading" secondItem="F7t-Pw-Gu4" secondAttribute="leading" id="wov-Fb-sb1"/>
+                                    <constraint firstItem="uCv-S4-cT1" firstAttribute="top" secondItem="8Wi-MC-gEO" secondAttribute="bottom" id="yZu-O9-ANV"/>
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Woy-kH-K5u">
@@ -2022,44 +2053,44 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Breakdown"/>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="score" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yus-gl-lCW">
-                                <rect key="frame" x="12" y="466" width="33" height="10"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="score" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yus-gl-lCW" userLabel="'Reviews' Label">
+                                <rect key="frame" x="12" y="466" width="45.5" height="10"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="8"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piF-Cv-IuJ">
-                                <rect key="frame" x="17.5" y="484.5" width="22" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="82%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piF-Cv-IuJ">
+                                <rect key="frame" x="17.5" y="484.5" width="35" height="18"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QU2-WE-VGW">
-                                <rect key="frame" x="17" y="541.5" width="23.5" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QU2-WE-VGW">
+                                <rect key="frame" x="18" y="541.5" width="34" height="18"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.8" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGp-ha-dbS">
-                                <rect key="frame" x="16.5" y="598.5" width="24" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="46%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGp-ha-dbS">
+                                <rect key="frame" x="17" y="598.5" width="35.5" height="18"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIME TO AUTO-DELETE: X:XX" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ux5-aK-Xd3" userLabel="TIME REMAINING">
-                                <rect key="frame" x="50" y="641" width="230.5" height="20.5"/>
+                                <rect key="frame" x="62.5" y="641" width="230.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TARGET AUDIENCE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hzy-aF-avy">
-                                <rect key="frame" x="50" y="460.5" width="150" height="20.5"/>
+                                <rect key="frame" x="62.5" y="460.5" width="150" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNt-vb-pZW" userLabel="TD100Bar">
-                                <rect key="frame" x="50" y="481.5" width="324" height="24"/>
+                                <rect key="frame" x="62.5" y="481.5" width="311.5" height="24"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IiZ-aa-YZD" userLabel="TDRatingContainer">
                                         <rect key="frame" x="0.0" y="-5.5" width="140" height="35"/>
@@ -2130,20 +2161,20 @@
                                     <constraint firstItem="IiZ-aa-YZD" firstAttribute="centerY" secondItem="fNt-vb-pZW" secondAttribute="centerY" id="Ti8-bj-8qh"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11 Targeted Reviews" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tqj-uk-CU3">
-                                <rect key="frame" x="194" y="485" width="139.5" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11 Reviews" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tqj-uk-CU3">
+                                <rect key="frame" x="206.5" y="485" width="74.5" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FRIENDS" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUZ-gQ-oF4">
-                                <rect key="frame" x="50" y="517.5" width="68.5" height="20.5"/>
+                                <rect key="frame" x="62.5" y="517.5" width="68.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbj-S7-7dU" userLabel="Friends100Bar">
-                                <rect key="frame" x="50" y="538.5" width="324" height="24"/>
+                                <rect key="frame" x="62.5" y="538.5" width="311.5" height="24"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ESI-My-aol" userLabel="FriendsRatingContainer">
                                         <rect key="frame" x="0.0" y="-5.5" width="140" height="35"/>
@@ -2214,20 +2245,20 @@
                                     <constraint firstAttribute="height" constant="24" id="YIa-Nw-XiH"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 Reviews from Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m62-sF-tJB">
-                                <rect key="frame" x="194" y="542" width="167.5" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 Reviews" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m62-sF-tJB">
+                                <rect key="frame" x="206.5" y="542" width="76" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVERYONE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tr6-dm-ZYt">
-                                <rect key="frame" x="50" y="574.5" width="85.5" height="20.5"/>
+                                <rect key="frame" x="62.5" y="574.5" width="85.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jbA-Yq-p4Z" userLabel="AR100Bar">
-                                <rect key="frame" x="50" y="595.5" width="324" height="24"/>
+                                <rect key="frame" x="62.5" y="595.5" width="311.5" height="24"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pt1-cG-Fs7" userLabel="ARRatingContainer">
                                         <rect key="frame" x="0.0" y="-5.5" width="140" height="35"/>
@@ -2299,7 +2330,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13 Total Reviews" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2n3-T5-32x">
-                                <rect key="frame" x="194" y="599" width="114" height="17"/>
+                                <rect key="frame" x="206.5" y="599" width="114" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -2412,7 +2443,7 @@ time remaining is zero. </string>
                             <constraint firstItem="Yus-gl-lCW" firstAttribute="leading" secondItem="LIG-P3-owO" secondAttribute="leadingMargin" constant="-8" id="sxs-YF-3lk"/>
                             <constraint firstItem="yGp-ha-dbS" firstAttribute="centerX" secondItem="Yus-gl-lCW" secondAttribute="centerX" id="ugO-4w-HtL"/>
                             <constraint firstItem="xSk-gJ-pr9" firstAttribute="bottom" secondItem="Woy-kH-K5u" secondAttribute="bottom" constant="8" id="vNK-VI-35L"/>
-                            <constraint firstItem="Yus-gl-lCW" firstAttribute="width" secondItem="LIG-P3-owO" secondAttribute="width" multiplier="0.08" id="xUI-mo-MHn"/>
+                            <constraint firstItem="Yus-gl-lCW" firstAttribute="width" secondItem="LIG-P3-owO" secondAttribute="width" multiplier="0.11" id="xUI-mo-MHn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xb0-Gy-ghy"/>
@@ -2442,8 +2473,8 @@ time remaining is zero. </string>
                         <outlet property="friendsTotalReviewsLabel" destination="m62-sF-tJB" id="EaO-Gp-30d"/>
                         <outlet property="helpAskLabel1" destination="6GR-pI-8sf" id="g4H-YI-hRQ"/>
                         <outlet property="helpButton" destination="Ydj-pw-7B4" id="EmL-z7-W0J"/>
-                        <outlet property="reviewsLabelWidthConstraint" destination="Yus-gl-lCW" id="cE5-Jl-7pz"/>
                         <outlet property="scrollView" destination="OCr-nD-cfi" id="2Ei-tD-fIN"/>
+                        <outlet property="tangerineScoreLabel" destination="uCv-S4-cT1" id="Me8-gO-O2N"/>
                         <outlet property="targetDemo100Bar" destination="fNt-vb-pZW" id="m20-7o-slI"/>
                         <outlet property="targetDemoLabel" destination="Hzy-aF-avy" id="1jt-71-nQe"/>
                         <outlet property="targetDemoRatingLabel" destination="piF-Cv-IuJ" id="zCj-Kd-BN7"/>
@@ -2454,6 +2485,7 @@ time remaining is zero. </string>
                         <outlet property="tdRatingImage3" destination="j9o-yk-iyx" id="583-Ho-zev"/>
                         <outlet property="tdRatingImage4" destination="L8j-ly-EoC" id="7cZ-74-9CQ"/>
                         <outlet property="titleLabel" destination="w90-zT-Zit" id="DmE-JU-Tn6"/>
+                        <outlet property="wearItImageView" destination="8Wi-MC-gEO" id="o96-7x-l3J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gaS-uG-rMp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2510,7 +2542,7 @@ time remaining is zero. </string>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <view alpha="0.90000000000000002" contentMode="scaleToFill" restorationIdentifier="votes1BackgroundView" translatesAutoresizingMaskIntoConstraints="NO" id="Kvj-4U-kCg" userLabel="votes1BackgroundView">
-                                        <rect key="frame" x="306" y="358" width="92" height="36"/>
+                                        <rect key="frame" x="321" y="373" width="92" height="36"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration" identifier="votes1BackgroundView" label="votes1BackgroundView"/>
                                         <userDefinedRuntimeAttributes>
@@ -2520,13 +2552,13 @@ time remaining is zero. </string>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="votes1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QoP-jn-f2y">
-                                        <rect key="frame" x="310" y="358" width="84" height="36"/>
+                                        <rect key="frame" x="325" y="373" width="84" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" systemColor="systemOrangeColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="rrT-2V-dGt">
-                                        <rect key="frame" x="331.5" y="310.5" width="41" height="47.5"/>
+                                        <rect key="frame" x="346.5" y="325.5" width="41" height="47.5"/>
                                         <accessibility key="accessibilityConfiguration" identifier="winnerImageTop" label="winnerImageTop"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="rrT-2V-dGt" secondAttribute="height" multiplier="6:7" id="kpZ-vD-lEo"/>
@@ -2535,7 +2567,7 @@ time remaining is zero. </string>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="QoP-jn-f2y" secondAttribute="bottom" constant="15" id="8HQ-cT-dHE"/>
+                                    <constraint firstAttribute="bottom" secondItem="QoP-jn-f2y" secondAttribute="bottom" id="8HQ-cT-dHE"/>
                                     <constraint firstAttribute="trailing" secondItem="bBF-79-PfV" secondAttribute="trailing" id="Hdq-zu-IE6"/>
                                     <constraint firstItem="bBF-79-PfV" firstAttribute="top" secondItem="7Pq-ob-ECC" secondAttribute="top" id="K9S-Qm-RuJ"/>
                                     <constraint firstItem="rrT-2V-dGt" firstAttribute="width" secondItem="7Pq-ob-ECC" secondAttribute="width" multiplier="0.1" id="Krs-Xc-0Lh"/>
@@ -2544,7 +2576,7 @@ time remaining is zero. </string>
                                     <constraint firstItem="Kvj-4U-kCg" firstAttribute="bottom" secondItem="QoP-jn-f2y" secondAttribute="bottom" id="QnD-8P-HUR"/>
                                     <constraint firstItem="Kvj-4U-kCg" firstAttribute="leading" secondItem="QoP-jn-f2y" secondAttribute="leading" constant="-4" id="T4P-0f-cka"/>
                                     <constraint firstItem="5MY-31-SeG" firstAttribute="width" secondItem="7Pq-ob-ECC" secondAttribute="width" id="V8G-T1-nzw"/>
-                                    <constraint firstAttribute="trailing" secondItem="QoP-jn-f2y" secondAttribute="trailing" constant="15" id="X44-iy-gG4"/>
+                                    <constraint firstAttribute="trailing" secondItem="QoP-jn-f2y" secondAttribute="trailing" id="X44-iy-gG4"/>
                                     <constraint firstItem="5MY-31-SeG" firstAttribute="top" secondItem="7Pq-ob-ECC" secondAttribute="top" id="XpP-8o-Cy1"/>
                                     <constraint firstItem="Kvj-4U-kCg" firstAttribute="trailing" secondItem="QoP-jn-f2y" secondAttribute="trailing" constant="4" id="YUs-A9-N6U"/>
                                     <constraint firstAttribute="width" secondItem="7Pq-ob-ECC" secondAttribute="height" multiplier="1:1" id="hOM-TJ-ctt"/>
@@ -2589,7 +2621,7 @@ time remaining is zero. </string>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <view alpha="0.90000000000000002" contentMode="scaleToFill" restorationIdentifier="votes2BackgroundView" translatesAutoresizingMaskIntoConstraints="NO" id="GqB-g3-ALX" userLabel="votes2BackgroundView">
-                                        <rect key="frame" x="302" y="358" width="96" height="36"/>
+                                        <rect key="frame" x="317" y="373" width="96" height="36"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="votes2" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cl9-6g-0ec">
                                                 <rect key="frame" x="4" y="0.0" width="88" height="36"/>
@@ -2614,7 +2646,7 @@ time remaining is zero. </string>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="14N-eH-SFI">
-                                        <rect key="frame" x="329.5" y="310.5" width="41" height="47.5"/>
+                                        <rect key="frame" x="344.5" y="325.5" width="41" height="47.5"/>
                                         <accessibility key="accessibilityConfiguration" identifier="winnerImageBottom" label="winnerImageBottom"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="14N-eH-SFI" secondAttribute="height" multiplier="6:7" id="sSX-ok-7ju"/>
@@ -2625,8 +2657,8 @@ time remaining is zero. </string>
                                 <constraints>
                                     <constraint firstItem="Cl9-6g-0ec" firstAttribute="top" secondItem="14N-eH-SFI" secondAttribute="bottom" id="1VC-Cw-5nm"/>
                                     <constraint firstItem="14N-eH-SFI" firstAttribute="centerX" secondItem="Cl9-6g-0ec" secondAttribute="centerX" id="5oU-CW-kVx"/>
-                                    <constraint firstAttribute="trailing" secondItem="Cl9-6g-0ec" secondAttribute="trailing" constant="15" id="8uw-If-zwS"/>
-                                    <constraint firstAttribute="bottom" secondItem="Cl9-6g-0ec" secondAttribute="bottom" constant="15" id="AIE-Yy-JI5"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cl9-6g-0ec" secondAttribute="trailing" id="8uw-If-zwS"/>
+                                    <constraint firstAttribute="bottom" secondItem="Cl9-6g-0ec" secondAttribute="bottom" id="AIE-Yy-JI5"/>
                                     <constraint firstAttribute="width" secondItem="HU6-GO-NM9" secondAttribute="height" multiplier="1:1" id="JUg-Jc-097"/>
                                     <constraint firstItem="aUj-FG-4gh" firstAttribute="height" secondItem="HU6-GO-NM9" secondAttribute="height" id="Ka1-oh-8rf"/>
                                     <constraint firstAttribute="trailing" secondItem="Id9-da-vKA" secondAttribute="trailing" id="RIa-XE-GVC"/>
@@ -2862,14 +2894,14 @@ time remaining is zero. </string>
                                             <constraint firstItem="WEq-Dn-PAH" firstAttribute="leading" secondItem="VDu-64-rGF" secondAttribute="trailing" id="vby-1Q-ZNA"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mIw-Cg-BxZ" userLabel="Target Demo Rating Label Top">
-                                        <rect key="frame" x="141.5" y="1.5" width="24" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="55%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mIw-Cg-BxZ" userLabel="Target Demo Rating Label Top">
+                                        <rect key="frame" x="141.5" y="1.5" width="39" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TDnumReviewsTop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y0l-ym-ysk" userLabel="TDReviews">
-                                        <rect key="frame" x="173.5" y="3.5" width="130.5" height="17"/>
+                                        <rect key="frame" x="188.5" y="3.5" width="130.5" height="17"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -2956,14 +2988,14 @@ time remaining is zero. </string>
                                             <constraint firstItem="tbh-sZ-MG8" firstAttribute="centerY" secondItem="Hbq-RD-aCN" secondAttribute="centerY" id="z7K-Ry-9IJ"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4H-js-cci" userLabel="Friends Rating Label Top">
-                                        <rect key="frame" x="141.5" y="1.5" width="26.5" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4H-js-cci" userLabel="Friends Rating Label Top">
+                                        <rect key="frame" x="141.5" y="1.5" width="39.5" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FriendsNumReviewsTop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zQQ-yv-7Be" userLabel="TDReviews">
-                                        <rect key="frame" x="176" y="3.5" width="165" height="17"/>
+                                        <rect key="frame" x="189" y="3.5" width="165" height="17"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -3050,14 +3082,14 @@ time remaining is zero. </string>
                                             <constraint firstItem="AvG-Yl-dEo" firstAttribute="height" secondItem="9QD-7A-fh6" secondAttribute="height" id="vrL-a2-aI8"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.8" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sQ-9m-fAZ" userLabel="All Reviews Rating Label Top">
-                                        <rect key="frame" x="141.5" y="1.5" width="27" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sQ-9m-fAZ" userLabel="All Reviews Rating Label Top">
+                                        <rect key="frame" x="141.5" y="1.5" width="40" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ARNumReviewsTop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDc-jS-u3Z" userLabel="TDReviews">
-                                        <rect key="frame" x="176.5" y="3.5" width="133" height="17"/>
+                                        <rect key="frame" x="189.5" y="3.5" width="133" height="17"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -3162,14 +3194,14 @@ time remaining is zero. </string>
                                             <constraint firstItem="xue-vs-BxV" firstAttribute="leading" secondItem="fq9-w8-mSl" secondAttribute="trailing" id="yUG-bV-dp6"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bq7-9o-4j3" userLabel="Target Demo Rating Label Bottom">
-                                        <rect key="frame" x="141.5" y="1.5" width="26.5" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bq7-9o-4j3" userLabel="Target Demo Rating Label Bottom">
+                                        <rect key="frame" x="141.5" y="1.5" width="39.5" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TDnumReviewsBottom" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXj-O4-ooX" userLabel="TDReviews">
-                                        <rect key="frame" x="176" y="3.5" width="158" height="17"/>
+                                        <rect key="frame" x="189" y="3.5" width="158" height="17"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -3256,14 +3288,14 @@ time remaining is zero. </string>
                                             <constraint firstItem="UXV-i0-c3u" firstAttribute="width" secondItem="UXV-i0-c3u" secondAttribute="height" multiplier="1:1" id="zin-UP-UTW"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5rE-Ts-eQL" userLabel="Friends Rating Label Bottom">
-                                        <rect key="frame" x="141.5" y="1.5" width="24" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5rE-Ts-eQL" userLabel="Friends Rating Label Bottom">
+                                        <rect key="frame" x="141.5" y="1.5" width="38.5" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FriendsNumReviewsTop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vAl-0e-G0N" userLabel="TDReviews">
-                                        <rect key="frame" x="173.5" y="3.5" width="165" height="17"/>
+                                        <rect key="frame" x="188" y="3.5" width="165" height="17"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -3350,14 +3382,14 @@ time remaining is zero. </string>
                                             <constraint firstItem="l5N-9p-GNO" firstAttribute="centerY" secondItem="bDr-2a-Ppf" secondAttribute="centerY" id="wGn-hX-hS0"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3M-Cp-zLp" userLabel="All Reviews Rating Label Bottom">
-                                        <rect key="frame" x="141.5" y="1.5" width="26.5" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3M-Cp-zLp" userLabel="All Reviews Rating Label Bottom">
+                                        <rect key="frame" x="141.5" y="1.5" width="40" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ARNumReviewsTop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYN-dG-f7m" userLabel="TDReviews">
-                                        <rect key="frame" x="176" y="3.5" width="133" height="17"/>
+                                        <rect key="frame" x="189.5" y="3.5" width="133" height="17"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>

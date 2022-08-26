@@ -218,21 +218,45 @@ public func displayTangerineScore(tangerineScore: TangerineScore,
         wearItLabel.text = recommendation.rawValue
     }
     
-    switch recommendation {
-    case .reject:
-        wearItImageView.isHidden = false
-        wearItImageView.image = UIImage(systemName: "xmark.circle")
-        wearItImageView.tintColor = .systemRed
-        removeCircleBorder(view: photoImageView)
-    case .uncertain:
-        wearItImageView.isHidden = true
-        removeCircleBorder(view: photoImageView)
-    case .accept:
-        wearItImageView.isHidden = false
-        wearItImageView.image = UIImage(named: "Tangerine.slice")
+    loadRecommendation(imageView: wearItImageView, for: recommendation)
+    
+    if recommendation == .accept {
         addCircleBorder(view: photoImageView, color: .systemOrange)
+    } else {
+        removeCircleBorder(view: photoImageView)
     }
     
+//    switch recommendation {
+//    case .reject:
+//        wearItImageView.isHidden = false
+//        wearItImageView.image = UIImage(systemName: "xmark.circle")
+//        wearItImageView.tintColor = .systemRed
+//        removeCircleBorder(view: photoImageView)
+//    case .uncertain:
+//        wearItImageView.isHidden = true
+//        removeCircleBorder(view: photoImageView)
+//    case .accept:
+//        wearItImageView.isHidden = false
+//        wearItImageView.image = UIImage(named: "Tangerine.slice")
+//        addCircleBorder(view: photoImageView, color: .systemOrange)
+//    }
+    
+}
+
+/// Sets up the wearItImageView with the right image and whether it's visible
+public func loadRecommendation(imageView: UIImageView, for recommendation: decisionRec) {
+    switch recommendation {
+    case .reject:
+        imageView.isHidden = false
+        imageView.image = UIImage(systemName: "xmark.circle")
+        imageView.tintColor = .systemRed
+    case .uncertain:
+        imageView.isHidden = true
+    case .accept:
+        imageView.isHidden = false
+        imageView.image = UIImage(named: "Tangerine.slice")
+
+    }
 }
 
 

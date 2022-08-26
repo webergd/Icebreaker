@@ -214,7 +214,7 @@ class CompareBreakdownViewController: UIViewController {
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
                 // The code would be more readible if we change either Ask or Compare so they both use the same method name to display.
                 /// Displays the passed targetDemoDataSet graphically using the DataDisplayTool
-                targetDemoDataDisplayToolTop.displayIcons(dataSet: targetDemoDataSet, forBottom: false)
+                targetDemoDataDisplayToolTop.displayIcons(forConsolidatedDataSet: targetDemoDataSet, forBottom: false)
                 
                 let targetDemoDataDisplayToolBottom = DataDisplayTool(
                     icon0: thisTDRatingImage0Bottom,
@@ -225,7 +225,7 @@ class CompareBreakdownViewController: UIViewController {
                     inverseOrientation: false,
                     ratingValueLabel: targetDemoRatingLabelBottom)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
-                targetDemoDataDisplayToolBottom.displayIcons(dataSet: targetDemoDataSet, forBottom: true)
+                targetDemoDataDisplayToolBottom.displayIcons(forConsolidatedDataSet: targetDemoDataSet, forBottom: true)
                 
                 // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
                 targetDemoDataDisplayToolTop.ratingValueLabel.text = "\(targetDemoDataSet.percentTop)%"
@@ -253,7 +253,7 @@ class CompareBreakdownViewController: UIViewController {
                     inverseOrientation: false,
                     ratingValueLabel: friendsRatingLabelTop)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
-                friendsDataDisplayToolTop.displayIcons(dataSet: friendsDataSet, forBottom: false)
+                friendsDataDisplayToolTop.displayIcons(forConsolidatedDataSet: friendsDataSet, forBottom: false)
                 
                 let friendsDataDisplayToolBottom = DataDisplayTool(
                     icon0: thisFRatingImage0Bottom,
@@ -264,7 +264,7 @@ class CompareBreakdownViewController: UIViewController {
                     inverseOrientation: false,
                     ratingValueLabel: friendsRatingLabelBottom)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
-                friendsDataDisplayToolBottom.displayIcons(dataSet: friendsDataSet, forBottom: true)
+                friendsDataDisplayToolBottom.displayIcons(forConsolidatedDataSet: friendsDataSet, forBottom: true)
                 
                 // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
                 friendsDataDisplayToolTop.ratingValueLabel.text = "\(friendsDataSet.percentTop)%"
@@ -292,7 +292,7 @@ class CompareBreakdownViewController: UIViewController {
                     inverseOrientation: false,
                     ratingValueLabel: allReviewsRatingLabelTop)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
-                allReviewsDataDisplayToolTop.displayIcons(dataSet: allReviewsDataSet, forBottom: false)
+                allReviewsDataDisplayToolTop.displayIcons(forConsolidatedDataSet: allReviewsDataSet, forBottom: false)
                 
                 let allReviewsDataDisplayToolBottom = DataDisplayTool(
                     icon0: thisARRatingImage0Bottom,
@@ -303,7 +303,7 @@ class CompareBreakdownViewController: UIViewController {
                     inverseOrientation: false,
                     ratingValueLabel: allReviewsRatingLabelBottom)
                 // Note that we're using .displayIcons rather than .displayData because this is a compare. Not the most intuitive structure.
-                allReviewsDataDisplayToolBottom.displayIcons(dataSet: allReviewsDataSet, forBottom: true)
+                allReviewsDataDisplayToolBottom.displayIcons(forConsolidatedDataSet: allReviewsDataSet, forBottom: true)
                 
                 // Changes the rating labels to percents instead of 0.0 to 5.0 ratings
                 allReviewsDataDisplayToolTop.ratingValueLabel.text = "\(allReviewsDataSet.percentTop)%"

@@ -84,7 +84,7 @@ class ProfileVC: UIViewController {
         scoreL.text = "(\(myProfile.rating))"
         totalReviewL.text = "\(myProfile.reviews.roundedWithAbbreviations) Total Reviews"
         
-        totalCreditL.text = "\(myProfile.reviewCredits) Review Credits 💰"
+        totalCreditL.text = "\(myProfile.reviewCredits) Review Credits ✨"
         
         let friendCount = userDefault.integer(forKey: Constants.UD_USER_FRIEND_COUNT)
         friendCountL.text = "\(friendCount) Friends"

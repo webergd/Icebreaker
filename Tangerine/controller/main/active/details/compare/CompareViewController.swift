@@ -127,7 +127,21 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
                     thisBottomScoreLabel.text = "No Votes Yet"
                 }
             }
-            
+        
+        // Configure TANGERINE SCORE Data Display
+        
+        let tangerineScoreDataSet = question.reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
+        if let thisTopScoreLabel = self.votes1Label,
+           let thisBottomScoreLabel = self.votes2Label {
+            if consolidateCD.numReviews > 0 {
+                thisTopScoreLabel.text = "\(tangerineScoreDataSet.percentTop) %"
+                thisBottomScoreLabel.text = "\(tangerineScoreDataSet.percentBottom) %"
+            } else {
+                thisTopScoreLabel.text = "No Votes Yet"
+                thisBottomScoreLabel.text = "No Votes Yet"
+            }
+        }
+
             
             // I had to unwrap the tangerine images from this same ViewController in order to
             // modify their attributes inside an if-then or switch-case:

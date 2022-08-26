@@ -19,6 +19,9 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var askCaptionTopConstraint: NSLayoutConstraint!
     @IBOutlet var askView: UIView!
     @IBOutlet weak var askTimeRemainingLabel: UILabel!
+    @IBOutlet weak var wearItImageView: UIImageView!
+    @IBOutlet weak var tangerineScoreLabel: UILabel!
+    
     
     // TARGET DEMO OUTLETS
     @IBOutlet weak var targetDemoTotalReviewsLabel: UILabel!
@@ -142,12 +145,17 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                     inverseOrientation: false,
                     ratingValueLabel: targetDemoRatingLabel)
                 
-                displayData(dataSet: targetDemoDataSet,
-                            totalReviewsLabel: targetDemoTotalReviewsLabel,
-                            displayTool: targetDemoDataDisplayTool,
-                            displayBottom: false,
-                            ratingValueLabel: targetDemoRatingLabel,
-                            dataFilterType: .targetDemo)
+                targetDemoDataDisplayTool.displayIcons(forConsolidatedDataSet: targetDemoDataSet, forBottom: false)
+                
+                targetDemoDataSet.populateNumReviews(label: targetDemoTotalReviewsLabel)
+                
+                
+//                displayData(dataSet: targetDemoDataSet,
+//                            totalReviewsLabel: targetDemoTotalReviewsLabel,
+//                            displayTool: targetDemoDataDisplayTool,
+//                            displayBottom: false,
+//                            ratingValueLabel: targetDemoRatingLabel,
+//                            dataFilterType: .targetDemo)
             }
             
             // Configure the Friends data display
@@ -164,12 +172,16 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                     inverseOrientation: false,
                     ratingValueLabel: friendsRatingLabel)
                 
-                displayData(dataSet: friendsDataSet,
-                            totalReviewsLabel: friendsTotalReviewsLabel,
-                            displayTool: friendsDataDisplayTool,
-                            displayBottom: false,
-                            ratingValueLabel: friendsRatingLabel,
-                            dataFilterType: .friends)
+                friendsDataDisplayTool.displayIcons(forConsolidatedDataSet: friendsDataSet, forBottom: false)
+                
+                friendsDataSet.populateNumReviews(label: friendsTotalReviewsLabel)
+                
+//                displayData(dataSet: friendsDataSet,
+//                            totalReviewsLabel: friendsTotalReviewsLabel,
+//                            displayTool: friendsDataDisplayTool,
+//                            displayBottom: false,
+//                            ratingValueLabel: friendsRatingLabel,
+//                            dataFilterType: .friends)
             }
             
             // Configure the All Reviews data display
@@ -185,14 +197,27 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                     icon4: thisARRatingImage4,
                     inverseOrientation: false,
                     ratingValueLabel: allReviewsRatingLabel)
+
+                allReviewsDataDisplayTool.displayIcons(forConsolidatedDataSet: allReviewsDataSet, forBottom: false)
                 
-                displayData(dataSet: allReviewsDataSet,
-                            totalReviewsLabel: allReviewsTotalReviewsLabel,
-                            displayTool: allReviewsDataDisplayTool,
-                            displayBottom: false,
-                            ratingValueLabel: allReviewsRatingLabel,
-                            dataFilterType: .allUsers)
+                allReviewsDataSet.populateNumReviews(label: allReviewsTotalReviewsLabel)
+                
+                
+//                displayData(dataSet: allReviewsDataSet,
+//                            totalReviewsLabel: allReviewsTotalReviewsLabel,
+//                            displayTool: allReviewsDataDisplayTool,
+//                            displayBottom: false,
+//                            ratingValueLabel: allReviewsRatingLabel,
+//                            dataFilterType: .allUsers)
             }
+            
+            let tangerineScore = question.reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
+            
+            let recommendation = generateRecommendation(from: tangerineScore, inputs: TangerineScoreInputs())
+            
+            loadRecommendation(imageView: wearItImageView, for: recommendation)
+            
+            tangerineScoreLabel.text = "\(String(tangerineScore.scoreAsPercent))%"
             
         } else {
             print("Looks like ask is nil")
