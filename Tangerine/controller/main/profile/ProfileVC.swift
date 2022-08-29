@@ -82,13 +82,16 @@ class ProfileVC: UIViewController {
         ageSpecialtyL.text = "\(getAgeFromBdaySeconds(myProfile.birthday)) year old \(myProfile.orientation)"
         
         scoreL.text = "(\(myProfile.rating))"
-        totalReviewL.text = "\(myProfile.reviews.roundedWithAbbreviations) Total Reviews"
+        var S = addPluralS(numberOfItems: Int(myProfile.rating))
+        totalReviewL.text = "\(myProfile.reviews.roundedWithAbbreviations) Total Review\(S)"
         
-        let S = addPluralS(numberOfItems: myProfile.reviewCredits)
+        S = addPluralS(numberOfItems: myProfile.reviewCredits)
         totalCreditL.text = "\(myProfile.reviewCredits) Review Credit\(S) 🐿️"
         
+        
         let friendCount = userDefault.integer(forKey: Constants.UD_USER_FRIEND_COUNT)
-        friendCountL.text = "\(friendCount) Friends"
+        S = addPluralS(numberOfItems: friendCount)
+        friendCountL.text = "\(friendCount) Friend\(S)"
         
         // format the member since date
         let dateFormatterGet = DateFormatter()
