@@ -254,6 +254,8 @@ public func clearOutCurrentCompare() {
     
 }
 
+
+
 /// Used in review view controllers to set the comments text view back to default
 public func resetTextView(textView: UITextView?, blankText: String) {
     if let thisTextView = textView {

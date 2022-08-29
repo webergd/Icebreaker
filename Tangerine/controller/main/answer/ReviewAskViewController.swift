@@ -122,7 +122,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             lockedContainersLabel.text = "🗝" + String(describing: lockedQuestionsCount)
             
             if obligatoryQuestionsToReviewCount == 0 {
-                obligatoryReviewsRemainingLabel.text = String(describing: myProfile.reviewCredits) + "✨"
+                obligatoryReviewsRemainingLabel.text = String(describing: myProfile.reviewCredits) + "🐿️"
             }else {
                 obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
             }

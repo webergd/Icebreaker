@@ -123,7 +123,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
             
             if obligatoryQuestionsToReviewCount == 0 {
-                obligatoryReviewsRemainingLabel.text = String(describing: myProfile.reviewCredits) + "✨"
+                obligatoryReviewsRemainingLabel.text = String(describing: myProfile.reviewCredits) + "🐿️"
             }else {
                 obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
             }

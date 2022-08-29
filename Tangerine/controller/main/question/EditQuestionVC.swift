@@ -762,12 +762,25 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 //            self.titleTextField.textColor = UIColor.gray
             self.titleHasBeenTapped = false
             
-            if captionTextField.text != "" {
-                centerFlexibleSpace.isEnabled = true //deprecated
-            }
+//            if captionTextField.text != "" {
+//                centerFlexibleSpace.isEnabled = true //deprecated
+//            }
             // MARK: This mirror caption button is now being used as an edit title button so we need to clean up some of this linkage to the caption
             
-            hideTitleTextField()
+            // Stores a substring of the caption to the title so that user can more easily reference the photo through text rather than just visually
+            if captionTextField.text != "" {
+                if let captionText = captionTextField.text {
+                    let captionLength = captionText.count
+                    if captionLength > 11 {
+                        titleTextField.text = String(captionText.prefix(11))
+                    } else {
+                        titleTextField.text = captionText
+                    }
+                    showTitleTextField()
+                }
+            } else {
+                hideTitleTextField()
+            }
             
         } else if titleTextField.text != enterTitleConstant  {
             centerFlexibleSpace.isEnabled = false //deprecated
@@ -1185,6 +1198,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    func saveCaptionSubtringAsTitle() {
+        
+    }
     
     /// This method clears the text field to be ready to be typed in and it also reverses the value of titleHasBeenTapped.
     @IBAction func titleTextFieldBeginEditing(_ sender: AnyObject) {
