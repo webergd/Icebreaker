@@ -2496,6 +2496,36 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
 } // end reviewReqToUnlock
 
 
+// New Func for qff_count and fr_count on firebase
+// doesn't have to exist in local db or elsewhere on client
+
+public func increaseQFFCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name).updateData([
+            Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(1))
+        ]){ error in
+            
+            if error == nil {
+                print("Added QFF Count to \(name)")
+            }
+            
+        }
+    
+}
+
+public func increaseFRCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name).updateData([
+            Constants.USER_FR_COUNT_KEY: FieldValue.increment(Int64(1))
+        ]){ error in
+            
+            if error == nil {
+                print("Added FR Count to \(name)")
+            }
+        }
+}
 
 
 public func resetLocalAndRealmDB(){
