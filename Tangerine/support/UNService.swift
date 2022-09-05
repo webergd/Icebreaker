@@ -29,7 +29,6 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
                 self.unCenter.delegate = self
                 let application = UIApplication.shared
                 application.registerForRemoteNotifications()
-                
             }
         }
     } //  end of authorize

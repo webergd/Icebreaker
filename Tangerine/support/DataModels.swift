@@ -2502,7 +2502,10 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
 public func increaseQFFCountOf(username name: String){
     Firestore.firestore()
         .collection(Constants.USERS_COLLECTION)
-        .document(name).updateData([
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
             Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(1))
         ]){ error in
             
@@ -2517,7 +2520,10 @@ public func increaseQFFCountOf(username name: String){
 public func increaseFRCountOf(username name: String){
     Firestore.firestore()
         .collection(Constants.USERS_COLLECTION)
-        .document(name).updateData([
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
             Constants.USER_FR_COUNT_KEY: FieldValue.increment(Int64(1))
         ]){ error in
             
