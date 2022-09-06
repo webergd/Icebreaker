@@ -2506,7 +2506,8 @@ public func increaseQFFCountOf(username name: String){
         .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         .document(Constants.USERS_PRIVATE_INFO_DOC)
         .updateData([
-            Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(1))
+            Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(1)),
+            Constants.USER_QFF_FROM_KEY: myProfile.username
         ]){ error in
             
             if error == nil {
@@ -2524,7 +2525,8 @@ public func increaseFRCountOf(username name: String){
         .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         .document(Constants.USERS_PRIVATE_INFO_DOC)
         .updateData([
-            Constants.USER_FR_COUNT_KEY: FieldValue.increment(Int64(1))
+            Constants.USER_FR_COUNT_KEY: FieldValue.increment(Int64(1)),
+            Constants.USER_FR_FROM_KEY: myProfile.username
         ]){ error in
             
             if error == nil {
