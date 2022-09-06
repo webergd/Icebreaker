@@ -2507,11 +2507,29 @@ public func increaseQFFCountOf(username name: String){
         .document(Constants.USERS_PRIVATE_INFO_DOC)
         .updateData([
             Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(1)),
-            Constants.USER_QFF_FROM_KEY: myProfile.username
+            Constants.USER_QFF_FROM_KEY: myProfile.display_name
         ]){ error in
             
             if error == nil {
                 print("Added QFF Count to \(name)")
+            }
+            
+        }
+    
+}
+
+public func decreaseQFFCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
+            Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(-1)),
+        ]){ error in
+            
+            if error == nil {
+                print("Removed QFF Count to \(name)")
             }
             
         }
@@ -2531,6 +2549,22 @@ public func increaseFRCountOf(username name: String){
             
             if error == nil {
                 print("Added FR Count to \(name)")
+            }
+        }
+}
+
+public func decreaseFRCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
+            Constants.USER_FR_COUNT_KEY: FieldValue.increment(Int64(-1))
+        ]){ error in
+            
+            if error == nil {
+                print("Removed FR Count to \(name)")
             }
         }
 }

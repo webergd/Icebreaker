@@ -59,12 +59,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 
         // set the device token to auth as per doc to handle silent push
         Auth.auth().setAPNSToken(deviceToken, type: .unknown)
-        
+        print("Notification: did register device \(deviceToken)")
     }
     
     // this comes in handy, if we'd like to send any USER a notification
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         // we'll use it later
+        print("Notification: did receive fcm \(fcmToken)")
         // saving the token for later use
         if let token = fcmToken {
             

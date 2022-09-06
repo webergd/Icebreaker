@@ -19,7 +19,7 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
     // This function ask for authorization from user
     // if granted, we'll register for remote notification
     func authorize(){
-        let options: UNAuthorizationOptions = [.alert,.sound]
+        let options: UNAuthorizationOptions = [.alert,.sound,.badge]
         unCenter.requestAuthorization(options: options) { (granted, error) in
             print(error ?? "No un auth error")
             
@@ -39,8 +39,10 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         // will present
-        print("will present")
-        let options: UNNotificationPresentationOptions = [.alert,.sound]
+        print("Notification: will present")
+        let options: UNNotificationPresentationOptions = []
+        
+        
         completionHandler(options)
     }
     
@@ -54,7 +56,7 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         //did receive
-        print("did receive")
+        print("Notification: did receive")
         
         completionHandler()
     }
