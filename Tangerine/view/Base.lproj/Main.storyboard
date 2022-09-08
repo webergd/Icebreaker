@@ -106,7 +106,7 @@
                                     <outletCollection property="gestureRecognizers" destination="4sf-6W-Imh" appends="YES" id="sPw-c1-Vpq"/>
                                 </connections>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learn if people endorsed the fashion items you uploaded." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRN-oE-zIu" userLabel="helpViewResultsLabel">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See if people endorsed the fashion items you uploaded." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRN-oE-zIu" userLabel="helpViewResultsLabel">
                                 <rect key="frame" x="8" y="318" width="175" height="26.5"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
@@ -179,15 +179,15 @@
                                     <constraint firstAttribute="height" constant="32" id="0wc-mM-thJ"/>
                                     <constraint firstAttribute="width" secondItem="0qH-rV-I3a" secondAttribute="height" multiplier="1:1.2" id="Igt-M9-3ti"/>
                                 </constraints>
-                                <state key="normal" image="Tangerine.slice"/>
+                                <state key="normal" image="Tangerine.slice_TM"/>
                                 <connections>
                                     <action selector="helpButtonTapped:" destination="L83-pA-91X" eventType="touchUpInside" id="7N7-mW-RM8"/>
                                     <action selector="topLockButtonTapped:" destination="QU4-wR-OY4" eventType="touchUpInside" id="da2-qw-qFP"/>
                                     <action selector="websiteButtonTapped:" destination="l5o-ST-kah" eventType="touchUpInside" id="aof-a7-2r3"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect with your friends so you can get their opinions too." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I98-ui-vi0" userLabel="helpFriendsLabel">
-                                <rect key="frame" x="12" y="96" width="102.5" height="53"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add friends to get their input too. " textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I98-ui-vi0" userLabel="helpFriendsLabel">
+                                <rect key="frame" x="12" y="96" width="102.5" height="26.5"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
@@ -204,8 +204,8 @@
                                 <color key="highlightedColor" systemColor="labelColor"/>
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adjust your preferred reviewer demographic, profile photo, display name, and more." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySE-J5-i9C" userLabel="helpProfileAndSettingsLabel">
-                                <rect key="frame" x="302" y="96" width="100" height="92"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adjust your preferred reviewers, profile photo, display name, and more." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySE-J5-i9C" userLabel="helpProfileAndSettingsLabel">
+                                <rect key="frame" x="302" y="96" width="100" height="66"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
@@ -5370,6 +5370,7 @@ Tap the image that you think this person should go with.
         <image name="Heart White" width="160" height="160"/>
         <image name="Heart Yellow" width="120" height="120"/>
         <image name="Tangerine.slice" width="505" height="622"/>
+        <image name="Tangerine.slice_TM" width="2519" height="3048"/>
         <image name="Xsmall_white" width="512" height="512"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="arrow.uturn.backward" catalog="system" width="128" height="112"/>

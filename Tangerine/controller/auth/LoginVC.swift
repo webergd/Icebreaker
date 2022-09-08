@@ -532,7 +532,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     // method names will say what they do
     func configureTopImage(){
         topLogoImage = UIImageView()
-        topLogoImage.image = UIImage(named: "Tangerine_Icon_blue_grad")
+        topLogoImage.image = UIImage(named: "Tangerine_Icon_blue_grad_overall_TM")
         
         view.addSubview(topLogoImage)
         topLogoImage.translatesAutoresizingMaskIntoConstraints = false
