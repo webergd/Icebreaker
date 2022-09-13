@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         
         application.registerForRemoteNotifications()
         
+        
         // to prevent Realm Crash
         let config = Realm.Configuration(
                   // Set the new schema version. This must be greater than the previously used

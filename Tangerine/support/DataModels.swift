@@ -96,6 +96,7 @@ public var myActiveQuestions = [ActiveQuestion]()
 public var rawQuestions = Set<Question>()
 public var questionOnTheScreen: PrioritizedQuestion!
 public var qFFCount = 0
+public var friendReqCount = 0
 
 // MARK: Credits
 public let maxPersistentReviewCredits: Int = 15
