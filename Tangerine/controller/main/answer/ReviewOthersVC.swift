@@ -372,6 +372,13 @@ class ReviewOthersVC: UIViewController{
                 self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
             }))
             
+            // The culprit that caused the ADF thingy
+            // when we don't have any question, we remove the top one as well
+            
+            if let _ = questionOnTheScreen {
+                questionOnTheScreen = nil
+            }
+            print("Checking QONS \(questionOnTheScreen)")
             self.present(alertVC, animated: true)
             
             

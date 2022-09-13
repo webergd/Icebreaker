@@ -1713,8 +1713,6 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     } // end of for loop of questionToReview
     
     
-    
-    
     // so when we're on live, we already have some unsolved question that we can't lose
     // as live only fetches question posted upto 5 mins ago
     // if we don't keep the filteredQTR, we'll lose them for this review
