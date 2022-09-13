@@ -309,7 +309,7 @@ class MainVC: UIViewController {
         checkForQuestionsToFetch(){
             print("Completed fetching Questions from MainVC")
             self.updateQFFCount()
-            self.updateBadgeCount()
+            updateBadgeCount()
         }
         
         // fetch the active question or questions that I posted
@@ -392,7 +392,7 @@ class MainVC: UIViewController {
                         }
                         print("Sync done")
                         self.friendBadgeHub.blink()
-                        self.updateBadgeCount()
+                        updateBadgeCount()
 
                         }
 
@@ -415,10 +415,7 @@ class MainVC: UIViewController {
         
     }
     
-    public func updateBadgeCount(){
-        let totalBadge = qFFCount + friendReqCount
-        UIApplication.shared.applicationIconBadgeNumber = totalBadge
-    }
+    
     
     /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
     func centerMainIconsVertically() {

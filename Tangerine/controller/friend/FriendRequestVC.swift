@@ -182,6 +182,17 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             Firestore.firestore().collection(Constants.USERS_COLLECTION).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                 .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
             
+            // in case user decides to exit app without returning to mainVC
+            // we're updating the badge right from here to handle the correct badge number
+            // just so user doesn't think he has more action to perform than he actually does
+            
+            // Update the fr count on firebase
+            decreaseFRCountOf(username: myProfile.username)
+            // we should have one less fr count locally
+            friendReqCount -= 1
+            // so update the badge now
+            updateBadgeCount()
+            
             
             // just show a dialog
             let alertVC = UIAlertController(title: "Accepted!", message: "You are now friends with \(person.username!)", preferredStyle: .alert)

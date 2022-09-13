@@ -2571,6 +2571,16 @@ public func decreaseFRCountOf(username name: String){
 }
 
 
+/// called from MainVC, FriendRequestVC and Where we answer a q from friend, probably here 
+public func updateBadgeCount(){
+    
+    var totalBadge = qFFCount + friendReqCount
+    if totalBadge < 0 {totalBadge = 0}
+    UIApplication.shared.applicationIconBadgeNumber = totalBadge
+    print("Updated badge count to: \(totalBadge)")
+}
+
+
 public func resetLocalAndRealmDB(){
     // update the user defaults
     
