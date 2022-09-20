@@ -50,6 +50,8 @@ class MainVC: UIViewController {
     @IBOutlet weak var cameraButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var spacerView1: UIView!
     
+    // to track if both qff and frCount has finished updating locally
+    var applicationBadgeNumber = 0
     
     /// Other ViewControllers can access this to take themselves back to this VC.
     /// Detailed instructions on an 'unwind' segue and its use here: https://www.andrewcbancroft.com/2015/12/18/working-with-unwind-segues-programmatically-in-swift/
@@ -115,36 +117,7 @@ class MainVC: UIViewController {
         
         self.present(vc, animated: true, completion: nil)
     }
-    
-    
-    // sign out the current user and take him to login screen
-    @IBAction func onLogoutTapped(_ sender: UITapGestureRecognizer) {
-        
-        
-        do {
-            try Auth.auth().signOut()
-            // clear the realm db
-            // update the local db
-            
-            resetLocalAndRealmDB()
-            
-            resetQuestionRelatedThings() // detailed on declaration of this func => Cmd+Click (Jump to Definition)
-            // Move to login
-            
-            
-            let vc = LoginVC()
-            vc.modalPresentationStyle = .fullScreen
-            
-            self.present(vc, animated: true, completion: nil)
-
-            
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
-        
-    }
-    
-    
+  
     /******************************************************************************************************************************/
     
     /******************************************************************************************************************************/
@@ -307,6 +280,7 @@ class MainVC: UIViewController {
         checkForQuestionsToFetch(){
             print("Completed fetching Questions from MainVC")
             self.updateQFFCount()
+            updateBadgeCount()
         }
         
         // fetch the active question or questions that I posted
@@ -329,9 +303,10 @@ class MainVC: UIViewController {
         
         // now fetch and update count
         updateFriendReqCount()
-        
         updateQFFCount()
         
+        // Just a quick hack to update the application badge number from local var
+        applicationBadgeNumber = 0
         
     }
 
@@ -366,6 +341,7 @@ class MainVC: UIViewController {
                 print("Friend Req Count")
                 // to make sure we don't add the already added ones
                 self.friendBadgeHub.setCount(0)
+                friendReqCount = 0
                 if error != nil {
                     print("Sync error \(String(describing: error?.localizedDescription))")
                     return
@@ -381,11 +357,13 @@ class MainVC: UIViewController {
                             let status = getStatusFromString(item.data()[Constants.USER_STATUS_KEY] as! String)
                             if status == .PENDING{
                                 self.friendBadgeHub.increment()
+                                friendReqCount += 1
                             }
 
                         }
                         print("Sync done")
                         self.friendBadgeHub.blink()
+                        updateBadgeCount()
 
                         }
 
@@ -393,10 +371,6 @@ class MainVC: UIViewController {
                 
             }
                 // no need to show alert here
-                
-
-//
-//                // fetch the personsList
 
                 
     }
@@ -411,6 +385,8 @@ class MainVC: UIViewController {
         }
         
     }
+    
+    
     
     /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
     func centerMainIconsVertically() {

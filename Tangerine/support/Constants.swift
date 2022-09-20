@@ -66,6 +66,11 @@ class Constants {
     static let USER_CREDIT_KEY = "reviewCredits"
     static let USER_LAST_REVIEWED_KEY = "lastReviewedTime"
     
+    // NEW > Sept 6
+    static let USER_QFF_COUNT_KEY = "qff_count"
+    static let USER_QFF_FROM_KEY = "qf_user"
+    static let USER_FR_COUNT_KEY = "fr_count"
+    static let USER_FR_FROM_KEY = "fr_from"
     
     
     // USE UD target demo keys for firestore

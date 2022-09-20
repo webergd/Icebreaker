@@ -96,6 +96,7 @@ public var myActiveQuestions = [ActiveQuestion]()
 public var rawQuestions = Set<Question>()
 public var questionOnTheScreen: PrioritizedQuestion!
 public var qFFCount = 0
+public var friendReqCount = 0
 
 // MARK: Credits
 public let maxPersistentReviewCredits: Int = 15
@@ -1931,8 +1932,6 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     } // end of for loop of questionToReview
     
     
-    
-    
     // so when we're on live, we already have some unsolved question that we can't lose
     // as live only fetches question posted upto 5 mins ago
     // if we don't keep the filteredQTR, we'll lose them for this review
@@ -2715,6 +2714,88 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
 } // end reviewReqToUnlock
 
 
+// New Func for qff_count and fr_count on firebase
+// doesn't have to exist in local db or elsewhere on client
+
+public func increaseQFFCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
+            Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(1)),
+            Constants.USER_QFF_FROM_KEY: myProfile.display_name
+        ]){ error in
+            
+            if error == nil {
+                print("Added QFF Count to \(name)")
+            }
+            
+        }
+    
+}
+
+public func decreaseQFFCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
+            Constants.USER_QFF_COUNT_KEY: FieldValue.increment(Int64(-1)),
+        ]){ error in
+            
+            if error == nil {
+                print("Removed QFF Count to \(name)")
+            }
+            
+        }
+    
+}
+
+public func increaseFRCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
+            Constants.USER_FR_COUNT_KEY: FieldValue.increment(Int64(1)),
+            Constants.USER_FR_FROM_KEY: myProfile.username
+        ]){ error in
+            
+            if error == nil {
+                print("Added FR Count to \(name)")
+            }
+        }
+}
+
+public func decreaseFRCountOf(username name: String){
+    Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .document(name)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .updateData([
+            Constants.USER_FR_COUNT_KEY: FieldValue.increment(Int64(-1))
+        ]){ error in
+            
+            if error == nil {
+                print("Removed FR Count to \(name)")
+            }
+        }
+}
+
+
+/// called from MainVC, FriendRequestVC and Where we answer a q from friend, probably here 
+public func updateBadgeCount(){
+    
+    var totalBadge = qFFCount + friendReqCount
+    if totalBadge < 0 {totalBadge = 0}
+    UIApplication.shared.applicationIconBadgeNumber = totalBadge
+    print("Updated badge count to: \(totalBadge)")
+}
 
 
 public func resetLocalAndRealmDB(){

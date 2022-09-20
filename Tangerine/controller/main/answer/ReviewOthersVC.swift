@@ -231,6 +231,12 @@ class ReviewOthersVC: UIViewController{
                 if firstQuestionToReview.question.recipients.contains(myProfile.username) {
                     print("Reducing QFF count")
                     qFFCount -= 1
+                    // Update the qff count on firebase
+                    decreaseQFFCountOf(username: myProfile.username)
+                    // we should have one less qff count locally
+                    // handled on the second live above
+                    // so update the badge now
+                    updateBadgeCount()
                 }
                 
                 let questionName = firstQuestionToReview.question.question_name
@@ -366,6 +372,13 @@ class ReviewOthersVC: UIViewController{
                 self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
             }))
             
+            // The culprit that caused the ADF thingy
+            // when we don't have any question, we remove the top one as well
+            
+            if let _ = questionOnTheScreen {
+                questionOnTheScreen = nil
+            }
+            print("Checking QONS \(questionOnTheScreen)")
             self.present(alertVC, animated: true)
             
             

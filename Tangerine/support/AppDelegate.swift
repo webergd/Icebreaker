@@ -26,8 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         // UserNotificaion Service Class, keeps this AppDelegate Class Clean
         // Huge potential, can be used for advanced features later
         UNService.shared.authorize()
-
+        
+        
         application.registerForRemoteNotifications()
+        
         
         // to prevent Realm Crash
         let config = Realm.Configuration(
@@ -58,9 +60,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 
         // set the device token to auth as per doc to handle silent push
         Auth.auth().setAPNSToken(deviceToken, type: .unknown)
-        
+        print("Notification: did register device \(deviceToken)")
+    }
+    
+    // this comes in handy, if we'd like to send any USER a notification
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        // we'll use it later
         // saving the token for later use
-        if let token = Messaging.messaging().fcmToken {
+        if let token = fcmToken {
             
             if let user = Auth.auth().currentUser, let name = user.displayName{
                 Firestore.firestore()
@@ -70,23 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
                     .document(Constants.USERS_PRIVATE_INFO_DOC).setData(["fcm":token], merge: true)
             }
         }
-        
-
-        
-        
     }
-    
-    
-    
-    
-    
-    
-    
-    // this comes in handy, if we'd like to send any USER a notification
-//    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//        // we'll use it later
-//        print("fcm token received")
-//    }
     
     
     // for firebase auth for verification, see the doc for more info

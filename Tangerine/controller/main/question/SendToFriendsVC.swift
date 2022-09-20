@@ -218,8 +218,18 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     // uploadImageToFirebasestorage
     // which image refers to 1 or 2 ie: top or bottom
     func updateQuestion(_ docID: String, _ receipients: [String]){
+        
         Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(docID).updateData([Constants.QUES_RECEIP_KEY:receipients])
+        
+        // to increment the QFF Count
+        for username in receipients {
+            increaseQFFCountOf(username: username)
+        }
+        
+        
     }// end of createQuestion
+    
+    
     
     
     // fetch friends from firestore
