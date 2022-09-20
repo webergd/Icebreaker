@@ -410,8 +410,7 @@ class ProfileVC: UIViewController {
 
     NSLayoutConstraint.activate([
       memberSinceL.topAnchor.constraint(equalTo: friendCountL.bottomAnchor, constant: 64),
-      memberSinceL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-      //memberSinceL.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+      memberSinceL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
     ])
   }
 
