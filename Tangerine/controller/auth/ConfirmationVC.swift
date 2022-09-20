@@ -63,8 +63,6 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
 
   // as always, make UI nice looking
   func setupUI(){
-    //MARK: REMOVE
-    ConfirmationVC.usernumber = "+12225552222"
 
     continueButton.disable()
 

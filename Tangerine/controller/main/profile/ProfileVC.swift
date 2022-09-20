@@ -420,7 +420,7 @@ class ProfileVC: UIViewController {
   func configureLogoutButton(){
     let logoutButton = UIButton()
     logoutButton.setTitle("Logout", for: .normal)
-    logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+    logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
     logoutButton.setTitleColor(.systemRed, for: .normal)
 
     logoutButton.translatesAutoresizingMaskIntoConstraints = false
