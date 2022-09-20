@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         Messaging.messaging().apnsToken = deviceToken
 
         // set the device token to auth as per doc to handle silent push
-        Auth.auth().setAPNSToken(deviceToken, type: .unknown)
+      Auth.auth().setAPNSToken(deviceToken, type: .unknown)
         print("Notification: did register device \(deviceToken)")
     }
     
