@@ -338,17 +338,6 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     }
     // MARK: VC Methods
 
-  /// validates our currency input and updates the UI according to the value
-  var usernameText: AnyPublisher<String, Never> {
-    return $usernameEntered.map { value in
-      guard value.count >= 3 else {
-        return ""
-      }
-
-      return value
-    }
-    .eraseToAnyPublisher()
-  } // end of validateCurrencyAmount
   // to store our cancellables
   private var cancellables = Set<AnyCancellable>()
     
@@ -395,7 +384,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
 
 
       // Combine
-      usernameText
+      $usernameEntered
         .debounce(for: .milliseconds(600), scheduler: RunLoop.main)
         .filter {
           print($0)
