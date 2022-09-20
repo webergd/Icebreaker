@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ProfileVC: UIViewController {
 
@@ -62,7 +63,33 @@ class ProfileVC: UIViewController {
         
         self.present(vc, animated: true, completion: nil)
     }
-    
+
+  // sign out the current user and take him to login screen
+  @objc func onLogoutTapped(_ sender: UITapGestureRecognizer) {
+
+
+    do {
+      try Auth.auth().signOut()
+      // clear the realm db
+      // update the local db
+
+      resetLocalAndRealmDB()
+
+      resetQuestionRelatedThings() // detailed on declaration of this func => Cmd+Click (Jump to Definition)
+      // Move to login
+
+
+      let vc = LoginVC()
+      vc.modalPresentationStyle = .fullScreen
+
+      self.present(vc, animated: true, completion: nil)
+
+
+    } catch let signOutError as NSError {
+      print ("Error signing out: %@", signOutError)
+    }
+
+  }
     
     
     func setupUI(){
