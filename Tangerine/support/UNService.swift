@@ -40,7 +40,7 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
         
         // will present
         print("Notification: will present")
-        let options: UNNotificationPresentationOptions = []
+        let options: UNNotificationPresentationOptions = [.alert,.sound,.badge]
         
         
         completionHandler(options)

@@ -66,7 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     // this comes in handy, if we'd like to send any USER a notification
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         // we'll use it later
-        print("Notification: did receive fcm \(fcmToken)")
         // saving the token for later use
         if let token = fcmToken {
             
