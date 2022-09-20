@@ -63,7 +63,7 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
 
   // as always, make UI nice looking
   func setupUI(){
-
+    
     continueButton.disable()
 
     // set the delegate to check and move focus

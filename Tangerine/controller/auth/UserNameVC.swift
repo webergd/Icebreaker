@@ -9,6 +9,7 @@ import UIKit
 import MaterialComponents
 import FirebaseFirestore
 import FirebaseAuth
+import Combine
 
 // this enum will make life easier while showing the
 // availibility of username
@@ -53,6 +54,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     var isUserAvailable = false
     // the selected username
     var user_name = ""
+    @Published var usernameEntered = ""
     
     // MARK: Actions
 
@@ -313,6 +315,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         }else{
             showError()
         }
+      self.usernameEntered = textField.text ?? ""
     }
     
     // when tos/pp clicked
@@ -334,6 +337,9 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         return true
     }
     // MARK: VC Methods
+
+  // to store our cancellables
+  private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -375,6 +381,18 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         
         //dismiss keyboard, call the extension
         hideKeyboardOnOutsideTouch()
+
+
+      // Combine
+      $usernameEntered
+        .debounce(for: .milliseconds(600), scheduler: RunLoop.main)
+        .filter {
+          print($0)
+          return $0.count >= 3
+        }
+        .sink { _ in
+          self.checkAvailability()
+        }.store(in: &cancellables)
     }
     
     
