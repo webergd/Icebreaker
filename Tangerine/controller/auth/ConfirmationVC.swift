@@ -193,8 +193,6 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
             self.presentDismissAlertOnMainThread(title: "Verification Failed", message: err.localizedDescription)
             print(err.localizedDescription)
             self.view.hideActivityIndicator()
-            // hide or show error?
-            // depends on valid
             self.errorLabel.isHidden = false
             self.errorLabel.text = self.notRightCode
             // reset and restart countdown
