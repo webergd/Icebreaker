@@ -2714,17 +2714,19 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
 } // end reviewReqToUnlock
 
 public func updateQFFFromServer() {
+
   Firestore.firestore()
     .collection(Constants.USERS_COLLECTION)
     .document(myProfile.username)
     .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
     .document(Constants.USERS_PRIVATE_INFO_DOC)
-    .getDocument { snapshot, error in
+    .addSnapshotListener({ snapshot, error in
       if snapshot != nil && error == nil {
         qFFCount = snapshot?["qff_count"] as? Int ?? 0
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
       }
-    }
+    })
+
 }
 
 // New Func for qff_count and fr_count on firebase

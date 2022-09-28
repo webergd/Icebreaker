@@ -45,8 +45,9 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
       if notification.request.content.title.count > 0 {
 
         print("Notification: Not Silent")
-        qFFCount += 1
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
+//        qFFCount += 1
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
+        updateQFFFromServer()
 
       }
 
@@ -64,8 +65,9 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         //did receive
         print("Notification: did receive")
-      qFFCount += 1
-      NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
+//      qFFCount += 1
+//      NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
+      updateQFFFromServer()
       completionHandler()
     }
     
