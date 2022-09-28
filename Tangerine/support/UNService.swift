@@ -42,8 +42,15 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
         print("Notification: will present")
         let options: UNNotificationPresentationOptions = [.alert,.sound,.badge]
         
-        
-        completionHandler(options)
+      if notification.request.content.title.count > 0 {
+
+        print("Notification: Not Silent")
+        qFFCount += 1
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
+
+      }
+
+      completionHandler(options)
     }
     
     // Asks the delegate to process the user's response to a delivered notification.
@@ -57,7 +64,9 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         //did receive
         print("Notification: did receive")
-        
+      qFFCount += 1
+      NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
+
         completionHandler()
     }
     
