@@ -66,8 +66,7 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
         print("Notification: did receive")
       qFFCount += 1
       NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
-
-        completionHandler()
+      completionHandler()
     }
     
     

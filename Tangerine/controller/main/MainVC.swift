@@ -312,6 +312,10 @@ class MainVC: UIViewController {
         
     }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    print("VWA")
+  }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -376,10 +380,11 @@ class MainVC: UIViewController {
 
                 
     }
+
     
     /// Updates the Questoins From Friends count to be displayed on the badge associated with the Review Others icon.
     @objc func updateQFFCount(){
-        print("Setting QFF to \(qFFCount)")
+      print("Setting QFF to \(qFFCount) \(filteredQuestionsToReview.count)")
         if qFFCount > 0 {
             qffBadgeHub.setCount(qFFCount)
         }else{
