@@ -2713,11 +2713,12 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
     
 } // end reviewReqToUnlock
 
-public func updateQFFFromServer() {
+public func updateQFFFromServer(with username: String = "") {
+
 
   Firestore.firestore()
     .collection(Constants.USERS_COLLECTION)
-    .document(myProfile.username)
+    .document(username.isEmpty ? myProfile.username : username)
     .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
     .document(Constants.USERS_PRIVATE_INFO_DOC)
     .addSnapshotListener({ snapshot, error in
