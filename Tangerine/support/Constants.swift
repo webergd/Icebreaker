@@ -170,7 +170,7 @@ class Constants {
     
     static let UD_VIEW_RESULT_ALERT_PREF = "vr_alert_pref"
     
-    
+    static let QFF_NOTI_NAME = "NOTIFICATION_NAME.QFF"
     // To be reused in our programmaticUI
     // MARK: UI Items
     // MARK: Actions

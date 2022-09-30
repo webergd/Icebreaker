@@ -493,6 +493,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             
                 isCloudSearch ? updateCloudData() : updateLocalData()
                 self.friendsCollectionView.reloadData()
+          increaseFRCountOf(username: person.username)
         }
         
         print("Person saved in added list is \(addedList.count)")

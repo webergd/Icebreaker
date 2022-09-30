@@ -265,6 +265,8 @@ class MainVC: UIViewController {
         friendBadgeHub.scaleCircleSize(by: 0.75)
         friendBadgeHub.moveCircleBy(x: 5.0, y: 0)
 
+      // for notification
+      addObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -312,6 +314,10 @@ class MainVC: UIViewController {
         glassView.isUserInteractionEnabled = !glassView.isHidden
     }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    print("VWA")
+  }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -376,10 +382,11 @@ class MainVC: UIViewController {
 
                 
     }
+
     
     /// Updates the Questoins From Friends count to be displayed on the badge associated with the Review Others icon.
-    public func updateQFFCount(){
-        print("Setting QFF to \(qFFCount)")
+    @objc func updateQFFCount(){
+      print("Setting QFF to \(qFFCount) \(filteredQuestionsToReview.count)")
         if qFFCount > 0 {
             qffBadgeHub.setCount(qFFCount)
         }else{
@@ -387,9 +394,24 @@ class MainVC: UIViewController {
         }
         
     }
-    
-    
-    
+
+  deinit {
+    removeObservers()
+  }
+
+  func addObservers(){
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(updateQFFCount),
+      name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME) ,
+      object: nil
+    )
+  }
+
+  func removeObservers(){
+    NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue:Constants.QFF_NOTI_NAME), object: nil)
+  }
+
     /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
     func centerMainIconsVertically() {
 //        cameraButtonTopConstraint.constant = 10.0

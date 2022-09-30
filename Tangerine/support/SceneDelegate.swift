@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -49,6 +50,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+      if let user = Auth.auth().currentUser, let name = user.displayName{
+        updateQFFFromServer(with: name)
+      }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
