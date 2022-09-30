@@ -344,6 +344,7 @@ class ReviewOthersVC: UIViewController{
                 .document(Constants.USERS_PRIVATE_INFO_DOC).setData([
                     Constants.UD_LOCKED_QUESTION_KEY : 0, // locked question
                     Constants.UD_QUESTION_TO_REVIEW_KEY: 0, // to review count
+                    Constants.USER_QFF_COUNT_KEY: 0, // number of qff that we have left
                 ],merge: true)
             
             // Now we iterate through all user's Questions and unlock each one locally and in firestore:

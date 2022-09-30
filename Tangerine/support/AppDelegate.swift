@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         if Auth.auth().canHandleNotification(userInfo) {
             completionHandler(.noData)
             return
-          }
+        }
     }
     
     // for firebase auth verification again
