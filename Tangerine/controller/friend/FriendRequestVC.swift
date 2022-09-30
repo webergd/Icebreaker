@@ -106,7 +106,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                         
                     }else{
                         // just show a dialog
-                        let alertVC = UIAlertController(title: "Not Found!", message: "Seems like you don't have any friend requests pending.", preferredStyle: .alert)
+                        let alertVC = UIAlertController(title: "No Additional Friend Requests", message: "You're up to date on all your pending friend request responses.", preferredStyle: .alert)
                         alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         }))
@@ -233,6 +233,16 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                             }
                         }
                 }
+            
+            
+            // ADDED BY WYATT on 30Sep2022 to decrement the receiving user's fr_count if he deletes the friend request. This was being done for accepting the FR but not for deleting (rejecting) it.
+            
+            // Update the fr count on firebase
+            decreaseFRCountOf(username: myProfile.username)
+            // we should have one less fr count locally
+            friendReqCount -= 1
+            // so update the badge now
+            updateBadgeCount()
 
         }
         
