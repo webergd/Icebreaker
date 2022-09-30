@@ -2330,13 +2330,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6GR-pI-8sf" userLabel="helpTapPublishLabel">
-                                <rect key="frame" x="-16243" y="146.5" width="32900" height="167.5"/>
+                                <rect key="frame" x="45.5" y="146.5" width="323" height="167.5"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <string key="text">Pinch to zoom
 
-Tap back arrow or
-Swipe to Return➡️
+To Return:
+   Swipe back ➡️
+or
+   Tap the back arrow
 
 Image will be deleted when 
 time remaining is zero. </string>
@@ -2405,6 +2407,7 @@ time remaining is zero. </string>
                             <constraint firstItem="Hzy-aF-avy" firstAttribute="top" secondItem="w90-zT-Zit" secondAttribute="bottom" constant="12" id="PK9-Gs-yzU"/>
                             <constraint firstItem="jbA-Yq-p4Z" firstAttribute="leading" secondItem="Tr6-dm-ZYt" secondAttribute="leading" id="Qkj-9H-viq"/>
                             <constraint firstItem="m62-sF-tJB" firstAttribute="centerY" secondItem="rbj-S7-7dU" secondAttribute="centerY" id="RWd-Vr-dhO"/>
+                            <constraint firstItem="6GR-pI-8sf" firstAttribute="width" secondItem="F7t-Pw-Gu4" secondAttribute="width" multiplier="0.8" id="RwZ-Vz-Yr3"/>
                             <constraint firstItem="fUZ-gQ-oF4" firstAttribute="leading" secondItem="Hzy-aF-avy" secondAttribute="leading" id="TQ8-dK-Cde"/>
                             <constraint firstAttribute="trailingMargin" secondItem="F7t-Pw-Gu4" secondAttribute="trailing" constant="-15" id="Tdf-ZP-cyf"/>
                             <constraint firstItem="piF-Cv-IuJ" firstAttribute="centerY" secondItem="fNt-vb-pZW" secondAttribute="centerY" id="UI4-GF-zCO"/>
@@ -2426,6 +2429,7 @@ time remaining is zero. </string>
                             <constraint firstItem="6GR-pI-8sf" firstAttribute="centerX" secondItem="xSk-gJ-pr9" secondAttribute="centerX" id="nTg-01-Wdu"/>
                             <constraint firstItem="Ydj-pw-7B4" firstAttribute="bottom" secondItem="xSk-gJ-pr9" secondAttribute="bottom" id="p3n-Fw-syR"/>
                             <constraint firstItem="IO9-vX-xuF" firstAttribute="width" secondItem="IO9-vX-xuF" secondAttribute="height" multiplier="1:1" id="qWH-84-Pam"/>
+                            <constraint firstItem="6GR-pI-8sf" firstAttribute="height" secondItem="F7t-Pw-Gu4" secondAttribute="height" multiplier="0.414604" id="rlv-FM-JvA"/>
                             <constraint firstItem="2n3-T5-32x" firstAttribute="centerY" secondItem="jbA-Yq-p4Z" secondAttribute="centerY" id="rmH-Vv-iKg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fNt-vb-pZW" secondAttribute="trailing" constant="20" id="sxW-sT-qIc"/>
                             <constraint firstItem="Yus-gl-lCW" firstAttribute="leading" secondItem="LIG-P3-owO" secondAttribute="leadingMargin" constant="-8" id="sxs-YF-3lk"/>

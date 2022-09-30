@@ -928,6 +928,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
         } else {
             glassView.isHidden = true
+            
             self.view.sendSubviewToBack(glassView)
             if let image = UIImage(named: "question circle blue") {
                 helpButton.setImage(image, for: .normal)
@@ -944,6 +945,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             self.helpReportLabel.fadeOutAfter(seconds: 0.0)
             
         }
+        // if the glassView is visible, user interaction should be enabled, otherwise, it should be disabled. 
+        glassView.isUserInteractionEnabled = !glassView.isHidden
     }
     
     @objc func glassViewTapped(_ sender: UITapGestureRecognizer? = nil) {

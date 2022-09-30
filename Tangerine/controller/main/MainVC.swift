@@ -308,6 +308,8 @@ class MainVC: UIViewController {
         // Just a quick hack to update the application badge number from local var
         applicationBadgeNumber = 0
         
+        // if the glassView is visible, user interaction should be enabled, otherwise, it should be disabled.
+        glassView.isUserInteractionEnabled = !glassView.isHidden
     }
 
     
@@ -456,6 +458,8 @@ class MainVC: UIViewController {
             helpHomepageLabel.fadeOutAfter(seconds: 0.0)
             
         }
+        // if the glassView is visible, user interaction should be enabled, otherwise, it should be disabled.
+        glassView.isUserInteractionEnabled = !glassView.isHidden
     }
     
     @objc func glassViewTapped(_ sender: UITapGestureRecognizer? = nil) {
