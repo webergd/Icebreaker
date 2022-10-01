@@ -288,7 +288,7 @@ public func index(of string: String, in arrayOfActiveQuestion: [ActiveQuestion])
     return nil
 }
 
-public func reviewsRequiredHelpLabelAlternateText(on: Bool) -> String {
+public func reviewCreditsHelpText(on: Bool) -> String {
     if on {
         return "Review credits ↗️ that you've earned."
     } else {
