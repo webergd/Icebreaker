@@ -5126,8 +5126,8 @@ Tap the image that you think this person should go with.
                                 <color key="highlightedColor" systemColor="labelColor"/>
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min ↗️  reviews to unlock all your Questions" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJt-EP-4m6" userLabel="helpReviewsRemainingLabel">
-                                <rect key="frame" x="305" y="98.5" width="83" height="72"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review this ↗️ many photos to open all your locked Questions. " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJt-EP-4m6" userLabel="helpReviewsRemainingLabel">
+                                <rect key="frame" x="264" y="98.5" width="124" height="57.5"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -5250,7 +5250,7 @@ Tap the image that you think this person should go with.
                             <constraint firstItem="RwT-8H-jwl" firstAttribute="width" secondItem="piI-g3-YDf" secondAttribute="width" multiplier="0.8" id="8rU-8Q-Vdx"/>
                             <constraint firstItem="9mJ-fw-mGU" firstAttribute="width" secondItem="9mJ-fw-mGU" secondAttribute="height" multiplier="1:1" id="9GH-N0-4Y4"/>
                             <constraint firstItem="EJt-EP-4m6" firstAttribute="trailing" secondItem="7Y0-kV-qce" secondAttribute="trailing" constant="-16" id="9cw-fg-CXO"/>
-                            <constraint firstItem="EJt-EP-4m6" firstAttribute="width" secondItem="YLi-rd-eZF" secondAttribute="width" multiplier="0.2" id="BU5-vK-xdB"/>
+                            <constraint firstItem="EJt-EP-4m6" firstAttribute="width" secondItem="YLi-rd-eZF" secondAttribute="width" multiplier="0.3" id="BU5-vK-xdB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WVy-SV-KGX" secondAttribute="trailing" constant="-16" id="BpS-dO-ysZ"/>
                             <constraint firstItem="YLi-rd-eZF" firstAttribute="trailing" secondItem="DL6-lT-u00" secondAttribute="trailing" id="GOQ-ny-V4F"/>
                             <constraint firstItem="AtA-FY-ulj" firstAttribute="top" secondItem="340-Yx-ZzO" secondAttribute="bottom" id="HZn-Jr-PRA"/>
@@ -5352,7 +5352,7 @@ Tap the image that you think this person should go with.
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="10659.375" y="534.50704225352115"/>
+            <point key="canvasLocation" x="10657.971014492754" y="534.375"/>
         </scene>
     </scenes>
     <resources>

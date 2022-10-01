@@ -123,8 +123,10 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
             if obligatoryQuestionsToReviewCount == 0 {
                 obligatoryReviewsRemainingLabel.text = String(describing: myProfile.reviewCredits) + "🐿️"
+                helpReviewsRemainingLabel.text = reviewsRequiredHelpLabelAlternateText(on: true)
             }else {
                 obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
+                helpReviewsRemainingLabel.text = reviewsRequiredHelpLabelAlternateText(on: false)
             }
             
             
