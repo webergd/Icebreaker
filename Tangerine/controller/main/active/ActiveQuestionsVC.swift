@@ -274,24 +274,27 @@ class ActiveQuestionsVC: UITableViewController {
                 let cellIdentifier: String = "CompareTableViewCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CompareTableViewCell
                 
+                makeCircle(view: cell.image1, alpha: 1.0)
+                makeCircle(view: cell.image2, alpha: 1.0)
+                
                 // Calculate a Tangerine Score to pass to the cell:
                 let tangerineScore: TangerineScore = reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
-      
+                
                 // started Loading, show it
                 cell.image1.showActivityIndicator()
                 
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: question.question_name, type: question.type),
                     forPath: question.imageURL_1, asThumb: true) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
+                        if let error = error{
+                            print("Error: \(error.localizedDescription)")
+                            return
+                        }
                         // Loading done, hide it
-                  cell.image1.hideActivityIndicator()
-                  print("ATVC Compare Image1 Downloaded for \(question.question_name)")
-                  cell.image1.image = image!
-                }
+                        cell.image1.hideActivityIndicator()
+                        print("ATVC Compare Image1 Downloaded for \(question.question_name)")
+                        cell.image1.image = image!
+                    }
                 
                 
                 // started Loading, show it
@@ -300,15 +303,15 @@ class ActiveQuestionsVC: UITableViewController {
                 downloadOrLoadFirebaseImage(
                     ofName: getFilenameFrom(qName: question.question_name, type: question.type,secondPhoto: true),
                     forPath: question.imageURL_2, asThumb: true) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
+                        if let error = error{
+                            print("Error: \(error.localizedDescription)")
+                            return
+                        }
                         // Loading done, hide it
-                  cell.image2.hideActivityIndicator()
-                  print("ATVC Compare Image2 Downloaded for \(question.question_name)")
-                  cell.image2.image = image!
-                }
+                        cell.image2.hideActivityIndicator()
+                        print("ATVC Compare Image2 Downloaded for \(question.question_name)")
+                        cell.image2.image = image!
+                    }
                 
                 //LATER find what compare does if empty
                 cell.title1Label.text = question.title_1
@@ -316,68 +319,68 @@ class ActiveQuestionsVC: UITableViewController {
                 
                 cell.displayCompareCellData(tangerineScore: tangerineScore)
                 
-
-//                cell.displayCellData(dataSet: compareCellDataSet)
-
+                
+                //                cell.displayCellData(dataSet: compareCellDataSet)
+                
                 cell.reviewsRequiredToUnlockLabel.isHidden = true //defaults to hidden
-
+                
                 let reviewsNeeded: Int = reviewsRequiredToUnlock(question: question)
-
+                
                 if reviewCollection.reviews.count > 0 {
                     cell.numVotesLabel.text = "(\(reviewCollection.reviews.count) review)"
                     if reviewCollection.reviews.count > 1 {
                         cell.numVotesLabel.text = "(\(reviewCollection.reviews.count) reviews)" // add an s if more than one vote
                     }
                 }
-
+                
                 cell.percentImage1Label.text = "\(tangerineScore.percentTop)%"
                 cell.percentImage2Label.text = "\(tangerineScore.percentBottom)%"
                 if reviewCollection.reviews.count < 0 || tangerineScore.numReviews < 1 {
                     cell.percentImage1Label.text = "?"
                     cell.percentImage2Label.text = "?"
-                    }
-
-
+                }
+                
+                
                 if tangerineScore.numReviews < 1 {
                     cell.lockCell(isLocked, reviewsNeeded: reviewsNeeded)
                     cell.numVotesLabel.text = "No Reviews Yet"
                     cell.numVotesLabel.font = cell.numVotesLabel.font.withSize(11.0)
-
+                    
                     cell.leftTD100Bar.isHidden = true
                     cell.rightTD100Bar.isHidden = true
                     cell.percentImage1Label.isHidden = true
                     cell.percentImage2Label.isHidden = true
-
+                    
                 } else {
                     // all cell locking functionality for a Compare cell is called from the cell vc itself. This is different than the Ask cell, which is all called here in AskTableVC. This should be standardized later for consistency.
                     cell.lockCell(isLocked, reviewsNeeded: reviewsNeeded)
                     cell.numVotesLabel.font = cell.numVotesLabel.font.withSize(12.0)
                 }
-
+                
                 // calculates and displays the time the Question has left to be in circulation:
                 let timeRemaining = calcTimeRemaining(question.created,forActiveQ: true)
                 cell.timeRemainingLabel.text = "\(timeRemaining)"
-
-
-                makeCircle(view: cell.image1, alpha: 1.0)
-                makeCircle(view: cell.image2, alpha: 1.0)
                 
-//                //Add border to images
-//                addCircleBorder(view: cell.image1, color: .systemOrange)
-//                addCircleBorder(view: cell.image2, color: .systemOrange)
-
-                cell.rightWearItImageView.image = UIImage(named: "gear.badge.questionmark")
+                
+//                makeCircle(view: cell.image1, alpha: 1.0)
+//                makeCircle(view: cell.image2, alpha: 1.0)
+                
+                //                //Add border to images
+                //                addCircleBorder(view: cell.image1, color: .systemOrange)
+                //                addCircleBorder(view: cell.image2, color: .systemOrange)
+                
+//                cell.rightWearItImageView.image = UIImage(named: "gear.badge.questionmark")
                 print("rightWearItImageView.isHidden = \(cell.rightWearItImageView.isHidden)")
                 print("rightWearItImageView.alpha = \(cell.rightWearItImageView.alpha)")
-
-
+                
+                
                 return cell
                 
             }  else {
                 //should there be error handling in here? This could be much prettier I think..
-                    let cell: UITableViewCell? = nil
-                    return cell!
-                }
+                let cell: UITableViewCell? = nil
+                return cell!
+            }
             
         }else {
             return UITableViewCell()

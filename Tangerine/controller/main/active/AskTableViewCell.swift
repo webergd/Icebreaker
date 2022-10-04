@@ -73,7 +73,8 @@ class AskTableViewCell: UITableViewCell {
                               ratingValueLabel: ratingValueLabel,
                               wearItLabel: wearItLabel,
                               wearItImageView: wearItImageView,
-                              photoImageView: photoImageView)
+                              photoImageView: photoImageView,
+                              isCompare: false)
         
         tangerineScoreDataDisplayTool.ratingValueLabel.text = "\(tangerineScore.scoreAsPercent)%"
         

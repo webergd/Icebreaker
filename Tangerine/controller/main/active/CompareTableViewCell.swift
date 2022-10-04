@@ -56,6 +56,8 @@ class CompareTableViewCell: UITableViewCell {
     /// Unpacks the Data Set and displays it in form of yellow or black hearts
     func displayCompareCellData(tangerineScore: TangerineScore){
         
+        print("displayCompareCellData for ")
+        
         let leftTangerineScoreDataDisplayTool: DataDisplayTool = DataDisplayTool(
             icon0: leftRatingImage0,
             icon1: leftRatingImage1,
@@ -73,7 +75,8 @@ class CompareTableViewCell: UITableViewCell {
                               ratingValueLabel: percentImage1Label,
                               wearItLabel: leftWearItLabel,
                               wearItImageView: leftWearItImageView,
-                              photoImageView: image1)
+                              photoImageView: image1,
+                              isCompare: true)
         
         leftTangerineScoreDataDisplayTool.ratingValueLabel.text = "\(tangerineScore.percentTop)%"
         
@@ -95,7 +98,8 @@ class CompareTableViewCell: UITableViewCell {
                               ratingValueLabel: percentImage2Label,
                               wearItLabel: rightWearItLabel,
                               wearItImageView: rightWearItImageView,
-                              photoImageView: image2)
+                              photoImageView: image2,
+                              isCompare: true)
         
         rightTangerineScoreDataDisplayTool.ratingValueLabel.text = "\(tangerineScore.percentBottom)%"
         
@@ -104,21 +108,49 @@ class CompareTableViewCell: UITableViewCell {
     }
     
     /// Hides the wearIt imageView and Label for the side with the lower TangerineScore in order to avoid clutter
+//    func hideLosingRec(tangerineScore: TangerineScore) {
+//        switch tangerineScore.percentTop {
+//        case let x where x > tangerineScore.percentBottom:
+//            // img1 is the winner, so hide img2 (right) rec
+//            rightWearItLabel.text = ""
+//            rightWearItImageView.alpha = 0.0
+//            leftWearItImageView.alpha = 0.85
+//        case let x where x < tangerineScore.percentBottom:
+//            // img2 is the winner, so hide img1 (left) rec
+//            leftWearItLabel.text = ""
+//            leftWearItImageView.alpha = 0.0
+//            rightWearItImageView.alpha = 0.85
+//        default: print("tie")
+//            // in this case, functionality elsewhere hides the wearItImageView
+//            // and we want to display both wearItLabels
+//        }
+//    }
+    /// Hides the wearIt imageView and Label for the side with the lower TangerineScore in order to avoid clutter
     func hideLosingRec(tangerineScore: TangerineScore) {
-        switch tangerineScore.percentTop {
-        case let x where x > tangerineScore.percentBottom:
-            // img1 is the winner, so hide img2 (right) rec
-            rightWearItLabel.text = ""
-            rightWearItImageView.alpha = 0.0
-        case let x where x < tangerineScore.percentBottom:
-            // img2 is the winner, so hide img1 (left) rec
-            leftWearItLabel.text = ""
+        // first show everything
+        leftWearItImageView.alpha = 0.85
+        rightWearItImageView.alpha = 0.85
+        
+        let img1Rec = generateRecommendation(from: tangerineScore, inputs: TangerineScoreInputs())
+        
+        // then hide what we need to
+        switch img1Rec {
+        case .reject:
             leftWearItImageView.alpha = 0.0
-        default: print("tie")
-            // in this case, functionality elsewhere hides the wearItImageView
-            // and we want to display both wearItLabels
-        }
+            leftWearItLabel.text = ""
+        case .uncertain:
+            leftWearItLabel.text = ""
+            rightWearItLabel.text = ""
+            leftWearItImageView.alpha = 0.0
+            rightWearItImageView.alpha = 0.0
+        case .accept:
+            rightWearItImageView.alpha = 0.0
+            rightWearItLabel.text = ""
     }
+        
+    }
+    
+    
 
     /// Takes a Bool specifying whether the cell is locked or not, and uses it to hide or unhide data display labels as required
     func lockCell(_ hide: Bool, reviewsNeeded: Int) {
@@ -150,6 +182,7 @@ class CompareTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
 
 }
 

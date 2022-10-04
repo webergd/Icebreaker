@@ -215,7 +215,7 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
             
             let recommendation = generateRecommendation(from: tangerineScore, inputs: TangerineScoreInputs())
             
-            loadRecommendation(imageView: wearItImageView, for: recommendation)
+            loadRecommendation(imageView: wearItImageView, for: recommendation, isCompare: false)
             
             tangerineScoreLabel.text = "\(String(tangerineScore.scoreAsPercent))%"
             

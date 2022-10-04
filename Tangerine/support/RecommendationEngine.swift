@@ -175,7 +175,8 @@ public func displayTangerineScore(tangerineScore: TangerineScore,
                     ratingValueLabel: UILabel,
                     wearItLabel: UILabel,
                     wearItImageView: UIImageView,
-                    photoImageView: UIImageView) {
+                    photoImageView: UIImageView,
+                    isCompare: Bool) {
     
     // generate a Tangerine Recommendation using the score and the member's parameters
     var recommendation: decisionRec = generateRecommendation(from: tangerineScore, inputs: TangerineScoreInputs())
@@ -218,7 +219,7 @@ public func displayTangerineScore(tangerineScore: TangerineScore,
         wearItLabel.text = recommendation.rawValue
     }
     
-    loadRecommendation(imageView: wearItImageView, for: recommendation)
+    loadRecommendation(imageView: wearItImageView, for: recommendation, isCompare: isCompare)
     
     if recommendation == .accept {
         addCircleBorder(view: photoImageView, color: .systemOrange)
@@ -244,19 +245,39 @@ public func displayTangerineScore(tangerineScore: TangerineScore,
 }
 
 /// Sets up the wearItImageView with the right image and whether it's visible
-public func loadRecommendation(imageView: UIImageView, for recommendation: decisionRec) {
+public func loadRecommendation(imageView: UIImageView, for recommendation: decisionRec, isCompare: Bool) {
     switch recommendation {
     case .reject:
-        imageView.isHidden = false
-        imageView.image = UIImage(systemName: "xmark.circle")
-        imageView.tintColor = .systemRed
+        showRejectImage(imageView: imageView)
+//        imageView.isHidden = false
+//        imageView.image = UIImage(systemName: "xmark.circle")
+//        imageView.tintColor = .systemRed
     case .uncertain:
-        imageView.isHidden = true
+        showNoImage(imageView: imageView)
+//        imageView.isHidden = true
     case .accept:
-        imageView.isHidden = false
-        imageView.image = UIImage(named: "Tangerine.slice")
+        showAcceptImage(imageView: imageView)
+//        imageView.isHidden = false
+//        imageView.image = UIImage(named: "Tangerine.slice")
 
     }
+}
+
+func showRejectImage(imageView: UIImageView) {
+    imageView.isHidden = false
+    imageView.image = UIImage(systemName: "xmark.circle")
+    imageView.tintColor = .systemRed
+}
+
+func showNoImage(imageView: UIImageView) {
+    imageView.isHidden = true
+    // loading this image is a troubleshooting tool that tells us the image is showing when it is not supposed to
+    imageView.image = UIImage(systemName: "camera.macro")
+}
+
+func showAcceptImage(imageView: UIImageView) {
+    imageView.isHidden = false
+    imageView.image = UIImage(named: "Tangerine.slice")
 }
 
 
