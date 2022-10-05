@@ -261,6 +261,14 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
         
         let arTap = UITapGestureRecognizer(target: self, action: #selector(AskViewController.userTappedAllReviewsLabel))
         allReviewsLabel.addGestureRecognizer(arTap)
+        
+        // Gesture Recognizers for tapping TangerineScore data to receive TS explanation
+        let wearItImageViewTap = UITapGestureRecognizer(target: self, action: #selector(AskViewController.userTappedTangerineScore))
+        wearItImageView.addGestureRecognizer(wearItImageViewTap)
+        
+        let tangerineScoreLabelTap = UITapGestureRecognizer(target: self, action: #selector(AskViewController.userTappedTangerineScore))
+        tangerineScoreLabel.addGestureRecognizer(tangerineScoreLabelTap)
+
   
     }
     
@@ -343,6 +351,17 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
         print("all users label tapped")
 //        self.sortType = .allUsers
 //        segueToNextViewController()
+    }
+    
+    // add an attributed string to this later so I can imbed the good and bad icons
+    /// Fires when user taps TangerineScore. Provides an explanation.
+    @objc func userTappedTangerineScore(sender: UITapGestureRecognizer) {
+        print("TangerineScore tapped")
+        let alertVC = UIAlertController(title: "This is the Tangerine Score", message: "The higher the score, the happier we think you'll be that you wore this. \n\nTangerine Icon = HIGH satisfaction. \n\nRed X icon = LOW satisfaction.", preferredStyle: .alert)
+        let gotItAction = UIAlertAction(title: "Got It", style: .default)
+        alertVC.addAction(gotItAction)
+        
+        present(alertVC, animated: true, completion: nil)
     }
     
     func segueToNextViewController() {

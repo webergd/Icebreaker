@@ -1992,7 +1992,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="8Wi-MC-gEO">
+                                    <imageView clipsSubviews="YES" alpha="0.85000002384185791" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="8Wi-MC-gEO">
                                         <rect key="frame" x="353" y="321" width="40.5" height="47"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8Wi-MC-gEO" secondAttribute="height" multiplier="6:7" id="44Z-lU-Vwv"/>
@@ -2008,7 +2008,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="95%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCv-S4-cT1">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="95%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCv-S4-cT1">
                                         <rect key="frame" x="342.5" y="368" width="61.5" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" systemColor="systemOrangeColor"/>
@@ -2543,13 +2543,13 @@ time remaining is zero. </string>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="votes1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QoP-jn-f2y">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="votes1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QoP-jn-f2y">
                                         <rect key="frame" x="323" y="371" width="84" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" systemColor="systemOrangeColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="rrT-2V-dGt">
+                                    <imageView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="rrT-2V-dGt">
                                         <rect key="frame" x="344.5" y="323.5" width="41" height="47.5"/>
                                         <accessibility key="accessibilityConfiguration" identifier="winnerImageTop" label="winnerImageTop"/>
                                         <constraints>
@@ -2615,7 +2615,7 @@ time remaining is zero. </string>
                                     <view alpha="0.90000000000000002" contentMode="scaleToFill" restorationIdentifier="votes2BackgroundView" translatesAutoresizingMaskIntoConstraints="NO" id="GqB-g3-ALX" userLabel="votes2BackgroundView">
                                         <rect key="frame" x="315" y="371" width="96" height="36"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="votes2" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cl9-6g-0ec">
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="votes2" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cl9-6g-0ec">
                                                 <rect key="frame" x="4" y="0.0" width="88" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <color key="textColor" systemColor="systemOrangeColor"/>
@@ -2637,7 +2637,7 @@ time remaining is zero. </string>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="14N-eH-SFI">
+                                    <imageView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tangerine.slice" translatesAutoresizingMaskIntoConstraints="NO" id="14N-eH-SFI">
                                         <rect key="frame" x="342.5" y="323.5" width="41" height="47.5"/>
                                         <accessibility key="accessibilityConfiguration" identifier="winnerImageBottom" label="winnerImageBottom"/>
                                         <constraints>
