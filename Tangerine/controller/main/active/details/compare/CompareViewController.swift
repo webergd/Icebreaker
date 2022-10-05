@@ -147,18 +147,36 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
             // modify their attributes inside an if-then or switch-case:
             if let topFruitFlag = winnerImageTop, let bottomFruitFlag = winnerImageBottom {
                 
-                print("consolidatedCD has winner of: \(consolidateCD.winner)")
-                switch consolidateCD.winner {
-                case CompareWinner.photo1Won:
-                    topFruitFlag.isHidden = false
-                    bottomFruitFlag.isHidden = true
-                case CompareWinner.photo2Won:
+//                print("consolidatedCD has winner of: \(consolidateCD.winner)")
+//                switch consolidateCD.winner {
+//                case CompareWinner.photo1Won:
+//                    topFruitFlag.isHidden = false
+//                    bottomFruitFlag.isHidden = true
+//                case CompareWinner.photo2Won:
+//                    topFruitFlag.isHidden = true
+//                    bottomFruitFlag.isHidden = false
+//                case CompareWinner.itsATie:
+//                    topFruitFlag.isHidden = true
+//                    bottomFruitFlag.isHidden = true
+//                }
+                
+                
+                let img1Rec = generateRecommendation(from: tangerineScoreDataSet, inputs: TangerineScoreInputs())
+                
+                // then hide what we need to
+                switch img1Rec {
+                case .reject:
                     topFruitFlag.isHidden = true
                     bottomFruitFlag.isHidden = false
-                case CompareWinner.itsATie:
+                case .uncertain:
                     topFruitFlag.isHidden = true
                     bottomFruitFlag.isHidden = true
+                case .accept:
+                    topFruitFlag.isHidden = false
+                    bottomFruitFlag.isHidden = true
                 }
+                
+                
             }
         }
         

@@ -146,7 +146,7 @@ class CompareTableViewCell: UITableViewCell {
         case .accept:
             rightWearItImageView.alpha = 0.0
             rightWearItLabel.text = ""
-    }
+        }
         
     }
     

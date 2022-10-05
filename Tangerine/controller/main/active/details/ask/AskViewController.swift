@@ -88,17 +88,17 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
        
         // unwraps the ask that the tableView sent over:
         if let thisAsk = self.question {
-                        
+            
             if let thisLabel = self.titleLabel {
                 thisLabel.text = thisAsk.question.title_1
             }
             
             // unwraps the imageView from the IBOutlet
             if let thisImageView = self.askImageView {
-               
-                    downloadOrLoadFirebaseImage(
-                        ofName: getFilenameFrom(qName: thisAsk.question.question_name, type: thisAsk.question.type),
-                        forPath: thisAsk.question.imageURL_1) { image, error in
+                
+                downloadOrLoadFirebaseImage(
+                    ofName: getFilenameFrom(qName: thisAsk.question.question_name, type: thisAsk.question.type),
+                    forPath: thisAsk.question.imageURL_1) { image, error in
                         if let error = error{
                             print("Error: \(error.localizedDescription)")
                             return
@@ -119,9 +119,9 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                 thisCaptionTextField.text = thisAsk.question.captionText_1
             }
             
-//            if let thisCaptionTopConstraint = self.askCaptionTopConstraint {
-//                thisCaptionTopConstraint.constant = askImageView.frame.height * CGFloat(thisAsk.question.yLoc_1)
-//            }
+            //            if let thisCaptionTopConstraint = self.askCaptionTopConstraint {
+            //                thisCaptionTopConstraint.constant = askImageView.frame.height * CGFloat(thisAsk.question.yLoc_1)
+            //            }
             // it looks like I was unwrapping it for no reason
             
             askCaptionTopConstraint.constant = askImageView.frame.height * CGFloat(thisAsk.question.yLoc_1)
@@ -135,7 +135,7 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
             let targetDemoDataSet = pullConsolidatedData(from: question.reviewCollection, filteredBy: .targetDemo, type: .ASK) as! ConsolidatedAskDataSet
             
             if let thisTDRatingImage0 = tdRatingImage0, let thisTDRatingImage1 = tdRatingImage1, let thisTDRatingImage2 = tdRatingImage2,let thisTDRatingImage3 = tdRatingImage3, let thisTDRatingImage4 = tdRatingImage4 {
-            
+                
                 let targetDemoDataDisplayTool: DataDisplayTool = DataDisplayTool(
                     icon0: thisTDRatingImage0,
                     icon1: thisTDRatingImage1,
@@ -150,12 +150,12 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                 targetDemoDataSet.populateNumReviews(label: targetDemoTotalReviewsLabel)
                 
                 
-//                displayData(dataSet: targetDemoDataSet,
-//                            totalReviewsLabel: targetDemoTotalReviewsLabel,
-//                            displayTool: targetDemoDataDisplayTool,
-//                            displayBottom: false,
-//                            ratingValueLabel: targetDemoRatingLabel,
-//                            dataFilterType: .targetDemo)
+                //                displayData(dataSet: targetDemoDataSet,
+                //                            totalReviewsLabel: targetDemoTotalReviewsLabel,
+                //                            displayTool: targetDemoDataDisplayTool,
+                //                            displayBottom: false,
+                //                            ratingValueLabel: targetDemoRatingLabel,
+                //                            dataFilterType: .targetDemo)
             }
             
             // Configure the Friends data display
@@ -176,12 +176,12 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                 
                 friendsDataSet.populateNumReviews(label: friendsTotalReviewsLabel)
                 
-//                displayData(dataSet: friendsDataSet,
-//                            totalReviewsLabel: friendsTotalReviewsLabel,
-//                            displayTool: friendsDataDisplayTool,
-//                            displayBottom: false,
-//                            ratingValueLabel: friendsRatingLabel,
-//                            dataFilterType: .friends)
+                //                displayData(dataSet: friendsDataSet,
+                //                            totalReviewsLabel: friendsTotalReviewsLabel,
+                //                            displayTool: friendsDataDisplayTool,
+                //                            displayBottom: false,
+                //                            ratingValueLabel: friendsRatingLabel,
+                //                            dataFilterType: .friends)
             }
             
             // Configure the All Reviews data display
@@ -197,18 +197,18 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
                     icon4: thisARRatingImage4,
                     inverseOrientation: false,
                     ratingValueLabel: allReviewsRatingLabel)
-
+                
                 allReviewsDataDisplayTool.displayIcons(forConsolidatedDataSet: allReviewsDataSet, forBottom: false)
                 
                 allReviewsDataSet.populateNumReviews(label: allReviewsTotalReviewsLabel)
                 
                 
-//                displayData(dataSet: allReviewsDataSet,
-//                            totalReviewsLabel: allReviewsTotalReviewsLabel,
-//                            displayTool: allReviewsDataDisplayTool,
-//                            displayBottom: false,
-//                            ratingValueLabel: allReviewsRatingLabel,
-//                            dataFilterType: .allUsers)
+                //                displayData(dataSet: allReviewsDataSet,
+                //                            totalReviewsLabel: allReviewsTotalReviewsLabel,
+                //                            displayTool: allReviewsDataDisplayTool,
+                //                            displayBottom: false,
+                //                            ratingValueLabel: allReviewsRatingLabel,
+                //                            dataFilterType: .allUsers)
             }
             
             let tangerineScore = question.reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
@@ -217,7 +217,11 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
             
             loadRecommendation(imageView: wearItImageView, for: recommendation, isCompare: false)
             
-            tangerineScoreLabel.text = "\(String(tangerineScore.scoreAsPercent))%"
+            if tangerineScore.numReviews < 1 {
+                tangerineScoreLabel.text = "No Votes Yet"
+            } else {
+                tangerineScoreLabel.text = "\(String(tangerineScore.scoreAsPercent))%"
+            }
             
         } else {
             print("Looks like ask is nil")
