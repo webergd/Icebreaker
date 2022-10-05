@@ -94,8 +94,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     // constants for help labels
     let blurFacesMessage: String = "Blur Faces"
     let unBlurFacesMessage: String = "Clear Blurs"
-    let addTitleMessage: String = "Add Title"
-    let editTitleMessage: String = "Edit Title"
+    let addTitleMessage: String = "Add Private Label"
+    let editTitleMessage: String = "Edit Private Label"
 
     var titleHasBeenTapped: Bool = false
     var captionHasBeenTapped: Bool = false
@@ -759,28 +759,30 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // If the user has entered no text in the titleTextField, reset it to how it was originally:
         if self.titleTextField.text == "" {
             self.titleTextField.text = enterTitleConstant
-//            self.titleTextField.textColor = UIColor.gray
+            //            self.titleTextField.textColor = UIColor.gray
             self.titleHasBeenTapped = false
             
-//            if captionTextField.text != "" {
-//                centerFlexibleSpace.isEnabled = true //deprecated
-//            }
-            // MARK: This mirror caption button is now being used as an edit title button so we need to clean up some of this linkage to the caption
+            //            if captionTextField.text != "" {
+            //                centerFlexibleSpace.isEnabled = true //deprecated
+            //            }
             
-            // Stores a substring of the caption to the title so that user can more easily reference the photo through text rather than just visually
-            if captionTextField.text != "" {
-                if let captionText = captionTextField.text {
-                    let captionLength = captionText.count
-                    if captionLength > 11 {
-                        titleTextField.text = String(captionText.prefix(11))
-                    } else {
-                        titleTextField.text = captionText
-                    }
-                    showTitleTextField()
-                }
-            } else {
-                hideTitleTextField()
-            }
+//            // Stores a substring of the caption to the title so that user can more easily reference the photo through text rather than just visually
+//            if captionTextField.text != "" {
+//                if let captionText = captionTextField.text {
+//                    let captionLength = captionText.count
+//                    if captionLength > 11 {
+//                        titleTextField.text = String(captionText.prefix(11))
+//                    } else {
+//                        titleTextField.text = captionText
+//                    }
+//                    showTitleTextField()
+//                }
+//            } else {
+//                hideTitleTextField()
+//            }
+            
+            //added 5 Oct 22 when I commented out the above:
+            hideTitleTextField()
             
         } else if titleTextField.text != enterTitleConstant  {
             centerFlexibleSpace.isEnabled = false //deprecated
@@ -1147,8 +1149,36 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func addTitleButtonTapped(_ sender: Any) {
         print("Add title button tapped")
+        
+        // Stores a substring of the caption to the title so that user can more easily reference the photo through text rather than just visually
+        // If the title is blank when the user taps the addTitle button, we will partially fill it ouf for them if there is text in the caption
+        if titleTextFieldIsBlank && captionTextField.text != "" {
+            print("TTF is blank and caption is not")
+            
+            // Fills in either the first word of the caption or the first 10 characters of the first word, whichever is shorter
+            // We use 10 characters rather than 12 so that the user has 2 spaces left to type- which presumably helps them discover that the title text field has length limits and is not broken
+            if let captionText = captionTextField.text {
+                if let firstWordOfCaption = captionText.components(separatedBy: " ").first {
+                    let wordLength = firstWordOfCaption.count
+                    if wordLength > 10 {
+                        titleTextField.text = String(firstWordOfCaption.prefix(10))
+                    } else {
+                        titleTextField.text = firstWordOfCaption
+                    }
+                }
+            }
+            
+            
+            
+            
+        }
+        
         showTitleTextField()
+        print("showTitleTextField() called")
+        print("titleTextField.text= \(titleTextField.text!)")
         titleTextField.becomeFirstResponder()
+        print("titleTextField.becomeFirstResponder() called")
+        print("titleTextField.text= \(titleTextField.text!)")
     }
     
     /// Checks if there is any text stored for a title and hides or displays the titleTextField as appropriate
@@ -1204,7 +1234,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /// This method clears the text field to be ready to be typed in and it also reverses the value of titleHasBeenTapped.
     @IBAction func titleTextFieldBeginEditing(_ sender: AnyObject) {
-        titleHasBeenTapped = self.resetTextField(titleTextField, tappedYet: titleHasBeenTapped)
+//        titleHasBeenTapped = self.resetTextField(titleTextField, tappedYet: titleHasBeenTapped)
     }
     
     @IBAction func titleTextFieldValueChanged(_ sender: AnyObject) {

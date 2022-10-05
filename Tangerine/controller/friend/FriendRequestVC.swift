@@ -107,7 +107,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     }else{
                         // just show a dialog
                         let alertVC = UIAlertController(title: "No Additional Friend Requests", message: "You're up to date on all your pending friend request responses.", preferredStyle: .alert)
-                        alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+                        alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         }))
                     
@@ -196,7 +196,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             // just show a dialog
             let alertVC = UIAlertController(title: "Accepted!", message: "You are now friends with \(person.username!)", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+            alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
                 self.dismiss(animated: true, completion: nil)
                 // delete the row
                 self.requestList.remove(at: indexPath.row)

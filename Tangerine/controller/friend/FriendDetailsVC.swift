@@ -79,7 +79,7 @@ class FriendDetailsVC: UIViewController {
             
             // just show a dialog
             let alertVC = UIAlertController(title: "Accepted!", message: "You are now friends with \(self.username)", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+            alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
                 
                 if self.defaultSw.isOn {
                     
@@ -180,7 +180,7 @@ class FriendDetailsVC: UIViewController {
             
             let alertVC = UIAlertController(title: "Deleted!", message: "This \(msg) has been deleted.", preferredStyle: .alert)
             
-            alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+            alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
                 self.dismiss(animated: true, completion: nil)
                 
             }))

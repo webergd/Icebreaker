@@ -167,7 +167,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         let alertVC = UIAlertController(title: "Sent!", message: "Question Sent to selected friends", preferredStyle: .alert)
         // On DISMISS
-        alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+        alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
             
             // Now move to main
 

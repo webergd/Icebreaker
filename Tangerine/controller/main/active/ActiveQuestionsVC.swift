@@ -108,8 +108,8 @@ class ActiveQuestionsVC: UITableViewController {
     // will make global later
     func showNoMoreQuestions(_ message: String){
         
-        let alertVC = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+        let alertVC = UIAlertController(title: "Complete 🐿️", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction.init(title: "OK", style: .cancel, handler: { (action) in
             self.dismissToRight()
 //            self.dismissWithAnimatingRight()
         }))
@@ -540,7 +540,7 @@ class ActiveQuestionsVC: UITableViewController {
     
     @objc func showHelp() {
         let alertController = UIAlertController(title: "Tap a row to view its details.", message: "\nSwipe RIGHT to RETURN to main. \n\n-Swipe LEFT on a row to DELETE it.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
+        let okAction = UIAlertAction(title: "Got It", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }

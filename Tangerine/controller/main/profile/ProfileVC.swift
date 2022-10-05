@@ -183,10 +183,14 @@ class ProfileVC: UIViewController {
         profileImage.isUserInteractionEnabled = true
         profileImage.addGestureRecognizer(tapProfileImageGesture)
         
-        // Gesture Recognizer to enable user to tap on Display Name for an explanation
+        // Gesture Recognizers to enable user to tap on Display Name or username for an explanation
         let tapDisplaynameL = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.userTappedDisplayNameL))
         displaynameL.isUserInteractionEnabled = true
         displaynameL.addGestureRecognizer(tapDisplaynameL)
+        
+        let tapUsernameL = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.userTappedDisplayNameL))
+        usernameL.isUserInteractionEnabled = true
+        usernameL.addGestureRecognizer(tapUsernameL)
         
         // Gesture Recognizer to enable user to tap on Review Credits for an explanation
         let tapTotalCreditL = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.userTappedTotalCreditL))
@@ -203,7 +207,7 @@ class ProfileVC: UIViewController {
     
     /// Fires when user taps displaynameL. Provides an explanation.
     @objc func userTappedDisplayNameL(sender: UITapGestureRecognizer) {
-        let alertVC = UIAlertController(title: "Your Display Name is \(myProfile.display_name)", message: "This is the name other members can see, and  use to search for you. You can change it in your settings. \n\n(Your username (\(myProfile.username)) is what you use to login. That can't be changed.)", preferredStyle: .alert)
+        let alertVC = UIAlertController(title: "Your Display Name is \(myProfile.display_name)", message: "This is the name other members can see, and  use to search for you. You can change it in your settings. \n\nYour username (\(myProfile.username)) is what you use to login. That can't be changed.", preferredStyle: .alert)
         let gotItAction = UIAlertAction(title: "Got It", style: .default)
         alertVC.addAction(gotItAction)
         

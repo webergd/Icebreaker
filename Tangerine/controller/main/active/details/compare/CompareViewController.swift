@@ -310,7 +310,7 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
     /// Fires when user taps TangerineScore. Provides an explanation.
     @objc func userTappedTangerineScore(sender: UITapGestureRecognizer) {
         print("TangerineScore tapped")
-        let alertVC = UIAlertController(title: "This is the Tangerine Score", message: "The higher the score, the happier we think you'll be that you wore this. \n\nTangerine Icon = HIGH satisfaction. \n\nRed X icon = LOW satisfaction.", preferredStyle: .alert)
+        let alertVC = UIAlertController(title: "Tangerine Icon = WEAR IT. \nRed X icon = NOPE.", message: "\nTangerine calculated this score using a variety of factors including your preferences", preferredStyle: .alert)
         let gotItAction = UIAlertAction(title: "Got It", style: .default)
         alertVC.addAction(gotItAction)
         

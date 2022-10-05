@@ -369,7 +369,7 @@ class ReviewOthersVC: UIViewController{
             
             // This is the message member gets if we unlocked all their Questions for them because they reviewed everything and still had locked Questions left over:
             let alertVC = UIAlertController(title: "The Tangerine Community thanks you!", message: "You reviewed everything! Check back here later to see if anyone needs your help. ALL your QUESTIONS have been UNLOCKED.", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+            alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
                 self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
             }))
             
@@ -389,7 +389,7 @@ class ReviewOthersVC: UIViewController{
             // This is the message the member gets if we just can't get anymore Questions from the database to give them to review because the phone can't reach the cloud. This logic prevents user from going on airplane mode to have all Questions unlocked "for free:"
             
             let alertVC = UIAlertController(title: "We're having trouble connecting your phone to the internet.", message: "Please try back later when the connection improves.", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction.init(title: "Dismiss", style: .cancel, handler: { (action) in
+            alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
                 self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
             }))
             

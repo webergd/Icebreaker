@@ -1002,8 +1002,8 @@
                                 <color key="textColor" systemColor="tintColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeX-Ad-dde">
-                                <rect key="frame" x="263" y="829.5" width="53" height="14.5"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Private Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeX-Ad-dde">
+                                <rect key="frame" x="240.5" y="829.5" width="103.5" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <color key="textColor" systemColor="tintColor"/>
                                 <nil key="highlightedColor"/>
@@ -1030,7 +1030,7 @@
                             <constraint firstItem="8jP-xj-wJv" firstAttribute="width" secondItem="Mw1-wG-myY" secondAttribute="width" id="aNc-Uy-FNc"/>
                             <constraint firstAttribute="bottom" secondItem="8jP-xj-wJv" secondAttribute="bottom" constant="12" id="haq-1A-gU1"/>
                             <constraint firstItem="HFM-EB-5C8" firstAttribute="leading" secondItem="Mw1-wG-myY" secondAttribute="leading" priority="950" constant="92" id="iQd-vr-zxy"/>
-                            <constraint firstItem="Mw1-wG-myY" firstAttribute="trailing" secondItem="eeX-Ad-dde" secondAttribute="trailing" priority="950" constant="98" id="kAa-GE-YnQ"/>
+                            <constraint firstItem="Mw1-wG-myY" firstAttribute="trailing" secondItem="eeX-Ad-dde" secondAttribute="trailing" priority="950" constant="70" id="kAa-GE-YnQ"/>
                             <constraint firstItem="5lR-5A-tiq" firstAttribute="height" secondItem="bgT-Fd-9N3" secondAttribute="height" id="mHC-tH-BoL"/>
                             <constraint firstItem="Mw1-wG-myY" firstAttribute="bottom" secondItem="mEb-1g-pRd" secondAttribute="bottom" constant="8" id="o2C-CP-32s"/>
                         </constraints>

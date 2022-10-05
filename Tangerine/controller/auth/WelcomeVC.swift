@@ -124,7 +124,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
               
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Got It", style: .cancel, handler: nil))
 
             // 4. Present the alert.
             self.present(alert, animated: true, completion: nil)
