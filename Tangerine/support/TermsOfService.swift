@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: Eventually we need to link this to the EULA on our website
+
 public let terms: String = """
 Terms of Use
 Welcome to Tangerine!

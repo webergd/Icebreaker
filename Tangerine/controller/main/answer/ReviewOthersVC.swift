@@ -368,7 +368,7 @@ class ReviewOthersVC: UIViewController{
             } //end for loop
             
             // This is the message member gets if we unlocked all their Questions for them because they reviewed everything and still had locked Questions left over:
-            let alertVC = UIAlertController(title: "The Tangerine Community thanks you!", message: "You reviewed everything! Check back here later to see if anyone needs your help. ALL your QUESTIONS have been UNLOCKED.", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "The Tangerine Community thanks you!", message: "You reviewed everything! \nCheck back here later to see if anyone needs your help. \n\nALL your QUESTIONS have been UNLOCKED.", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction.init(title: "Got It", style: .cancel, handler: { (action) in
                 self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
             }))

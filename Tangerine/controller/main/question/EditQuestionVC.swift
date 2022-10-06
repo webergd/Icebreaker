@@ -358,6 +358,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Hides keyboard when user taps outside of text field
         hideKeyboardOnOutsideTouch()
         
+        //Makes the cursor for this textField Orange
+        captionTextField.tintColor = .systemOrange
+        
         // This gives a done key but requires other code to dismiss the keyboard
         self.captionTextField.returnKeyType = UIReturnKeyType.done
         
@@ -707,6 +710,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // This is called in the viewDidLoad section in our NSNotificationCenter command
     @objc func keyboardWillShow(_ notification: Notification) {
+        
+        
         // Basically all this is for moving the caption out of the way of the keyboard while we're editing it:
         if self.captionTextField.isEditing == true { //aka if the title is editing, don't do any of this
             view.bringSubviewToFront(captionTextField)
