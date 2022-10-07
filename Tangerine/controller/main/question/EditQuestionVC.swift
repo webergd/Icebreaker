@@ -150,6 +150,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    
     // These are modified later but needed a higher scope for finishEditing to work correctly
     var actionYes = UIAlertAction(title: "", style: .default, handler: nil)
     var actionNo = UIAlertAction(title: "", style: .default, handler: nil)

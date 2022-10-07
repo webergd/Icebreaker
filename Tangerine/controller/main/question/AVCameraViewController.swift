@@ -33,9 +33,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
           let session = audioSession
             try session.setCategory(AVAudioSession.Category.playback, options: [AVAudioSession.CategoryOptions.mixWithOthers/*, AVAudioSession.CategoryOptions.defaultToSpeaker*/])
           try session.setActive(true)
-        } catch {
-
-        }
+        } catch {}
         
         //Now, start listening to the volume buttons so that the user can use them like a camera button
         do {

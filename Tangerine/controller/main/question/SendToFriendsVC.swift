@@ -474,6 +474,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             cell.display_name.text = friend.displayName
             cell.user_name.text = friend.username
+            cell.age.text = "" //sets "Age" label to blank
             self.displayedNames.append(friend.username)
             
             
