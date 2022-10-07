@@ -23,9 +23,21 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     
     var outputVolumeObserver: NSKeyValueObservation?
     let audioSession = AVAudioSession.sharedInstance()
+
+    var photoWasCapturedWithTangerineAVCamera: Bool = true //default to true to avoid writing an initializer
     
 
     func startListenToVolButtons() {
+        //First, enable member's music to keep playing while we "listen" to the volume buttons
+        do {
+          let session = audioSession
+            try session.setCategory(AVAudioSession.Category.playback, options: [AVAudioSession.CategoryOptions.mixWithOthers/*, AVAudioSession.CategoryOptions.defaultToSpeaker*/])
+          try session.setActive(true)
+        } catch {
+
+        }
+        
+        //Now, start listening to the volume buttons so that the user can use them like a camera button
         do {
             try audioSession.setActive(true)
         } catch {}
@@ -239,7 +251,9 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func reloadCamera() {
+
         captureSession = AVCaptureSession()
+    
         // we may want to change the AVCaptureSessionPreset____ to a different resolution to save space.
         captureSession.sessionPreset = AVCaptureSession.Preset.photo//AVCaptureSessionPresetPhoto
         cameraOutput = AVCapturePhotoOutput()
@@ -286,6 +300,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     /// Snaps a picture
     @IBAction func takePhoto(_ sender: UIButton) {
         print("snap")
+        photoWasCapturedWithTangerineAVCamera = true
         
         // AVCapturePhotoOutput code:
         
@@ -406,6 +421,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     
     @IBAction func selectFromPhotoLibrary(_ sender: Any) {
         print("selectFromPhotoLibary button just tapped")
+        photoWasCapturedWithTangerineAVCamera = false
         imageWasPicked = true
         print("imageWasPicked set to true. imageWasPicked: \(imageWasPicked)")
         imagePicker.allowsEditing = false
@@ -650,6 +666,11 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
                 print("cropping failed. passing originally captured image")
                 currentImage = capturedImage
             }
+        }
+        
+        // Saves image to camera roll if it was captured through the camera (but not if it was uploaded from the photolibary already)
+        if photoWasCapturedWithTangerineAVCamera {
+            UIImageWriteToSavedPhotosAlbum(currentImage, nil, nil, nil)
         }
             
         //currentImage = capturedImage
