@@ -21,10 +21,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
   // we'll take 10 each time and run query
   var contacts = [Person]()
 
-  // to update the local list
-  var registered = [Person]()
-  var requested = [Person]()
-  var others = [Person]()
+
 
   // all number from phone
   var allNumbers: String = ""
@@ -1090,8 +1087,12 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
   func updateLocalData(){
 
-    // so we do this filter only on the first run
-    
+    print("Is Network: \(isNetworkCallDone)")
+    // to update the local list
+    var registered = [Person]()
+    var requested = [Person]()
+    var others = [Person]()
+
       for person in displayedContacts {
         if person.status == .REGISTERED {
           registered.append(person)
