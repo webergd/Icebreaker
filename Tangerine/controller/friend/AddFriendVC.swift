@@ -20,6 +20,12 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
   // this var saves all contact from device
   // we'll take 10 each time and run query
   var contacts = [Person]()
+
+  // to update the local list
+  var registered = [Person]()
+  var requested = [Person]()
+  var others = [Person]()
+
   // all number from phone
   var allNumbers: String = ""
   // shows the current displayed Persons
@@ -64,6 +70,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
   var backBtn: UIButton!
   var backButtonWidth: NSLayoutConstraint!
 
+  var isNetworkCallDone = false
+
   // MARK: Actions
 
   // when back and cancel is clicked, searchbar is between them in view
@@ -85,7 +93,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
       updateCloudData()
     } else{
       print("Searching Local")
-      updateLocalData()
+      self.updateLocalData()
     }
 
   }
@@ -370,6 +378,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
   func fetchContacts() {
 
+
     //   UIImage(systemName: "person.crop.circle")
     let store = CNContactStore()
     // request permission
@@ -431,6 +440,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
   // this one sends all phone to cloudSQL and returns the one matches
   // then updates the UI with the registered ones at top
   func invalidateContacts(){
+    isNetworkCallDone = false
     allNumbers += "0"
     // send them to server
     NetworkManager.shared.getRegisteredContacts(for: allNumbers) { result in
@@ -462,7 +472,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
             self.dataSource = nil
             self.configureLocalDataSource()
-
+            self.isNetworkCallDone = true
             self.updateLocalData()
           }
 
@@ -477,11 +487,12 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
   // indicator while loading
 
   func setupIndicator() {
+    print("Setting up indicator")
     indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-    indicator.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.maxY - 20)
-    view.addSubview(indicator)
-    indicator.bringSubviewToFront(view)
+    indicator.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.minY + 100)
+    friendsCollectionView.addSubview(indicator)
+    friendsCollectionView.bringSubviewToFront(indicator)
   }
 
   // when Add button is tapped, ensures that we don't request multiple times
@@ -792,6 +803,11 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     setupIndicator()
     searchbar.delegate = self
 
+    DispatchQueue.main.async {
+      self.indicator.startAnimating()
+    }
+
+
     // fetch the firebase version and sync with personList
     syncPersonList()
 
@@ -1074,17 +1090,19 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
   func updateLocalData(){
 
-    let registered = displayedContacts.filter { p in
-      p.status == .REGISTERED
-    }
+    // so we do this filter only on the first run
+    
+      for person in displayedContacts {
+        if person.status == .REGISTERED {
+          registered.append(person)
+        } else if person.status == .REQUESTED {
+          requested.append(person)
+        } else {
+          others.append(person)
+        }
+      }
 
-    let requested = displayedContacts.filter { p in
-      p.status == .REQUESTED
-    }
 
-    let others = displayedContacts.filter { p in
-      p.status != .REGISTERED && p.status != .REQUESTED
-    }
 
 
     var snapshot = NSDiffableDataSourceSnapshot<Section, Person>()
@@ -1097,9 +1115,11 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
     if !isCloudSearch {
       dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+
+      if isNetworkCallDone {
+        self.indicator.stopAnimating()
+      }
     }
-
-
 
   }
 
