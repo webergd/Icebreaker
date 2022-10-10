@@ -1105,7 +1105,10 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
   func updateCloudData(){
 
-    let sorted = Array(displayedCloudContacts.values)
+    // sorting the data in A-Z order
+    let sorted = Array(displayedCloudContacts.values.sorted(by: { p1, p2 in
+      p1.displayName < p2.displayName
+    }))
 
     var snapshot = NSDiffableDataSourceSnapshot<Section, Person>()
 
