@@ -1369,6 +1369,8 @@ public struct DataDisplayTool {
         
         var imageIndexValue: Double = 0.0
         for imageView in imageViews {
+            imageView.isHidden = false //added 9Nov22 because for some reason these imageViews were being arbitrarily hidden here and there. There is still the potential that a deeper underlying problem exists because we are never intentionally hiding these individual imageViews at any point yet they are being hidden even so. 
+            
             // ex: for position 2 (the 3rd heart), if the rating is 2.5, the imageIndexValue of 2 will be subtracted leaving 0.5
             //  meaning that 0.5 is less than 0.9 and will therefore display the bad image aka black (empty) heart.
             if (ratingValue - imageIndexValue) > 0.9 {

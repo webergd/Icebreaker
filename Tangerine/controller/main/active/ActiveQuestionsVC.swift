@@ -236,7 +236,7 @@ class ActiveQuestionsVC: UITableViewController {
                     cell.ratingValueLabel.isHidden = true
                     cell.reviewsRequiredToUnlockLabel.isHidden = false
                     cell.lockLabel.isHidden = false
-                    cell.reviewsRequiredToUnlockLabel.text = "Please review \(reviewsNeeded) more users to unlock your results."
+                    cell.reviewsRequiredToUnlockLabel.text = "Please review \(reviewsNeeded) more photos to unlock your results."
                     cell.wearItImageView.isHidden = true
                     cell.wearItLabel.isHidden = true
                     removeCircleBorder(view: cell.photoImageView)
