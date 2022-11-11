@@ -89,6 +89,17 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
         // unwraps the ask that the tableView sent over:
         if let thisAsk = self.question {
             
+            // if Question is out of circulation, notify user
+            if !thisAsk.question.is_circulating {
+                
+                let alertVC = UIAlertController(title: "Photo Suspended", message: "This photo was flagged as inappropriate so it is no longer receiving reviews.", preferredStyle: .alert)
+                let gotItAction = UIAlertAction(title: "Got It", style: .default)
+                alertVC.addAction(gotItAction)
+                
+                present(alertVC, animated: true, completion: nil)
+            }
+            
+            
             if let thisLabel = self.titleLabel {
                 thisLabel.text = thisAsk.question.title_1
             }
@@ -241,7 +252,7 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
         
         //let swipeViewGesture = UISwipeGestureRecognizer(target: self, action: #selector(AskViewController.userSwiped))
         //askView.addGestureRecognizer(swipeViewGesture)
-        
+               
         
         // Gesture Recognizers for swiping left and right
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(AskViewController.userSwiped))

@@ -22,6 +22,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var titleTextFieldHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addTitleButton: UIButton!
+    @IBOutlet weak var compareTitleLabel: UILabel!
+    
     
     @IBOutlet weak var captionTextField: UITextField!
     
@@ -518,6 +520,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func unpack(thumbnail iBE: imageBeingEdited) {
         otherImageThumbnail.setImage(iBE.iBEimageBlurredCropped, for: .normal)
+        compareTitleLabel.text = iBE.iBEtitle
     }
     
     /// Accesses the helper class EQVCVerticalConstraints to arrange the housing views in such a way that makes the member's experience intuitive based on what image is being edited

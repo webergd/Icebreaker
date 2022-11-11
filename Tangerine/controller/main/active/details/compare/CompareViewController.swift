@@ -46,16 +46,20 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    var isCirculating: Bool?
+    
     @IBAction func unwindToCompareVC(segue: UIStoryboardSegue) {}
     
     func configureView() -> Void {
         
-        
+        // unwraps the compare that the tableView sent over:
         guard let question = question else {
             print("question was nil")
             return
         }
-        // unwraps the compare that the tableView sent over:
+        
+        isCirculating = question.question.is_circulating
+        
         let td = RealmManager.sharedInstance.getTargetDemo()
         var consolidateCD = question.reviewCollection.pullConsolidatedCompareData(requestedDemo: td, friendsOnly: false)
         
@@ -69,8 +73,9 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
             return
         }
         
-        // unwraps images from the compare and sends to IBOutlets
+
         
+        // unwraps images from the compare and sends to IBOutlets
         if let thisImageView = self.topImageView {
             
             downloadOrLoadFirebaseImage(
@@ -185,6 +190,10 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+
+        
         self.configureView()
         topScrollView.delegate = self
         bottomScrollView.delegate = self
@@ -264,6 +273,20 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
             thisCaptionTextField.isHidden = thisCompare.question.captionText_2.isEmpty
             thisCaptionTextField.text = thisCompare.question.captionText_2
         }
+
+        // if Question is out of circulation, notify user
+        if let iC = isCirculating {
+            
+            if !iC {
+                
+                let alertVC = UIAlertController(title: "Photo Suspended", message: "This photo was flagged as inappropriate so it is no longer receiving reviews.", preferredStyle: .alert)
+                let gotItAction = UIAlertAction(title: "Got It", style: .default)
+                alertVC.addAction(gotItAction)
+                
+                present(alertVC, animated: true, completion: nil)
+            }
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {

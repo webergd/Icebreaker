@@ -194,10 +194,25 @@ class ActiveQuestionsVC: UITableViewController {
             // Calculate a Tangerine Score to pass to the cell (works for both Ask or Compare):
             let tangerineScore: TangerineScore = reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
             
+            var cellBackgroundColor: UIColor
+            
+            if question.is_circulating {
+                // Here we store the default background color of the cells which is "lead," only so that we have a baseline and can set it to something else if the Q is out of circulation
+                // These cells will default to this color without this. We're just adding functionality to change it to something else and this way requires less lines of code.
+                cellBackgroundColor = UIColor(red: 25/255, green: 25/255, blue: 25/255, alpha: 1.0)
+            } else {
+                // i.e. the Question is not circulating
+                cellBackgroundColor = UIColor(red: 48/255, green: 9/255, blue: 0/255, alpha: 1.0)
+            }
+            
+            
+            
             // here we build a single ASK CELL: - - - - - - -
             if question.type == .ASK {
                 let cellIdentifier: String = "AskTableViewCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! AskTableViewCell
+                
+                cell.contentView.backgroundColor = cellBackgroundColor
                 
                 if tangerineScore.numReviews < 1 {
                     cell.td100Bar.isHidden = true
@@ -265,7 +280,6 @@ class ActiveQuestionsVC: UITableViewController {
                 
                 makeCircle(view: cell.photoImageView, alpha: 1.0)
                 
-                
                 return cell
 
             // here we build a dual COMPARE CELL: - - - - - - -
@@ -273,6 +287,8 @@ class ActiveQuestionsVC: UITableViewController {
                 
                 let cellIdentifier: String = "CompareTableViewCell"
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CompareTableViewCell
+                
+                cell.contentView.backgroundColor = cellBackgroundColor
                 
                 makeCircle(view: cell.image1, alpha: 1.0)
                 makeCircle(view: cell.image2, alpha: 1.0)
@@ -424,6 +440,8 @@ class ActiveQuestionsVC: UITableViewController {
         
         if let indexPath = self.tableView.indexPathForSelectedRow {
             let passedQuestion = myActiveQuestions[indexPath.row]
+            
+            
             // prevents the segue to the Question's details if the Question is still locked:
             if passedQuestion.question.isLocked == true {
                 return
