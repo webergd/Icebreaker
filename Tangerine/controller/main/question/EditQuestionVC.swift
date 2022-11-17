@@ -369,6 +369,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // This gives a done key but requires other code to dismiss the keyboard
         self.titleTextField.returnKeyType = UIReturnKeyType.done
+        self.titleTextField.clearButtonMode = .whileEditing
         
         // This gets us the height of the caption text field to be used later for spacing things out correctly
         self.captionTextFieldHeight = self.captionTextField.frame.height
