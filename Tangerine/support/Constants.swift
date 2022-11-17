@@ -170,6 +170,12 @@ class Constants {
     
     static let UD_VIEW_RESULT_ALERT_PREF = "vr_alert_pref"
     
+    //added by Wyatt 18Nov22"
+    static let UD_DEFAULT_TO_THESE_FRIENDS_SWITCH_SETTING = "defaultToTheseFriendsSwitchSetting"
+    
+    
+    
+    
     static let QFF_NOTI_NAME = "NOTIFICATION_NAME.QFF"
     // To be reused in our programmaticUI
     // MARK: UI Items

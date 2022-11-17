@@ -11,7 +11,7 @@ import Contacts
 
 /// This is the view that displays after a user has created a Question, and is deciding whether to send it to any of their friends.
 class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+   
     
     
     /************************************************************ Organization of Code ************************************************/
@@ -25,6 +25,9 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     /******************************************************************************************************************************/
     @IBOutlet weak var saveDefaultSw: UISwitch!
     @IBOutlet weak var friendList: UITableView!
+	
+	// user default
+	var userDefault : UserDefaults!
     
     
     var defaultSendNames = [Friend]()
@@ -61,6 +64,10 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     
     @IBAction func saveSelectedSwitched(_ sender: UISwitch) {
+		
+		print("Default to these friends? \(saveDefaultSw.isOn)")
+		
+		userDefault.setValue(saveDefaultSw.isOn, forKey: Constants.UD_DEFAULT_TO_THESE_FRIENDS_SWITCH_SETTING)
         
     }
     
@@ -563,6 +570,14 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         // set the delegate and datasource of our table view of friends
         friendList.delegate = self
         friendList.dataSource = self
+		
+		
+		// init the UD
+		userDefault = UserDefaults.standard
+		
+		//check if user choses to keep him logged in
+		let defaultToTheseFriends = userDefault.bool(forKey: Constants.UD_DEFAULT_TO_THESE_FRIENDS_SWITCH_SETTING)
+		saveDefaultSw.setOn(defaultToTheseFriends, animated: false)
 
         
     }

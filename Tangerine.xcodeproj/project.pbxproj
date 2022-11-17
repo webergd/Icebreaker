@@ -189,7 +189,7 @@
 		517BF3A7269AE5750044DE61 /* CompareReviewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		517BF3A8269AE5780044DE61 /* CompareReviewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareReviewsTableViewController.swift; sourceTree = "<group>"; };
 		517BF3AB269AFAD00044DE61 /* CompareReviewDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareReviewDetailsViewController.swift; sourceTree = "<group>"; };
-		518DBD1E26277D13008314A7 /* SendToFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToFriendsVC.swift; sourceTree = "<group>"; };
+		518DBD1E26277D13008314A7 /* SendToFriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToFriendsVC.swift; sourceTree = "<group>"; usesTabs = 1; };
 		518DBD502627AA40008314A7 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		519EA1472630D2CF0095C3A3 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
 		519FA96D27C0B7DA00AD927C /* ReAuthConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthConfirmationVC.swift; sourceTree = "<group>"; };
