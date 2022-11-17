@@ -371,6 +371,12 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.titleTextField.returnKeyType = UIReturnKeyType.done
         self.titleTextField.clearButtonMode = .whileEditing
         
+        titleTextField.layer.masksToBounds = true
+        titleTextField.layer.borderColor = UIColor.opaqueSeparator.cgColor
+        titleTextField.layer.borderWidth = 1.0
+
+        
+        
         // This gets us the height of the caption text field to be used later for spacing things out correctly
         self.captionTextFieldHeight = self.captionTextField.frame.height
         

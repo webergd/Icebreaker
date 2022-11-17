@@ -698,27 +698,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Or1-CF-jJM" userLabel="scrollHousingView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="441.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="446.5"/>
                                         <subviews>
-                                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-lt-Evo" userLabel="titleTextField">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <accessibilityTraits key="traits" notEnabled="YES"/>
-                                                </accessibility>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" id="e3U-Mo-siW"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                                <connections>
-                                                    <action selector="titleTextFieldBeginEditing:" destination="htq-oV-YgK" eventType="editingDidBegin" id="a0y-bF-IkR"/>
-                                                    <action selector="titleTextFieldValueChanged:" destination="htq-oV-YgK" eventType="valueChanged" id="KTs-Tb-yXN"/>
-                                                    <action selector="userTappedTextField:" destination="htq-oV-YgK" eventType="touchUpInside" id="XkG-1d-eVw"/>
-                                                    <outlet property="delegate" destination="htq-oV-YgK" id="BYl-fp-sg8"/>
-                                                </connections>
-                                            </textField>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uj3-PS-3tI">
-                                                <rect key="frame" x="0.0" y="-6" width="414" height="414"/>
+                                                <rect key="frame" x="0.0" y="-1" width="414" height="414"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gTl-gl-dDI">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
@@ -763,8 +746,25 @@
                                                     <outlet property="delegate" destination="htq-oV-YgK" id="PFr-Z7-WB1"/>
                                                 </connections>
                                             </scrollView>
+                                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-lt-Evo" userLabel="titleTextField">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
+                                                <accessibility key="accessibilityConfiguration">
+                                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                                </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="e3U-Mo-siW"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="titleTextFieldBeginEditing:" destination="htq-oV-YgK" eventType="editingDidBegin" id="a0y-bF-IkR"/>
+                                                    <action selector="titleTextFieldValueChanged:" destination="htq-oV-YgK" eventType="valueChanged" id="KTs-Tb-yXN"/>
+                                                    <action selector="userTappedTextField:" destination="htq-oV-YgK" eventType="touchUpInside" id="XkG-1d-eVw"/>
+                                                    <outlet property="delegate" destination="htq-oV-YgK" id="BYl-fp-sg8"/>
+                                                </connections>
+                                            </textField>
                                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RK8-0K-0Pr">
-                                                <rect key="frame" x="0.0" y="-6" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="-1" width="414" height="30"/>
                                                 <color key="backgroundColor" white="0.33333333329999998" alpha="0.7513739224" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" white="0.33333333329999998" alpha="0.7513739224" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -775,7 +775,7 @@
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwv-eL-4Tr">
-                                                <rect key="frame" x="133.5" y="407" width="147" height="34.5"/>
+                                                <rect key="frame" x="133.5" y="412" width="147" height="34.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
@@ -792,7 +792,7 @@
                                                 </connections>
                                             </button>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pinch to Zoom and Crop" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yaA-n3-1BA">
-                                                <rect key="frame" x="73.5" y="186.5" width="267" height="29"/>
+                                                <rect key="frame" x="73.5" y="191.5" width="267" height="29"/>
                                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.74583000536786015" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
@@ -801,7 +801,7 @@
                                                 <size key="shadowOffset" width="3" height="3"/>
                                             </label>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press and hold to blur a portion of the image." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="soN-CG-X3B">
-                                                <rect key="frame" x="62" y="247.5" width="290" height="16"/>
+                                                <rect key="frame" x="62" y="252.5" width="290" height="16"/>
                                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.74163494994308776" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -819,7 +819,7 @@
                                             <constraint firstItem="Uj3-PS-3tI" firstAttribute="centerX" secondItem="Or1-CF-jJM" secondAttribute="centerX" id="9T5-ea-AQx"/>
                                             <constraint firstAttribute="bottom" secondItem="bwv-eL-4Tr" secondAttribute="bottom" id="AnA-Lq-dYS"/>
                                             <constraint firstItem="soN-CG-X3B" firstAttribute="centerX" secondItem="Or1-CF-jJM" secondAttribute="centerX" id="GYB-a1-wjd"/>
-                                            <constraint firstItem="Uj3-PS-3tI" firstAttribute="top" secondItem="gzl-lt-Evo" secondAttribute="bottom" constant="-6" id="JKu-u3-l6P"/>
+                                            <constraint firstItem="Uj3-PS-3tI" firstAttribute="top" secondItem="gzl-lt-Evo" secondAttribute="bottom" constant="-1" id="JKu-u3-l6P"/>
                                             <constraint firstItem="bwv-eL-4Tr" firstAttribute="centerX" secondItem="Or1-CF-jJM" secondAttribute="centerX" id="Mtd-Qy-ooS"/>
                                             <constraint firstItem="soN-CG-X3B" firstAttribute="top" secondItem="yaA-n3-1BA" secondAttribute="bottom" constant="32" id="Ril-lu-lB4"/>
                                             <constraint firstItem="yaA-n3-1BA" firstAttribute="centerY" secondItem="Uj3-PS-3tI" secondAttribute="centerY" id="c6I-f1-Kto"/>
