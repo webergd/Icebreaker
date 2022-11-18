@@ -24,13 +24,14 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
      */
     /******************************************************************************************************************************/
     @IBOutlet weak var saveDefaultSw: UISwitch!
-    @IBOutlet weak var friendList: UITableView!
+    @IBOutlet weak var friendListTableView: UITableView!
 	
 	// user default
 	var userDefault : UserDefaults!
     
-    
+    /// This hold friend objects, not just names
     var defaultSendNames = [Friend]()
+	/// This hold friend objects, not just names
     var recentSendNames = [Friend]()
     
     
@@ -46,6 +47,10 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     var displayedList = [Friend]()
     var displayedNames = [String]()
+	
+	
+	/// This is a list of all friends whose row should be selected orange. We use it to set the row to selected or de-selected.
+	var selectedFriendNames = [String]()
     
     
     //flag that tells if we are fetching data
@@ -90,7 +95,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     func saveSelectedItems(){
         
         
-        let paths = friendList.indexPathsForSelectedRows
+        let paths = friendListTableView.indexPathsForSelectedRows
         var selectedItems = [Friend]()
         var receipientNames = [String]()
         
@@ -189,15 +194,19 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     
-    // fetch the default names from realm
+    /// fetch the default names from realm
     func getDefaultSendNames(){
         defaultSendNames = RealmManager.sharedInstance.getDefaultItems()
-        // assing to our list and reload
+		
+		// here we baseline the selected friend names list once using the defaults we just retrieved above:
+		selectedFriendNames = getNameArrayFrom(friendArray: defaultSendNames)
+		
+        // adding to our list and reload
         if defaultSendNames.count > 0{
             print("We got \(defaultSendNames.count) default contacts")
             displayedList.append(contentsOf: defaultSendNames)
             
-            friendList.reloadData()
+            friendListTableView.reloadData()
         }else{
             print("No default friend")
         }
@@ -214,7 +223,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             // before appending remove duplicated that matches with default
             displayedList.append(contentsOf: recentSendNames)
-            friendList.reloadData()
+            friendListTableView.reloadData()
         }else{
             print("No recent friend")
         }
@@ -273,6 +282,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 }// end if let
                 
             }// end of firebase
+		print("getFriendsFromFirestore() completed")
         
     }
     
@@ -345,7 +355,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                         
                         // reload the table
                         
-                        self.friendList.reloadData()
+                        self.friendListTableView.reloadData()
                     }
                 }
                 
@@ -405,7 +415,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     // reload must be called from main thread
                     DispatchQueue.main.async {
                         // reload the tableview with newly added data
-                        friendList.reloadData()
+                        friendListTableView.reloadData()
                     }
                     
                 } catch let error {
@@ -430,6 +440,14 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         view.addSubview(indicator)
         indicator.bringSubviewToFront(view)
     }
+	
+	func getNameArrayFrom(friendArray: [Friend]) -> [String] {
+		var namesToReturn: [String] = []
+		for friend in friendArray {
+			namesToReturn.append(friend.username)
+		}
+		return namesToReturn
+	}
     
     
     /******************************************************************************************************************************/
@@ -445,24 +463,56 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         return displayedList.count
     }
     
-    
-    // FOR DEBUG PURPOSE TO SEE HOW RECENTS AND DEFAULTS BEHAVE
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        let friend = displayedList[indexPath.row]
-        
-        if friend.sendStatus == .DEFAULT {
-            print("coloring the default cell")
-            //cell.contentView.backgroundColor = UIColor.systemOrange.withAlphaComponent(0.5)
-            
-            friendList.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            
-        }
-//        else if friend.sendStatus == .RECENT {
-//            print("coloring the recent cell")
-//            cell.contentView.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
-//        }
-    }
+	/// here we add that a cell should be selected next time it displays
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let nameOfFriendRowSelected: String = displayedList[indexPath.row].username
+		
+		if selectedFriendNames.contains(nameOfFriendRowSelected) {
+			// it's already supposed to be selected, don't add a duplicate
+			return
+		} else {
+			selectedFriendNames.append(nameOfFriendRowSelected)
+		}
+	}
+	
+	// here we specify that a cell should be DEselected next time it displays
+	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+		let nameOfFriendRowSelected: String = displayedList[indexPath.row].username
+		
+		// remove the string from the array if it's in there, if not this will just return the array as it was
+		selectedFriendNames = removeIf(element: nameOfFriendRowSelected, memberOf: selectedFriendNames)
+	}
+	
+
+	// This happens when a cell is about to display from off the screen to now ON the screen
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		
+//		let friend = displayedList[indexPath.row]
+		guard let friendName = displayedList[indexPath.row].username else {
+			return // don't select the row if we can't find a username for this friend
+		}
+		
+		
+		//        if friend.sendStatus == .DEFAULT {
+		
+		
+		// We check here to determine whether the cell corresponds to a friend name that the user has either selected in this instance of the view controller, or was a default friend to send to and was not yet modified in this instance of the SendToFriendsVC
+		if selectedFriendNames.contains(friendName) {
+			
+			print("selecting and coloring the cell")
+			//cell.contentView.backgroundColor = UIColor.systemOrange.withAlphaComponent(0.5)
+			
+			friendListTableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+			
+		} else {
+			
+			friendListTableView.deselectRow(at: indexPath, animated: false)
+		}
+		//        else if friend.sendStatus == .RECENT {
+		//            print("coloring the recent cell")
+		//            cell.contentView.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
+		//        }
+	}
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -566,16 +616,17 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         getRecentSendNames()
         getFriendsFromFirestore()
         //getContacts()
+	
         
         // set the delegate and datasource of our table view of friends
-        friendList.delegate = self
-        friendList.dataSource = self
+        friendListTableView.delegate = self
+        friendListTableView.dataSource = self
 		
 		
-		// init the UD
+		// init the UD (so we can save the toggle switch position)
 		userDefault = UserDefaults.standard
 		
-		//check if user choses to keep him logged in
+		// set the "default to these friends in the future" toggle switch to the right position
 		let defaultToTheseFriends = userDefault.bool(forKey: Constants.UD_DEFAULT_TO_THESE_FRIENDS_SWITCH_SETTING)
 		saveDefaultSw.setOn(defaultToTheseFriends, animated: false)
 

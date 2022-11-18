@@ -414,7 +414,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="lgR-oW-gZ6"/>
                     <connections>
-                        <outlet property="friendList" destination="GTf-1W-ncy" id="eZ0-ZZ-LJ0"/>
+                        <outlet property="friendListTableView" destination="GTf-1W-ncy" id="eZ0-ZZ-LJ0"/>
                         <outlet property="saveDefaultSw" destination="ZNF-Vc-Xzp" id="qIl-oS-vFt"/>
                         <segue destination="qwI-wc-9Bo" kind="unwind" identifier="unwindToMainVC" unwindAction="unwindToMainVCWithSegue:" id="XYy-3r-Us7"/>
                     </connections>
