@@ -166,20 +166,28 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
             //                }
             
             
-            let img1Rec = generateRecommendation(from: tangerineScoreDataSet, inputs: TangerineScoreInputs())
+            let compareRec = generateCompareRecommendation(from: tangerineScoreDataSet, inputs: TangerineScoreInputs())
             
-            // then hide what we need to
-            switch img1Rec {
-            case .reject:
-                topFruitFlag.isHidden = true
-                bottomFruitFlag.isHidden = false
-            case .uncertain:
-                topFruitFlag.isHidden = true
-                bottomFruitFlag.isHidden = true
-            case .accept:
-                topFruitFlag.isHidden = false
-                bottomFruitFlag.isHidden = true
-            }
+            // unhide both images
+            topFruitFlag.isHidden = false
+            bottomFruitFlag.isHidden = false
+            
+            // then hide the appropriate one (or both)
+            clearWearItDataIfNotAccept(decisionRec: compareRec.topImageRec, wearItLabel: nil, wearItImageView: topFruitFlag, questionImageView: nil)
+            clearWearItDataIfNotAccept(decisionRec: compareRec.bottomImageRec, wearItLabel: nil, wearItImageView: bottomFruitFlag, questionImageView: nil)
+            
+//            // then hide what we need to
+//            switch img1Rec {
+//            case .reject:
+//                topFruitFlag.isHidden = true
+//                bottomFruitFlag.isHidden = false
+//            case .uncertain:
+//                topFruitFlag.isHidden = true
+//                bottomFruitFlag.isHidden = true
+//            case .accept:
+//                topFruitFlag.isHidden = false
+//                bottomFruitFlag.isHidden = true
+//            }
             
             
         }

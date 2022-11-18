@@ -131,22 +131,50 @@ class CompareTableViewCell: UITableViewCell {
         leftWearItImageView.alpha = 0.85
         rightWearItImageView.alpha = 0.85
         
-        let img1Rec = generateRecommendation(from: tangerineScore, inputs: TangerineScoreInputs())
+//        let img1Rec = generateRecommendation(from: tangerineScore, inputs: TangerineScoreInputs())
         
-        // then hide what we need to
-        switch img1Rec {
-        case .reject:
-            leftWearItImageView.alpha = 0.0
-            leftWearItLabel.text = ""
-        case .uncertain:
-            leftWearItLabel.text = ""
-            rightWearItLabel.text = ""
-            leftWearItImageView.alpha = 0.0
-            rightWearItImageView.alpha = 0.0
-        case .accept:
-            rightWearItImageView.alpha = 0.0
-            rightWearItLabel.text = ""
-        }
+        
+//        // then hide what we need to
+//        switch img1Rec {
+//        case .reject:
+//            leftWearItImageView.alpha = 0.0
+//            leftWearItLabel.text = ""
+//        case .uncertain:
+//            leftWearItLabel.text = ""
+//            rightWearItLabel.text = ""
+//            leftWearItImageView.alpha = 0.0
+//            rightWearItImageView.alpha = 0.0
+//        case .accept:
+//            rightWearItImageView.alpha = 0.0
+//            rightWearItLabel.text = ""
+//        }
+        
+        let compareRec = generateCompareRecommendation(from: tangerineScore, inputs: TangerineScoreInputs())
+        
+        clearWearItDataIfNotAccept(decisionRec: compareRec.topImageRec, wearItLabel: leftWearItLabel, wearItImageView: leftWearItImageView, questionImageView: image1)
+        
+        clearWearItDataIfNotAccept(decisionRec: compareRec.bottomImageRec, wearItLabel: rightWearItLabel, wearItImageView: rightWearItImageView, questionImageView: image2)
+        
+//        switch compareRec.topImageRec {
+//        case .accept:
+//            //do nothing, the image and label are already displayed
+//            break
+//        default:
+//            // hide the image and label unless the rec is .accept
+//            leftWearItImageView.alpha = 0.0
+//            leftWearItLabel.text = ""
+//        }
+//
+//
+//        switch compareRec.bottomImageRec {
+//        case .accept:
+//            //do nothing, the image and label are already displayed
+//            break
+//        default:
+//            // hide the image and label unless the rec is .accept
+//            rightWearItImageView.alpha = 0.0
+//            rightWearItLabel.text = ""
+//        }
         
     }
     

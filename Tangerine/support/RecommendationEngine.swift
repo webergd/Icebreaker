@@ -78,6 +78,16 @@ public struct TangerineScore {
         }
     }
     
+    var bottomScore: Double {
+        let rawBottomScore = 5.0 - rawScore
+        switch rawBottomScore {
+        case ..<0.0: return 0.0
+        case  0.0...5.0: return rawScore.roundToPlaces(1)
+        default: return 5.0
+        }
+    }
+
+    
     /// score value converted to percent
     var scoreAsPercent: Int {
         let decimalPercent: Double = ((score / 5.0) * 100.0).roundToPlaces(0)
@@ -137,6 +147,13 @@ public enum decisionRec: String {
     case accept = "Wear It!"
 }
 
+/// Holds 2 decision recs- one for the top and one for the bottom.
+/// Could have been represented as a tuple but this format is easier to follow.
+public struct compareRec {
+    let topImageRec: decisionRec
+    let bottomImageRec: decisionRec
+}
+
 /// Returns the opposite of the passed decisionRec. Used for compare bottom images.
 public func invertDecisionRec(decRec: decisionRec) -> decisionRec {
     switch decRec {
@@ -167,6 +184,23 @@ public func generateRecommendation(from tangerineScore: TangerineScore, inputs: 
         return decisionRec.uncertain
     }
 }
+
+/// Generates a recommendation for the top (image 1) and bottom (image 2) images in compare.
+/// We do this so that we don't have to have the same threshold for yes as we do no.
+/// Ex: highestNO threshold is 40% while lowestYES is 70%.
+///     There are cases where image 1 will be a NO but image 2 will not be a YES since it's not a zero sum percentage.
+public func generateCompareRecommendation(from tangerineScore: TangerineScore, inputs: TangerineScoreInputs) -> compareRec {
+    // generate the top (image 1) recommendation
+    let topRec: decisionRec = generateRecommendation(from: tangerineScore, inputs: inputs)
+    
+    // get the inverse of the score for the bottom, then run it through the rec generator to apply the TangerineScoreInputs to it as if it is the main or only image
+    let bottomScore: Double = 5.0 - tangerineScore.score // we know the .score is always between 5.0 and 0.0 so this is safe to do
+    let bottomTangerineScore: TangerineScore = TangerineScore(rawScore: bottomScore)
+    let bottomRec: decisionRec = generateRecommendation(from: bottomTangerineScore, inputs: inputs)
+
+    return compareRec(topImageRec: topRec, bottomImageRec: bottomRec)
+}
+
 
 public func displayTangerineScore(tangerineScore: TangerineScore,
                     totalReviewsLabel: UILabel,
@@ -278,6 +312,27 @@ func showNoImage(imageView: UIImageView) {
 func showAcceptImage(imageView: UIImageView) {
     imageView.isHidden = false
     imageView.image = UIImage(named: "Tangerine.slice")
+}
+
+public func clearWearItDataIfNotAccept(decisionRec: decisionRec, wearItLabel: UILabel?, wearItImageView: UIImageView, questionImageView: UIImageView?) {
+//    guard let wiLabel = wearItLabel, let wiImage = wearItImage, let qImage = questionImage else { return }
+    
+    switch decisionRec {
+    case .accept:
+        //do nothing, the image and label are already displayed
+        return
+    default:
+        // hide the image and label unless the rec is .accept
+        wearItImageView.alpha = 0.0
+        if let wiLabel = wearItLabel {
+            wiLabel.text = ""
+        }
+        
+        // not all cases have an imageView to modify (like in CompareVC)
+        if let qImageView = questionImageView {
+            removeCircleBorder(view: qImageView)
+        }
+    }
 }
 
 
