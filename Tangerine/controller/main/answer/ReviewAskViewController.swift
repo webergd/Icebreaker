@@ -451,6 +451,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
 //    }
     
     override func viewDidLayoutSubviews() {
+        print("viewDidLayoutSubviews called")
         super.viewDidLayoutSubviews()
         // Calling configureView() any earlier this here messes up the caption location, presumably because the imageView that the top constraint is relative to has not reached its final size yet.
         configureView()

@@ -142,6 +142,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     }
     
     func startTopImageLoading(_ thisCompare: Question){
+        print("startTopImageLoading called")
         downloadOrLoadFirebaseImage(
             ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type),
             forPath: thisCompare.imageURL_1) { [weak self] image, error in
@@ -163,10 +164,12 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     // checks if we've been able to download the top image already, if not try again
     func checkAndLoadTopAgain(_ filename: String){
+        print("checkAndLoadTopAgain called")
         guard let image = loadImageFromDiskWith(fileName: filename) else {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
                 guard let self = self else {return}
+                print("image was nil when attempting to load from disk, retrying..")
                 self.checkAndLoadTopAgain(filename)
             }
             
@@ -688,13 +691,13 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     /// Reports are objects created in a Question's reportCollection when reviewing Users flag the Question for negative content.
     public func sendReport(_ report: Report) {
-        
-        
         //animation?
         processReport()
-        
-        
         // MARK: Implement if necessary
+        // fetch my username
+        let username = RealmManager.sharedInstance.getProfile().username
+        
+        print("compareVC sendReport called")
         
         do {
             try Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).collection(Constants.QUES_REPORTS).addDocument(from: report,completion: { error in
@@ -711,12 +714,10 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                     Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData(
                         [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
                          // the arrayRemove calls ensure the user doesn't see the reported Question again
-                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
-                         Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
+                         Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
                         ])
-                    
-                    
-                    
+    
                     if let bvc = self.blueVC{
                         bvc.showNextQues()
                     }
@@ -726,30 +727,28 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             print("Error writing city to Firestore: \(error)")
             self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
         }
-        
-        
-        
+ 
     }
     
     
     func processReport() {
-        self.topImageView.image = #imageLiteral(resourceName: "redexclamation")
-        self.topImageView.alpha = 0.9
-        self.topImageView.isHidden = false
+        self.topSelectionImageView.image = #imageLiteral(resourceName: "redexclamation")
+        self.topSelectionImageView.alpha = 0.9
+        self.topSelectionImageView.isHidden = false
         
-        self.bottomImageView.image = #imageLiteral(resourceName: "redexclamation")
-        self.bottomImageView.alpha = 0.9
-        self.bottomImageView.isHidden = false
+        self.bottomSelectionImageView.image = #imageLiteral(resourceName: "redexclamation")
+        self.bottomSelectionImageView.alpha = 0.9
+        self.bottomSelectionImageView.isHidden = false
         
         // delays specified number of seconds before executing code in the brackets:
-        UIView.animate(withDuration: 0.5, delay: 0.3, options: UIView.AnimationOptions.allowAnimatedContent, animations: {self.topImageView.alpha = 0.0}, completion: { finished in
-            self.topImageView.isHidden = true
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: UIView.AnimationOptions.allowAnimatedContent, animations: {self.topSelectionImageView.alpha = 0.0}, completion: { finished in
+            self.topSelectionImageView.isHidden = true
             // load next is controlled from BlueVC
         })
         
         // delays specified number of seconds before executing code in the brackets:
-        UIView.animate(withDuration: 0.5, delay: 0.3, options: UIView.AnimationOptions.allowAnimatedContent, animations: {self.bottomImageView.alpha = 0.0}, completion: { finished in
-            self.bottomImageView.isHidden = true
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: UIView.AnimationOptions.allowAnimatedContent, animations: {self.bottomSelectionImageView.alpha = 0.0}, completion: { finished in
+            self.bottomSelectionImageView.isHidden = true
             // load next is controlled from BlueVC
         })
     }

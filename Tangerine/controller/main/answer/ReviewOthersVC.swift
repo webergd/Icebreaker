@@ -307,7 +307,7 @@ class ReviewOthersVC: UIViewController{
         }
         
         // order matters
-        if filteredQuestionsToReview.count < minimumQuestion {
+        if filteredQuestionsToReview.count < minNumberOfQuestionsInReviewQueue {
             // check for new question
             print("checking again")
             checkForQuestionsToFetch(){

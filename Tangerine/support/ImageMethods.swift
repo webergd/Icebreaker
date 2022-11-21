@@ -522,6 +522,7 @@ public func saveImageToDiskWith(imageName: String, image: UIImage, isThumb: Bool
 
 
 public func removeImageFromDevice(ofName filename: String){
+    print("removeImageFromDevice called. Attempting to remove filename: \(filename)")
     
     guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
     

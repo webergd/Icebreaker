@@ -1553,7 +1553,8 @@ public func resetQuestionRelatedThings(){
 
 /// limit of search from firestore
 public var searchLimit = 20
-public var minimumQuestion = 8 // we need minimum x question always ready to go, always less than limit to avoid seeing blank
+/// Min number of Questions to keep on the device to review at all times (firestore contents permitting).
+public var minNumberOfQuestionsInReviewQueue = 8 // we need minimum x question always ready to go, always less than limit to avoid seeing blank
 
 /// fetches Questions sent from the friends only
 public func fetchQuestionFromFriends(action:  @escaping ()->Void){
@@ -1778,8 +1779,8 @@ public func checkForQuestionsToFetch(action: @escaping ()->Void){
     
     // only fetch new question when we do not have enough (right now: 5)
     
-    if questionCount < minimumQuestion {
-        print("We have less than minimum \(minimumQuestion) question => Fetching")
+    if questionCount < minNumberOfQuestionsInReviewQueue {
+        print("We have less than minimum \(minNumberOfQuestionsInReviewQueue) question => Fetching")
         
         // to fetch q from friends
         fetchQuestionFromFriends(){
