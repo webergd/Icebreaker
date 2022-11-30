@@ -725,8 +725,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // Basically all this is for moving the caption out of the way of the keyboard while we're editing it:
         if self.captionTextField.isEditing == true { //aka if the title is editing, don't do any of this
-            view.bringSubviewToFront(captionTextField)
-            //get the height of the keyboard that will show and then shift the text field up by that amount
+
             
             // This is so that once these values are stored and set, they don't get "set again" and thus stored incorrectly
             if !keyboardIsVisible {
@@ -741,13 +740,13 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                     
                     
                     //this makes the text box movement animated so it looks smoother:
-                    UIView.animate(withDuration: 0.4, animations: {
-                        
-                        //get the height of the keyboard that will show and then shift the text field down by that amount
-                        // each distance we subtract shifts the caption up by that amount.
-                        self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height - self.scrollHousingViewTopConstraint.constant
-                        self.view.layoutIfNeeded()
-                    })
+//                    UIView.animate(withDuration: 0.4, animations: {
+//
+//                        //get the height of the keyboard that will show and then shift the text field down by that amount
+//                        // each distance we subtract shifts the caption up by that amount.
+//                        self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height - self.scrollHousingViewTopConstraint.constant
+//                        self.view.layoutIfNeeded()
+//                    })
                 }
 
             } else {
@@ -766,10 +765,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // FROM EDITING CAPTION
         //this makes the caption text box movement animated so it looks smoother:
-        UIView.animate(withDuration: 1.0, animations: {
-            //moves the caption back to its original location:
-            self.captionTextFieldTopConstraint.constant = self.vetCaptionTopConstraint(self.captionYValue)
-        })
+//        UIView.animate(withDuration: 1.0, animations: {
+//            //moves the caption back to its original location:
+//            self.captionTextFieldTopConstraint.constant = self.vetCaptionTopConstraint(self.captionYValue)
+//        })
         
         // FROM EDIT TITLE
         // If the user has entered no text in the titleTextField, reset it to how it was originally:
