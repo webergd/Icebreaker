@@ -20,10 +20,12 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     var friendReqBtn: UIButton!
     var addFriendBtn: UIButton!
     
+    // we use this to access the user defaults to ensure proper operation of the tutorial
+    var ud = UserDefaults.standard
+    
     var friendReqWidth: NSLayoutConstraint!
     
     private var pullControl = UIRefreshControl()
-    
     
     var searchbar: UISearchBar!
     var friendList: UITableView!
@@ -520,13 +522,31 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         super.viewDidAppear(animated)
         print("Did appear")
         
-        
         // fetch the friend list
         syncFriendList()
         
         self.friendReqWidth.constant = 0
         
         print("Chunked name = \(chunkedNames.count)")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+            self.showTutorialAsRequired()
+        }
+    }
+    
+    func showTutorialAsRequired() {
+        
+        let skipCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool)
+        
+        if !skipCompareTutorial {
+            let alertVC = UIAlertController(title: "Friends will be here once requests are accepted.", message: " Adding friends lets you tag them on a posted photo so it will be the first one they see. \n\nEveryone (including friends) will eventually see your posted photos no matter what if they keep swiping long enough, but tagging friends on a photo lets them review it before other photos that they weren't tagged on.", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+                // Once the user has seen this, don't show it again
+                self.ud.set(true, forKey: Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool)
+            }))
+            
+            present(alertVC, animated: true, completion: nil)
+        }
     }
     
     

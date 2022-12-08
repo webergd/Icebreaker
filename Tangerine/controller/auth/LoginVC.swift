@@ -243,7 +243,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     } // end of delete old data
     
 
-    //makes sure that we have a valid user against the username
+    /// makes sure that we have a valid user against the username
     func validateLoginUsingFirestore(){
         // we are going to check if the current user has finished signup completely
         // if not, we'll remove this account, this can happen if user force closes the app during signing up

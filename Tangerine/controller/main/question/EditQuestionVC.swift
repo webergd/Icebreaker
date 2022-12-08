@@ -136,6 +136,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     let enterTitleConstant: String = ""
     let inactiveImageIndicatorAlphaConstant = 0.6
     
+    var ud = UserDefaults.standard
+    
     /// this is where we'll save the link to the profile image or any other image
     var imageRef_1: StorageReference!
     
@@ -324,7 +326,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         scrollView.setZoomScale(zoomScaleToLoad, animated: true)
 //        setupHousingViews()
 
-
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+            self.showTutorialAsRequired()
+        }
     }
     
     override func viewDidLoad() {
@@ -465,6 +469,23 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
                 NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
             }
+    }
+    
+    func showTutorialAsRequired() {
+        
+        let skipTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool)
+        
+        if !skipTutorial {
+            // manipulate visual elements here
+            
+            let alertVC = UIAlertController(title: "Tap the blue ? for help Editing This Photo", message: "Then, tap the blue publish/preview button at the bottom of the screen. \n\nPUBLISH posts the photo so everyone who has Tangerine can review it.", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+                // Once the user has seen this, don't show it again
+                self.ud.set(true, forKey: Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool)
+            }))
+            
+            present(alertVC, animated: true, completion: nil)
+        }
     }
 
     

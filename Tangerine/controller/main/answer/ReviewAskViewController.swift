@@ -86,6 +86,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     var recipientList = [String]()
     var usersNotReviewedList = [String]()
     
+    var ud = UserDefaults.standard
     
     func configureView() {
         strongFlag = false
@@ -444,11 +445,17 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         
     } // end of viewDidLoad method
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        // Calling configureView() any earlier this here messes up the caption location, presumably because the imageView that the top constraint is relative to has not reached its final size yet.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Calling configureView() any earlier this here messes up the caption location, presumably because the imageView that the top constraint is relative to has not reached its final size yet.
 //        configureView()
-//    }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+            self.showTutorialAlertViewAsRequired()
+        }
+        
+        
+    }
     
     override func viewDidLayoutSubviews() {
         print("viewDidLayoutSubviews called")
@@ -457,7 +464,22 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         configureView()
     }
     
-    
+    func showTutorialAlertViewAsRequired() {
+        
+        let skipAskTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool)
+        print("skipAskTutorial? \(skipAskTutorial)")
+        
+        if !skipAskTutorial {
+            let alertVC = UIAlertController(title: "Help this person decide whether to wear this", message: "Swipe right or tap the green button if you think they should wear it, otherwise swipe left or tap the red button. \n\nThey won't know who you are, but your vote will affect the results they see. \n\nTo report offensive content, tap the ! on the bottom right of the screen.", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+                // Once the user has seen this, don't show it again
+                self.ud.set(true, forKey: Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool)
+            }))
+            
+            present(alertVC, animated: true, completion: nil)
+        }
+
+    }
     
     
     

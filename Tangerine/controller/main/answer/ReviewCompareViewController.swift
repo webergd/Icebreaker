@@ -89,6 +89,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     var recipientList = [String]()
     var usersNotReviewedList = [String]()
     
+    var ud = UserDefaults.standard
     
     func configureView() {
         strongImageView.isHidden = true
@@ -273,16 +274,33 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 //        configureView()
-//    }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+            self.showTutorialAlertViewAsRequired()
+        }
+    }
     
     override func viewDidLayoutSubviews() {
         print("view did layout subviews called in RCVC")
         super.viewDidLayoutSubviews()
         configureView()
+    }
+    
+    func showTutorialAlertViewAsRequired() {
+        
+        let skipCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool)
+        
+        if !skipCompareTutorial {
+            let alertVC = UIAlertController(title: "Help this person decide which one to wear", message: "Tap the photo you think they should go with. \n\nThey won't know who you are, but your vote will affect the results they see. \n\nTo report offensive content, tap the ! on the bottom right of the screen.", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+                // Once the user has seen this, don't show it again
+                self.ud.set(true, forKey: Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool)
+            }))
+            
+            present(alertVC, animated: true, completion: nil)
+        }
     }
 
     // Allows the user to zoom within the scrollView that the user is manipulating at the time.

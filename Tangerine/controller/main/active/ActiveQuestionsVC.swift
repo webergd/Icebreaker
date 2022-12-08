@@ -69,7 +69,7 @@ class ActiveQuestionsVC: UITableViewController {
             
             // let's show how to dismiss the view now
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
-                self.showHelpSwipeToReturnPopover()
+                self.showTutorialPopoverAsRequired()
             }
             
         }else{
@@ -84,11 +84,11 @@ class ActiveQuestionsVC: UITableViewController {
     
     
     /// displays a popover animation explaining to the member how to dismiss the tableview by swiping right
-    func showHelpSwipeToReturnPopover(){
+    func showTutorialPopoverAsRequired(){
         
-        let didTappedDontShowAgainOnAlert = UserDefaults.standard.bool(forKey: Constants.UD_VIEW_RESULT_ALERT_PREF)
+        let skipActiveQTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool)
         
-        if !didTappedDontShowAgainOnAlert {
+        if !skipActiveQTutorial {
             // Load Storyboard
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
             // Instantiate View Controller
@@ -558,7 +558,7 @@ class ActiveQuestionsVC: UITableViewController {
     
     @objc func showHelp() {
         let alertController = UIAlertController(title: "Tap a row to view its details.", message: "\nSwipe RIGHT to RETURN to main. \n\n-Swipe LEFT on a row to DELETE it.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Got It", style: .default)
+        let okAction = UIAlertAction(title: "Got It!", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }

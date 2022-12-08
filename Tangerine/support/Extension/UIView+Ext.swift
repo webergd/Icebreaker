@@ -120,6 +120,62 @@ extension UIView {
         
         //self.layer.borderWidth = 0
     }
+    
+    
+    /// Puts a box around the view to draw it to the user's attention
+    public func addAttentionRectangle() {
+        let targetControlSize: CGSize = CGSize(width: self.frame.width + 10.0, height: self.frame.height + 10.0)
+
+        let k = DrawRectangle(frame: CGRect(
+                origin: CGPoint(x: -5, y: -5),
+                size: targetControlSize))
+
+        k.backgroundColor = .clear
+        k.isUserInteractionEnabled = false
+        
+        k.layer.name = "attentionRectangle"
+
+        self.addSubview(k)
+    }
+
+    ///
+    public func removeAttentionRectangle() {
+        let subViews = self.subviews
+        for sv in subViews {
+            if sv.layer.name == "attentionRectangle" {
+                sv.removeFromSuperview()
+            }
+        }
+        
+    }
+    
+    class DrawRectangle: UIView {
+
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+        }
+
+        required public init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
+
+        override func draw(_ rect: CGRect) {
+
+            
+            guard let context = UIGraphicsGetCurrentContext() else {
+                print("could not get graphics context")
+                return
+            }
+
+            context.setStrokeColor(UIColor.systemBlue.cgColor)
+            context.setLineWidth(5)
+            context.stroke(rect.insetBy(dx: 0, dy: 0))
+        }
+        
+    }
+    
+    
+    
 
     @objc func userSwiped(_ gesture: UISwipeGestureRecognizer) {
         

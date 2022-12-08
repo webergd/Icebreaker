@@ -105,6 +105,7 @@ class CompareBreakdownViewController: UIViewController {
     
     var sortType: dataFilterType = .allUsers // this will be adjusted prior to segue if user taps specific area
     
+    var ud = UserDefaults.standard
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -162,6 +163,28 @@ class CompareBreakdownViewController: UIViewController {
         
         let ar2Tap = UITapGestureRecognizer(target: self, action: #selector(CompareBreakdownViewController.userTappedAllReviews2Label))
         allReviewsView2.addGestureRecognizer(ar2Tap)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+            self.showTutorialAsRequired()
+        }
+    }
+    
+    func showTutorialAsRequired() {
+        
+        let skipCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_MY_COMPARE_TUTORIAL_Bool)
+        
+        if !skipCompareTutorial {
+            let alertVC = UIAlertController(title: "This is a detailed breakdown of the reviews you received.", message: "Tap the items in blue boxes to learn what each one means. \n\nTo go back to the list of all your active photos, swipe right or tap the back arrow in the upper right.", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+                // Once the user has seen this, don't show it again
+                self.ud.set(true, forKey: Constants.UD_SKIP_MY_COMPARE_TUTORIAL_Bool)
+            }))
+            
+            present(alertVC, animated: true, completion: nil)
+        }
     }
     
     var question: ActiveQuestion? {

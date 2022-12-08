@@ -168,9 +168,26 @@ class Constants {
     static let UD_SHOULD_PERSIST_LOGIN_Bool = "shouldPlogin"
     // end signup done and login persistence
     
-    static let UD_VIEW_RESULT_ALERT_PREF = "vr_alert_pref"
+    // Tutorial Mode Bools
+    static let UD_SKIP_MAINVC_TUTORIAL_Bool = "skipStartOrDismissTutorial"
+    static let UD_SKIP_REVIEW_ASK_TUTORIAL_Bool = "skipReviewAskTutorial"
+    static let UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool = "skipReviewCompareTutorial"
+    static let UD_SKIP_AVCAM_TUTORIAL_Bool = "skipAVCamTutorial"
+    static let UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool = "skipEditQTutorial"
+    static let UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool = "skipSendToFriendsTutorial"
+    static let UD_SKIP_FRIENDSVC_TUTORIAL_Bool = "skipFriendsVCTutorial"
+    static let UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool = "skipAddFriendsTutorial"
+    static let UD_SKIP_ACTIVE_Q_TUTORIAL_Bool = "skipActiveQTutorial"
+    static let UD_SKIP_MY_ASK_TUTORIAL_Bool = "skipMyAskTutorial"
+    static let UD_SKIP_MY_COMPARE_TUTORIAL_Bool = "skipMyCompareTutorial"
     
-    //added by Wyatt 18Nov22"
+    /// This way we can keep track of where we are in the tutorial in terms of the primary functions being introduced from the main screen.
+    /// This will work in conjunction with an enum
+    static let UD_TUTORIAL_PORTION_LAST_SEEN = "tutorialPortionLastSeen"
+
+    
+    
+    //Implemented in sendToFriendsVC and sets the "default to these Friends next time" toggle switch to whatever the member had it set at last time
     static let UD_DEFAULT_TO_THESE_FRIENDS_SWITCH_SETTING = "defaultToTheseFriendsSwitchSetting"
     
     

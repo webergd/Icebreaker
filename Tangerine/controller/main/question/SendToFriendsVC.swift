@@ -63,6 +63,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var lastSnap: QueryDocumentSnapshot!
     var newlyCreatedDocID: String = ""
     
+	var ud = UserDefaults.standard
     
     
     /******************************************************************************************************************************/
@@ -632,6 +633,32 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
         
     }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+			self.showTutorialAlertViewAsRequired()
+		}
+		
+	}
+	
+	func showTutorialAlertViewAsRequired() {
+		
+		let skipCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool)
+		
+		if !skipCompareTutorial {
+			let alertVC = UIAlertController(title: "Congrats on publishing your first photo!", message: "Seeing this page means your photo is now live and being reviewed by everyone who has Tangerine. \nIf this was an accident, don't worry, you can unpost it at any time. \n\nNext we’ll show you how to request friends. Once you have friends, you’ll see their names here so you can tag them to make sure they review your photo first.", preferredStyle: .alert)
+			alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+				// Once the user has seen this, don't show it again
+				self.ud.set(true, forKey: Constants.UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool)
+			}))
+			
+			present(alertVC, animated: true, completion: nil)
+		}
+	}
+	
+	
     
     /// This pops all existing view controllers all the way down to login view to break the strong references that cause a memory leak otherwise. There is most likely a better solution involving a weak var declaration in AVCameraViewController. The issue seems to be eminating from that VC after the continue button is tapped.
     func dismissAllViewControllers() {

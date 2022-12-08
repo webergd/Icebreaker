@@ -262,6 +262,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cameraButton" destination="T0D-lV-Dh8" id="lnd-G7-fdG"/>
                         <outlet property="cameraButtonTopConstraint" destination="H77-Yn-zcK" id="QLV-ri-OaQ"/>
                         <outlet property="friendsBtn" destination="bPG-oj-7KD" id="NHP-fj-9Nb"/>
                         <outlet property="glassView" destination="anp-dQ-uzQ" id="xdG-lz-Nrp"/>
@@ -274,7 +275,9 @@
                         <outlet property="helpTutorialLabel" destination="8H8-Ob-q2I" id="Hfu-va-gfm"/>
                         <outlet property="helpViewResultsLabel" destination="CRN-oE-zIu" id="idB-Lk-dBZ"/>
                         <outlet property="reviewOthersBtn" destination="dkB-NT-RQS" id="GFt-mQ-QqC"/>
+                        <outlet property="reviewOthersButton" destination="dkB-NT-RQS" id="IM6-QN-4Kn"/>
                         <outlet property="spacerView1" destination="oRd-d8-tjp" id="tQA-uD-520"/>
+                        <outlet property="viewResultsButton" destination="PHK-I1-3aE" id="uUV-8o-B79"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yqu-tM-Rfz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

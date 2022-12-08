@@ -28,7 +28,7 @@ class SwipeFromRightVC: UIViewController {
     // I understood, never show yourself action
     // ie: dismiss and never shows
     @IBAction func onNeverShowAgainTapped(_ sender: UIButton) {
-        ud.set(true, forKey: Constants.UD_VIEW_RESULT_ALERT_PREF)
+        ud.set(true, forKey: Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool)
         dismiss(animated: true)
     }
     

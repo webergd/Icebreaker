@@ -31,6 +31,8 @@ class MainVC: UIViewController {
     var minimumAge:Int = 18
     var maximumAge:Int = 99
     
+    var ud = UserDefaults.standard
+    
     var prefs: UserDefaults!
     /// badge
     var friendBadgeHub : BadgeHub!
@@ -49,6 +51,12 @@ class MainVC: UIViewController {
     @IBOutlet weak var glassView: UIView!
     @IBOutlet weak var cameraButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var spacerView1: UIView!
+    
+    //Button outlets
+    @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var reviewOthersButton: UIButton!
+    //this one is redundant with reviewOthersBtn
+    @IBOutlet weak var viewResultsButton: UIButton!
     
     // to track if both qff and frCount has finished updating locally
     var applicationBadgeNumber = 0
@@ -267,6 +275,7 @@ class MainVC: UIViewController {
 
       // for notification
       addObservers()
+         
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -312,6 +321,11 @@ class MainVC: UIViewController {
         
         // if the glassView is visible, user interaction should be enabled, otherwise, it should be disabled.
         glassView.isUserInteractionEnabled = !glassView.isHidden
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+            self.showTutorial()
+//            self.showTutorialInviteAsRequired()
+        }
     }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -322,6 +336,12 @@ class MainVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         print("MainVC Disappeared")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+            
     }
     
     @IBAction func websiteButtonTapped(_ sender: Any) {
@@ -430,6 +450,77 @@ class MainVC: UIViewController {
         print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
         print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
         
+    }
+    
+    /// Sets all of the tutorial user default skip modes to true or all to false as desired
+    func setTutorialMode(on: Bool) {
+        let skipAllTutorialsBool: Bool = !on
+        let tutorialSkipSettingsArray: [String] = [Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool, Constants.UD_SKIP_AVCAM_TUTORIAL_Bool, Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool, Constants.UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool, Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool,  Constants.UD_SKIP_MY_ASK_TUTORIAL_Bool, Constants.UD_SKIP_MY_COMPARE_TUTORIAL_Bool]
+        
+        for thisSkipSetting in tutorialSkipSettingsArray {
+            self.ud.set(skipAllTutorialsBool, forKey: thisSkipSetting)
+            print("skip tutorial setting for \(thisSkipSetting) now set to \(skipAllTutorialsBool)")
+        }
+    }
+    
+    /// Displays an alertView which asks the member if he or she wants to get tutorial help
+    func showTutorialInviteAsRequired() {
+        
+        let skipStartOrDismissTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+        
+        if !skipStartOrDismissTutorial {
+            print("TangerineScore tapped")
+            let alertVC = UIAlertController(title: "Welcome to the Community!", message: "Would you like some help using the app for the first time? \nYou can adjust this later in settings.", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "Sure!", style: .default, handler: { (action: UIAlertAction!) in
+                print("Will continue with tutorial")
+                // Enable all tutuorial elements
+                self.setTutorialMode(on: true)
+                // Once the member has seen this alertView once, we don't want to show it again, even if they do want to go through the tutorial
+                self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+                TutorialTracker().setTutorial(phase: .step1_ReviewOthers)
+                self.showTutorial()
+            }))
+            
+            alertVC.addAction(UIAlertAction(title: "No Thanks", style: .cancel, handler: { (action: UIAlertAction!) in
+                print("Will CANCEL tutorial")
+                // Skip all tutorial elements
+                self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+                self.setTutorialMode(on: false)
+                // Once the member has seen this alertView once, we don't want to show it again, even if they do want to go through the tutorial
+                self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+            }))
+                
+            present(alertVC, animated: true, completion: nil)
+            
+            
+        }
+    }
+    
+    /// Highlights the appropriate icon as the next part of the tutorial
+    func showTutorial() {
+        let phase = TutorialTracker().getTutorialPhase()
+        // we also need something where if they user taps somewhere else, it just shows them this next time or maybe even cancels the tutorial
+        
+        // Clear out all residual attention rectangles etc
+        
+        
+        
+        switch phase {
+        case .step0_Intro:
+            showTutorialInviteAsRequired()
+        case .step1_ReviewOthers:
+            reviewOthersButton.addAttentionRectangle()
+            // ADD THE SHOW HELP LABEL HERE
+        case .step2_PostQuestion:
+            cameraButton.addAttentionRectangle()
+        case .step3_AddFriends:
+            friendsBtn.addAttentionRectangle()
+        case .step4_ViewResults:
+            viewResultsButton.addAttentionRectangle()
+        case .step5_Complete:
+            print("close something out here")
+        }
+        TutorialTracker().incrementTutorialFrom(currentPhase: phase)
     }
     
     

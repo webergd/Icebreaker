@@ -49,6 +49,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
    
+    // so that we can access user defaults to know whether to show the tutorial
+    var ud = UserDefaults.standard
     
     //belongs to the pre-iOS10 av camera (but I think also to the new one)
     var captureSession: AVCaptureSession! //these 3 might need to be question marks instead of  exclamation points
@@ -142,14 +144,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
 //     }
      
     
-    /*
-     override func viewDidAppear(_ animated: Bool) {
-     super.viewDidAppear(animated)
-     
-     // May need to recreate the preview layer if the new swift 3 av camera doesn't do it automatically:
-     previewLayer?.frame = UIScreen.main.bounds // for some reason using avCameraView.bounds created a L and R buffer
-     }
-     */
+
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,6 +167,15 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         checkPermission()
         
     }
+    
+
+     override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(animated)
+         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
+             self.showTutorialAsRequired()
+         }
+     }
+
     
     @objc func checkPermission(){
         print("CHECKING PERM")
@@ -215,6 +219,16 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         }))
 
         present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func showTutorialAsRequired() {
+        
+        let skipTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_AVCAM_TUTORIAL_Bool)
+        
+        if !skipTutorial {
+            // manipulate visual elements here
+        }
     }
     
     func presentCamera(){
