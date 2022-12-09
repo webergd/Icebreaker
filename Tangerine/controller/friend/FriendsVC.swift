@@ -24,6 +24,8 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     // we use this to access the user defaults to ensure proper operation of the tutorial
     var ud = UserDefaults.standard
     
+    var highlightBackButtonNextTime: Bool = false
+    
     var friendReqWidth: NSLayoutConstraint!
     
     private var pullControl = UIRefreshControl()
@@ -535,6 +537,8 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAsRequired()
         }
+        addFriendBtn.removeAttentionRectangle()
+        showTutorialBackToMenuNavAsRequired()
     }
     
     func showTutorialAsRequired() {
@@ -548,9 +552,21 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
                 self.ud.set(true, forKey: Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool)
                 self.addFriendBtn.addAttentionRectangle()
                 self.tutorialLabel.fadeInAfter(seconds: 0.3)
+                self.highlightBackButtonNextTime = true
             }))
             
             present(alertVC, animated: true, completion: nil)
+        }
+    }
+    
+    /// Helps the new member navigate back to MainVC after getting the friends tutorial
+    func showTutorialBackToMenuNavAsRequired() {
+        if highlightBackButtonNextTime {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // `0.7` is the desired number of seconds.
+                self.backBtn.addAttentionRectangle()
+            }
+        } else {
+            backBtn.removeAttentionRectangle()
         }
     }
     

@@ -837,6 +837,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAsRequired()
         }
+        self.backBtn.removeAttentionRectangle()
     }
     
     func showTutorialAsRequired() {
@@ -844,13 +845,16 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         let skipCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool)
         
         if !skipCompareTutorial {
-            let alertVC = UIAlertController(title: "Search for someone to friend request here.", message: "Scroll through your contacts or type someone’s name into the search box to add them. \n\nTo find Tangerine members who are not in your phone's contact list, tap the All Users tab at the top.", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "Search for someone to friend request here.", message: "Scroll through your contacts or type someone’s name into the search box to add them. \n\nTo find Tangerine members who are not in your phone's contact list, tap the All Users tab at the top. \n\nWhen complete, tap the back button to return.", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
                 // Once the user has seen this, don't show it again
                 self.ud.set(true, forKey: Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool)
                 self.tutorialLabel.fadeInAfter(seconds: 1.0)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 12.0) { // `0.7` is the desired number of seconds.
-                    self.tutorialLabel.fadeOutAfter(seconds: 5.0)
+                    self.tutorialLabel.fadeOutAfter(seconds: 0.0)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // `0.7` is the desired number of seconds.
+                        self.backBtn.addAttentionRectangle()
+                    }
                 }
             }))
             

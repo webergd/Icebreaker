@@ -463,15 +463,6 @@ class MainVC: UIViewController {
     
     /// Sets all of the tutorial user default skip modes to true or all to false as desired
     func setTutorialMode(on: Bool) {
-//        let skipAllTutorialsBool: Bool = !on
-//        let tutorialSkipSettingsArray: [String] = [
-//            Constants.UD_SKIP_MAINVC_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool, Constants.UD_SKIP_AVCAM_TUTORIAL_Bool, Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool, Constants.UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool, Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool,  Constants.UD_SKIP_MY_ASK_TUTORIAL_Bool, Constants.UD_SKIP_MY_COMPARE_TUTORIAL_Bool]
-//
-//        for thisSkipSetting in tutorialSkipSettingsArray {
-//            self.ud.set(skipAllTutorialsBool, forKey: thisSkipSetting)
-//            print("skip tutorial setting for \(thisSkipSetting) now set to \(skipAllTutorialsBool)")
-//        }
-        
         TutorialTracker().setTutorialMode(on: on)
         
         
@@ -480,13 +471,7 @@ class MainVC: UIViewController {
             TutorialTracker().setTutorial(phase: .step5_Complete)
             
             // remove any labels and rectangles
-            reviewOthersButton.removeAttentionRectangle()
-            cameraButton.removeAttentionRectangle()
-            friendsBtn.removeAttentionRectangle()
-            viewResultsButton.removeAttentionRectangle()
-            tutorialLabel.text = "Exiting Tutorial...👋 "
-            tutorialLabel.fadeOutAfter(seconds: 0.7)
-            cancelTutorialButton.isHidden = true
+            removeAllTutorialAttentionRectangles()
             
             // show tutorial one last time to clean everything up
             showTutorial()
@@ -508,7 +493,14 @@ class MainVC: UIViewController {
     }
     
     func removeAllTutorialAttentionRectangles() {
-        
+        // remove any labels and rectangles
+        reviewOthersButton.removeAttentionRectangle()
+        cameraButton.removeAttentionRectangle()
+        friendsBtn.removeAttentionRectangle()
+        viewResultsButton.removeAttentionRectangle()
+        tutorialLabel.text = "Exiting Tutorial...👋 "
+        tutorialLabel.fadeOutAfter(seconds: 0.7)
+        cancelTutorialButton.isHidden = true
     }
     
     /// Highlights the appropriate icon as the next part of the tutorial
@@ -523,6 +515,7 @@ class MainVC: UIViewController {
         // Based on what tutorial phase we're in, we decide what to show the new member
         switch phase {
         case .step0_Intro:
+            removeAllTutorialAttentionRectangles()
             tutorialLabel.isHidden = true
             cancelTutorialButton.isHidden = true
             // Displays an alertView which asks the member if he or she wants to get tutorial help
@@ -669,8 +662,8 @@ class MainVC: UIViewController {
     func configureCancelTutorialButton(){
         
         cancelTutorialButton = UIButton()
-        cancelTutorialButton.setTitleColor(.systemRed, for: .normal)
-        cancelTutorialButton.setTitle("❌ \nCancel \nTutorial", for: .normal)
+        cancelTutorialButton.setTitleColor(.systemGray, for: .normal)
+        cancelTutorialButton.setTitle("✖️ \nCancel \nTutorial", for: .normal)
         cancelTutorialButton.backgroundColor = .systemBackground
         
         cancelTutorialButton.titleLabel?.lineBreakMode = .byWordWrapping

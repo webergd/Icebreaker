@@ -4329,7 +4329,7 @@ time remaining is zero. </string>
                                             <constraint firstAttribute="height" constant="90" id="3gO-GA-eoa"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Left on a Row to Delete" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmF-LY-fSZ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SWIPE LEFT on a Row to Delete" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmF-LY-fSZ">
                                         <rect key="frame" x="5" y="31.5" width="217.5" height="43"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" systemColor="systemCyanColor"/>
@@ -4352,13 +4352,13 @@ time remaining is zero. </string>
                                             </hierarchicalColors>
                                         </imageReference>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Right to GO BACK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGG-fX-8kk">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SWIPE RIGHT to go back" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGG-fX-8kk">
                                         <rect key="frame" x="0.0" y="147" width="300" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="i5E-84-sNO"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <color key="textColor" systemColor="systemGreenColor"/>
+                                        <color key="textColor" systemColor="systemCyanColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_right" translatesAutoresizingMaskIntoConstraints="NO" id="eDd-2W-1W0">
@@ -4385,6 +4385,12 @@ time remaining is zero. </string>
                                         <rect key="frame" x="22" y="200.5" width="256.5" height="21"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" systemColor="systemBlueColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP a row to view photo details" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4I-eQ-8YQ">
+                                        <rect key="frame" x="185" y="227.5" width="99.5" height="89"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" systemColor="systemCyanColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DgN-gF-ZEE">
@@ -4459,7 +4465,9 @@ time remaining is zero. </string>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="PGB-ai-7in" secondAttribute="bottom" constant="12" id="0IV-YV-VY8"/>
+                                    <constraint firstItem="Y4I-eQ-8YQ" firstAttribute="trailing" secondItem="fZ5-vO-S8T" secondAttribute="trailing" constant="-8" id="0my-pd-6PF"/>
                                     <constraint firstItem="AGG-fX-8kk" firstAttribute="top" secondItem="AkY-GD-2zh" secondAttribute="bottom" constant="32" id="1S6-ap-9kn"/>
+                                    <constraint firstItem="Y4I-eQ-8YQ" firstAttribute="width" secondItem="fZ5-vO-S8T" secondAttribute="width" multiplier="0.35" id="2Q9-b8-uwF"/>
                                     <constraint firstItem="EGe-lB-tnC" firstAttribute="width" secondItem="842-jW-ynv" secondAttribute="width" id="3QQ-ni-OgU"/>
                                     <constraint firstItem="AkY-GD-2zh" firstAttribute="top" secondItem="2rI-XO-ioD" secondAttribute="bottom" id="48a-vR-XcE"/>
                                     <constraint firstItem="77k-jC-Vwg" firstAttribute="bottom" secondItem="fZ5-vO-S8T" secondAttribute="top" constant="-2" id="4YG-rz-hCE"/>
@@ -4472,6 +4480,7 @@ time remaining is zero. </string>
                                     <constraint firstItem="j42-at-hjm" firstAttribute="trailing" secondItem="fZ5-vO-S8T" secondAttribute="trailing" constant="-4" id="E01-rF-G6G"/>
                                     <constraint firstItem="gsR-mx-5q0" firstAttribute="bottom" secondItem="fZ5-vO-S8T" secondAttribute="bottom" id="E8m-ad-7pb"/>
                                     <constraint firstItem="j42-at-hjm" firstAttribute="bottom" secondItem="fZ5-vO-S8T" secondAttribute="bottom" id="EW0-3R-MXg"/>
+                                    <constraint firstItem="Y4I-eQ-8YQ" firstAttribute="top" secondItem="fZ5-vO-S8T" secondAttribute="top" constant="4" id="GVt-KR-8hZ"/>
                                     <constraint firstItem="dmF-LY-fSZ" firstAttribute="width" secondItem="2rI-XO-ioD" secondAttribute="width" multiplier="0.75" id="H9g-IT-zQj"/>
                                     <constraint firstItem="mZE-Z3-zea" firstAttribute="height" secondItem="gsR-mx-5q0" secondAttribute="height" id="I1h-Xm-Abm"/>
                                     <constraint firstItem="77k-jC-Vwg" firstAttribute="width" secondItem="fZ5-vO-S8T" secondAttribute="width" multiplier="0.9" id="I4r-jK-zoB"/>
@@ -4502,6 +4511,7 @@ time remaining is zero. </string>
                                     <constraint firstItem="2rI-XO-ioD" firstAttribute="top" secondItem="842-jW-ynv" secondAttribute="top" constant="8" id="qyM-u4-duO"/>
                                     <constraint firstItem="DgN-gF-ZEE" firstAttribute="top" secondItem="fZ5-vO-S8T" secondAttribute="top" constant="1" id="rof-Av-n5k"/>
                                     <constraint firstItem="2rI-XO-ioD" firstAttribute="centerX" secondItem="842-jW-ynv" secondAttribute="centerX" id="ugL-XD-F9V"/>
+                                    <constraint firstItem="Y4I-eQ-8YQ" firstAttribute="height" secondItem="fZ5-vO-S8T" secondAttribute="height" multiplier="0.7" id="xEQ-Sp-OYt"/>
                                     <constraint firstItem="Ykz-js-jPP" firstAttribute="height" secondItem="fZ5-vO-S8T" secondAttribute="height" multiplier="0.37" id="xea-Ho-i5h"/>
                                     <constraint firstItem="mZE-Z3-zea" firstAttribute="leading" secondItem="gsR-mx-5q0" secondAttribute="trailing" constant="14" id="ybi-EW-Zod"/>
                                     <constraint firstAttribute="width" constant="300" id="ycd-V5-REh"/>
@@ -4987,7 +4997,9 @@ Tap the image that you think this person should go with.
                         <outlet property="helpTapToReviewLabel" destination="Lje-fR-gsW" id="GoD-6u-Pfi"/>
                         <outlet property="lockedContainersLabel" destination="cjx-Kd-XAF" id="Fi5-IB-4tR"/>
                         <outlet property="mainView" destination="cLV-2u-pYD" id="XCM-rB-P79"/>
+                        <outlet property="menuButton" destination="nin-dE-XKV" id="iUX-8m-Ws0"/>
                         <outlet property="obligatoryReviewsRemainingLabel" destination="C9Q-xl-TfG" id="OKW-2C-KnI"/>
+                        <outlet property="reportButton" destination="0Ul-pE-Jtl" id="Xqq-8y-Mp3"/>
                         <outlet property="strongImageView" destination="CaX-Yw-wdQ" id="RTo-SG-1Og"/>
                         <outlet property="topCaptionTextField" destination="uaf-qC-IRY" id="Ti3-Zz-yDs"/>
                         <outlet property="topCaptionTopConstraint" destination="CVL-aj-2wl" id="nlE-Mg-xGf"/>
@@ -5439,8 +5451,10 @@ Tap the image that you think this person should go with.
                         <outlet property="imageView" destination="NeR-pA-3Xd" id="LcR-hy-twP"/>
                         <outlet property="lockedContainersLabel" destination="n67-N4-hUW" id="IM9-b6-AWO"/>
                         <outlet property="mainView" destination="piI-g3-YDf" id="dPT-Lb-1dZ"/>
+                        <outlet property="menuButton" destination="UYi-m0-f3Y" id="xgh-Zl-aL6"/>
                         <outlet property="noButton" destination="V50-pw-TBx" id="5cb-Ml-aOK"/>
                         <outlet property="obligatoryReviewsRemainingLabel" destination="2IV-jf-tvO" id="iMA-qz-bB8"/>
+                        <outlet property="reportButton" destination="gi3-GB-ZWg" id="eu0-Vd-3k5"/>
                         <outlet property="scrollView" destination="sSY-5l-BvL" id="roG-xO-w8n"/>
                         <outlet property="selectionImageView" destination="1jm-SW-jrO" id="zLK-oe-BYl"/>
                         <outlet property="strongImageView" destination="mGJ-iQ-PPk" id="zSG-hy-aNm"/>

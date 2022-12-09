@@ -63,6 +63,10 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var yesButton: UIButton!
     
+    @IBOutlet weak var reportButton: UIButton!
+    @IBOutlet weak var menuButton: UIButton!
+    
+    
     // the loading
     var indicator: UIActivityIndicatorView!
     
@@ -449,6 +453,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         super.viewDidAppear(animated)
         // Calling configureView() any earlier this here messes up the caption location, presumably because the imageView that the top constraint is relative to has not reached its final size yet.
 //        configureView()
+        reportButton.removeAttentionRectangle()
+        menuButton.removeAttentionRectangle()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAlertViewAsRequired()
@@ -467,16 +473,43 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     func showTutorialAlertViewAsRequired() {
         
         let skipAskTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool)
-        print("skipAskTutorial? \(skipAskTutorial)")
+
         
         if !skipAskTutorial {
-            let alertVC = UIAlertController(title: "Help this person decide whether to wear this", message: "Swipe right or tap the green button if you think they should wear it, otherwise swipe left or tap the red button. \n\nThey won't know who you are, but your vote will affect the results they see. \n\nTo report offensive content, tap the ! on the bottom right of the screen.", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
-                // Once the user has seen this, don't show it again
-                self.ud.set(true, forKey: Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool)
+            let alertVC_1 = UIAlertController(title: "Help this person decide WHETHER TO wear this", message: "\nSwipe right or tap the green button if you think they should wear it, if not swipe left or tap the red button. \n\nThey won't see your identity, but your vote will affect the results they see.", preferredStyle: .alert)
+            
+            let alertVC_2 = UIAlertController(title: "Navigation Tips", message: "Review as many photos as you feel like, then tap the menu button (lower left) to return to home. \n\nTo report offensive content, tap the (!) on the bottom right of the screen.", preferredStyle: .alert)
+            alertVC_2.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
             }))
             
-            present(alertVC, animated: true, completion: nil)
+            alertVC_1.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+                // Once the user has seen this, don't show it again
+                self.ud.set(true, forKey: Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool)
+                
+                let alreadySawCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool)
+                
+                // Don't show the second alertView if they already saw it on a Compare. The second alertView is identical for both Question types
+                if !alreadySawCompareTutorial {
+                    self.present(alertVC_2, animated: true, completion: nil)
+                    // wait a little time for the new member to read the tutorial alertView, then show them the menu button to go back. The clock starts once the user taps the first "got it"
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [self] in // `0.7` is the desired number of seconds.
+                        // add attention rectangle around menu button and report button
+                        self.reportButton.addAttentionRectangle()
+                        self.menuButton.addAttentionRectangle()
+                    }
+                }
+            }))
+            
+            present(alertVC_1, animated: true, completion: nil)
+            
+            
+            
+            
+            
+            
+            
+            
+
         }
 
     }

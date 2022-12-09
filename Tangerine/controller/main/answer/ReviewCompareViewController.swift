@@ -65,6 +65,12 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var glassView: UIView!
     
+    // So that we can add Attention rectangles around them as required
+    @IBOutlet weak var reportButton: UIButton!
+    @IBOutlet weak var menuButton: UIButton!
+    
+    
+    
     // the loading
     var topIndicator: UIActivityIndicatorView!
     var bottomIndicator: UIActivityIndicatorView!
@@ -280,6 +286,10 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAlertViewAsRequired()
         }
+        
+        reportButton.removeAttentionRectangle()
+        menuButton.removeAttentionRectangle()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -293,13 +303,42 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         let skipCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool)
         
         if !skipCompareTutorial {
-            let alertVC = UIAlertController(title: "Help this person decide which one to wear", message: "Tap the photo you think they should go with. \n\nThey won't know who you are, but your vote will affect the results they see. \n\nTo report offensive content, tap the ! on the bottom right of the screen.", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
-                // Once the user has seen this, don't show it again
-                self.ud.set(true, forKey: Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool)
+            let alertVC_1 = UIAlertController(title: "Help this person decide WHICH ONE to wear", message: "\nTap the photo you think they should go with. \n\nThey won't see your identity, but your vote will affect the results they see.", preferredStyle: .alert)
+            
+            let alertVC_2 = UIAlertController(title: "Navigation Tips", message: "Review as many photos as you feel like, then tap the menu button (lower left) to return to home. \n\nTo report offensive content, tap the (!) on the bottom right of the screen.", preferredStyle: .alert)
+            alertVC_2.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
             }))
             
-            present(alertVC, animated: true, completion: nil)
+            alertVC_1.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
+                // Once the user has seen this, don't show it again
+                self.ud.set(true, forKey: Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool)
+                
+                let alreadySawAskTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool)
+                
+                // Don't show the second alertView if they already saw it on an Ask. The second alertView is identical for both Question types
+                if !alreadySawAskTutorial {
+                    
+                    self.present(alertVC_2, animated: true, completion: nil)
+                    // wait a little time for the new member to read the tutorial alertView, then show them the menu button to go back. The clock starts once the user taps the first "got it"
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [self] in // `0.7` is the desired number of seconds.
+                        // add attention rectangle around menu button and report button
+                        
+                        //MARK: For some reason this report button attention rectangle isn't visible. The menu one works fine. Maybe there is something in front of it or blocking the edges. Not a show stopper for the time being.
+                        self.reportButton.addAttentionRectangle()
+//                        self.reportButton.alpha = 1.0
+                        self.menuButton.addAttentionRectangle()
+                        print("inside dispatch queue")
+                    }
+                }
+            }))
+            
+            present(alertVC_1, animated: true, completion: nil)
+            
+
+            
+            
+            
+
         }
     }
 
