@@ -765,20 +765,25 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                     self.captionYValue = self.captionTextFieldTopConstraint.constant
                     
                     
-                    //this makes the text box movement animated so it looks smoother:
-//                    UIView.animate(withDuration: 0.4, animations: {
-//
-//                        //get the height of the keyboard that will show and then shift the text field down by that amount
-//                        // each distance we subtract shifts the caption up by that amount.
-//                        self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height - self.scrollHousingViewTopConstraint.constant
-//                        self.view.layoutIfNeeded()
-//                    })
+                    // This if-logic only moves the keyboard out of the way if we are editing the second photo
+                    if currentCompare.creationPhase == .secondPhotoTaken || currentCompare.creationPhase == .reEditingSecondPhoto {
+                        
+                        //this makes the text box movement animated so it looks smoother:
+                        UIView.animate(withDuration: 0.4, animations: {
+                            
+                            //get the height of the keyboard that will show and then shift the text field down by that amount
+                            // each distance we subtract shifts the caption up by that amount.
+                            self.captionTextFieldTopConstraint.constant = self.screenHeight - keyboardFrame.size.height - self.topLayoutGuide.length - self.captionTextFieldHeight - self.titleTextField.frame.height - self.questionTypeLabel.frame.height - self.scrollHousingViewTopConstraint.constant
+                            self.view.layoutIfNeeded()
+                        })
+                    }
+
+                    
                 }
 
             } else {
                 print("keyboard was already visible, no caption constraint data stored or manipulated")
             }
-            
         }
     }
     
@@ -790,11 +795,15 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         // FROM EDITING CAPTION
-        //this makes the caption text box movement animated so it looks smoother:
-//        UIView.animate(withDuration: 1.0, animations: {
-//            //moves the caption back to its original location:
-//            self.captionTextFieldTopConstraint.constant = self.vetCaptionTopConstraint(self.captionYValue)
-//        })
+        
+        // This if-logic only moves the keyboard out of the way if we are editing the second photo
+        if currentCompare.creationPhase == .secondPhotoTaken || currentCompare.creationPhase == .reEditingSecondPhoto {
+            //this makes the caption text box movement animated so it looks smoother:
+            UIView.animate(withDuration: 1.0, animations: {
+                //moves the caption back to its original location:
+                self.captionTextFieldTopConstraint.constant = self.vetCaptionTopConstraint(self.captionYValue)
+            })
+        }
         
         // FROM EDIT TITLE
         // If the user has entered no text in the titleTextField, reset it to how it was originally:
