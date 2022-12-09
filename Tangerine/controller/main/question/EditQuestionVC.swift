@@ -477,11 +477,16 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if !skipTutorial {
             // manipulate visual elements here
+            publishButton.addAttentionRectangle()
+            helpButton.addAttentionRectangle()
             
-            let alertVC = UIAlertController(title: "Tap the blue ? for help Editing This Photo", message: "Then, tap the blue publish/preview button at the bottom of the screen. \n\nPUBLISH posts the photo so everyone who has Tangerine can review it.", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "Tap the blue ? for help Editing This Photo", message: "When done, tap PUBLISH. \n\nThis posts the photo so all Tangerine members can review it.", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
                 // Once the user has seen this, don't show it again
                 self.ud.set(true, forKey: Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool)
+                self.publishButton.removeAttentionRectangle()
+                self.helpButton.removeAttentionRectangle()
+//                self.helpButtonTapped(self) // this would work better if there was a glassview for "user tapped around" to hide the help labels
             }))
             
             present(alertVC, animated: true, completion: nil)

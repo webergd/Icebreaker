@@ -118,6 +118,8 @@ public var obligatoryQuestionsToReviewCount = {
 // ((3*lockedQuestions-1) + obligatoryReviewsToUnlockNextQuestion)
 /// computed property returning the number of locked Questions that the user has in the myActiveQuestions array
 
+/// We use this to know whether to call showTutorial() in MainVC just once after toggling the tutorial mode to off in the settings page. Otherwise there could still be labels that look like we're in tutorial mode
+var needToClearOutMainVCTutorial: Bool = false
 
 
 /// These fields are used during Question creation to keep values consistent across multiple view controllers:

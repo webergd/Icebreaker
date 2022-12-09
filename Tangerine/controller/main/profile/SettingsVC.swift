@@ -23,6 +23,7 @@ class SettingsVC: UIViewController {
     var notifyRecAnsSw: UISwitch!
     var notifyFriendReqSw: UISwitch!
     var notifyFriendQSw: UISwitch!
+    var tutorialModeToggleSw: UISwitch!
     
     
     // MARK: Actions
@@ -49,6 +50,15 @@ class SettingsVC: UIViewController {
         }
     }
     
+    @objc func tutorialModeSwitched() {
+        print("system attempting to set tutorial mode ON: \(tutorialModeToggleSw.isOn)")
+        TutorialTracker().setTutorialMode(on: tutorialModeToggleSw.isOn)
+        
+        // if we just switched the tutorial to off, we need to make sure MainVC cleans up the remnants as required
+        needToClearOutMainVCTutorial = !tutorialModeToggleSw.isOn
+    }
+    
+    
     
     // when the top back button pressed, to dismiss the vc
     @objc func backBtnPressed(_ sender: UIButton) {
@@ -74,6 +84,8 @@ class SettingsVC: UIViewController {
         configureNotFriReqSw()
         configureNotFriQuesSw()
         
+        configureTutorialModeToggleSwitch()
+        
         
         // init the UD
         userDefault = UserDefaults.standard
@@ -81,6 +93,10 @@ class SettingsVC: UIViewController {
         //check if user choses to keep him logged in
         let shouldKeepLoggedIn = userDefault.bool(forKey: Constants.UD_SHOULD_PERSIST_LOGIN_Bool)
         stayLoggedInSW.setOn(shouldKeepLoggedIn, animated: false)
+        
+        // check if we have any tutorials remaining so we know whether to set the switch on or off
+        let tutorialModeOn: Bool = TutorialTracker().getTutorialModeOnState()
+        tutorialModeToggleSw.setOn(tutorialModeOn, animated: false)
         
         
         // setup the notification switches
@@ -123,7 +139,7 @@ class SettingsVC: UIViewController {
     
     func configureTopLabel(){
         topLabel = UILabel()
-        topLabel.text = "Privacy"
+        topLabel.text = "SETTINGS"
         // to make it dark/light friendly
         topLabel.textColor = .label
         topLabel.textAlignment = .center
@@ -185,6 +201,7 @@ class SettingsVC: UIViewController {
             notLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
         ])
     } // end conf topLabel
+    
     
     func configureNotRecAnsSw(){
         notifyRecAnsSw = UISwitch()
@@ -271,5 +288,31 @@ class SettingsVC: UIViewController {
     }
     
     
+    /// Sets up the tutorial mode toggle switch
+    func configureTutorialModeToggleSwitch(){
+        tutorialModeToggleSw = UISwitch()
+        
+        tutorialModeToggleSw.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tutorialModeToggleSw)
+        
+        let swLabel = UILabel()
+        swLabel.text = "Tutorial Mode"
+        swLabel.textColor = .label
+        swLabel.font = UIFont.systemFont(ofSize: 17)
+        
+        swLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(swLabel)
+        
+        NSLayoutConstraint.activate([
+            swLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            swLabel.topAnchor.constraint(equalTo: tutorialModeToggleSw.topAnchor, constant: 0),
+            swLabel.heightAnchor.constraint(equalTo: tutorialModeToggleSw.heightAnchor, multiplier: 1),
+            tutorialModeToggleSw.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            tutorialModeToggleSw.topAnchor.constraint(equalTo: notifyFriendQSw.bottomAnchor, constant: 20)
+        ])
+        
+        tutorialModeToggleSw.addTarget(self, action: #selector(tutorialModeSwitched), for: .valueChanged)
+    }
+ 
     
 }

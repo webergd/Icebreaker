@@ -14,9 +14,14 @@ import Firebase
 
 var pullControl : UIRefreshControl! // for our pull2Refresh
 
+
+
 ///This really should be called QuestionTableViewController because it's the main table view that holds the local user's Asks AND Compares
 ///
 class ActiveQuestionsVC: UITableViewController {
+    
+    // to keep track of tutorial progress
+    var ud = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,17 +94,23 @@ class ActiveQuestionsVC: UITableViewController {
         let skipActiveQTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool)
         
         if !skipActiveQTutorial {
-            // Load Storyboard
-            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            // Instantiate View Controller
-            let controller = storyboard.instantiateViewController(withIdentifier: "swipe_to_right_vc") as! SwipeFromRightVC
-            controller.modalPresentationStyle = .overFullScreen
-            controller.modalTransitionStyle = .crossDissolve
-            
-            self.present(controller, animated: true, completion: nil)
+            showHelpTutorialPopover()
+            // Once the user has seen this, don't show it again automatically (although they can still call it up using the help button
+            self.ud.set(true, forKey: Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool)
         }
 
         
+    }
+    
+    func showHelpTutorialPopover() {
+        // Load Storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        // Instantiate View Controller
+        let controller = storyboard.instantiateViewController(withIdentifier: "swipe_to_right_vc") as! SwipeFromRightVC
+        controller.modalPresentationStyle = .overFullScreen
+        controller.modalTransitionStyle = .crossDissolve
+        
+        self.present(controller, animated: true, completion: nil)
     }
     
     
@@ -557,10 +568,11 @@ class ActiveQuestionsVC: UITableViewController {
     }
     
     @objc func showHelp() {
-        let alertController = UIAlertController(title: "Tap a row to view its details.", message: "\nSwipe RIGHT to RETURN to main. \n\n-Swipe LEFT on a row to DELETE it.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Got It!", style: .default)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
+        showHelpTutorialPopover()
+//        let alertController = UIAlertController(title: "Tap a row to view its details.", message: "\nSwipe RIGHT to RETURN to main. \n\n-Swipe LEFT on a row to DELETE it.", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "Got It!", style: .default)
+//        alertController.addAction(okAction)
+//        present(alertController, animated: true, completion: nil)
     }
     
     func addTitleToVC(){

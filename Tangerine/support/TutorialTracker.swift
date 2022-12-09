@@ -13,6 +13,9 @@ public struct TutorialTracker {
     
     var ud = UserDefaults.standard
     
+    let tutorialSkipSettingsArray: [String] = [
+        Constants.UD_SKIP_MAINVC_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool, Constants.UD_SKIP_AVCAM_TUTORIAL_Bool, Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool, Constants.UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool, Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool,  Constants.UD_SKIP_MY_ASK_TUTORIAL_Bool, Constants.UD_SKIP_MY_COMPARE_TUTORIAL_Bool]
+    
     /// This is the phase that the user has to do next
     enum TutorialPhase: String, CaseIterable {
         case step0_Intro //0
@@ -46,6 +49,36 @@ public struct TutorialTracker {
         return TutorialPhase.step0_Intro
     }
     
+    func setTutorialMode(on: Bool) {
+        let skipAllTutorialsBool: Bool = !on
+        
+        for thisSkipSetting in tutorialSkipSettingsArray {
+            self.ud.set(skipAllTutorialsBool, forKey: thisSkipSetting)
+            print("skip tutorial setting for \(thisSkipSetting) now set to \(skipAllTutorialsBool)")
+        }
+        
+        if !on {
+            // set tutorial mode to complete if we're turning off the tutorial
+            setTutorial(phase: .step5_Complete)
+        } else {
+            setTutorial(phase: .step0_Intro)
+        }
+    }
+    
+    /// If true then tutorial mode is on.
+    /// If even a single skip setting is on, tutorial mode is considered on.
+    func getTutorialModeOnState() -> Bool {
+        for thisSkipSetting in tutorialSkipSettingsArray {
+            let skipSetting = UserDefaults.standard.bool(forKey: thisSkipSetting)
+            if skipSetting == false {
+                return true
+            }
+        }
+        // if we made it here without hitting a false for any of the skip settings, then tutorial mode is off
+        return false
+    }
+    
+    
     func setTutorial(phase: TutorialPhase) {
         let phaseToSave: String = vetTutorial(phase: phase.rawValue).rawValue
         self.ud.set(phaseToSave, forKey: Constants.UD_TUTORIAL_PORTION_LAST_SEEN)
@@ -54,14 +87,18 @@ public struct TutorialTracker {
     
     /// Pulls the user's current Tutorial Phase from UserDefaults
     func getTutorialPhase() -> TutorialTracker.TutorialPhase {
+        print("getTutorialPhase called")
         let phase = UserDefaults.standard.string(forKey: Constants.UD_TUTORIAL_PORTION_LAST_SEEN)
+        print("phase is: \(phase)")
         let phaseToReturn = vetTutorial(phase: phase)
+        
         return phaseToReturn
     }
     
     
     /// updates the current tutorial phase to the next phase in sequence
     func incrementTutorialFrom(currentPhase: TutorialPhase) {
+        print("increment tutorial called")
         let tPArray: [TutorialPhase] = TutorialPhase.allCases
         var returnNext = false
         
@@ -72,8 +109,13 @@ public struct TutorialTracker {
             if returnNext == true {
                 // true was set in the last iteration so now it iterated to the next phase and we will set that as the current phase
                 phaseToSet = phz
+                break
             }
+            print("comparing current phase to a case in the TutorialPhase enum arry")
+            print("currentPhase = \(currentPhase.rawValue)")
+            print("phz (in the array) = \(phz.rawValue)")
             if phz == currentPhase {
+                print("Found a match, setting returnNext to true")
                 // set returnNext to true so that next iteration it will set the subesquent phase
                 returnNext = true
             }

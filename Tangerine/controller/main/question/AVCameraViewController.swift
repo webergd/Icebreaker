@@ -48,6 +48,10 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             
         }
     }
+    
+    // UI Items
+    var cameraTutorialLabel: UILabel!
+    var uploadPhotoTutorialLabel: UILabel!
    
     // so that we can access user defaults to know whether to show the tutorial
     var ud = UserDefaults.standard
@@ -130,6 +134,9 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(checkPermission), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        configureCameraTutorialLabel()
+        configurePhotoUploadTutorialLabel()
     }
     
     override func didReceiveMemoryWarning() {
@@ -228,6 +235,10 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         
         if !skipTutorial {
             // manipulate visual elements here
+            takePhotoButton.addAttentionRectangle()
+            photoLibraryButton.addAttentionRectangle()
+            cameraTutorialLabel.fadeInAfter(seconds: 0.0)
+            uploadPhotoTutorialLabel.fadeInAfter(seconds: 0.2)
         }
     }
     
@@ -405,6 +416,12 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         cancelPhotoButton.isHidden = false
         continueButton.isHidden = false
         blackView.isHidden = false
+        
+        //hide the tutorial UI elements if applicable
+        takePhotoButton.removeAttentionRectangle()
+        photoLibraryButton.removeAttentionRectangle()
+        cameraTutorialLabel.isHidden = true
+        uploadPhotoTutorialLabel.isHidden = true
     }
     
     /// Unhides the camera icons.
@@ -731,6 +748,53 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     
     deinit {
         print("deinitializing AVCameraVC")
+    }
+    
+    // MARK: PROGRAMMATIC UI
+    func configureCameraTutorialLabel() {
+        cameraTutorialLabel = UILabel()
+        cameraTutorialLabel.text = "Tap to take a photo"
+        cameraTutorialLabel.textColor = .systemBlue
+        cameraTutorialLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        cameraTutorialLabel.numberOfLines = 2
+        cameraTutorialLabel.isHidden = true
+    
+        cameraTutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+        
+        cameraTutorialLabel.textAlignment = .center
+        
+        cameraTutorialLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cameraTutorialLabel)
+        
+        NSLayoutConstraint.activate([
+            cameraTutorialLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
+            cameraTutorialLabel.heightAnchor.constraint(equalToConstant: 40),
+            cameraTutorialLabel.bottomAnchor.constraint(equalTo: takePhotoButton.topAnchor, constant: -8),
+            cameraTutorialLabel.widthAnchor.constraint(equalToConstant: 110)
+        ])
+    }
+    
+    func configurePhotoUploadTutorialLabel() {
+        uploadPhotoTutorialLabel = UILabel()
+        uploadPhotoTutorialLabel.text = "Tap to upload a photo"
+        uploadPhotoTutorialLabel.textColor = .systemBlue
+        uploadPhotoTutorialLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        uploadPhotoTutorialLabel.numberOfLines = 3
+        uploadPhotoTutorialLabel.isHidden = true
+    
+        uploadPhotoTutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+        
+        uploadPhotoTutorialLabel.textAlignment = .center
+        
+        uploadPhotoTutorialLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(uploadPhotoTutorialLabel)
+        
+        NSLayoutConstraint.activate([
+            uploadPhotoTutorialLabel.centerYAnchor.constraint(equalTo: photoLibraryButton.centerYAnchor, constant: -10),
+            uploadPhotoTutorialLabel.heightAnchor.constraint(equalToConstant: 60),
+            uploadPhotoTutorialLabel.trailingAnchor.constraint(equalTo: photoLibraryButton.leadingAnchor, constant: -8),
+            uploadPhotoTutorialLabel.widthAnchor.constraint(equalToConstant: 60)
+        ])
     }
 
     

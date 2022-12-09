@@ -71,6 +71,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     var backBtn: UIButton!
     var backButtonWidth: NSLayoutConstraint!
     
+    var tutorialLabel: UILabel!
+    
     var isNetworkCallDone = false
     
     // MARK: Actions
@@ -799,6 +801,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         configureCancelButton()
         configureSegmentControl()
         configureCollectionView()
+        
+        configureTutorialLabel()
+        
         configureLocalDataSource()
         
         setupIndicator()
@@ -843,6 +848,10 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
                 // Once the user has seen this, don't show it again
                 self.ud.set(true, forKey: Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool)
+                self.tutorialLabel.fadeInAfter(seconds: 1.0)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 12.0) { // `0.7` is the desired number of seconds.
+                    self.tutorialLabel.fadeOutAfter(seconds: 5.0)
+                }
             }))
             
             present(alertVC, animated: true, completion: nil)
@@ -927,6 +936,30 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         
         searchSegment.addTarget(self, action: #selector(onSegmentChanged), for: .valueChanged)
         
+    }
+    
+    func configureTutorialLabel (){
+        tutorialLabel = UILabel()
+        tutorialLabel.text = "To find a friend who isn't in your contacts list, select the All Users toggle and type thier username"
+        tutorialLabel.textColor = .systemBlue
+        tutorialLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        tutorialLabel.numberOfLines = 6
+        tutorialLabel.isHidden = true
+    
+        tutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+        
+        tutorialLabel.textAlignment = .center
+        
+        tutorialLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tutorialLabel)
+        
+        NSLayoutConstraint.activate([
+            
+            tutorialLabel.topAnchor.constraint(equalTo: searchSegment.bottomAnchor, constant: 0),
+            tutorialLabel.centerXAnchor.constraint(equalTo: searchSegment.centerXAnchor, constant: 80),
+            tutorialLabel.widthAnchor.constraint(equalTo: searchSegment.widthAnchor, multiplier: 0.5),
+            tutorialLabel.heightAnchor.constraint(equalToConstant: 120)
+        ])
     }
     
     

@@ -19,6 +19,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     var tableViewTitleLabel: UILabel!
     var friendReqBtn: UIButton!
     var addFriendBtn: UIButton!
+    var tutorialLabel: UILabel!
     
     // we use this to access the user defaults to ensure proper operation of the tutorial
     var ud = UserDefaults.standard
@@ -484,6 +485,8 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         
         configureAddFriendButton()
         
+        configureTutorialLabel()
+        
         
         configureSearchBar()
         configureFriendsTableView()
@@ -539,10 +542,12 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         let skipCompareTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool)
         
         if !skipCompareTutorial {
-            let alertVC = UIAlertController(title: "Friends will be here once requests are accepted.", message: " Adding friends lets you tag them on a posted photo so it will be the first one they see. \n\nEveryone (including friends) will eventually see your posted photos no matter what if they keep swiping long enough, but tagging friends on a photo lets them review it before other photos that they weren't tagged on.", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "Friends will be here once requests are accepted.", message: " Adding friends lets you tag them on a posted photo so it will be the first one they see. \n\nEveryone (including friends) will eventually see your posted photos no matter what if they keep swiping long enough, but tagging friends on a photo notifies them and makes sure they see it right away.", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
                 // Once the user has seen this, don't show it again
                 self.ud.set(true, forKey: Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool)
+                self.addFriendBtn.addAttentionRectangle()
+                self.tutorialLabel.fadeInAfter(seconds: 0.3)
             }))
             
             present(alertVC, animated: true, completion: nil)
@@ -662,6 +667,35 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             friendList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             friendList.topAnchor.constraint(equalTo: searchbar.bottomAnchor,constant: 20),
             friendList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
+    
+    func configureTutorialLabel() {
+        tutorialLabel = UILabel()
+        tutorialLabel.text = "Tap to add friends"
+        tutorialLabel.textColor = .systemBlue
+        tutorialLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        tutorialLabel.numberOfLines = 3
+        tutorialLabel.isHidden = true
+    
+        tutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+        
+        tutorialLabel.textAlignment = .center
+        
+        tutorialLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tutorialLabel)
+        
+        NSLayoutConstraint.activate([
+            
+            tutorialLabel.centerYAnchor.constraint(equalTo: addFriendBtn.centerYAnchor, constant: 0),
+            tutorialLabel.heightAnchor.constraint(equalToConstant: 60),
+            tutorialLabel.trailingAnchor.constraint(equalTo: addFriendBtn.leadingAnchor, constant: -8),
+            tutorialLabel.widthAnchor.constraint(equalToConstant: 60)
+            
+//            tutorialLabel.bottomAnchor.constraint(equalTo: cameraButton.topAnchor, constant: -30),
+//            tutorialLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+//            tutorialLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+//            tutorialLabel.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     

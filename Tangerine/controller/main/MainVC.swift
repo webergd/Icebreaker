@@ -58,6 +58,10 @@ class MainVC: UIViewController {
     //this one is redundant with reviewOthersBtn
     @IBOutlet weak var viewResultsButton: UIButton!
     
+    // UI Items:
+    var tutorialLabel: UILabel!
+    var cancelTutorialButton: UIButton!
+    
     // to track if both qff and frCount has finished updating locally
     var applicationBadgeNumber = 0
     
@@ -124,6 +128,11 @@ class MainVC: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         
         self.present(vc, animated: true, completion: nil)
+    }
+    
+    @objc func onCancelTutorialTapped() {
+        // set all Bools to skip tutorial
+        self.setTutorialMode(on: false)
     }
   
     /******************************************************************************************************************************/
@@ -250,7 +259,8 @@ class MainVC: UIViewController {
 
         }
 
-
+        configureTutorialLabel()
+        configureCancelTutorialButton()
 
         /// tells system that the glassView was tapped
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
@@ -323,8 +333,7 @@ class MainVC: UIViewController {
         glassView.isUserInteractionEnabled = !glassView.isHidden
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
-            self.showTutorial()
-//            self.showTutorialInviteAsRequired()
+            self.showTutorialAsRequired()
         }
     }
 
@@ -454,71 +463,124 @@ class MainVC: UIViewController {
     
     /// Sets all of the tutorial user default skip modes to true or all to false as desired
     func setTutorialMode(on: Bool) {
-        let skipAllTutorialsBool: Bool = !on
-        let tutorialSkipSettingsArray: [String] = [Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool, Constants.UD_SKIP_AVCAM_TUTORIAL_Bool, Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool, Constants.UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool, Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool,  Constants.UD_SKIP_MY_ASK_TUTORIAL_Bool, Constants.UD_SKIP_MY_COMPARE_TUTORIAL_Bool]
+//        let skipAllTutorialsBool: Bool = !on
+//        let tutorialSkipSettingsArray: [String] = [
+//            Constants.UD_SKIP_MAINVC_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool, Constants.UD_SKIP_REVIEW_COMPARE_TUTORIAL_Bool, Constants.UD_SKIP_AVCAM_TUTORIAL_Bool, Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool, Constants.UD_SKIP_SEND_TO_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_FRIENDSVC_TUTORIAL_Bool, Constants.UD_SKIP_ADD_FRIENDS_TUTORIAL_Bool, Constants.UD_SKIP_ACTIVE_Q_TUTORIAL_Bool,  Constants.UD_SKIP_MY_ASK_TUTORIAL_Bool, Constants.UD_SKIP_MY_COMPARE_TUTORIAL_Bool]
+//
+//        for thisSkipSetting in tutorialSkipSettingsArray {
+//            self.ud.set(skipAllTutorialsBool, forKey: thisSkipSetting)
+//            print("skip tutorial setting for \(thisSkipSetting) now set to \(skipAllTutorialsBool)")
+//        }
         
-        for thisSkipSetting in tutorialSkipSettingsArray {
-            self.ud.set(skipAllTutorialsBool, forKey: thisSkipSetting)
-            print("skip tutorial setting for \(thisSkipSetting) now set to \(skipAllTutorialsBool)")
+        TutorialTracker().setTutorialMode(on: on)
+        
+        
+        if !on {
+            // set tutorial mode to complete if we're turning off the tutorial
+            TutorialTracker().setTutorial(phase: .step5_Complete)
+            
+            // remove any labels and rectangles
+            reviewOthersButton.removeAttentionRectangle()
+            cameraButton.removeAttentionRectangle()
+            friendsBtn.removeAttentionRectangle()
+            viewResultsButton.removeAttentionRectangle()
+            tutorialLabel.text = "Exiting Tutorial...👋 "
+            tutorialLabel.fadeOutAfter(seconds: 0.7)
+            cancelTutorialButton.isHidden = true
+            
+            // show tutorial one last time to clean everything up
+            showTutorial()
         }
     }
     
-    /// Displays an alertView which asks the member if he or she wants to get tutorial help
-    func showTutorialInviteAsRequired() {
+    /// Checks to see if there are any tutorial steps left to complete on MainVC
+    func showTutorialAsRequired() {
+        let skipTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+
+        if !skipTutorial {
+            showTutorial()
+        }
         
-        let skipStartOrDismissTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+        if needToClearOutMainVCTutorial {
+            setTutorialMode(on: false)
+            needToClearOutMainVCTutorial = false // then reset it to false since we are now going to clean up the view
+        }
+    }
+    
+    func removeAllTutorialAttentionRectangles() {
         
-        if !skipStartOrDismissTutorial {
-            print("TangerineScore tapped")
+    }
+    
+    /// Highlights the appropriate icon as the next part of the tutorial
+    func showTutorial() {
+        let phase = TutorialTracker().getTutorialPhase()
+        //show cancel button
+        cancelTutorialButton.isHidden = false
+        
+        //MARK:  we also need something where if they user taps somewhere else, it just shows them this next time or maybe even cancels the tutorial
+        
+
+        // Based on what tutorial phase we're in, we decide what to show the new member
+        switch phase {
+        case .step0_Intro:
+            tutorialLabel.isHidden = true
+            cancelTutorialButton.isHidden = true
+            // Displays an alertView which asks the member if he or she wants to get tutorial help
             let alertVC = UIAlertController(title: "Welcome to the Community!", message: "Would you like some help using the app for the first time? \nYou can adjust this later in settings.", preferredStyle: .alert)
+            
+            //Actions if memeber decides to go through the tutorial
             alertVC.addAction(UIAlertAction(title: "Sure!", style: .default, handler: { (action: UIAlertAction!) in
                 print("Will continue with tutorial")
                 // Enable all tutuorial elements
                 self.setTutorialMode(on: true)
                 // Once the member has seen this alertView once, we don't want to show it again, even if they do want to go through the tutorial
-                self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+                
                 TutorialTracker().setTutorial(phase: .step1_ReviewOthers)
                 self.showTutorial()
             }))
             
+            //Actions if the member declines the tutorial
             alertVC.addAction(UIAlertAction(title: "No Thanks", style: .cancel, handler: { (action: UIAlertAction!) in
                 print("Will CANCEL tutorial")
                 // Skip all tutorial elements
                 self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
                 self.setTutorialMode(on: false)
                 // Once the member has seen this alertView once, we don't want to show it again, even if they do want to go through the tutorial
-                self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
             }))
                 
             present(alertVC, animated: true, completion: nil)
-            
-            
-        }
-    }
-    
-    /// Highlights the appropriate icon as the next part of the tutorial
-    func showTutorial() {
-        let phase = TutorialTracker().getTutorialPhase()
-        // we also need something where if they user taps somewhere else, it just shows them this next time or maybe even cancels the tutorial
-        
-        // Clear out all residual attention rectangles etc
-        
-        
-        
-        switch phase {
-        case .step0_Intro:
-            showTutorialInviteAsRequired()
         case .step1_ReviewOthers:
+            tutorialLabel.text = "First, tap GIVE OPINIONS to review some photos!"
+            tutorialLabel.fadeInAfter(seconds: 0.0)
             reviewOthersButton.addAttentionRectangle()
             // ADD THE SHOW HELP LABEL HERE
         case .step2_PostQuestion:
+            tutorialLabel.text = "Now let's upload your first photo for review"
+            tutorialLabel.fadeInAfter(seconds: 0.0)
+            reviewOthersButton.removeAttentionRectangle()
             cameraButton.addAttentionRectangle()
         case .step3_AddFriends:
+            tutorialLabel.text = "Next, let's add some friends"
+            tutorialLabel.fadeInAfter(seconds: 0.0)
+            cameraButton.removeAttentionRectangle()
             friendsBtn.addAttentionRectangle()
         case .step4_ViewResults:
+            tutorialLabel.text = "Now let's check for feedback on your uploaded photo"
+            tutorialLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+            tutorialLabel.fadeInAfter(seconds: 0.0)
+            friendsBtn.removeAttentionRectangle()
             viewResultsButton.addAttentionRectangle()
         case .step5_Complete:
-            print("close something out here")
+            tutorialLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
+            tutorialLabel.text = "Tutorial Complete. \nHappy Tangerining!"
+            viewResultsButton.removeAttentionRectangle()
+            tutorialLabel.fadeInAfter(seconds: 0.0)
+            tutorialLabel.fadeOutAfter(seconds: 1.5)
+            cancelTutorialButton.isHidden = true
+
+            // finally after we've shown the last element of the MainVC tutorial, we set the mainVC skip to true:
+            self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
+        
         }
         TutorialTracker().incrementTutorialFrom(currentPhase: phase)
     }
@@ -577,6 +639,56 @@ class MainVC: UIViewController {
     
     @objc func glassViewTapped(_ sender: UITapGestureRecognizer? = nil) {
         toggleHelpDisplay()
+    }
+    
+    // MARK: PROGRAMMATIC UI
+    func configureTutorialLabel (){
+        tutorialLabel = UILabel()
+        tutorialLabel.text = ""
+        tutorialLabel.textColor = .systemBlue
+        tutorialLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
+        tutorialLabel.numberOfLines = 3
+        tutorialLabel.isHidden = true
+    
+        tutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+        
+        tutorialLabel.textAlignment = .center
+        
+        tutorialLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tutorialLabel)
+        
+        NSLayoutConstraint.activate([
+            
+            tutorialLabel.bottomAnchor.constraint(equalTo: cameraButton.topAnchor, constant: -30),
+            tutorialLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            tutorialLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            tutorialLabel.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    func configureCancelTutorialButton(){
+        
+        cancelTutorialButton = UIButton()
+        cancelTutorialButton.setTitleColor(.systemRed, for: .normal)
+        cancelTutorialButton.setTitle("❌ \nCancel \nTutorial", for: .normal)
+        cancelTutorialButton.backgroundColor = .systemBackground
+        
+        cancelTutorialButton.titleLabel?.lineBreakMode = .byWordWrapping
+        cancelTutorialButton.titleLabel?.textAlignment = .center
+        
+        cancelTutorialButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cancelTutorialButton)
+        
+        NSLayoutConstraint.activate([
+            cancelTutorialButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+            cancelTutorialButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            cancelTutorialButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        cancelTutorialButton.addTarget(self, action: #selector(onCancelTutorialTapped), for: .touchUpInside)
+        
+        //hide it until we need it
+        cancelTutorialButton.isHidden = true
     }
     
     
