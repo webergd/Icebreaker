@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 import RealmSwift
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
@@ -26,10 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         // UserNotificaion Service Class, keeps this AppDelegate Class Clean
         // Huge potential, can be used for advanced features later
         UNService.shared.authorize()
-        
-        
+
         application.registerForRemoteNotifications()
-        
+
+      // for Keyboard
+      IQKeyboardManager.shared.enable = true
         
         // to prevent Realm Crash
         let config = Realm.Configuration(
