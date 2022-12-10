@@ -9,7 +9,8 @@ import UIKit
 
 
 class Constants {
-    
+
+  static let TOS_URL = "https://letstangerine.com/termsOfUse"
    
     // static variables
     static let SYS_PERSON_ICON = "person.crop.circle"

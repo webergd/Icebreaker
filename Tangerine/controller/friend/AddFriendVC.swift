@@ -281,7 +281,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
     group.enter()
     query2.getDocuments { (snaps, error) in
-      print("Firestore call done for key search")
+      print("Firestore call done for dname search")
       if let error = error{
         print(error.localizedDescription)
         group.leave()

@@ -8,6 +8,7 @@
 import UIKit
 import Contacts
 import FirebaseStorage
+import SafariServices
 
 extension UIViewController {
 
@@ -39,7 +40,13 @@ extension UIViewController {
         @objc func dismissKeyboard() {
             view.endEditing(true)
         }
-    
+
+  // opens safari the url provides inside the app
+  func openSafariVC(with url: URL){
+    let safariVC = SFSafariViewController(url: url)
+    safariVC.preferredControlTintColor = .systemOrange
+    present(safariVC, animated: true)
+  }
     
     // String to Image
     func convertBase64StringToImage (imageBase64String:String) -> UIImage {

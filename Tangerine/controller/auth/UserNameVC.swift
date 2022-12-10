@@ -42,6 +42,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     var signupBtn: UIButton!
     // the TOS view
     var tosTV: UITextView!
+    let tosUrl =  URL(string: Constants.TOS_URL)
     var pageControl: UIPageControl!
     
     // for the usernameTF
@@ -322,11 +323,12 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         
         // show the TOS view
-        let vc = UINavigationController(rootViewController: ToSVC())
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
-        
-        
+      // opens safari the url provides inside the app
+
+      if let tosUrl = tosUrl {
+        openSafariVC(with: tosUrl)
+      }
+
         return false
     }
     
