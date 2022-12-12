@@ -73,7 +73,8 @@ class Constants {
     static let USER_FR_COUNT_KEY = "fr_count"
     static let USER_FR_FROM_KEY = "fr_from"
     
-    
+    // New > Dec 13
+  static let USER_UN_INDEX_KEY = "username_index"
     // USE UD target demo keys for firestore
     
     // ENDS OF USERS FIELDS

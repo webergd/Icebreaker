@@ -41,6 +41,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
   // searching only
   var lastSnapForDocID : QueryDocumentSnapshot!
   var lastSnapForDname : QueryDocumentSnapshot!
+  var lastSnapForArray : QueryDocumentSnapshot!
   // the text that has been searched
   var searchedText : String!
   // limit of search from firestore
@@ -183,6 +184,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     print("we are searching for \(searchTerm)")
     self.loadingFromFirestore = true
     self.indicator.startAnimating()
+    //.whereField(Constants.USER_UN_INDEX_KEY, arrayContains: searchTerm)
     // to seach for username aka document id
     // starts with
 
@@ -300,6 +302,78 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
           self.lastSnapForDname = docs2.last
           for item in docs2{
+
+            // check the blocklist and check if it's not me
+            if !self.blockList.contains(item.documentID) && myProfile.username != item.documentID{
+              let dict = item.data()
+
+              if let _ = dict[Constants.USER_ORIENTATION_KEY] as? String{
+
+                // find the number associated with this user
+                let phone = dict[Constants.USER_NUMBER_KEY] as! String
+                newDict = self.getPersonFromDict(dict, item.documentID, phone)
+
+                if !self.displayedCloudKeys.contains(phone){
+                  self.displayedCloudKeys.append(phone)
+                  self.displayedCloudContacts.merge(newDict){(_,new) in new}
+                }
+              }
+            }
+          }
+        }// end of for
+
+
+        // as we done loading before reloading data
+        // set the flag to opposite
+        self.loadingFromFirestore = false
+
+        //
+        group.leave()
+        self.indicator.stopAnimating()
+
+
+      }// end of if name
+
+
+
+    }// end of firebase call
+
+    // the array contains query
+
+    var query3 : Query!
+
+    // if last snap present get the next 10
+    if self.lastSnapForArray != nil{
+      query3 = Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .whereField(Constants.USER_UN_INDEX_KEY, arrayContains: searchTerm)
+        .limit(to: searchLimit)
+        .start(afterDocument: self.lastSnapForArray)
+    }else{
+      query3 = Firestore.firestore()
+        .collection(Constants.USERS_COLLECTION)
+        .whereField(Constants.USER_UN_INDEX_KEY, arrayContains: searchTerm)
+        .limit(to: searchLimit)
+    }
+
+
+    group.enter()
+    query3.getDocuments { (snaps, error) in
+      print("Firestore call done for arr search")
+      if let error = error{
+        print(error.localizedDescription)
+        group.leave()
+        return
+      }
+      // fill later
+      var newDict = [String:Person]()
+      // force unwraping casue we know what the data type would be
+      // official way
+      if let docs3 = snaps?.documents{
+        if docs3.count > 0 {
+
+          self.lastSnapForArray = docs3.last
+          for item in docs3{
 
             // check the blocklist and check if it's not me
             if !self.blockList.contains(item.documentID) && myProfile.username != item.documentID{
@@ -736,6 +810,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         self.displayedCloudKeys.removeAll()
         self.lastSnapForDname = nil
         self.lastSnapForDocID = nil
+        self.lastSnapForArray = nil
         self.searchedText = searchedText
         searchDataOnFirestore(searchedText.lowercased())
       }
@@ -761,6 +836,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         self.displayedCloudKeys.removeAll()
         self.lastSnapForDname = nil
         self.lastSnapForDocID = nil
+        self.lastSnapForArray = nil
 
       }else{
         // remove all filters
@@ -867,6 +943,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     super.viewDidAppear(animated)
     self.lastSnapForDname = nil
     self.lastSnapForDocID = nil
+    self.lastSnapForArray = nil
 
     // if we are searching on cloud
     // reload the list
