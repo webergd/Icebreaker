@@ -75,10 +75,16 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
 
   // sorting the data in A-Z order
-  lazy var sortedCloudContacts = Array(displayedCloudContacts.values.sorted(by: { p1, p2 in
-    p1.displayName < p2.displayName
-  }))
+  var sortedCloudContacts = [Person]()
 
+  func sortCloudContacts(){
+    sortedCloudContacts = [Person]()
+    sortedCloudContacts = Array(displayedCloudContacts.values.sorted(by: { p1, p2 in
+      p1.displayName < p2.displayName
+    }))
+
+    self.friendsCollectionView.reloadData()
+  }
 
 
   // MARK: Actions
@@ -246,8 +252,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         // leave the group
         group.leave()
         self.indicator.stopAnimating()
-        // load the table with new data
-        self.friendsCollectionView.reloadData()
 
       }// end of if let
 
@@ -324,8 +328,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
         //
         group.leave()
         self.indicator.stopAnimating()
-        // load the table with new data
-        self.friendsCollectionView.reloadData()
+
 
       }// end of if name
 
@@ -337,6 +340,11 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     group.notify(queue: queue){
       if self.displayedCloudKeys.count > 0 {
         print("We got something")
+        // load the table with new data
+        DispatchQueue.main.async {
+          self.sortCloudContacts()
+        }
+
       }else{
         self.presentDismissAlertOnMainThread(title: "No Result", message: "Searching for \(searchTerm) returned no result, Try fewer characters.")
       }
@@ -774,6 +782,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
       // so prevent local change cloud search is on
 
       if !isCloudSearch{
+
         if let searchedText = searchbar.text{
           displayedContacts.removeAll()
           displayedContactsKeys.removeAll()
@@ -1053,7 +1062,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     // for checking if we are trying to fill will nil data
     var isDataAvailable = false
 
-    if self.isCloudSearch {
+    if self.isCloudSearch && !sortedCloudContacts.isEmpty{
       print("Cloud Count: \(self.displayedCloudKeys.count)")
       if self.displayedCloudKeys.count > 0 {
 
