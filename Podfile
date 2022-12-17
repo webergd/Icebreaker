@@ -16,6 +16,7 @@ target 'Tangerine' do
     pod 'Firebase/Database'
     pod 'RealmSwift', '~>10.5.2'
     pod 'BadgeHub'
+    pod 'IQKeyboardManagerSwift'
 
   # Pods for Tangerine
 

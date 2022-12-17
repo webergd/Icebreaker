@@ -42,6 +42,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     var signupBtn: UIButton!
     // the TOS view
     var tosTV: UITextView!
+    let tosUrl =  URL(string: Constants.TOS_URL)
     var pageControl: UIPageControl!
     
     // for the usernameTF
@@ -130,7 +131,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     func showError(){
         print("show error")
         //set and hide the error text at the beggining
-        usernameTF.leadingAssistiveLabel.text = "Username must contain\n* 3 or more characters\n* No spaces\n* * No invalid name"
+        usernameTF.leadingAssistiveLabel.text = "Username must contain\n* 3-10 characters\n* No spaces\n* * No invalid name"
         usernameTF.setLeadingAssistiveLabelColor(.systemRed, for: .normal)
         usernameTF.setLeadingAssistiveLabelColor(.systemRed, for: .editing)
         // also if there is error, username won't be valid, nor should the button be active
@@ -183,7 +184,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         let regex = try! NSRegularExpression(pattern: "__.*__")
         
         // other validations
-        if let name = usernameTF.text, name.count >= 3, !name.contains(" "), !name.contains("/"), !name.starts(with: "."){
+      if let name = usernameTF.text, name.count >= 3, name.count <= 10, !name.contains(" "), !name.contains("/"), !name.starts(with: "."){
             let range = NSRange(location: 0, length: name.utf16.count)
             // so far good
             
@@ -322,11 +323,12 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         
         // show the TOS view
-        let vc = UINavigationController(rootViewController: ToSVC())
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
-        
-        
+      // opens safari the url provides inside the app
+
+      if let tosUrl = tosUrl {
+        openSafariVC(with: tosUrl)
+      }
+
         return false
     }
     

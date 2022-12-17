@@ -9,7 +9,8 @@ import UIKit
 
 
 class Constants {
-    
+
+  static let TOS_URL = "https://letstangerine.com/termsOfUse"
    
     // static variables
     static let SYS_PERSON_ICON = "person.crop.circle"
@@ -58,7 +59,7 @@ class Constants {
     static let USER_NUMBER_KEY = "phone_number"
     static let USER_BIRTHDAY_KEY = "bday"
     
-    static let USER_DNAME_KEY = "display_name"
+    static let USER_DNAME_KEY = "dname_lower"
     static let USER_IMAGE_KEY = "profile_pic"
     static let USER_RATING_KEY = "rating"
     static let USER_REVIEW_KEY = "reviews"
@@ -72,7 +73,8 @@ class Constants {
     static let USER_FR_COUNT_KEY = "fr_count"
     static let USER_FR_FROM_KEY = "fr_from"
     
-    
+    // New > Dec 13
+  static let USER_UN_INDEX_KEY = "username_index"
     // USE UD target demo keys for firestore
     
     // ENDS OF USERS FIELDS
