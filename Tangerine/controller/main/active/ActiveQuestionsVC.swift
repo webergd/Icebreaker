@@ -164,7 +164,7 @@ class ActiveQuestionsVC: UITableViewController {
             print("we are deleting \(questionIDToDelete)")
             
             // delete from firestore
-            Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(questionIDToDelete).delete { error in
+          Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(questionIDToDelete).delete { error in
                 if let error = error {
                     print("An error occured \(error.localizedDescription)")
                     return

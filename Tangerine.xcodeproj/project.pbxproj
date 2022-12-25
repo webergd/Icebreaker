@@ -79,6 +79,7 @@
 		51A881E32846714700D8108A /* EQVCVerticalConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A881E22846714700D8108A /* EQVCVerticalConstraints.swift */; };
 		51AA109C2868CAED0092E6DE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109B2868CAED0092E6DE /* NetworkManager.swift */; };
 		51AA109E2868CE140092E6DE /* RegisteredUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109D2868CE140092E6DE /* RegisteredUsers.swift */; };
+		51ABA07B295814DB00D11FF1 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ABA07A295814DB00D11FF1 /* FirebaseManager.swift */; };
 		51B34CEA260FCCFB004BE6F1 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */; };
 		51B34CEF260FCD3A004BE6F1 /* TargetDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */; };
 		51B34CF4260FD062004BE6F1 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CF3260FD062004BE6F1 /* MainVC.swift */; };
@@ -199,6 +200,7 @@
 		51A881E22846714700D8108A /* EQVCVerticalConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EQVCVerticalConstraints.swift; sourceTree = "<group>"; };
 		51AA109B2868CAED0092E6DE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		51AA109D2868CE140092E6DE /* RegisteredUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUsers.swift; sourceTree = "<group>"; };
+		51ABA07A295814DB00D11FF1 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDemoVC.swift; sourceTree = "<group>"; };
 		51B34CF3260FD062004BE6F1 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 				51796FBC260D1EF80093E18B /* Constants.swift */,
 				510A348227875CFD002F77F4 /* Reachability.swift */,
 				2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */,
+				51ABA07A295814DB00D11FF1 /* FirebaseManager.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -885,6 +888,7 @@
 				5111900025FE06CD00AFE7C1 /* UNService.swift in Sources */,
 				517BF38F2694D8930044DE61 /* CompareTableViewCell.swift in Sources */,
 				5170DC3D2637A32800F34354 /* PersonList.swift in Sources */,
+				51ABA07B295814DB00D11FF1 /* FirebaseManager.swift in Sources */,
 				517BF3852694C5970044DE61 /* ActiveQuestionsVC.swift in Sources */,
 				517743B02634590E00AE5BE3 /* Profile.swift in Sources */,
 				518DBD512627AA40008314A7 /* RealmManager.swift in Sources */,

@@ -268,7 +268,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             self.view.showActivityIndicator()
             
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
                 (snap, error) in
                 // stop the loader
                 self.view.hideActivityIndicator()

@@ -236,7 +236,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     // which image refers to 1 or 2 ie: top or bottom
     func updateQuestion(_ docID: String, _ receipients: [String]){
         
-        Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(docID).updateData([Constants.QUES_RECEIP_KEY:receipients])
+        Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).updateData([Constants.QUES_RECEIP_KEY:receipients])
         
         // to increment the QFF Count
         for username in receipients {
@@ -253,7 +253,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     func getFriendsFromFirestore(){
         
         Firestore.firestore()
-            .collection(Constants.USERS_COLLECTION)
+            .collection(FirebaseManager.shared.getUsersCollection())
             .document(myProfile.username)
             .collection(Constants.USERS_LIST_SUB_COLLECTION)
             .whereField(Constants.USER_STATUS_KEY, in: [Status.FRIEND.description])
@@ -296,7 +296,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         
         Firestore.firestore()
-            .collection(Constants.USERS_COLLECTION)
+            .collection(FirebaseManager.shared.getUsersCollection())
             .whereField(.documentID(), in: chunkedNames[currentChunk]).limit(to: searchLimit).getDocuments { (snapshots, error) in
                 print("Firestore call done for friend fetch")
                 // set these flags

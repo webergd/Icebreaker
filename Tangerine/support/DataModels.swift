@@ -872,7 +872,7 @@ public func fetchMyFriendNamesFromFirestore(){
     print("Syncing Friendlist from Data Models")
     // reset the db
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(myProfile.username)
         .collection(Constants.USERS_LIST_SUB_COLLECTION)
         .whereField(Constants.USER_STATUS_KEY, isEqualTo: Status.FRIEND.description)
@@ -1564,7 +1564,7 @@ public func fetchQuestionFromFriends(action:  @escaping ()->Void){
     var query2 : Query! // for recipients key
     
     /// This query looks for Questions that were sent from a friend and that were not created by the localUser
-    query2 = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION)
+    query2 = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
         .whereField(Constants.QUES_RECEIP_KEY, arrayContains: myProfile.username)
         .whereField(Constants.QUES_CREATOR, isNotEqualTo: myProfile.username)
     
@@ -1631,7 +1631,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
     var query : Query!
     
     // set the query based on pagination
-    query = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION)
+    query = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
         .whereField(Constants.QUES_USERS_NOT_REVIEWED_BY_KEY, arrayContains: myProfile.username)
         .order(by: Constants.QUES_REVIEWS)
         .limit(to: searchLimit)
@@ -2157,7 +2157,7 @@ func unlockMyLocalQuestion(){
         
         //unlock the question on the server:
         Firestore.firestore()
-            .collection(Constants.QUESTIONS_COLLECTION)
+            .collection(FirebaseManager.shared.getQuestionsCollection())
             .document(question.question_name).updateData([
                 "isLocked":false
             ])
@@ -2169,7 +2169,7 @@ func increaseCreditToUser(by credit: Int){
     print("Credit Added by \(credit)")
     // increase online
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(myProfile.username).updateData([
             Constants.USER_CREDIT_KEY:FieldValue.increment(Int64(credit))
         ])
@@ -2192,7 +2192,7 @@ func increaseCreditToUser(by credit: Int){
 func updateLastReviewedTime(){
     
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(myProfile.username).updateData([
             Constants.USER_LAST_REVIEWED_KEY: FieldValue.serverTimestamp()
         ])
@@ -2205,7 +2205,7 @@ func decreaseCreditFromUser(by credit: Int){
     print("Credit Removed by \(credit)")
     // decrease online
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(myProfile.username).updateData([
             Constants.USER_CREDIT_KEY:FieldValue.increment(Int64(-credit))
         ])
@@ -2226,7 +2226,7 @@ func decreaseCreditFromUser(by credit: Int){
 public func incrementTotalUserNumReviewsInFirestore() {
     //increment on the server
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(myProfile.username).updateData([
             Constants.USER_REVIEW_KEY:FieldValue.increment(Int64(1))
         ])
@@ -2269,7 +2269,7 @@ public func incrementTotalUserNumReviewsInFirestore() {
 public func updateNumLockedQuestionsInFirestore() {
     syncObligatoryQuestionsToReviewCount()
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(myProfile.username)
         .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         .document(Constants.USERS_PRIVATE_INFO_DOC).setData([
@@ -2367,7 +2367,7 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
     
     let dg = DispatchGroup()
     
-    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION)
+    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
         .whereField(Constants.QUES_CREATOR, isEqualTo: myProfile.username)
         .order(by: Constants.USER_CREATED_KEY,descending: false)
         .getDocuments { snapshots, error in
@@ -2510,7 +2510,7 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
     // MARK: A query here that only downloads reviews that we don't already have in memory would be helpful
     
     // download reviewcollection from the specific path
-    let _: Void = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(questionName).collection(Constants.QUES_REVIEWS).getDocuments { (snapshot, error) in
+    let _: Void = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(questionName).collection(Constants.QUES_REVIEWS).getDocuments { (snapshot, error) in
         if let error = error {
             completion(nil, error)
         } else if let snapshot = snapshot {
@@ -2729,7 +2729,7 @@ public func updateQFFFromServer(with username: String = "") {
 
 
   Firestore.firestore()
-    .collection(Constants.USERS_COLLECTION)
+    .collection(FirebaseManager.shared.getUsersCollection())
     .document(username.isEmpty ? myProfile.username : username)
     .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
     .document(Constants.USERS_PRIVATE_INFO_DOC)
@@ -2747,7 +2747,7 @@ public func updateQFFFromServer(with username: String = "") {
 
 public func increaseQFFCountOf(username name: String){
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(name)
         .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         .document(Constants.USERS_PRIVATE_INFO_DOC)
@@ -2766,7 +2766,7 @@ public func increaseQFFCountOf(username name: String){
 
 public func decreaseQFFCountOf(username name: String){
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(name)
         .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         .document(Constants.USERS_PRIVATE_INFO_DOC)
@@ -2784,7 +2784,7 @@ public func decreaseQFFCountOf(username name: String){
 
 public func increaseFRCountOf(username name: String){
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(name)
         .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         .document(Constants.USERS_PRIVATE_INFO_DOC)
@@ -2801,7 +2801,7 @@ public func increaseFRCountOf(username name: String){
 
 public func decreaseFRCountOf(username name: String){
     Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .document(name)
         .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         .document(Constants.USERS_PRIVATE_INFO_DOC)

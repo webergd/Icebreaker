@@ -146,7 +146,7 @@ class MainVC: UIViewController {
         if let user = Auth.auth().currentUser, let username = user.displayName{
             // save to target demo
             Firestore.firestore()
-                .collection(Constants.USERS_COLLECTION)
+                .collection(FirebaseManager.shared.getUsersCollection())
                 .document(username)
                 .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
                 .document(Constants.USERS_PRIVATE_INFO_DOC).getDocument(completion: {snapshot, err in
@@ -370,7 +370,7 @@ class MainVC: UIViewController {
     func updateFriendReqCount(){
         
         Firestore.firestore()
-            .collection(Constants.USERS_COLLECTION)
+            .collection(FirebaseManager.shared.getUsersCollection())
             .document(myProfile.username)
             .collection(Constants.USERS_LIST_SUB_COLLECTION)
             .whereField(Constants.USER_STATUS_KEY, isEqualTo: Status.PENDING.description)

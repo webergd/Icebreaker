@@ -34,14 +34,14 @@ class Constants {
     
     
     // References
-    static let USERS_COLLECTION = "USERS"
+    
     static let USERS_PRIVATE_SUB_COLLECTION = "private"
     static let USERS_PRIVATE_INFO_DOC = "info"
     
     static let USERS_LIST_SUB_COLLECTION = "connection_list"
     
     
-    static let QUESTIONS_COLLECTION = "QUESTIONS"
+
     static let QUESTION_REVIEWED = "q_reviewed"
     
     

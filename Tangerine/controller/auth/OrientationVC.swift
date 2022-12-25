@@ -53,7 +53,7 @@ class OrientationVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
             
                 // save default target demo
                 db
-                .collection(Constants.USERS_COLLECTION)
+                .collection(FirebaseManager.shared.getUsersCollection())
                 .document(Constants.username)
                 .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
                     .document(Constants.USERS_PRIVATE_INFO_DOC).setData([Constants.USER_TD_KEY: target_demo],merge: true){ err in
@@ -64,7 +64,7 @@ class OrientationVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
                         }
                         // save the specialty now
                         db
-                        .collection(Constants.USERS_COLLECTION)
+                        .collection(FirebaseManager.shared.getUsersCollection())
                         .document(Constants.username).setData(
                         [Constants.USER_ORIENTATION_KEY: spe,
                          Constants.USER_RATING_KEY: 0,
