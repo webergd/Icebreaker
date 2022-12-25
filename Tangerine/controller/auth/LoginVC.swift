@@ -443,6 +443,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         // call this function to give user
         // a nice UI
         setupUI()
+
+      showSandboxBanner()
         
     }
     

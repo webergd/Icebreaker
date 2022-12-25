@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+//https://us-central1-fir-poc-1594b.cloudfunctions.net/copyUserToSandbox
 /// Sets and manages firebase sandbox and live paths
 class FirebaseManager {
 
@@ -19,7 +19,7 @@ class FirebaseManager {
   /// Singleton instance that manages the sandbox status and paths
   static let shared = FirebaseManager()
   /// Controls the internal paths and values, based on the value it holds
-  private var isSandbox = false
+  private var shouldUseSandbox = true
 
   /// Default Initializer
   private init(){
@@ -29,27 +29,27 @@ class FirebaseManager {
   /// Sets the sandbox status of the app, whether it should use the sandbox or not, use the getter to see the status
   /// - Parameter status: **Bool**: indicates the sandbox status
   func setSandbox(_ status: Bool) {
-    self.isSandbox = status
+    self.shouldUseSandbox = status
     print("Sandbox: \(status)")
   }
 
   /// Prints and returns the type of "server" this app is currently using
   /// - Returns: true if app is using sandbox, false otherwise
-  func getSandboxStatus() -> Bool {
-    print("Sandbox: \(self.isSandbox)")
-    return self.isSandbox
+  func isSandboxRunning() -> Bool {
+    print("Sandbox: \(self.shouldUseSandbox)")
+    return self.shouldUseSandbox
   }
 
   /// Returns the collection name for users based on the sandbox status
   /// - Returns: User Collection name
   func getUsersCollection()-> String {
-    isSandbox ? USERS_SANDBOX_COLLECTION : USERS_COLLECTION
+    shouldUseSandbox ? USERS_SANDBOX_COLLECTION : USERS_COLLECTION
   }
 
   /// Returns the collection name for questions based on the sandbox status
   /// - Returns: Question Collection name
   func getQuestionsCollection()-> String {
-    isSandbox ? QUESTIONS_SANDBOX_COLLECTION : QUESTIONS_COLLECTION
+    shouldUseSandbox ? QUESTIONS_SANDBOX_COLLECTION : QUESTIONS_COLLECTION
   }
 
 }

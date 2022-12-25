@@ -285,6 +285,9 @@ class MainVC: UIViewController {
 
       // for notification
       addObservers()
+
+      // for sandbox
+      showSandboxBanner()
          
     }
     
