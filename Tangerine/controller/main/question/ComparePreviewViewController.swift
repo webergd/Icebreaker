@@ -381,7 +381,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
 //
 //                    let storageRef = Storage.storage().reference();
 //                    // fetch the username from Auth
-//                    let docID = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document().documentID
+//                    let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
 //
 //                    print("Compare \(docID)")
 //                    if let user = Auth.auth().currentUser, let name = user.displayName{
@@ -472,7 +472,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
 //
 //
 //                                        do{
-//                                        try Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(docID).setData(from: question)
+//                                        try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
 //
 //                                            userList.removeAll()
 //                                        }catch let error {

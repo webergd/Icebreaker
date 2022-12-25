@@ -1355,7 +1355,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // Send the ask
         // SEND THE QUESTION TO DATABASE
-        let docID = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document().documentID
+        let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
         
         if let user = Auth.auth().currentUser, let name = user.displayName{
             
@@ -1426,7 +1426,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                             
                             
                             do{
-                            try Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(docID).setData(from: question)
+                            try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
                                 clearOutCurrentCompare()
                                 
                                 userList.removeAll()

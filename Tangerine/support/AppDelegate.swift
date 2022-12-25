@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
             
             if let user = Auth.auth().currentUser, let name = user.displayName{
                 Firestore.firestore()
-                .collection(Constants.USERS_COLLECTION)
+                .collection(FirebaseManager.shared.getUsersCollection())
                     .document(name)
                 .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
                     .document(Constants.USERS_PRIVATE_INFO_DOC).setData(["fcm":token], merge: true)
@@ -119,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 //            Calls to signal() must be balanced with calls to wait(). Attempting to dispose of a semaphore with a count lower than value causes an EXC_BAD_INSTRUCTION exception.
             
             let ds = DispatchSemaphore(value: 0)
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(Constants.username).delete { (error) in
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(Constants.username).delete { (error) in
                 ds.signal()
             // handle the error here
             if let error = error{

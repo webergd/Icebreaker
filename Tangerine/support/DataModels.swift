@@ -2061,7 +2061,7 @@ public func updateCountOnNewQues(){
         updateNumLockedQuestionsInFirestore()
         
         //    Firestore.firestore()
-        //    .collection(Constants.USERS_COLLECTION)
+        //    .collection(FirebaseManager.shared.getUsersCollection())
         //        .document(myProfile.username)
         //    .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
         //        .document(Constants.USERS_PRIVATE_INFO_DOC).updateData([
@@ -2091,7 +2091,7 @@ public func updateCountOnDeleteQuestion(){
     updateNumLockedQuestionsInFirestore()
     
     //    Firestore.firestore()
-    //        .collection(Constants.USERS_COLLECTION)
+    //        .collection(FirebaseManager.shared.getUsersCollection())
     //        .document(myProfile.username)
     //        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
     //        .document(Constants.USERS_PRIVATE_INFO_DOC).updateData([
@@ -2251,7 +2251,7 @@ public func incrementTotalUserNumReviewsInFirestore() {
     
     //example:
     //    Firestore.firestore()
-    //        .collection(Constants.USERS_COLLECTION)
+    //        .collection(FirebaseManager.shared.getUsersCollection())
     //        .document(myProfile.username)
     //        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
     //        .document(Constants.USERS_PRIVATE_INFO_DOC).updateData([

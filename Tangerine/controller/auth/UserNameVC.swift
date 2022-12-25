@@ -216,7 +216,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     // is also sets the usernameTF's trailing view based on that
     func isUsernameAvailable(_ username: String) -> Bool {
         
-        firestore.collection(Constants.USERS_COLLECTION).document(username.lowercased()).getDocument { (docSnap, err) in
+        firestore.collection(FirebaseManager.shared.getUsersCollection()).document(username.lowercased()).getDocument { (docSnap, err) in
             
             if let document = docSnap, document.exists{
                 print("username is already exist")
@@ -282,7 +282,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         Constants.username = username.lowercased()
     
         // create a placeholder document
-        firestore.collection(Constants.USERS_COLLECTION).document(username.lowercased()).setData([Constants.USER_CREATED_KEY: FieldValue.serverTimestamp()]) { (error) in
+        firestore.collection(FirebaseManager.shared.getUsersCollection()).document(username.lowercased()).setData([Constants.USER_CREATED_KEY: FieldValue.serverTimestamp()]) { (error) in
             
             if let err = error{
                 self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
@@ -416,7 +416,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         if !status && !Constants.username.isEmpty{
         // a user is found, let's kill him
         print("Deleting temp account")
-            firestore.collection(Constants.USERS_COLLECTION).document(Constants.username).delete { (error) in
+            firestore.collection(FirebaseManager.shared.getUsersCollection()).document(Constants.username).delete { (error) in
             // handle the error here
             if let error = error{
                 print("Error deleting data \(error.localizedDescription)")

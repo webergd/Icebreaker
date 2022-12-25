@@ -119,7 +119,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         print("Syncing Friendlist")
         // reset the db
         Firestore.firestore()
-            .collection(Constants.USERS_COLLECTION)
+            .collection(FirebaseManager.shared.getUsersCollection())
             .document(myProfile.username)
             .collection(Constants.USERS_LIST_SUB_COLLECTION)
             .whereField(Constants.USER_STATUS_KEY, in: [Status.FRIEND.description,Status.PENDING.description])
@@ -176,7 +176,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         
         
         Firestore.firestore()
-            .collection(Constants.USERS_COLLECTION)
+            .collection(FirebaseManager.shared.getUsersCollection())
             .whereField(.documentID(), in: chunkedNames[currentChunk]).limit(to: searchLimit).getDocuments { (snapshots, error) in
                 print("Firestore call done for friend fetch")
                 // set these flags
@@ -274,7 +274,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             
             // From MY FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.displayedFriends[indexPath.section].username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.displayedFriends[indexPath.section].username)
                 .delete { (error) in
                     if let error = error{
                         self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
@@ -286,7 +286,7 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             
             // From THIS PERSON'S FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.displayedFriends[indexPath.section].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(self.displayedFriends[indexPath.section].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                 .delete { (error) in
                     if let error = error{
                         self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)

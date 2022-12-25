@@ -623,10 +623,10 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
         // PATH => REVIEWS > docID() -> The Review we created
         
-        let docID = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document().documentID
+        let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document().documentID
         
         /// Store the review document to the path we want and it creates the appropriate collection if needed, or adds to the existing one automatically.
-        Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document(docID).setData(newCompareReview) { (error) in
+        Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document(docID).setData(newCompareReview) { (error) in
             if let error = error {
                 print("questionsRef.document().setData(newAsk):  **error in saving review document for \(compareReview.reviewID.questionName); \(error)**")
                 
@@ -635,9 +635,9 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                 // Updates the reviewed Question's usersSentTo list by adding the reviewerUserName to it.
                 
                 // See ReviewAskVC => line 465
-                //                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareView.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([compareView.reviewer.username])])
+                //                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareView.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([compareView.reviewer.username])])
                 
-                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(compareReview.reviewID.questionName).updateData(
+                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareReview.reviewID.questionName).updateData(
                     [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)),
 //                     Constants.QUES_RECEIP_KEY: self.recipientList,
 //                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList
@@ -757,7 +757,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         print("compareVC sendReport called")
         
         do {
-            try Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).collection(Constants.QUES_REPORTS).addDocument(from: report,completion: { error in
+            try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).collection(Constants.QUES_REPORTS).addDocument(from: report,completion: { error in
                 if let error = error {
                     self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
                     return
@@ -765,10 +765,10 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                     print("User reported for question \(report.questionName)")
                     // see ReviewAskVC line 465
                     // don't want to see again
-                    //                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
+                    //                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
                     
                     
-                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData(
+                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData(
                         [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
                          // the arrayRemove calls ensure the user doesn't see the reported Question again
                          Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),

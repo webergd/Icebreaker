@@ -62,7 +62,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     func listen2ConnectionChange(){
        
         // only listen for status == pending ie he added me
-        listener = Firestore.firestore().collection(Constants.USERS_COLLECTION)
+        listener = Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection())
             .document(myProfile.username)
             .collection(Constants.USERS_LIST_SUB_COLLECTION).whereField(Constants.USER_STATUS_KEY, isEqualTo: Status.PENDING.description)
             .addSnapshotListener { (snapshot, error) in
@@ -174,12 +174,12 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
                 .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
 
             // In THIS PERSON'S FIREBASE
 
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                 .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
             
             // in case user decides to exit app without returning to mainVC
@@ -216,7 +216,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             // From MY FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
                 .delete { (error) in
                     if let error = error{
                         self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
@@ -225,7 +225,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
                     // From THIS PERSON'S FIREBASE
 
-                    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+                    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                         .delete { (error) in
                             if let error = error{
                                 self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
@@ -257,12 +257,12 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             // In MY FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.requestList[indexPath.row].username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.requestList[indexPath.row].username)
                 .setData([Constants.USER_STATUS_KEY:Status.BLOCKED.description], merge: true)
 
             // In THIS PERSON'S FIREBASE
 
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.requestList[indexPath.row].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(self.requestList[indexPath.row].username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                 .setData([Constants.USER_STATUS_KEY:Status.GOT_BLOCKED.description], merge: true)
             
             

@@ -193,14 +193,14 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     // if last snap present get the next 10
     if self.lastSnapForDocID != nil{
       query1 = Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .whereField(.documentID(), isGreaterThanOrEqualTo: searchTerm)
         .whereField(.documentID(), isLessThanOrEqualTo: "\(searchTerm)\u{F7FF}")
         .limit(to: searchLimit)
         .start(afterDocument: self.lastSnapForDocID)
     }else{
       query1 = Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .whereField(.documentID(), isGreaterThanOrEqualTo: searchTerm)
         .whereField(.documentID(), isLessThanOrEqualTo: "\(searchTerm)\u{F7FF}")
         .limit(to: searchLimit)
@@ -271,14 +271,14 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     // if last snap present get the next 10
     if self.lastSnapForDname != nil{
       query2 = Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .whereField(Constants.USER_DNAME_KEY, isGreaterThanOrEqualTo: searchTerm)
         .whereField(Constants.USER_DNAME_KEY, isLessThanOrEqualTo: "\(searchTerm)\u{F7FF}")
         .limit(to: searchLimit)
         .start(afterDocument: self.lastSnapForDname)
     }else{
       query2 = Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .whereField(Constants.USER_DNAME_KEY, isGreaterThanOrEqualTo: searchTerm)
         .whereField(Constants.USER_DNAME_KEY, isLessThanOrEqualTo: "\(searchTerm)\u{F7FF}")
         .limit(to: searchLimit)
@@ -345,13 +345,13 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     // if last snap present get the next 10
     if self.lastSnapForArray != nil{
       query3 = Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .whereField(Constants.USER_UN_INDEX_KEY, arrayContains: searchTerm)
         .limit(to: searchLimit)
         .start(afterDocument: self.lastSnapForArray)
     }else{
       query3 = Firestore.firestore()
-        .collection(Constants.USERS_COLLECTION)
+        .collection(FirebaseManager.shared.getUsersCollection())
         .whereField(Constants.USER_UN_INDEX_KEY, arrayContains: searchTerm)
         .limit(to: searchLimit)
     }
@@ -656,7 +656,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                                         Constants.USER_DNAME_KEY:person.displayName,
                                         Constants.USER_IMAGE_KEY:person.imageString]
 
-    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
+    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
       .setData(personDoc, merge: true)
 
     // TO THIS PERSON'S FIREBASE
@@ -666,7 +666,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                                     Constants.USER_IMAGE_KEY:myProfile.profile_pic]
 
 
-    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
       .setData(myDoc, merge: true)
 
   }
@@ -740,7 +740,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
     // reset the db
     self.removePersonsList()
     Firestore.firestore()
-      .collection(Constants.USERS_COLLECTION)
+      .collection(FirebaseManager.shared.getUsersCollection())
       .document(myProfile.username)
       .collection(Constants.USERS_LIST_SUB_COLLECTION)
       .whereField(Constants.USER_STATUS_KEY, in: [
