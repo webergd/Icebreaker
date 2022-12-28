@@ -38,7 +38,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     var agesText: UILabel!
     var mytargetAge: UILabel!
     
-    var editTDBtn: UILabel!
+    var editTDBtn: UIButton!//: UILabel!
     
     var bottomHorizontalLine: UIView!
     
@@ -958,12 +958,22 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     
     func configureEditTDButton(){
-        editTDBtn = UILabel()
-        editTDBtn.text = "Edit Target Demographic"
-        editTDBtn.font = UIFont.systemFont(ofSize: 17)
+//        editTDBtn = UILabel()
+//        editTDBtn.text = "Edit Target Demographic"
+//        editTDBtn.font = UIFont.systemFont(ofSize: 17)
+//
+//        editTDBtn.isUserInteractionEnabled = true
+//        editTDBtn.textColor = .link
         
-        editTDBtn.isUserInteractionEnabled = true
-        editTDBtn.textColor = .link
+        
+        editTDBtn = UIButton()
+        editTDBtn.setTitle("    Edit Target Demographic    ", for: .normal)
+        editTDBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        editTDBtn.setTitleColor(.white, for: .normal)
+        editTDBtn.backgroundColor = .systemBlue
+        editTDBtn.layer.cornerRadius = 15.0
+        
+        
         
         editTDBtn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(editTDBtn)
