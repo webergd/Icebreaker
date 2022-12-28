@@ -38,7 +38,9 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
     var ageRangePicker: UIPickerView!
     
     var backBtn: UIButton!
-    var tickBtn: UIButton!
+    
+    /// formerly tickBtn
+    var saveBtn: UIButton!
     
     var minimumAge:Int = 18
     var maximumAge:Int = 99
@@ -53,8 +55,15 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
         // if on then change to default
         
         setDefaultState(allDemoSw.isOn)
-        // a change made, so set the tickBtn visible
-        tickBtn.isHidden = false
+        // a change made, so set the saveBtn visible
+        saveBtn.isHidden = false
+        
+        // display a blue rectanlge around save button momentarily to draw the member's attention to it
+        self.saveBtn.addAttentionRectangle()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // `0.4` is the desired number of seconds.
+            self.saveBtn.removeAttentionRectangle()
+        }
+        
     }
     
     @objc func stWomenSwitched(_ sender: UISwitch) {
@@ -91,7 +100,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func onTickPressed() {
+    @objc func onSaveTapped() {
         saveValues()
         print("Save done!")
         
@@ -245,7 +254,13 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
     }
     
     func setStateOfNoPref(_ isOn: Bool) {
-        tickBtn.isHidden = false
+        saveBtn.isHidden = false
+        
+        // display a blue rectanlge around save button momentarily to draw the member's attention to it
+        self.saveBtn.addAttentionRectangle()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // `0.4` is the desired number of seconds.
+            self.saveBtn.removeAttentionRectangle()
+        }
         
         // only apply when any sw is off
         if(!isOn){
@@ -368,7 +383,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
         configureAgeStack()
         configureAgeRangePicker()
         
-        configureTickButton()
+        configureSaveButton()
         
         
         
@@ -381,7 +396,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
         let isNoPrefEnabled = prefs.bool(forKey: Constants.UD_NO_PREF_Bool)
         setDefaultState(isNoPrefEnabled)
         
-        tickBtn.isHidden = true
+        saveBtn.isHidden = true
         
         
     }
@@ -668,21 +683,39 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
         
     }
     
-    func configureTickButton(){
-        tickBtn = UIButton()
-        tickBtn.setImage(UIImage(systemName: "checkmark"), for: .normal)
-        tickBtn.tintColor = .systemGreen
+    func configureSaveButton(){
         
-        tickBtn.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tickBtn)
+        
+        saveBtn = UIButton()
+        saveBtn.setTitle("Save", for: .normal)
+        saveBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        saveBtn.setTitleColor(.link, for: .normal)
+        
+        saveBtn.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(saveBtn)
+        
+        
+        
+        
+//        saveBtn = UIButton()
+//        saveBtn.setImage(UIImage(systemName: "checkmark"), for: .normal)
+//        saveBtn.tintColor = .systemGreen
+//        
+//        saveBtn.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(saveBtn)
+        
         
         NSLayoutConstraint.activate([
-            tickBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -10),
-            tickBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
-            tickBtn.heightAnchor.constraint(equalToConstant: 40),
-            tickBtn.widthAnchor.constraint(equalToConstant: 40)
+//            saveBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -10),
+//            saveBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
+//            saveBtn.heightAnchor.constraint(equalToConstant: 40),
+//            saveBtn.widthAnchor.constraint(equalToConstant: 40)
+            
+            saveBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            saveBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10)
+            
         ])
         
-        tickBtn.addTarget(self, action: #selector(onTickPressed), for: .touchUpInside)
+        saveBtn.addTarget(self, action: #selector(onSaveTapped), for: .touchUpInside)
     }
 }
