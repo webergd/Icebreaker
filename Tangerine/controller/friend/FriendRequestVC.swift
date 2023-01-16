@@ -8,6 +8,7 @@
 import UIKit
 import RealmSwift
 import FirebaseFirestore
+import FirebaseAnalytics
 
 class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -134,7 +135,7 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("Setting Table")
-        let cell = Bundle.main.loadNibNamed("FriendCell", owner: self, options: nil)?.first as! FriendCell // we already know it is on our project list
+        let cell = Bundle.main.loadNibNamed("FriendCell", owner: self, options: nil)?.first as! AddFriendCell // we already know it is on our project list
         // show the delete button
         cell.delete_width.constant = 70
         
@@ -205,6 +206,9 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             }))
         
             self.present(alertVC, animated: true)
+            
+            // Log Analytics Event
+            Analytics.logEvent(Constants.FRIEND_REQUEST_ACCEPTED, parameters: nil)
 
         }
         

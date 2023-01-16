@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseAnalytics
 import RealmSwift
 import BadgeHub
 
@@ -134,7 +135,7 @@ class MainVC: UIViewController {
         // set all Bools to skip tutorial
         self.setTutorialMode(on: false)
     }
-  
+    
     /******************************************************************************************************************************/
     
     /******************************************************************************************************************************/
@@ -224,18 +225,18 @@ class MainVC: UIViewController {
     }
     
     
-
-
     
-
+    
+    
+    
     /******************************************************************************************************************************/
     
     
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        // dismiss all view controllers to keep the memory clean
-//        self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
-//    }
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        // dismiss all view controllers to keep the memory clean
+    //        self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
+    //    }
     
     
     override func viewDidLoad() {
@@ -256,18 +257,18 @@ class MainVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
             self.helpTutorialLabel.fadeInAfter(seconds: inWaitTime)
             self.helpTutorialLabel.fadeOutAfter(seconds: outWaitTime)
-
+            
         }
-
+        
         configureTutorialLabel()
         configureCancelTutorialButton()
-
+        
         /// tells system that the glassView was tapped
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
         
         
-       UIApplication.shared.windows.first?.rootViewController = self
+        UIApplication.shared.windows.first?.rootViewController = self
         //UIApplication.shared.windows.first?.makeKeyAndVisible()
         
         // setup the review count
@@ -282,10 +283,17 @@ class MainVC: UIViewController {
         
         friendBadgeHub.scaleCircleSize(by: 0.75)
         friendBadgeHub.moveCircleBy(x: 5.0, y: 0)
-
-      // for notification
-      addObservers()
-         
+        
+        
+        // ensure user properties are up to date for firebase analytics purposes
+        updateAnalyticsUserProperties()
+        
+        // Set Cohort ID from Constants.swift
+        Analytics.setUserProperty(Constants.COHORT_ID, forName: "cohortID")
+        
+        // for notification
+        addObservers()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -336,11 +344,11 @@ class MainVC: UIViewController {
             self.showTutorialAsRequired()
         }
     }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    print("VWA")
-  }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("VWA")
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -350,7 +358,7 @@ class MainVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-            
+        
     }
     
     @IBAction func websiteButtonTapped(_ sender: Any) {
@@ -387,7 +395,7 @@ class MainVC: UIViewController {
                 
                 if let docs = snapshot?.documents{
                     if docs.count > 0 {
-                       
+                        
                         
                         for item in docs{
                             // save the friend names
@@ -396,26 +404,26 @@ class MainVC: UIViewController {
                                 self.friendBadgeHub.increment()
                                 friendReqCount += 1
                             }
-
+                            
                         }
                         print("Sync done")
                         self.friendBadgeHub.blink()
                         updateBadgeCount()
-
-                        }
-
+                        
+                    }
+                    
                 }// end if let
                 
             }
-                // no need to show alert here
-
-                
+        // no need to show alert here
+        
+        
     }
-
+    
     
     /// Updates the Questoins From Friends count to be displayed on the badge associated with the Review Others icon.
     @objc func updateQFFCount(){
-      print("Setting QFF to \(qFFCount) \(filteredQuestionsToReview.count)")
+        print("Setting QFF to \(qFFCount) \(filteredQuestionsToReview.count)")
         if qFFCount > 0 {
             qffBadgeHub.setCount(qFFCount)
         }else{
@@ -423,30 +431,30 @@ class MainVC: UIViewController {
         }
         
     }
-
-  deinit {
-    removeObservers()
-  }
-
-  func addObservers(){
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(updateQFFCount),
-      name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME) ,
-      object: nil
-    )
-  }
-
-  func removeObservers(){
-    NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue:Constants.QFF_NOTI_NAME), object: nil)
-  }
-
+    
+    deinit {
+        removeObservers()
+    }
+    
+    func addObservers(){
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateQFFCount),
+            name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME) ,
+            object: nil
+        )
+    }
+    
+    func removeObservers(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue:Constants.QFF_NOTI_NAME), object: nil)
+    }
+    
     /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
     func centerMainIconsVertically() {
-//        cameraButtonTopConstraint.constant = 10.0
+        //        cameraButtonTopConstraint.constant = 10.0
         let topDistance: CGFloat = cameraButtonTopConstraint.constant
         let bottomDistance: CGFloat = spacerView1.frame.height
-
+        
         let combinedDistance = topDistance + bottomDistance
         let halfDistance = combinedDistance / 2.0
         
@@ -454,7 +462,7 @@ class MainVC: UIViewController {
         print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
         print("bottomConstraint before reset is \(spacerView1.frame.height)")
         cameraButtonTopConstraint.constant = halfDistance
-//        spacerView1.frame.height = halfDistance
+        //        spacerView1.frame.height = halfDistance
         
         print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
         print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
@@ -481,7 +489,7 @@ class MainVC: UIViewController {
     /// Checks to see if there are any tutorial steps left to complete on MainVC
     func showTutorialAsRequired() {
         let skipTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
-
+        
         if !skipTutorial {
             showTutorial()
         }
@@ -511,7 +519,7 @@ class MainVC: UIViewController {
         
         //MARK:  we also need something where if they user taps somewhere else, it just shows them this next time or maybe even cancels the tutorial
         
-
+        
         // Based on what tutorial phase we're in, we decide what to show the new member
         switch phase {
         case .step0_Intro:
@@ -540,7 +548,7 @@ class MainVC: UIViewController {
                 self.setTutorialMode(on: false)
                 // Once the member has seen this alertView once, we don't want to show it again, even if they do want to go through the tutorial
             }))
-                
+            
             present(alertVC, animated: true, completion: nil)
         case .step1_ReviewOthers:
             tutorialLabel.text = "First, tap GIVE OPINIONS to review some photos!"
@@ -570,10 +578,10 @@ class MainVC: UIViewController {
             tutorialLabel.fadeInAfter(seconds: 0.0)
             tutorialLabel.fadeOutAfter(seconds: 1.5)
             cancelTutorialButton.isHidden = true
-
+            
             // finally after we've shown the last element of the MainVC tutorial, we set the mainVC skip to true:
             self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
-        
+            
         }
         TutorialTracker().incrementTutorialFrom(currentPhase: phase)
     }
@@ -588,7 +596,7 @@ class MainVC: UIViewController {
         helpFriendsLabel.isHidden ||
         helpProfileAndSettingsLabel.isHidden ||
         helpHomepageLabel.isHidden
-
+        
         if hidden {
             glassView.isHidden = false
             self.view.bringSubviewToFront(glassView)
@@ -609,7 +617,7 @@ class MainVC: UIViewController {
             helpFriendsLabel.fadeInAfter(seconds: 0.0)
             helpProfileAndSettingsLabel.fadeInAfter(seconds: 0.0)
             helpHomepageLabel.fadeInAfter(seconds: 0.0)
-
+            
             
         } else {
             glassView.isHidden = true
@@ -642,7 +650,7 @@ class MainVC: UIViewController {
         tutorialLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         tutorialLabel.numberOfLines = 3
         tutorialLabel.isHidden = true
-    
+        
         tutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
         
         tutorialLabel.textAlignment = .center

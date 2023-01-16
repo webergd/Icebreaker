@@ -1437,6 +1437,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                         } // if let
                         
                     })
+            
+            // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
+            Analytics.logEvent(Constants.CREATE_ASK, parameters: nil)
+            Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
 
         }// end if let user
         

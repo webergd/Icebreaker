@@ -9,6 +9,7 @@ import UIKit
 import FirebaseStorage
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseAnalytics
 import RealmSwift
 
 class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -79,11 +80,14 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func onDonePressed(_ sender: UIButton) {
+    /// User has tapped the save button to finalize all the changes made to the profile
+    @objc func onSavePressed(_ sender: UIButton) {
         print("Done")
         // save to firestore and local
         saveToFirestore()
         
+        // ensure user properties are up to date for firebase analytics purposes
+        updateAnalyticsUserProperties()
         
     }
     
@@ -337,7 +341,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         fetchPastValues()
     }
     
-    
+    /// Commits all the profile changes to firestore
     func saveToFirestore(){
         // this username is still valid, although we can take from Auth.auth().user.displayname
         
@@ -437,12 +441,16 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         view.showActivityIndicator()
         // delete the user doc
         
+        
+        
         Firestore.firestore().collection(Constants.USERS_COLLECTION)
             .document(myProfile.username).delete { (error) in
                 if let error = error{
                     self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
                 }
                 
+                // Log Analytics Event
+                Analytics.logEvent(Constants.ACCOUNT_DELETED, parameters: nil)
                 
                 // remove db values
                 
@@ -754,7 +762,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         backBtn.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
         
-        saveBtn.addTarget(self, action: #selector(onDonePressed), for: .touchUpInside)
+        saveBtn.addTarget(self, action: #selector(onSavePressed), for: .touchUpInside)
         
         
         

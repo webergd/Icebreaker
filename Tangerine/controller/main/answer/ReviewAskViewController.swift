@@ -11,6 +11,7 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAnalytics
 
 class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
     
@@ -621,6 +622,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             updateCountOnReviewQues()
             // send review to firebase
             save(askReview: createdReview)
+            
+            // Log Analytics Event
+            Analytics.logEvent(Constants.REVIEW_QUESTION, parameters: nil)
             
         }
         

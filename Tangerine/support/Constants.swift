@@ -202,4 +202,27 @@ class Constants {
     // MARK: Delegates
     // MARK: VC Methods
     // MARK: PROGRAMMATIC UI
+    
+    
+    // ANALYTICS:
+    
+    
+//    /// Contains username, age, orientation, and cohort ID
+//    static let ANALYTICS_STANDARD_PARAMETERS: [String : Any] = ["username": myProfile.username, "age": getAgeFromBdaySeconds(myProfile.birthday), "orientation": myProfile.orientation, "cohortID": "pre-split test"]
+    
+    //MARK: ALWAYS update the cohort ID before pushing a version for split test
+    static let COHORT_ID = "0"
+    
+    // reportable event names:
+    static let POST_QUESTION = "post_question"
+    static let CREATE_ASK = "create_ask"
+    static let CREATE_COMPARE = "create_compare"
+    static let REVIEW_QUESTION = "review_question"
+    static let REVIEW_CREDIT_EARNED = "review_credit_earned"
+    static let FRIEND_REQUESTED = "friend_requested"
+    static let FRIEND_REQUEST_ACCEPTED = "friend_requst_accepted"
+    static let SENT_QUESTION_TO_FRIEND = "sent_question_to_friend"
+    static let TANGERINE_INVITE_SENT = "tangerine_invite_sent"
+    static let ACCOUNT_DELETED = "account_deleted"
+    
 }

@@ -84,7 +84,7 @@
 		51B34CEF260FCD3A004BE6F1 /* TargetDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */; };
 		51B34CF4260FD062004BE6F1 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CF3260FD062004BE6F1 /* MainVC.swift */; };
 		51B810032618FDE600F173BB /* AddFriendVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B810022618FDE600F173BB /* AddFriendVC.swift */; };
-		51B8100D26190C0800F173BB /* FriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B8100B26190C0800F173BB /* FriendCell.swift */; };
+		51B8100D26190C0800F173BB /* AddFriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B8100B26190C0800F173BB /* AddFriendCell.swift */; };
 		51B8100E26190C0800F173BB /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51B8100C26190C0800F173BB /* FriendCell.xib */; };
 		51BEF69F268B3B6100FB9400 /* UIPanGestureRecognizer+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BEF69E268B3B6100FB9400 /* UIPanGestureRecognizer+Ext.swift */; };
 		51C997DB25FBDE9000DC54B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C997DA25FBDE9000DC54B4 /* AppDelegate.swift */; };
@@ -204,7 +204,7 @@
 		51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDemoVC.swift; sourceTree = "<group>"; };
 		51B34CF3260FD062004BE6F1 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		51B810022618FDE600F173BB /* AddFriendVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendVC.swift; sourceTree = "<group>"; };
-		51B8100B26190C0800F173BB /* FriendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCell.swift; sourceTree = "<group>"; };
+		51B8100B26190C0800F173BB /* AddFriendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendCell.swift; sourceTree = "<group>"; };
 		51B8100C26190C0800F173BB /* FriendCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
 		51BEF69E268B3B6100FB9400 /* UIPanGestureRecognizer+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPanGestureRecognizer+Ext.swift"; sourceTree = "<group>"; };
 		51C997D725FBDE9000DC54B4 /* Tangerine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tangerine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -440,7 +440,7 @@
 		51B8100A26190BDB00F173BB /* cell */ = {
 			isa = PBXGroup;
 			children = (
-				51B8100B26190C0800F173BB /* FriendCell.swift */,
+				51B8100B26190C0800F173BB /* AddFriendCell.swift */,
 				51B8100C26190C0800F173BB /* FriendCell.xib */,
 				510A324D262CF216004F48BA /* QFriendCell.swift */,
 				510A324E262CF216004F48BA /* QFriendCell.xib */,
@@ -870,7 +870,7 @@
 				513AC80F2867852F00FAA309 /* Section.swift in Sources */,
 				517BF3842694C5970044DE61 /* AskTableViewCell.swift in Sources */,
 				51E50E57267FDED70055CCC1 /* DataModels.swift in Sources */,
-				51B8100D26190C0800F173BB /* FriendCell.swift in Sources */,
+				51B8100D26190C0800F173BB /* AddFriendCell.swift in Sources */,
 				51B34CF4260FD062004BE6F1 /* MainVC.swift in Sources */,
 				511936CF27C0883900B5E63C /* ContinueButton.swift in Sources */,
 				51585F092602A3C5001D8267 /* PasswordVC.swift in Sources */,
