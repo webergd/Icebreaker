@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A140C4028B538A900EE1F04 /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */; };
+		2A2B744729762EA00066304B /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2B744629762EA00066304B /* RemoteConfigManager.swift */; };
 		2A6EA586293E9AEA00EDF46E /* TutorialTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6EA585293E9AEA00EDF46E /* TutorialTracker.swift */; };
 		2AA4BFDB270E720400606A08 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */; };
 		2ABCE72F273587D800103040 /* Int+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABCE72E273587D800103040 /* Int+Ext.swift */; };
@@ -125,6 +126,7 @@
 /* Begin PBXFileReference section */
 		234E47B20017FB9E1BC20492 /* Pods-TangerineTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangerineTests.debug.xcconfig"; path = "Target Support Files/Pods-TangerineTests/Pods-TangerineTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationEngine.swift; sourceTree = "<group>"; };
+		2A2B744629762EA00066304B /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		2A6EA585293E9AEA00EDF46E /* TutorialTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTracker.swift; sourceTree = "<group>"; };
 		2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		2ABCE72E273587D800103040 /* Int+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Ext.swift"; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				510D5DCD27CA2D1E0047D18F /* TermsOfService.swift */,
 				51E50E56267FDED70055CCC1 /* DataModels.swift */,
 				2A6EA585293E9AEA00EDF46E /* TutorialTracker.swift */,
+				2A2B744629762EA00066304B /* RemoteConfigManager.swift */,
 				518DBD502627AA40008314A7 /* RealmManager.swift */,
 				51E50E54267FDDCC0055CCC1 /* ImageMethods.swift */,
 				512578FD2602146E00FE9C08 /* Extension */,
@@ -836,6 +839,7 @@
 				517695BC260E58AA0091C7BD /* String+Ext.swift in Sources */,
 				5170DC422637B55400F34354 /* FriendRequestVC.swift in Sources */,
 				51585F04260297D1001D8267 /* UserNameVC.swift in Sources */,
+				2A2B744729762EA00066304B /* RemoteConfigManager.swift in Sources */,
 				515EDDD126862B6900696B8C /* ReviewCompareViewController.swift in Sources */,
 				51AA109C2868CAED0092E6DE /* NetworkManager.swift in Sources */,
 				2A6EA586293E9AEA00EDF46E /* TutorialTracker.swift in Sources */,

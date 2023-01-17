@@ -211,7 +211,7 @@ class Constants {
 //    static let ANALYTICS_STANDARD_PARAMETERS: [String : Any] = ["username": myProfile.username, "age": getAgeFromBdaySeconds(myProfile.birthday), "orientation": myProfile.orientation, "cohortID": "pre-split test"]
     
     //MARK: ALWAYS update the cohort ID before pushing a version for split test
-    static let COHORT_ID = "0"
+    static let CURRENT_COHORT_ID = "0"
     
     // reportable event names:
     static let POST_QUESTION = "post_question"
@@ -224,5 +224,13 @@ class Constants {
     static let SENT_QUESTION_TO_FRIEND = "sent_question_to_friend"
     static let TANGERINE_INVITE_SENT = "tangerine_invite_sent"
     static let ACCOUNT_DELETED = "account_deleted"
+    
+    // user property names:
+    static let USERNAME_PROPERTY = "username"
+    static let AGE_PROPERTY = "age"
+    static let ORIENTATION_PROPERTY = "orientation"
+    
+    // remote config key names:
+    static let RO_ON_TOP: String = "ROonTop"
     
 }

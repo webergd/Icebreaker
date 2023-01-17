@@ -1544,9 +1544,9 @@ public func updateAnalyticsUserProperties() {
     
     let birthday: String = String(describing: getAgeFromBdaySeconds(myProfile.birthday))
     
-    Analytics.setUserProperty(myProfile.username, forName: "username")
-    Analytics.setUserProperty(birthday, forName: "age")
-    Analytics.setUserProperty(myProfile.orientation, forName: "orientation")
+    Analytics.setUserProperty(myProfile.username, forName: Constants.USERNAME_PROPERTY)
+    Analytics.setUserProperty(birthday, forName: Constants.AGE_PROPERTY)
+    Analytics.setUserProperty(myProfile.orientation, forName: Constants.ORIENTATION_PROPERTY)
 }
 
 

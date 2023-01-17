@@ -9,6 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseAnalytics
+import FirebaseRemoteConfig
 import RealmSwift
 import BadgeHub
 
@@ -51,6 +52,8 @@ class MainVC: UIViewController {
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var glassView: UIView!
     @IBOutlet weak var cameraButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var reviewOthersButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewResultsButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var spacerView1: UIView!
     
     //Button outlets
@@ -58,6 +61,12 @@ class MainVC: UIViewController {
     @IBOutlet weak var reviewOthersButton: UIButton!
     //this one is redundant with reviewOthersBtn
     @IBOutlet weak var viewResultsButton: UIButton!
+    
+    
+    //Label Outlets
+    @IBOutlet weak var getOpinionsLabel: UILabel!
+    @IBOutlet weak var giveOpinionsLabel: UILabel!
+    @IBOutlet weak var viewResultsLabel: UILabel!
     
     // UI Items:
     var tutorialLabel: UILabel!
@@ -263,6 +272,10 @@ class MainVC: UIViewController {
         configureTutorialLabel()
         configureCancelTutorialButton()
         
+        // remote config split testing calls:
+        setupRemoteConfigDefaults()
+        fetchRemoteConfig()
+        
         /// tells system that the glassView was tapped
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
@@ -289,7 +302,7 @@ class MainVC: UIViewController {
         updateAnalyticsUserProperties()
         
         // Set Cohort ID from Constants.swift
-        Analytics.setUserProperty(Constants.COHORT_ID, forName: "cohortID")
+        Analytics.setUserProperty(Constants.CURRENT_COHORT_ID, forName: "cohortID")
         
         // for notification
         addObservers()
@@ -348,6 +361,9 @@ class MainVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("VWA")
+        
+        // this was added to facilitate a smoother visual experience while resetting the vertical constraints of the main icons during the A-B test of cohort0. No need to keep doing this, just be sure to delete the hiding and re-showing of the icons in the centerMainIconsVertically() method.
+        makeMainVCIcons(visible: false)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -449,23 +465,89 @@ class MainVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue:Constants.QFF_NOTI_NAME), object: nil)
     }
     
+    
+    /// Hides or show the MainVC icons as requested
+    func makeMainVCIcons(visible: Bool) {
+        let hide = !visible
+        
+        cameraButton.isHidden = hide
+        getOpinionsLabel.isHidden = hide
+        reviewOthersBtn.isHidden = hide
+        giveOpinionsLabel.isHidden = hide
+        viewResultsButton.isHidden = hide
+        viewResultsLabel.isHidden = hide
+    }
+    
     /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
     func centerMainIconsVertically() {
-        //        cameraButtonTopConstraint.constant = 10.0
-        let topDistance: CGFloat = cameraButtonTopConstraint.constant
+
+        // MARK: A-B Split Test
+        
+        makeMainVCIcons(visible: false) //hide the icons before we move them
+
+        let ROtestVersion = RemoteConfig.remoteConfig().configValue(forKey: Constants.RO_ON_TOP).boolValue
+        
+        // these need to create the proper top constraint distance to even out but they also need to postion the icon in the right spot, which it is currently not doing
+        // we have the size of all elements so we can compute from each other what the otehr one should be
+
+        // Original Setup with Camera on top as first icon
+        let topDistance: CGFloat = 40//cameraButtonTopConstraint.constant
         let bottomDistance: CGFloat = spacerView1.frame.height
         
         let combinedDistance = topDistance + bottomDistance
         let halfDistance = combinedDistance / 2.0
         
-        
-        print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
-        print("bottomConstraint before reset is \(spacerView1.frame.height)")
         cameraButtonTopConstraint.constant = halfDistance
-        //        spacerView1.frame.height = halfDistance
         
-        print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
-        print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
+        var topIconConstraintConstant: CGFloat
+        var bottomIconConstraintConstant: CGFloat
+            
+        let heightOfIcon: CGFloat = 60
+        let heightOfLabel: CGFloat = 21
+        let verticalSpaceBetweenIcons: CGFloat = 50
+        
+        topIconConstraintConstant = halfDistance
+        bottomIconConstraintConstant = cameraButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
+        
+        switch ROtestVersion {
+        case false:
+            print("MainVC control version, setting camera on top")
+            cameraButtonTopConstraint.constant = topIconConstraintConstant
+            reviewOthersButtonTopConstraint.constant = bottomIconConstraintConstant
+        case true:
+            print("MainVC test version, setting heart on top")
+            reviewOthersButtonTopConstraint.constant = topIconConstraintConstant
+            cameraButtonTopConstraint.constant = bottomIconConstraintConstant
+        }
+        
+        viewResultsButtonTopConstraint.constant = bottomIconConstraintConstant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
+        
+        // Original Setup with Camera on top as first icon
+//        let topDistance: CGFloat = cameraButtonTopConstraint.constant
+//        let bottomDistance: CGFloat = spacerView1.frame.height
+//
+//        let combinedDistance = topDistance + bottomDistance
+//        let halfDistance = combinedDistance / 2.0
+//
+//
+////            print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
+////            print("bottomConstraint before reset is \(spacerView1.frame.height)")
+//        cameraButtonTopConstraint.constant = halfDistance
+//        //        spacerView1.frame.height = halfDistance
+//
+////            print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
+////            print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
+//
+//        let heightOfIcon: CGFloat = 60
+//        let heightOfLabel: CGFloat = 21
+//        let verticalSpaceBetweenIcons: CGFloat = 50
+//
+//        reviewOthersButtonTopConstraint.constant = cameraButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
+        
+        
+        
+    makeMainVCIcons(visible: true) // show them once we're done moving them
+        
         
     }
     

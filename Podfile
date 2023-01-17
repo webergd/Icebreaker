@@ -14,6 +14,7 @@ target 'Tangerine' do
     pod 'FirebaseFirestoreSwift'
     pod 'Firebase/Storage'
     pod 'Firebase/Database'
+    pod 'Firebase/RemoteConfig'
     pod 'RealmSwift', '~>10.5.2'
     pod 'BadgeHub'
     pod 'IQKeyboardManagerSwift'
