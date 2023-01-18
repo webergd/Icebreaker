@@ -9,6 +9,7 @@ import UIKit
 import Contacts
 import FirebaseFirestoreSwift
 import FirebaseFirestore
+import FirebaseAnalytics
 import RealmSwift
 import MessageUI
 import grpc
@@ -613,7 +614,7 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
   }
 
   // when Add button is tapped, ensures that we don't request multiple times
-  func addPersonToFirestoreAndLocal(_ person: Person){
+  func addFriendRequestToFirestoreAndLocal(_ person: Person){
 
     defer {
       print("Defer is called")
@@ -668,6 +669,9 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
     Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
       .setData(myDoc, merge: true)
+
+    // Log Analytics Event
+    Analytics.logEvent(Constants.FRIEND_REQUESTED, parameters: nil)
 
   }
 
@@ -792,6 +796,8 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
       case MessageComposeResult.sent.rawValue:
         print("Message was sent")
         self.dismiss(animated: true, completion: nil)
+        // Log Analytics Event
+        Analytics.logEvent(Constants.TANGERINE_INVITE_SENT, parameters: nil)
       default:
         break;
     }
@@ -1062,284 +1068,286 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
 
   }
 
-  func configureTutorialLabel (){
-    tutorialLabel = UILabel()
-    tutorialLabel.text = "To find a friend who isn't in your contacts list, select the All Users toggle and type thier username"
-    tutorialLabel.textColor = .systemBlue
-    tutorialLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-    tutorialLabel.numberOfLines = 6
-    tutorialLabel.isHidden = true
+
+    func configureTutorialLabel (){
+        tutorialLabel = UILabel()
+        tutorialLabel.text = "To find a friend who isn't in your contacts list, select the All Users toggle and type thier username"
+        tutorialLabel.textColor = .systemBlue
+        tutorialLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        tutorialLabel.numberOfLines = 6
+        tutorialLabel.isHidden = true
+        
+        tutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+        
+        tutorialLabel.textAlignment = .center
+        
+        tutorialLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tutorialLabel)
+        
+        NSLayoutConstraint.activate([
+            
+            tutorialLabel.topAnchor.constraint(equalTo: searchSegment.bottomAnchor, constant: 0),
+            tutorialLabel.centerXAnchor.constraint(equalTo: searchSegment.centerXAnchor, constant: 80),
+            tutorialLabel.widthAnchor.constraint(equalTo: searchSegment.widthAnchor, multiplier: 0.5),
+            tutorialLabel.heightAnchor.constraint(equalToConstant: 120)
+        ])
+    }
     
-    tutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
-
-    tutorialLabel.textAlignment = .center
-
-    tutorialLabel.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(tutorialLabel)
-
-    NSLayoutConstraint.activate([
-
-      tutorialLabel.topAnchor.constraint(equalTo: searchSegment.bottomAnchor, constant: 0),
-      tutorialLabel.centerXAnchor.constraint(equalTo: searchSegment.centerXAnchor, constant: 80),
-      tutorialLabel.widthAnchor.constraint(equalTo: searchSegment.widthAnchor, multiplier: 0.5),
-      tutorialLabel.heightAnchor.constraint(equalToConstant: 120)
-    ])
-  }
-
-
-  func configureCollectionView(){
-
-    view.addSubview(contentView)
-
-    contentView.translatesAutoresizingMaskIntoConstraints = false
-
-    NSLayoutConstraint.activate([
-      contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-      contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-      contentView.topAnchor.constraint(equalTo: searchSegment.bottomAnchor,constant: 20),
-      contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
-
-    ])
-
-
-    // invalidate the frames
-    contentView.layoutIfNeeded()
-
-    friendsCollectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: createAddFriendLayout())
-
-
-    contentView.addSubview(friendsCollectionView)
-
-    friendsCollectionView.delegate = self
-    friendsCollectionView.dataSource = self
-
-    friendsCollectionView.register(UINib(nibName: "FriendCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: FriendCollectionViewCell.reuseID)
-
-    // to prevent going behind tabbar
-    friendsCollectionView.autoresizingMask = .flexibleHeight
-
-
-
-  }
-
-
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if isCloudSearch {
-      return displayedCloudContacts.count
-    } else {
-      return displayedContacts.count
+    
+    func configureCollectionView(){
+        
+        view.addSubview(contentView)
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            contentView.topAnchor.constraint(equalTo: searchSegment.bottomAnchor,constant: 20),
+            contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            
+        ])
+        
+        
+        // invalidate the frames
+        contentView.layoutIfNeeded()
+        
+        friendsCollectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: createAddFriendLayout())
+        
+        
+        contentView.addSubview(friendsCollectionView)
+        
+        friendsCollectionView.delegate = self
+        friendsCollectionView.dataSource = self
+        
+        friendsCollectionView.register(UINib(nibName: "FriendCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: FriendCollectionViewCell.reuseID)
+        
+        // to prevent going behind tabbar
+        friendsCollectionView.autoresizingMask = .flexibleHeight
+        
+        
+        
     }
-  }
-
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as! FriendCollectionViewCell
-
-    // we already know it is on our project list
-    var person : Person!
-    // for checking if we are trying to fill will nil data
-    var isDataAvailable = false
-
-    if self.isCloudSearch && !sortedCloudContacts.isEmpty{
-      print("Cloud Count: \(self.displayedCloudKeys.count)")
-      if self.displayedCloudKeys.count > 0 {
-
-        person = self.sortedCloudContacts[indexPath.item]//self.displayedCloudContacts[self.displayedCloudKeys[indexPath.item]]!
-        isDataAvailable = true
-        cell.item = self.sortedCloudContacts[indexPath.item]
-      }
-
-    }else{
-      // with all the display key we can go over all the dictionary Persons
-      if isNetworkCallDone {
-        self.indicator.stopAnimating()
-      }
-
-
-      person = self.displayedContacts[indexPath.item]
-      isDataAvailable = true
-      cell.item = self.displayedContacts[indexPath.item]
-
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if isCloudSearch {
+            return displayedCloudContacts.count
+        } else {
+            return displayedContacts.count
+        }
     }
-
-    if isDataAvailable {
-
-      // Default data
-      cell.title.text = person.displayName
-      cell.subtitle.text = person.username
-
-      if person.imageString.starts(with: "https"){
-        // firebase
-        downloadOrLoadFirebaseImage(
-          ofName: getFilenameFrom(qName: person.username, type: .ASK),
-          forPath: person.imageString) { image, error in
-            if let error = error{
-              print("Error: \(error.localizedDescription)")
-              return
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as! FriendCollectionViewCell
+        
+        // we already know it is on our project list
+        var person : Person!
+        // for checking if we are trying to fill will nil data
+        var isDataAvailable = false
+        
+        if self.isCloudSearch && !sortedCloudContacts.isEmpty{
+            print("Cloud Count: \(self.displayedCloudKeys.count)")
+            if self.displayedCloudKeys.count > 0 {
+                
+                person = self.sortedCloudContacts[indexPath.item]//self.displayedCloudContacts[self.displayedCloudKeys[indexPath.item]]!
+                isDataAvailable = true
+                cell.item = self.sortedCloudContacts[indexPath.item]
             }
-
-            print("AFVC Image Downloaded for \(String(describing: person.username))")
-            cell.profileImageView.image = image
-          }
-
-
-      }else{
-        cell.profileImageView.image = self.convertBase64StringToImage(imageBase64String: person.imageString)
-      }
-
-
-
-
-      // DISPLAY THE CELL DATA
-      if person.status == Status.REGISTERED {
-        // set the button based on status
-        // function names saying what are they for
-
-        cell.button.setTitle("Add", for: .normal)
-        cell.button.backgroundColor = UIColor.systemGreen
-        cell.button.setTitleColor(UIColor.white, for: .normal)
-        cell.button.layer.borderWidth = 1.0
-        cell.button.layer.cornerRadius = 6.0
-        cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        cell.button.isEnabled = true
-        cell.handleClick={
-
-          self.view.showActivityIndicator()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            self.addPersonToFirestoreAndLocal(person)
-          })
-
+            
+        }else{
+            // with all the display key we can go over all the dictionary Persons
+            if isNetworkCallDone {
+                self.indicator.stopAnimating()
+            }
+            
+            
+            person = self.displayedContacts[indexPath.item]
+            isDataAvailable = true
+            cell.item = self.displayedContacts[indexPath.item]
+            
         }
+        
+        if isDataAvailable {
+            
+            // Default data
+            cell.title.text = person.displayName
+            cell.subtitle.text = person.username
+            
+            if person.imageString.starts(with: "https"){
+                // firebase
+                downloadOrLoadFirebaseImage(
+                    ofName: getFilenameFrom(qName: person.username, type: .ASK),
+                    forPath: person.imageString) { image, error in
+                        if let error = error{
+                            print("Error: \(error.localizedDescription)")
+                            return
+                        }
+                        
+                        print("AFVC Image Downloaded for \(String(describing: person.username))")
+                        cell.profileImageView.image = image
+                    }
+                
+                
+            }else{
+                cell.profileImageView.image = self.convertBase64StringToImage(imageBase64String: person.imageString)
+            }
+            
+            
+            
+            
+            // DISPLAY THE CELL DATA
+            if person.status == Status.REGISTERED {
+                // set the button based on status
+                // function names saying what are they for
+                
+                cell.button.setTitle("Add", for: .normal)
+                cell.button.backgroundColor = UIColor.systemGreen
+                cell.button.setTitleColor(UIColor.white, for: .normal)
+                cell.button.layer.borderWidth = 1.0
+                cell.button.layer.cornerRadius = 6.0
+                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = true
+                cell.handleClick={
+                    
+                    self.view.showActivityIndicator()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                        self.addFriendRequestToFirestoreAndLocal(person)
+                    })
+                    
+                }
+                
+                // WYATT ADD 2/1/22
+                // A good result looks like this:
+                // Search for a person who is already a friend
+                // Cell should have green "Friend" button that is disabled
+            } else if person.status == Status.FRIEND {
+                cell.button.setTitle("Friends", for: .normal)
+                cell.button.backgroundColor = UIColor.systemGreen
+                cell.button.setTitleColor(UIColor.white, for: .normal)
+                cell.button.layer.borderWidth = 1.0
+                cell.button.layer.cornerRadius = 6.0
+                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = false
+                
+                
+            }else if person.status == .REQUESTED{
+                cell.button.setTitle("Requested", for: .normal)
+                cell.button.backgroundColor = UIColor.systemOrange
+                cell.button.setTitleColor(UIColor.white, for: .normal)
+                cell.button.layer.borderWidth = 1.0
+                cell.button.layer.cornerRadius = 6.0
+                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = true
+                cell.handleClick={
+                    
+                    // self.presentDismissAlertOnMainThread(title: "Hey!", message: "This person is already added")
+                }
+            }
+            else{
+                // this block never execute on local search
+                
+                cell.button.setTitle("Invite", for: .normal)
+                cell.button.backgroundColor = UIColor.systemGreen.darker()
+                cell.button.setTitleColor(UIColor.white, for: .normal)
+                cell.button.layer.borderWidth = 1.0
+                cell.button.layer.cornerRadius = 6.0
+                cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                cell.button.isEnabled = true
+                cell.handleClick={
+                    print("Invited")
+                    guard MFMessageComposeViewController.canSendText() else {
+                        return
+                    }
+                    
+                    let messageVC = MFMessageComposeViewController()
+                    
+                    messageVC.body = "Take off that doubtfit \(person.displayName)! Do you know about Tangerine yet? \(myProfile.display_name) is inviting you to be a member. Only available for iOS. http://www.letstangerine.com to learn more. 'Confident Comfort through Connection.'";
+                    messageVC.recipients = ["\(person.phoneNumberField)"]
+                    messageVC.messageComposeDelegate = self;
+                    
+                    self.present(messageVC, animated: false, completion: nil)
 
-        // WYATT ADD 2/1/22
-        // A good result looks like this:
-        // Search for a person who is already a friend
-        // Cell should have green "Friend" button that is disabled
-      } else if person.status == Status.FRIEND {
-        cell.button.setTitle("Friends", for: .normal)
-        cell.button.backgroundColor = UIColor.systemGreen
-        cell.button.setTitleColor(UIColor.white, for: .normal)
-        cell.button.layer.borderWidth = 1.0
-        cell.button.layer.cornerRadius = 6.0
-        cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        cell.button.isEnabled = false
-
-
-      }else if person.status == .REQUESTED{
-        cell.button.setTitle("Requested", for: .normal)
-        cell.button.backgroundColor = UIColor.systemOrange
-        cell.button.setTitleColor(UIColor.white, for: .normal)
-        cell.button.layer.borderWidth = 1.0
-        cell.button.layer.cornerRadius = 6.0
-        cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        cell.button.isEnabled = true
-        cell.handleClick={
-
-          // self.presentDismissAlertOnMainThread(title: "Hey!", message: "This person is already added")
+                } // end handle click
+            }
+            
+            let tg = UITapGestureRecognizer(target: self, action: #selector(self.showUserDetail(_:)))
+            cell.addGestureRecognizer(tg)
+            
+            
+            
+            return cell
         }
-      }
-      else{
-        // this block never execute on local search
-
-        cell.button.setTitle("Invite", for: .normal)
-        cell.button.backgroundColor = UIColor.systemGreen.darker()
-        cell.button.setTitleColor(UIColor.white, for: .normal)
-        cell.button.layer.borderWidth = 1.0
-        cell.button.layer.cornerRadius = 6.0
-        cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        cell.button.isEnabled = true
-        cell.handleClick={
-          print("Invited")
-          guard MFMessageComposeViewController.canSendText() else {
-            return
-          }
-
-          let messageVC = MFMessageComposeViewController()
-
-          messageVC.body = "Take off that doubtfit \(person.displayName)! Do you know about Tangerine yet? \(myProfile.display_name) is inviting you to be a member. Only available for iOS. http://www.letstangerine.com to learn more. 'Confident Comfort through Connection.'";
-          messageVC.recipients = ["\(person.phoneNumberField)"]
-          messageVC.messageComposeDelegate = self;
-
-          self.present(messageVC, animated: false, completion: nil)
-        } // end handle click
-      }
-
-      let tg = UITapGestureRecognizer(target: self, action: #selector(self.showUserDetail(_:)))
-      cell.addGestureRecognizer(tg)
-
-
-
-      return cell
+        
+        
+        return cell
+        
     }
-
-
-    return cell
     
-  }
-
-  @objc func showUserDetail(_ sender: UITapGestureRecognizer){
-
-    guard let cell = sender.view as? FriendCollectionViewCell, let cellPerson = cell.item else {return}
-
-    var username = ""
-    var userstatus = Status.NONE
-    // only allow contact those are registered
-    var shouldShow = false
-    //  case REQUESTED = 1 // I added
-    //  case INVITED = 2 // I invited
-    //  case BLOCKED = 3// I blocked
-    //  case FRIEND = 4// We are connected
-    //  case PENDING = 5// He added
-    //  case REGISTERED = 6 // registered with app
-    //  case GOT_BLOCKED = 7 // he blocked
-    //  case NONE = 0// match nothing
-    if isCloudSearch {
-      // cloud searched person's are always registered
-      shouldShow = true
-      username = cellPerson.username//displayedCloudContacts[displayedCloudKeys[indexPath.row]]?.username{
-      userstatus = myFriendNames.contains(username) ? .FRIEND : .REGISTERED
-
-    }else{
-      // if registered or requested
-      if cellPerson.status == Status.REQUESTED || cellPerson.status == Status.REGISTERED {
-        shouldShow = true
-        username = cellPerson.username
-        userstatus = cellPerson.status
-      }
-    } // else
-
-
-    if shouldShow {
-      let vc = FriendDetailsVC()
-      vc.modalPresentationStyle = .fullScreen
-      vc.username = username
-      vc.parentVC = PARENTVC.ADD
-      vc.status = userstatus
-      self.present(vc, animated: true, completion: nil)
+    @objc func showUserDetail(_ sender: UITapGestureRecognizer){
+        
+        guard let cell = sender.view as? FriendCollectionViewCell, let cellPerson = cell.item else {return}
+        
+        var username = ""
+        var userstatus = Status.NONE
+        // only allow contact those are registered
+        var shouldShow = false
+        //  case REQUESTED = 1 // I added
+        //  case INVITED = 2 // I invited
+        //  case BLOCKED = 3// I blocked
+        //  case FRIEND = 4// We are connected
+        //  case PENDING = 5// He added
+        //  case REGISTERED = 6 // registered with app
+        //  case GOT_BLOCKED = 7 // he blocked
+        //  case NONE = 0// match nothing
+        if isCloudSearch {
+            // cloud searched person's are always registered
+            shouldShow = true
+            username = cellPerson.username//displayedCloudContacts[displayedCloudKeys[indexPath.row]]?.username{
+            userstatus = myFriendNames.contains(username) ? .FRIEND : .REGISTERED
+            
+        }else{
+            // if registered or requested
+            if cellPerson.status == Status.REQUESTED || cellPerson.status == Status.REGISTERED {
+                shouldShow = true
+                username = cellPerson.username
+                userstatus = cellPerson.status
+            }
+        } // else
+        
+        
+        if shouldShow {
+            let vc = FriendDetailsVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.username = username
+            vc.parentVC = PARENTVC.ADD
+            vc.status = userstatus
+            self.present(vc, animated: true, completion: nil)
+        }
+        
     }
-
-  }
-
-
-  public func createAddFriendLayout() -> UICollectionViewLayout {
-    return oneColumnLayout()
-  }
-
-  private func oneColumnLayout() -> UICollectionViewLayout{
-    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                          heightDimension: .fractionalHeight(1.0))
-
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.18))
-
-    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-    let spacing = CGFloat(4)
-
-    let section = NSCollectionLayoutSection(group: group)
-    section.interGroupSpacing = spacing
-
-    let layout = UICollectionViewCompositionalLayout(section: section)
-    return layout
-  }
+    
+    
+    public func createAddFriendLayout() -> UICollectionViewLayout {
+        return oneColumnLayout()
+    }
+    
+    private func oneColumnLayout() -> UICollectionViewLayout{
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.18))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let spacing = CGFloat(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }

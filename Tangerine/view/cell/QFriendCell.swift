@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// This is a cell for sending a Question to a friend
 class QFriendCell: UITableViewCell {
 
     @IBOutlet weak var display_name: UILabel!

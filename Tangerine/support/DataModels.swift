@@ -1537,6 +1537,18 @@ struct Breakdown {
     
 }
 
+/// Sets the user properties for firebase analytics so that we can sort our analytics data by these different categories.
+/// Contains username, age, and orientation.
+public func updateAnalyticsUserProperties() {
+    // we also store the cohortID as a user property elsewhere in the code.
+    
+    let birthday: String = String(describing: getAgeFromBdaySeconds(myProfile.birthday))
+    
+    Analytics.setUserProperty(myProfile.username, forName: Constants.USERNAME_PROPERTY)
+    Analytics.setUserProperty(birthday, forName: Constants.AGE_PROPERTY)
+    Analytics.setUserProperty(myProfile.orientation, forName: Constants.ORIENTATION_PROPERTY)
+}
+
 
 /// remove / empty all collection related to question
 /// called from logout button tap
@@ -2164,7 +2176,7 @@ func unlockMyLocalQuestion(){
     }
 }
 
-// called from updateCountOnReviewQues, when locked question is zero, so we give him credit
+/// called from updateCountOnReviewQues, when locked question is zero, so we give him credit
 func increaseCreditToUser(by credit: Int){
     print("Credit Added by \(credit)")
     // increase online
@@ -2185,7 +2197,8 @@ func increaseCreditToUser(by credit: Int){
         print(error.localizedDescription)
     }
     
-    
+    // Log Analytics Event
+    Analytics.logEvent(Constants.REVIEW_CREDIT_EARNED, parameters: nil)
 }
 
 // calling this function will update the field

@@ -53,7 +53,7 @@
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dkB-NT-RQS" userLabel="Review Others Button">
-                                <rect key="frame" x="177" y="171" width="60" height="60"/>
+                                <rect key="frame" x="177" y="173" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="dkB-NT-RQS" secondAttribute="height" multiplier="1:1" id="WGe-02-csd"/>
                                     <constraint firstAttribute="width" constant="60" id="rXD-7p-xHf"/>
@@ -64,7 +64,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Give Opinions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85F-Zl-Yqt">
-                                <rect key="frame" x="152" y="231" width="110" height="30"/>
+                                <rect key="frame" x="152" y="233" width="110" height="30"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="wcS-BI-eTf"/>
@@ -77,7 +77,7 @@
                                 </connections>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlock your results by giving opinions to members who want your input." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QKa-aq-g5K" userLabel="helpReviewOthersLabel">
-                                <rect key="frame" x="0.0" y="181.5" width="183" height="39.5"/>
+                                <rect key="frame" x="0.0" y="183.5" width="183" height="39.5"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
@@ -86,7 +86,7 @@
                                 <size key="shadowOffset" width="3" height="3"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PHK-I1-3aE" userLabel="View Results Button">
-                                <rect key="frame" x="177" y="301" width="60" height="60"/>
+                                <rect key="frame" x="177" y="303" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="PHK-I1-3aE" secondAttribute="height" multiplier="1:1" id="DEM-Ll-j9z"/>
                                     <constraint firstAttribute="width" constant="60" id="jPc-Hm-rKY"/>
@@ -97,7 +97,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View My Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9bR-B9-66q">
-                                <rect key="frame" x="142" y="361" width="130" height="21"/>
+                                <rect key="frame" x="142" y="363" width="130" height="21"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" systemColor="linkColor"/>
@@ -107,7 +107,7 @@
                                 </connections>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See if people endorsed the fashion items you uploaded." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRN-oE-zIu" userLabel="helpViewResultsLabel">
-                                <rect key="frame" x="8" y="318" width="175" height="26.5"/>
+                                <rect key="frame" x="8" y="320" width="175" height="26.5"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
@@ -138,7 +138,7 @@
                                 </connections>
                             </button>
                             <view hidden="YES" alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oRd-d8-tjp" userLabel="spacerView">
-                                <rect key="frame" x="110.5" y="382" width="193" height="400"/>
+                                <rect key="frame" x="110.5" y="384" width="193" height="398"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dx-fB-ucV" userLabel="helpButton">
@@ -220,17 +220,17 @@
                             <constraint firstItem="anp-dQ-uzQ" firstAttribute="centerY" secondItem="cwC-Pi-cSV" secondAttribute="centerY" id="Cgt-Fj-HHz"/>
                             <constraint firstItem="vKy-hB-tZU" firstAttribute="width" secondItem="cwC-Pi-cSV" secondAttribute="width" multiplier="0.3" id="DsC-5s-aTh"/>
                             <constraint firstItem="cwC-Pi-cSV" firstAttribute="trailing" secondItem="Eqb-83-P9I" secondAttribute="trailing" constant="12" id="GYu-de-pcg"/>
-                            <constraint firstItem="T0D-lV-Dh8" firstAttribute="top" secondItem="VSO-tK-Rrq" secondAttribute="top" constant="50" id="H77-Yn-zcK"/>
+                            <constraint firstItem="T0D-lV-Dh8" firstAttribute="top" secondItem="cwC-Pi-cSV" secondAttribute="top" constant="2" id="H77-Yn-zcK"/>
                             <constraint firstItem="Eqb-83-P9I" firstAttribute="top" secondItem="cwC-Pi-cSV" secondAttribute="top" constant="8" id="I5Z-kj-hVR"/>
                             <constraint firstItem="T0D-lV-Dh8" firstAttribute="centerX" secondItem="cwC-Pi-cSV" secondAttribute="centerX" id="K16-5V-uvn"/>
                             <constraint firstItem="1uU-bL-Xlp" firstAttribute="leading" secondItem="cwC-Pi-cSV" secondAttribute="leading" constant="50" id="L9h-wp-D0d"/>
                             <constraint firstItem="cwC-Pi-cSV" firstAttribute="trailing" secondItem="1uU-bL-Xlp" secondAttribute="trailing" constant="50" id="L9q-oF-gAH"/>
+                            <constraint firstItem="PHK-I1-3aE" firstAttribute="top" secondItem="cwC-Pi-cSV" secondAttribute="top" constant="255" id="MGT-QJ-5xU"/>
                             <constraint firstItem="I98-ui-vi0" firstAttribute="top" secondItem="bPG-oj-7KD" secondAttribute="bottom" constant="4" id="NcP-st-mDF"/>
                             <constraint firstItem="kin-HV-uAf" firstAttribute="leading" secondItem="cwC-Pi-cSV" secondAttribute="leading" constant="8" id="OwK-0t-EJ0"/>
                             <constraint firstItem="oRd-d8-tjp" firstAttribute="width" secondItem="cwC-Pi-cSV" secondAttribute="width" multiplier="0.466184" id="Oyq-ho-O6u"/>
                             <constraint firstItem="ySE-J5-i9C" firstAttribute="width" secondItem="Eqb-83-P9I" secondAttribute="width" multiplier="2.5" id="PXg-gc-vJy"/>
                             <constraint firstItem="CRN-oE-zIu" firstAttribute="trailing" secondItem="PHK-I1-3aE" secondAttribute="leading" constant="6" id="PvD-BK-YdV"/>
-                            <constraint firstItem="PHK-I1-3aE" firstAttribute="top" secondItem="85F-Zl-Yqt" secondAttribute="bottom" constant="40" id="QYe-Yc-Hua"/>
                             <constraint firstItem="I98-ui-vi0" firstAttribute="width" secondItem="bPG-oj-7KD" secondAttribute="width" multiplier="2.5" constant="2.5" id="Soo-cv-N6D"/>
                             <constraint firstItem="8H8-Ob-q2I" firstAttribute="leading" secondItem="9dx-fB-ucV" secondAttribute="trailing" constant="4" id="UbY-L2-u4l"/>
                             <constraint firstItem="ySE-J5-i9C" firstAttribute="trailing" secondItem="Eqb-83-P9I" secondAttribute="trailing" id="Wvz-Hh-WZM"/>
@@ -245,12 +245,12 @@
                             <constraint firstItem="PHK-I1-3aE" firstAttribute="centerX" secondItem="cwC-Pi-cSV" secondAttribute="centerX" id="fti-kh-BPh"/>
                             <constraint firstItem="9dx-fB-ucV" firstAttribute="leading" secondItem="cwC-Pi-cSV" secondAttribute="leading" constant="16" id="gT4-4T-AEP"/>
                             <constraint firstItem="CRN-oE-zIu" firstAttribute="centerY" secondItem="PHK-I1-3aE" secondAttribute="centerY" id="gxS-6q-sgH"/>
+                            <constraint firstItem="dkB-NT-RQS" firstAttribute="top" secondItem="cwC-Pi-cSV" secondAttribute="top" constant="125" id="hhy-ZV-F0m"/>
                             <constraint firstItem="cwC-Pi-cSV" firstAttribute="leading" secondItem="QKa-aq-g5K" secondAttribute="leading" id="jMo-QC-9UD"/>
                             <constraint firstItem="T0D-lV-Dh8" firstAttribute="leading" secondItem="kin-HV-uAf" secondAttribute="trailing" constant="8" id="jQm-L2-ReC"/>
                             <constraint firstItem="dkB-NT-RQS" firstAttribute="centerX" secondItem="cwC-Pi-cSV" secondAttribute="centerX" id="kSv-QL-FfY"/>
                             <constraint firstItem="vKy-hB-tZU" firstAttribute="trailing" secondItem="0qH-rV-I3a" secondAttribute="leading" id="lzr-Fe-5n0"/>
                             <constraint firstItem="85F-Zl-Yqt" firstAttribute="centerX" secondItem="cwC-Pi-cSV" secondAttribute="centerX" id="p8A-91-Z4Y"/>
-                            <constraint firstItem="dkB-NT-RQS" firstAttribute="top" secondItem="1uU-bL-Xlp" secondAttribute="bottom" constant="40" id="puB-wI-zp5"/>
                             <constraint firstItem="I98-ui-vi0" firstAttribute="leading" secondItem="bPG-oj-7KD" secondAttribute="leading" id="rmh-Fp-Nnq"/>
                             <constraint firstItem="CRN-oE-zIu" firstAttribute="leading" secondItem="cwC-Pi-cSV" secondAttribute="leading" constant="8" id="s03-Sa-XmC"/>
                             <constraint firstItem="oRd-d8-tjp" firstAttribute="centerX" secondItem="cwC-Pi-cSV" secondAttribute="centerX" id="sfP-d0-gwM"/>
@@ -265,6 +265,8 @@
                         <outlet property="cameraButton" destination="T0D-lV-Dh8" id="lnd-G7-fdG"/>
                         <outlet property="cameraButtonTopConstraint" destination="H77-Yn-zcK" id="QLV-ri-OaQ"/>
                         <outlet property="friendsBtn" destination="bPG-oj-7KD" id="NHP-fj-9Nb"/>
+                        <outlet property="getOpinionsLabel" destination="1uU-bL-Xlp" id="uFZ-Iv-mwz"/>
+                        <outlet property="giveOpinionsLabel" destination="85F-Zl-Yqt" id="KPr-8G-x3g"/>
                         <outlet property="glassView" destination="anp-dQ-uzQ" id="xdG-lz-Nrp"/>
                         <outlet property="helpButton" destination="9dx-fB-ucV" id="F3I-oH-kol"/>
                         <outlet property="helpFriendsLabel" destination="I98-ui-vi0" id="7D6-T0-KiC"/>
@@ -276,8 +278,11 @@
                         <outlet property="helpViewResultsLabel" destination="CRN-oE-zIu" id="idB-Lk-dBZ"/>
                         <outlet property="reviewOthersBtn" destination="dkB-NT-RQS" id="GFt-mQ-QqC"/>
                         <outlet property="reviewOthersButton" destination="dkB-NT-RQS" id="IM6-QN-4Kn"/>
+                        <outlet property="reviewOthersButtonTopConstraint" destination="hhy-ZV-F0m" id="eOg-xp-8cT"/>
                         <outlet property="spacerView1" destination="oRd-d8-tjp" id="tQA-uD-520"/>
                         <outlet property="viewResultsButton" destination="PHK-I1-3aE" id="uUV-8o-B79"/>
+                        <outlet property="viewResultsButtonTopConstraint" destination="MGT-QJ-5xU" id="aBi-2A-c1M"/>
+                        <outlet property="viewResultsLabel" destination="9bR-B9-66q" id="me6-uI-99a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yqu-tM-Rfz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3567,31 +3572,31 @@ time remaining is zero. </string>
                     <rect key="frame" x="0.0" y="0.0" width="140" height="35"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Yellow" translatesAutoresizingMaskIntoConstraints="NO" id="GfI-qt-Wdx">
-                            <rect key="frame" x="0.0" y="3.6666666666666679" width="28" height="28"/>
+                            <rect key="frame" x="0.0" y="3.5" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="GfI-qt-Wdx" secondAttribute="height" multiplier="1:1" id="C8n-2C-lyt"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Yellow" translatesAutoresizingMaskIntoConstraints="NO" id="z9m-02-Jwd">
-                            <rect key="frame" x="28" y="3.6666666666666679" width="28" height="28"/>
+                            <rect key="frame" x="28" y="3.5" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="z9m-02-Jwd" secondAttribute="height" multiplier="1:1" id="jVr-Wa-hH3"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Half Yellow" translatesAutoresizingMaskIntoConstraints="NO" id="ABd-f8-eBd">
-                            <rect key="frame" x="56" y="3.6666666666666679" width="28" height="28"/>
+                            <rect key="frame" x="56" y="3.5" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="ABd-f8-eBd" secondAttribute="height" multiplier="1:1" id="hf3-OY-jCZ"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Black 2" translatesAutoresizingMaskIntoConstraints="NO" id="KpE-kv-SQt">
-                            <rect key="frame" x="84" y="3.6666666666666679" width="28" height="28"/>
+                            <rect key="frame" x="84" y="3.5" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="KpE-kv-SQt" secondAttribute="height" multiplier="1:1" id="fzc-z4-8S3"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Black 2" translatesAutoresizingMaskIntoConstraints="NO" id="Zct-1v-sHW">
-                            <rect key="frame" x="112" y="3.6666666666666679" width="28" height="28"/>
+                            <rect key="frame" x="112" y="3.5" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="Zct-1v-sHW" secondAttribute="height" multiplier="1:1" id="gTb-ph-hQ8"/>
                             </constraints>

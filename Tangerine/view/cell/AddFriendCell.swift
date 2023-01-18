@@ -7,7 +7,8 @@
 
 import UIKit
 
-class FriendCell: UITableViewCell {
+/// This is a cell for adding friends
+class AddFriendCell: UITableViewCell {
     @IBOutlet weak var delete_width: NSLayoutConstraint!
     
     var handleClick: (() -> Void)? = nil

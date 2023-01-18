@@ -318,6 +318,9 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
                         
                     })
                 
+                // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
+                Analytics.logEvent(Constants.CREATE_COMPARE, parameters: nil)
+                Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
                 
                 
                 clearOutCurrentCompare()

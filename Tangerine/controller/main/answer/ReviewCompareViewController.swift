@@ -11,6 +11,7 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAnalytics
 //import QuartzCore // I only did this to try and show rounded corners in interface builder
 
 class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
@@ -513,6 +514,9 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             // send to firebase
             
             save(compareReview: createdReview)
+            
+            // Log Analytics Event
+            Analytics.logEvent(Constants.REVIEW_QUESTION, parameters: nil)
             
         }
         

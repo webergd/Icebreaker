@@ -1,12 +1,12 @@
 //
-//  CQViewController.swift
+//  Formerly "CQViewController.swift"
 //  SocialApp
 //
 //  Created by Mahmudul Hasan on 2021-04-15.
 //
 
 import UIKit
-import Firebase
+import Firebase //importing this includes the Analytics package so no need for separate import of that
 import Contacts
 
 /// This is the view that displays after a user has created a Question, and is deciding whether to send it to any of their friends.
@@ -98,10 +98,12 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         let paths = friendListTableView.indexPathsForSelectedRows
         var selectedItems = [Friend]()
-        var receipientNames = [String]()
+        var recipientNames = [String]()
         
         var defaultItemsToRemove = [Friend]()
         var recentItemsToRemove = [Friend]()
+		
+		var numFriendsSentTo: Int = 0
         
         
         // unwrap optional
@@ -111,7 +113,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 // get selected value
                 let friend = displayedList[item.row]
                 selectedItems.append(friend)
-                receipientNames.append(friend.username)
+                recipientNames.append(friend.username)
                 // if sw is on it is default, also recent
                 
                 if saveDefaultSw.isOn{
@@ -151,7 +153,7 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 // selected item doesn't contain this default name, so we should send here as well
                 // cause this is a default name by default !
                 
-                receipientNames.append(item.username)
+                recipientNames.append(item.username)
             }
             
             
@@ -174,8 +176,14 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         // we'll remove the recent items as well
         RealmManager.sharedInstance.removeAllRecent(recentItemsToRemove)
         
-        updateQuestion(newlyCreatedDocID, receipientNames)
+		// Updates the Question in Firestore
+        updateQuestion(newlyCreatedDocID, recipientNames)
+		
+		// determine the number of names on the list for the Question to be sent to so we can include that in the event report
+		numFriendsSentTo = recipientNames.count
         
+		// Log Analytics Event
+		Analytics.logEvent(Constants.SENT_QUESTION_TO_FRIEND, parameters: ["num_friends_sent_to": numFriendsSentTo])
         
         
         let alertVC = UIAlertController(title: "Sent!", message: "Question Sent to selected friends", preferredStyle: .alert)
@@ -232,14 +240,15 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }// end of fetch recent names
     
     
-    // uploadImageToFirebasestorage
-    // which image refers to 1 or 2 ie: top or bottom
-    func updateQuestion(_ docID: String, _ receipients: [String]){
-        
-        Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).updateData([Constants.QUES_RECEIP_KEY:receipients])
+    /// uploads Image To Firebase storage
+    func updateQuestion(_ docID: String, _ recipients: [String]){
+		// which image refers to 1 or 2 ie: top or bottom
+
+        Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).updateData([Constants.QUES_RECEIP_KEY:recipients])
+
         
         // to increment the QFF Count
-        for username in receipients {
+        for username in recipients {
             increaseQFFCountOf(username: username)
         }
         

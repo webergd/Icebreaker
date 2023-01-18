@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseAnalytics
+import FirebaseRemoteConfig
 import RealmSwift
 import BadgeHub
 
@@ -50,6 +52,8 @@ class MainVC: UIViewController {
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var glassView: UIView!
     @IBOutlet weak var cameraButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var reviewOthersButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewResultsButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var spacerView1: UIView!
     
     //Button outlets
@@ -57,6 +61,12 @@ class MainVC: UIViewController {
     @IBOutlet weak var reviewOthersButton: UIButton!
     //this one is redundant with reviewOthersBtn
     @IBOutlet weak var viewResultsButton: UIButton!
+    
+    
+    //Label Outlets
+    @IBOutlet weak var getOpinionsLabel: UILabel!
+    @IBOutlet weak var giveOpinionsLabel: UILabel!
+    @IBOutlet weak var viewResultsLabel: UILabel!
     
     // UI Items:
     var tutorialLabel: UILabel!
@@ -134,16 +144,17 @@ class MainVC: UIViewController {
         // set all Bools to skip tutorial
         self.setTutorialMode(on: false)
     }
-  
+    
     /******************************************************************************************************************************/
     
     /******************************************************************************************************************************/
     
     /// to toggle all switches based on noPrefSw
     func fetchTD(){
-        
+
         // access the auth object, we saved the username as displayname
         if let user = Auth.auth().currentUser, let username = user.displayName{
+          print("Fetching TD: \(username), \(FirebaseManager.shared.getUsersCollection())")
             // save to target demo
             Firestore.firestore()
                 .collection(FirebaseManager.shared.getUsersCollection())
@@ -224,18 +235,18 @@ class MainVC: UIViewController {
     }
     
     
-
-
     
-
+    
+    
+    
     /******************************************************************************************************************************/
     
     
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        // dismiss all view controllers to keep the memory clean
-//        self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
-//    }
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        // dismiss all view controllers to keep the memory clean
+    //        self.view.window?.rootViewController?.dismiss(animated: false, completion: nil)
+    //    }
     
     
     override func viewDidLoad() {
@@ -256,18 +267,22 @@ class MainVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
             self.helpTutorialLabel.fadeInAfter(seconds: inWaitTime)
             self.helpTutorialLabel.fadeOutAfter(seconds: outWaitTime)
-
+            
         }
-
+        
         configureTutorialLabel()
         configureCancelTutorialButton()
-
+        
+        // remote config split testing calls:
+        setupRemoteConfigDefaults()
+        fetchRemoteConfig()
+        
         /// tells system that the glassView was tapped
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
         
         
-       UIApplication.shared.windows.first?.rootViewController = self
+        UIApplication.shared.windows.first?.rootViewController = self
         //UIApplication.shared.windows.first?.makeKeyAndVisible()
         
         // setup the review count
@@ -283,12 +298,18 @@ class MainVC: UIViewController {
         friendBadgeHub.scaleCircleSize(by: 0.75)
         friendBadgeHub.moveCircleBy(x: 5.0, y: 0)
 
-      // for notification
-      addObservers()
+        // ensure user properties are up to date for firebase analytics purposes
+        updateAnalyticsUserProperties()
+        
+        // Set Cohort ID from Constants.swift
+        Analytics.setUserProperty(Constants.CURRENT_COHORT_ID, forName: "cohortID")
+        
+        // for notification
+        addObservers()
 
       // for sandbox
       showSandboxBanner()
-         
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -339,11 +360,14 @@ class MainVC: UIViewController {
             self.showTutorialAsRequired()
         }
     }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    print("VWA")
-  }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("VWA")
+        
+        // this was added to facilitate a smoother visual experience while resetting the vertical constraints of the main icons during the A-B test of cohort0. No need to keep doing this, just be sure to delete the hiding and re-showing of the icons in the centerMainIconsVertically() method.
+        makeMainVCIcons(visible: false)
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -353,7 +377,7 @@ class MainVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-            
+        
     }
     
     @IBAction func websiteButtonTapped(_ sender: Any) {
@@ -390,7 +414,7 @@ class MainVC: UIViewController {
                 
                 if let docs = snapshot?.documents{
                     if docs.count > 0 {
-                       
+                        
                         
                         for item in docs{
                             // save the friend names
@@ -399,26 +423,26 @@ class MainVC: UIViewController {
                                 self.friendBadgeHub.increment()
                                 friendReqCount += 1
                             }
-
+                            
                         }
                         print("Sync done")
                         self.friendBadgeHub.blink()
                         updateBadgeCount()
-
-                        }
-
+                        
+                    }
+                    
                 }// end if let
                 
             }
-                // no need to show alert here
-
-                
+        // no need to show alert here
+        
+        
     }
-
+    
     
     /// Updates the Questoins From Friends count to be displayed on the badge associated with the Review Others icon.
     @objc func updateQFFCount(){
-      print("Setting QFF to \(qFFCount) \(filteredQuestionsToReview.count)")
+        print("Setting QFF to \(qFFCount) \(filteredQuestionsToReview.count)")
         if qFFCount > 0 {
             qffBadgeHub.setCount(qFFCount)
         }else{
@@ -426,41 +450,107 @@ class MainVC: UIViewController {
         }
         
     }
-
-  deinit {
-    removeObservers()
-  }
-
-  func addObservers(){
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(updateQFFCount),
-      name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME) ,
-      object: nil
-    )
-  }
-
-  func removeObservers(){
-    NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue:Constants.QFF_NOTI_NAME), object: nil)
-  }
-
+    
+    deinit {
+        removeObservers()
+    }
+    
+    func addObservers(){
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateQFFCount),
+            name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME) ,
+            object: nil
+        )
+    }
+    
+    func removeObservers(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue:Constants.QFF_NOTI_NAME), object: nil)
+    }
+    
+    
+    /// Hides or show the MainVC icons as requested
+    func makeMainVCIcons(visible: Bool) {
+        let hide = !visible
+        
+        cameraButton.isHidden = hide
+        getOpinionsLabel.isHidden = hide
+        reviewOthersBtn.isHidden = hide
+        giveOpinionsLabel.isHidden = hide
+        viewResultsButton.isHidden = hide
+        viewResultsLabel.isHidden = hide
+    }
+    
     /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
     func centerMainIconsVertically() {
-//        cameraButtonTopConstraint.constant = 10.0
-        let topDistance: CGFloat = cameraButtonTopConstraint.constant
-        let bottomDistance: CGFloat = spacerView1.frame.height
 
+        // MARK: A-B Split Test
+        
+        makeMainVCIcons(visible: false) //hide the icons before we move them
+
+        let ROtestVersion = RemoteConfig.remoteConfig().configValue(forKey: Constants.RO_ON_TOP).boolValue
+        
+        // these need to create the proper top constraint distance to even out but they also need to postion the icon in the right spot, which it is currently not doing
+        // we have the size of all elements so we can compute from each other what the otehr one should be
+
+        // Original Setup with Camera on top as first icon
+        let topDistance: CGFloat = 40//cameraButtonTopConstraint.constant
+        let bottomDistance: CGFloat = spacerView1.frame.height
+        
         let combinedDistance = topDistance + bottomDistance
         let halfDistance = combinedDistance / 2.0
         
-        
-        print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
-        print("bottomConstraint before reset is \(spacerView1.frame.height)")
         cameraButtonTopConstraint.constant = halfDistance
-//        spacerView1.frame.height = halfDistance
         
-        print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
-        print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
+        var topIconConstraintConstant: CGFloat
+        var bottomIconConstraintConstant: CGFloat
+            
+        let heightOfIcon: CGFloat = 60
+        let heightOfLabel: CGFloat = 21
+        let verticalSpaceBetweenIcons: CGFloat = 50
+        
+        topIconConstraintConstant = halfDistance
+        bottomIconConstraintConstant = cameraButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
+        
+        switch ROtestVersion {
+        case false:
+            print("MainVC control version, setting camera on top")
+            cameraButtonTopConstraint.constant = topIconConstraintConstant
+            reviewOthersButtonTopConstraint.constant = bottomIconConstraintConstant
+        case true:
+            print("MainVC test version, setting heart on top")
+            reviewOthersButtonTopConstraint.constant = topIconConstraintConstant
+            cameraButtonTopConstraint.constant = bottomIconConstraintConstant
+        }
+        
+        viewResultsButtonTopConstraint.constant = bottomIconConstraintConstant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
+        
+        // Original Setup with Camera on top as first icon
+//        let topDistance: CGFloat = cameraButtonTopConstraint.constant
+//        let bottomDistance: CGFloat = spacerView1.frame.height
+//
+//        let combinedDistance = topDistance + bottomDistance
+//        let halfDistance = combinedDistance / 2.0
+//
+//
+////            print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
+////            print("bottomConstraint before reset is \(spacerView1.frame.height)")
+//        cameraButtonTopConstraint.constant = halfDistance
+//        //        spacerView1.frame.height = halfDistance
+//
+////            print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
+////            print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
+//
+//        let heightOfIcon: CGFloat = 60
+//        let heightOfLabel: CGFloat = 21
+//        let verticalSpaceBetweenIcons: CGFloat = 50
+//
+//        reviewOthersButtonTopConstraint.constant = cameraButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
+        
+        
+        
+    makeMainVCIcons(visible: true) // show them once we're done moving them
+        
         
     }
     
@@ -484,7 +574,7 @@ class MainVC: UIViewController {
     /// Checks to see if there are any tutorial steps left to complete on MainVC
     func showTutorialAsRequired() {
         let skipTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
-
+        
         if !skipTutorial {
             showTutorial()
         }
@@ -514,7 +604,7 @@ class MainVC: UIViewController {
         
         //MARK:  we also need something where if they user taps somewhere else, it just shows them this next time or maybe even cancels the tutorial
         
-
+        
         // Based on what tutorial phase we're in, we decide what to show the new member
         switch phase {
         case .step0_Intro:
@@ -543,7 +633,7 @@ class MainVC: UIViewController {
                 self.setTutorialMode(on: false)
                 // Once the member has seen this alertView once, we don't want to show it again, even if they do want to go through the tutorial
             }))
-                
+            
             present(alertVC, animated: true, completion: nil)
         case .step1_ReviewOthers:
             tutorialLabel.text = "First, tap GIVE OPINIONS to review some photos!"
@@ -573,10 +663,10 @@ class MainVC: UIViewController {
             tutorialLabel.fadeInAfter(seconds: 0.0)
             tutorialLabel.fadeOutAfter(seconds: 1.5)
             cancelTutorialButton.isHidden = true
-
+            
             // finally after we've shown the last element of the MainVC tutorial, we set the mainVC skip to true:
             self.ud.set(true, forKey: Constants.UD_SKIP_MAINVC_TUTORIAL_Bool)
-        
+            
         }
         TutorialTracker().incrementTutorialFrom(currentPhase: phase)
     }
@@ -591,7 +681,7 @@ class MainVC: UIViewController {
         helpFriendsLabel.isHidden ||
         helpProfileAndSettingsLabel.isHidden ||
         helpHomepageLabel.isHidden
-
+        
         if hidden {
             glassView.isHidden = false
             self.view.bringSubviewToFront(glassView)
@@ -612,7 +702,7 @@ class MainVC: UIViewController {
             helpFriendsLabel.fadeInAfter(seconds: 0.0)
             helpProfileAndSettingsLabel.fadeInAfter(seconds: 0.0)
             helpHomepageLabel.fadeInAfter(seconds: 0.0)
-
+            
             
         } else {
             glassView.isHidden = true
@@ -645,7 +735,7 @@ class MainVC: UIViewController {
         tutorialLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         tutorialLabel.numberOfLines = 3
         tutorialLabel.isHidden = true
-    
+        
         tutorialLabel.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
         
         tutorialLabel.textAlignment = .center
