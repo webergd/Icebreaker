@@ -338,7 +338,7 @@ class ReviewOthersVC: UIViewController{
             
             // zero out reviews required on server
             Firestore.firestore()
-                .collection(Constants.USERS_COLLECTION)
+                .collection(FirebaseManager.shared.getUsersCollection())
                 .document(myProfile.username)
                 .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
                 .document(Constants.USERS_PRIVATE_INFO_DOC).setData([
@@ -360,7 +360,7 @@ class ReviewOthersVC: UIViewController{
                     
                     //unlock on server
                     Firestore.firestore()
-                        .collection(Constants.QUESTIONS_COLLECTION)
+                        .collection(FirebaseManager.shared.getQuestionsCollection())
                         .document(questionToUnlock.question.question_name).updateData([
                             "isLocked":false
                         ])
@@ -425,13 +425,13 @@ class ReviewOthersVC: UIViewController{
         // update the list with me removed as I viewed this question
         
         if reported{
-            Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(filteredQuestionsToReview[index].question.question_name).setData(
+            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(filteredQuestionsToReview[index].question.question_name).setData(
                 [Constants.QUES_RECEIP_KEY:senderList,
                  Constants.QUES_REPORTS: FieldValue.increment(Int64(1))
                 ],
                 merge: true)
         }else{
-            Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(filteredQuestionsToReview[index].question.question_name).setData([Constants.QUES_RECEIP_KEY:senderList], merge: true)
+            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(filteredQuestionsToReview[index].question.question_name).setData([Constants.QUES_RECEIP_KEY:senderList], merge: true)
         }
         
     }
@@ -479,7 +479,7 @@ class ReviewOthersVC: UIViewController{
         // to prevent listening on multiple instance
         if listener == nil {
             print("Listening to live...")
-            listener = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION)
+            listener = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
                 .whereField(Constants.USER_CREATED_KEY, isGreaterThanOrEqualTo: ts)
                 .limit(to: searchLimit).addSnapshotListener { snapshot, error in
                 

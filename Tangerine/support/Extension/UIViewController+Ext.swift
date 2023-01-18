@@ -155,7 +155,26 @@ extension UIViewController {
     }
     
     
-    
+  func showSandboxBanner(){
+
+    if FirebaseManager.shared.isSandboxRunning() {
+
+      let bannerView = UILabel()
+      bannerView.translatesAutoresizingMaskIntoConstraints = false
+      view.addSubview(bannerView)
+
+      bannerView.backgroundColor = .label.withAlphaComponent(0.5)
+      bannerView.textColor = .systemBackground
+
+      bannerView.text = "  Sandbox  "
+
+      NSLayoutConstraint.activate([
+        bannerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        bannerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+      ])
+    }
+
+  }
 
 }
 

@@ -151,12 +151,13 @@ class MainVC: UIViewController {
     
     /// to toggle all switches based on noPrefSw
     func fetchTD(){
-        
+
         // access the auth object, we saved the username as displayname
         if let user = Auth.auth().currentUser, let username = user.displayName{
+          print("Fetching TD: \(username), \(FirebaseManager.shared.getUsersCollection())")
             // save to target demo
             Firestore.firestore()
-                .collection(Constants.USERS_COLLECTION)
+                .collection(FirebaseManager.shared.getUsersCollection())
                 .document(username)
                 .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
                 .document(Constants.USERS_PRIVATE_INFO_DOC).getDocument(completion: {snapshot, err in
@@ -296,8 +297,7 @@ class MainVC: UIViewController {
         
         friendBadgeHub.scaleCircleSize(by: 0.75)
         friendBadgeHub.moveCircleBy(x: 5.0, y: 0)
-        
-        
+
         // ensure user properties are up to date for firebase analytics purposes
         updateAnalyticsUserProperties()
         
@@ -306,6 +306,9 @@ class MainVC: UIViewController {
         
         // for notification
         addObservers()
+
+      // for sandbox
+      showSandboxBanner()
         
     }
     
@@ -394,7 +397,7 @@ class MainVC: UIViewController {
     func updateFriendReqCount(){
         
         Firestore.firestore()
-            .collection(Constants.USERS_COLLECTION)
+            .collection(FirebaseManager.shared.getUsersCollection())
             .document(myProfile.username)
             .collection(Constants.USERS_LIST_SUB_COLLECTION)
             .whereField(Constants.USER_STATUS_KEY, isEqualTo: Status.PENDING.description)

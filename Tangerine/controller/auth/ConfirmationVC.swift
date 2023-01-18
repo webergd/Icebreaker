@@ -148,7 +148,7 @@ class ConfirmationVC: UIViewController, UITextFieldDelegate {
 
           // when editing the displayname will never be null
           // also we just added the phone and checked for error, it won't be null either
-          Firestore.firestore().collection(Constants.USERS_COLLECTION).document(user.displayName!).setData([Constants.USER_NUMBER_KEY:user.phoneNumber!], merge: true){ (error) in
+          Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(user.displayName!).setData([Constants.USER_NUMBER_KEY:user.phoneNumber!], merge: true){ (error) in
 
             if let error = error{
               self.presentDismissAlertOnMainThread(title: "Update Failed", message: error.localizedDescription)

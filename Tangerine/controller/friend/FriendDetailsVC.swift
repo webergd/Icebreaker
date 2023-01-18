@@ -63,12 +63,12 @@ class FriendDetailsVC: UIViewController {
         if status == .PENDING {
             // In MY FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
                 .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
             
             // In THIS PERSON'S FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                 .setData([Constants.USER_STATUS_KEY:Status.FRIEND.description], merge: true)
             
             
@@ -126,7 +126,7 @@ class FriendDetailsVC: UIViewController {
                                                 Constants.USER_IMAGE_KEY:person.imageString]
             
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(myProfile.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(person.username)
                 .setData(personDoc, merge: true)
             
             // TO THIS PERSON'S FIREBASE
@@ -136,7 +136,7 @@ class FriendDetailsVC: UIViewController {
                                             Constants.USER_IMAGE_KEY:myProfile.profile_pic]
             
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(person.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(myProfile.username)
                 .setData(myDoc, merge: true)
             
             
@@ -166,12 +166,12 @@ class FriendDetailsVC: UIViewController {
     @objc func onDeletePressed(_ sender: UIButton) {
         // In MY FIREBASE
         if let user = Auth.auth().currentUser, let name = user.displayName{
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
                 .delete()
             
             // In THIS PERSON'S FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(name)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(name)
                 .delete()
             
             let msg = status == .FRIEND ? "friend" : "request"
@@ -193,12 +193,12 @@ class FriendDetailsVC: UIViewController {
     @objc func onBlockPressed(_ sender: UIButton) {
         // In MY FIREBASE
         if let user = Auth.auth().currentUser, let name = user.displayName{
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(name).collection(Constants.USERS_LIST_SUB_COLLECTION).document(self.username)
                 .setData([Constants.USER_STATUS_KEY:Status.BLOCKED.description], merge: true)
             
             // In THIS PERSON'S FIREBASE
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(name)
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(self.username).collection(Constants.USERS_LIST_SUB_COLLECTION).document(name)
                 .setData([Constants.USER_STATUS_KEY:Status.GOT_BLOCKED.description], merge: true)
             
             
@@ -217,7 +217,7 @@ class FriendDetailsVC: UIViewController {
     
     func getUserDetail(){
         
-        Firestore.firestore().collection(Constants.USERS_COLLECTION).document(username).getDocument{
+        Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(username).getDocument{
             (snap, error) in
             // stop the loader
             

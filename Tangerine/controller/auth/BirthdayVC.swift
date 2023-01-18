@@ -89,7 +89,7 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
     // this username is still valid, although we can take from Auth.auth().user.displayname
     view.showActivityIndicator()
     if let _ = birthdayTF.text{
-      Firestore.firestore().collection(Constants.USERS_COLLECTION).document(Constants.username).setData(
+      Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(Constants.username).setData(
         [Constants.USER_BIRTHDAY_KEY: birthdayTimestamp as Any,
          Constants.USER_NUMBER_KEY: Auth.auth().currentUser?.phoneNumber ?? "0",// user is still authenticated, so it won't never be null
          Constants.USER_DNAME_KEY: Auth.auth().currentUser?.displayName ?? "guest"

@@ -89,7 +89,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
                     // update the display name here
                     
                         
-                        Firestore.firestore().collection(Constants.USERS_COLLECTION).document(username).setData([Constants.USER_DNAME_KEY: text], merge: true) { (error) in
+                        Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(username).setData([Constants.USER_DNAME_KEY: text], merge: true) { (error) in
                             if let err = error{
                                 self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
                                 return
@@ -263,7 +263,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
         if let user = Auth.auth().currentUser, let name = user.displayName{
             // get the documents from firestore
             
-            Firestore.firestore().collection(Constants.USERS_COLLECTION).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
                 (snap, error) in
                 // handle the error
                 if let error = error{
@@ -372,7 +372,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
                 
                 if let user = Auth.auth().currentUser, let username = user.displayName{
                     
-                    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(username).setData([Constants.USER_IMAGE_KEY: downloadUrl.absoluteString], merge: true) { (error) in
+                    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(username).setData([Constants.USER_IMAGE_KEY: downloadUrl.absoluteString], merge: true) { (error) in
                         if let err = error{
                             self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
                             return

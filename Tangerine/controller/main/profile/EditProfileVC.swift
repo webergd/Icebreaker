@@ -153,7 +153,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                     // update the display name here
                     
                     
-                    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(username).setData([Constants.USER_DNAME_KEY: text], merge: true) { [self] (error) in
+                    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(username).setData([Constants.USER_DNAME_KEY: text], merge: true) { [self] (error) in
                         if let err = error{
                             self.updateDnameIndicator.isHidden = true
                             self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
@@ -349,7 +349,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         
         // save the specialty now
-        db.collection(Constants.USERS_COLLECTION)
+        db.collection(FirebaseManager.shared.getUsersCollection())
             .document(myProfile.username).setData(
                 [Constants.USER_ORIENTATION_KEY: self.speText], merge: true) { (error) in
                     if let err = error{
@@ -441,9 +441,9 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         view.showActivityIndicator()
         // delete the user doc
         
-        
-        
-        Firestore.firestore().collection(Constants.USERS_COLLECTION)
+
+        Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection())
+
             .document(myProfile.username).delete { (error) in
                 if let error = error{
                     self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
@@ -534,7 +534,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 
                 if let user = Auth.auth().currentUser, let username = user.displayName{
                     
-                    Firestore.firestore().collection(Constants.USERS_COLLECTION).document(username).setData([Constants.USER_IMAGE_KEY: downloadUrl.absoluteString], merge: true) { (error) in
+                    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).document(username).setData([Constants.USER_IMAGE_KEY: downloadUrl.absoluteString], merge: true) { (error) in
                         if let err = error{
                             self.presentDismissAlertOnMainThread(title: "Server Error", message: err.localizedDescription)
                             return

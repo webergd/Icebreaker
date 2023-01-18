@@ -120,7 +120,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
         if let user = Auth.auth().currentUser, let username = user.displayName{
             // save to target demo
             Firestore.firestore()
-                .collection(Constants.USERS_COLLECTION)
+                .collection(FirebaseManager.shared.getUsersCollection())
                 .document(username)
                 .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
                 .document(Constants.USERS_PRIVATE_INFO_DOC).setData([Constants.USER_TD_KEY: target_demo],merge: true){ err in
@@ -181,7 +181,7 @@ class TargetDemoVC: UIViewController, UIDocumentPickerDelegate,UIPickerViewDataS
             if let user = Auth.auth().currentUser, let username = user.displayName{
                 // save to target demo
                 Firestore.firestore()
-                    .collection(Constants.USERS_COLLECTION)
+                    .collection(FirebaseManager.shared.getUsersCollection())
                     .document(username)
                     .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
                     .document(Constants.USERS_PRIVATE_INFO_DOC).getDocument(completion: {snapshot, err in

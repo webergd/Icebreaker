@@ -710,9 +710,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         
         /// Store the review document to the path we want and it creates the appropriate collection if needed, or adds to the existing one automatically.
         
-        let docID = Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(askReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document().documentID
+        let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(askReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document().documentID
         
-        Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(askReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document(docID).setData(newAskReview){ (error) in
+        Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(askReview.reviewID.questionName).collection(Constants.QUES_REVIEWS).document(docID).setData(newAskReview){ (error) in
             if let error = error {
                 print("questionsRef.document().setData(newAsk):  **error in saving review document for \(askReview.reviewID.questionName); \(error)**")
                 
@@ -720,10 +720,10 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 print("ASK: review done for question \(askReview.reviewID.questionName)")
                 // Updates the reviewed Question's usersSentTo list by adding the reviewerUserName to it.
                 // EDIT MM 2: Do we need the following line anymore? we aren't getting any question twice anyway
-                //                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(askReview.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([askReview.reviewer.username])])
+                //                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(askReview.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([askReview.reviewer.username])])
                 print("List updating for review R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
 
-                Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(askReview.reviewID.questionName).updateData(
+                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(askReview.reviewID.questionName).updateData(
                     [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)), // Increment the number of reviews for the Question that just got reviewed.
 //                     Constants.QUES_RECEIP_KEY: self.recipientList,
 //                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList,
@@ -899,7 +899,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         let username = RealmManager.sharedInstance.getProfile().username
         
         do {
-            try Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).collection(Constants.QUES_REPORTS).addDocument(from: report,completion: { error in
+            try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).collection(Constants.QUES_REPORTS).addDocument(from: report,completion: { error in
                 if let error = error {
                     self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
                     return
@@ -908,9 +908,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                     // don't want to see again
                     // Line 465 => EDIT MM 2: Do we need the following line anymore? we aren't getting any question twice anyway
                     
-                    //                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
+                    //                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
                     
-                    Firestore.firestore().collection(Constants.QUESTIONS_COLLECTION).document(report.questionName).updateData(
+                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData(
                         [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
                          // the arrayRemove calls ensure the user doesn't see the reported Question again
                          Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
