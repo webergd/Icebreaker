@@ -455,16 +455,10 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 // remove db values
                 
                 resetLocalAndRealmDB()
+
+                self.getAndDeleteConnections()
                 
-                
-                // move to login
-                
-                self.view.hideActivityIndicator()
-                
-                let vc = LoginVC()
-                vc.modalPresentationStyle = .fullScreen
-                
-                self.present(vc, animated: true, completion: nil)
+
 
                 
             }// end of doc delete
@@ -487,6 +481,17 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         // Check error as usual
         if let error = error{
           self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+        }
+
+        defer {
+          // move to login
+
+          self.view.hideActivityIndicator()
+
+          let vc = LoginVC()
+          vc.modalPresentationStyle = .fullScreen
+
+          self.present(vc, animated: true, completion: nil)
         }
 
         guard let snapshot = snapshot else {return }
@@ -749,7 +754,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 self.profileImageView.image = image
             }
 
-      getAndDeleteConnections()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {

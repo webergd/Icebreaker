@@ -18,6 +18,7 @@ target 'Tangerine' do
     pod 'RealmSwift', '~>10.5.2'
     pod 'BadgeHub'
     pod 'IQKeyboardManagerSwift'
+pod 'Kingfisher', '~> 7.0'
 
   # Pods for Tangerine
 
