@@ -814,6 +814,7 @@ PODS:
   - gRPC-Core/Interface (1.44.0)
   - GTMSessionFetcher/Core (2.1.0)
   - IQKeyboardManagerSwift (6.5.10)
+  - Kingfisher (7.5.0)
   - leveldb-library (1.22.1)
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
@@ -875,6 +876,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseFirestoreSwift
   - IQKeyboardManagerSwift
+  - Kingfisher (~> 7.0)
   - "MaterialComponents/TextControls+OutlinedTextFields"
   - RealmSwift (~> 10.5.2)
 
@@ -908,6 +910,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - Kingfisher
     - leveldb-library
     - Libuv-gRPC
     - MaterialComponents
@@ -946,6 +949,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMSessionFetcher: ffbb25ec00ebcb5201adab0a56d808f6f1902d9f
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  Kingfisher: b9c2a4a4af2990a768445c277359b27bde287d71
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
@@ -955,6 +959,6 @@ SPEC CHECKSUMS:
   Realm: 2e1bc0d28301006176692da234deff51f867d5ae
   RealmSwift: a522ad39715e8b4e491af4460059bc32b84f5a9b
 
-PODFILE CHECKSUM: 9af32e83f41d924943feec402b2e04189eb5a037
+PODFILE CHECKSUM: c54e7d7c69b312f3c6d7f43b3605d88f9592e0a7
 
 COCOAPODS: 1.11.3

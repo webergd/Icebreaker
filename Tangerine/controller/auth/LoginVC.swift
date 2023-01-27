@@ -150,6 +150,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             if let err = error{
                                 self.view.hideActivityIndicator()
                                 self.presentDismissAlertOnMainThread(title: "Login Error", message: err.localizedDescription)
+                              // try deleting doc as well if present
+                              self.deleteUserDoc(name)
+
                                 return
                             }
                             self.validateLoginUsingFirestore()
@@ -399,11 +402,32 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
                 return
             }
+
+          // updated 27th Jan, if I was unable to signup and force close the app, it occupies the slot.
+          // so deleting it as well
+          if let username = user.displayName {
+            self.deleteUserDoc(username)
+          }
+
+
+
             
             self.presentDismissAlertOnMainThread(title: "Not Found", message: "We couldn't find the account you are trying to login!")
         }
     }
-    
+
+
+  func deleteUserDoc(_ username: String) {
+    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: username).getDocuments { snapshot, error in
+
+      guard let snap = snapshot?.documents, let userDoc = snap.first else {return}
+
+      userDoc.reference.delete()
+
+
+    }
+  }
+
     // MARK: Delegates
     // Delegate method
     // called when user presses return key on keyboard
