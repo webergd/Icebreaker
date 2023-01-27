@@ -19,7 +19,7 @@ class FirebaseManager {
   /// Singleton instance that manages the sandbox status and paths
   static let shared = FirebaseManager()
   /// Controls the internal paths and values, based on the value it holds
-  private var shouldUseSandbox = false
+  private var shouldUseSandbox = true
 
   /// Default Initializer
   private init(){
