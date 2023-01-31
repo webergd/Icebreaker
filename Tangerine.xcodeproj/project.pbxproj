@@ -20,7 +20,6 @@
 		510A348327875CFD002F77F4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510A348227875CFD002F77F4 /* Reachability.swift */; };
 		510BB24426225967001B6B63 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510BB24326225967001B6B63 /* SettingsVC.swift */; };
 		510BB24C26225975001B6B63 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510BB24B26225975001B6B63 /* ProfileVC.swift */; };
-		510D5DCE27CA2D1E0047D18F /* TermsOfService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D5DCD27CA2D1E0047D18F /* TermsOfService.swift */; };
 		510D8CE4263C2B940028CC4E /* FriendDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D8CE3263C2B940028CC4E /* FriendDetailsVC.swift */; };
 		5111900025FE06CD00AFE7C1 /* UNService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51118FFF25FE06CD00AFE7C1 /* UNService.swift */; };
 		5111900B25FE9C2000AFE7C1 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5111900A25FE9C2000AFE7C1 /* LoginVC.swift */; };
@@ -140,7 +139,6 @@
 		510A348227875CFD002F77F4 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		510BB24326225967001B6B63 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		510BB24B26225975001B6B63 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
-		510D5DCD27CA2D1E0047D18F /* TermsOfService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfService.swift; sourceTree = "<group>"; };
 		510D8CE3263C2B940028CC4E /* FriendDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailsVC.swift; sourceTree = "<group>"; };
 		51118FFF25FE06CD00AFE7C1 /* UNService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNService.swift; sourceTree = "<group>"; };
 		5111900A25FE9C2000AFE7C1 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -319,6 +317,17 @@
 				51186D6B284319BA00E91C0D /* UIResponder+Ext.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		513818F829895AB300A6D812 /* manager */ = {
+			isa = PBXGroup;
+			children = (
+				51AA109B2868CAED0092E6DE /* NetworkManager.swift */,
+				2A2B744629762EA00066304B /* RemoteConfigManager.swift */,
+				518DBD502627AA40008314A7 /* RealmManager.swift */,
+				51ABA07A295814DB00D11FF1 /* FirebaseManager.swift */,
+			);
+			path = manager;
 			sourceTree = "<group>";
 		};
 		51406DED272F3C7C003940F3 /* helper */ = {
@@ -540,13 +549,10 @@
 		51C9982F25FBE9B400DC54B4 /* support */ = {
 			isa = PBXGroup;
 			children = (
-				51AA109B2868CAED0092E6DE /* NetworkManager.swift */,
+				513818F829895AB300A6D812 /* manager */,
 				513AC80E2867852F00FAA309 /* Section.swift */,
-				510D5DCD27CA2D1E0047D18F /* TermsOfService.swift */,
 				51E50E56267FDED70055CCC1 /* DataModels.swift */,
 				2A6EA585293E9AEA00EDF46E /* TutorialTracker.swift */,
-				2A2B744629762EA00066304B /* RemoteConfigManager.swift */,
-				518DBD502627AA40008314A7 /* RealmManager.swift */,
 				51E50E54267FDDCC0055CCC1 /* ImageMethods.swift */,
 				512578FD2602146E00FE9C08 /* Extension */,
 				51C997DA25FBDE9000DC54B4 /* AppDelegate.swift */,
@@ -555,7 +561,6 @@
 				51796FBC260D1EF80093E18B /* Constants.swift */,
 				510A348227875CFD002F77F4 /* Reachability.swift */,
 				2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */,
-				51ABA07A295814DB00D11FF1 /* FirebaseManager.swift */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -896,7 +901,6 @@
 				517BF3852694C5970044DE61 /* ActiveQuestionsVC.swift in Sources */,
 				517743B02634590E00AE5BE3 /* Profile.swift in Sources */,
 				518DBD512627AA40008314A7 /* RealmManager.swift in Sources */,
-				510D5DCE27CA2D1E0047D18F /* TermsOfService.swift in Sources */,
 				51796FBD260D1EF80093E18B /* Constants.swift in Sources */,
 				5111900B25FE9C2000AFE7C1 /* LoginVC.swift in Sources */,
 				51320025260E00CA00DA4C5A /* UIViewController+Ext.swift in Sources */,
