@@ -125,6 +125,7 @@ class Constants {
     static let QUES_CREATOR = "creator"
     static let QUES_REPORTS = "reports"
     static let QUES_USERS_NOT_REVIEWED_BY_KEY = "usersNotReviewedBy"
+    static let QUES_ADMIN_REVIEW_REQ = "adminReviewRequired"
     
     // KEYS FOR reviews > ID
     static let QUES_REVIEWS = "reviews"
