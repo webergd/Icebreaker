@@ -223,123 +223,158 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     @IBAction func publishButtonTapped(_ sender: Any) {
         if let iBE1 = currentCompare.imageBeingEdited1, let iBE2 = currentCompare.imageBeingEdited2 {
             // SEND THE QUESTION TO DATABASE
-            
-            let storageRef = Storage.storage().reference();
-            // fetch the username from Auth
-            let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
-            
-            print("Compare \(docID)")
-            if let user = Auth.auth().currentUser, let name = user.displayName{
-                // if nil then it isn't updated on firestore, so displayname it is
-                
-                // create a compare here
+          // fetch the username from Auth
 
-                // bucket/profiles/username/question_name/imageName_1.jpg
-                self.imageRef_1 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_1.jpg")
-                self.imageRef_2 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_2.jpg")
-                
-                let imageData_1 = iBE1.iBEimageBlurredCropped.jpegData(compressionQuality: 0.6)
-                let imageData_2 = iBE2.iBEimageBlurredCropped.jpegData(compressionQuality: 0.6)
-                
-                
-                // put guard for optional
-                guard let data_1 = imageData_1, let data_2 = imageData_2 else {
-                    self.presentDismissAlertOnMainThread(title: "Image Error", message: "Corrupted Image")
-                    return
-                }
-                
-                // create 2 upload task and call send Question
-                
-                // upload the file to imageref 1
-                let uploadTask1 = self.imageRef_1.putData(data_1, metadata: nil){ (metadata,error) in
-                    // check the meta for error check
-                    guard metadata != nil else{
-                        //error
-                        self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
-                        return
-                    }
-                } // end of upload task
-                
-                // start the upload
-                uploadTask1.resume()
-                
-                // upload the file to profileRef
-                let uploadTask2 = self.imageRef_2.putData(data_2, metadata: nil){ (metadata,error) in
-                    // check the meta for error check
-                    guard metadata != nil else{
-                        //error
-                        self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
-                        return
-                    }
-                    
-                } // end of upload task
-                
-                // start the upload
-                uploadTask2.resume()
-            
-                print("Sending to firestore")
-                //Saves the compare to the firestore database
-                // create the question
-                let question = Question(question_name: docID, title_1: iBE1.iBEtitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: iBE1.iBEcaption.text, yLoc_1: iBE1.iBEcaption.yLocation, title_2: iBE2.iBEtitle, imageURL_2: "gs://\(self.imageRef_2.bucket)/\(self.imageRef_2.fullPath)", captionText_2: iBE2.iBEcaption.text, yLoc_2: iBE2.iBEcaption.yLocation, creator: name, recipients: [String]())
-                
-                // save to local Compare
-                myActiveQuestions.append(ActiveQuestion(question: question))
-                saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: iBE1.iBEimageBlurredCropped,isThumb: true)
-                saveImageToDiskWith(imageName: "\(docID)_image_2.jpg", image: iBE2.iBEimageBlurredCropped,isThumb: true)
-                
-                // need to increment local and firestore count here
-                // locked += 1, toReview += 3
-                updateCountOnNewQues()
-                
-                var userList = [String]()
-                FirebaseDatabase.Database.database().reference()
-                    .child("usernames").observe(.value, with: { snapshot in
-                        
-                        if let snapDict = snapshot.value as? [String:AnyObject]{
-                            for item in snapDict{
-                                if item.key != myProfile.username{
-                                    userList.append(item.key)
-                                }
-                                
-                            }// end for
-                            
-                            question.usersNotReviewedBy = userList
-                            
-                            
-                            do{
-                                try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
-                                
-                                userList.removeAll()
-                            }catch let error {
-                                print("Error writing city to Firestore: \(error)")
-                                self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
-                            }
-                        } // if let
-                        
-                    })
-                
-                // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
-                Analytics.logEvent(Constants.CREATE_COMPARE, parameters: nil)
-                Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
-                
-                
-                clearOutCurrentCompare()
-                
-                
-                // GOTO CQ
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
-                vc.modalPresentationStyle = .fullScreen
-                vc.newlyCreatedDocID = question.question_name
-                self.present(vc, animated: true, completion: nil)
-                
-                
-                
-            } // end of if let user
-            
+          print("Running ML")
+
+          //MARK: ML Runs
+          let nudityPercentage1 = NSFWManager.shared.checkNudityIn(image: iBE1.iBEimageBlurredCropped)
+          let nudityPercentage2 = NSFWManager.shared.checkNudityIn(image: iBE2.iBEimageBlurredCropped)
+
+          // SEND THE QUESTION TO DATABASE
+          let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
+          print("Compare: \(docID) Nude1: \(nudityPercentage1) Nude2: \(nudityPercentage2)")
+
+          // instead of getting both, we're comparing the max one
+          let nudityPercentage = max(nudityPercentage1, nudityPercentage2)
+          // update the ML values
+          if nudityPercentage > 25 && nudityPercentage <= 54 {
+
+            // send for review
+            sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true)
+
+          } else if nudityPercentage > 54 {
+            // Delete & increment flag
+            // show an alert for false positive
+            self.presentDismissAlertOnMainThread(title: "Alert", message: "Our ML algorithm detected high probability of adult content in your image(s). Please try again.")
+
+          } else {
+            sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: true, needsReview: false)
+          }
             
         }
     }
+
+  func sendCompareToServer(id docID: String, image1 iBE1: imageBeingEdited, image2 iBE2: imageBeingEdited, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false) {
+
+    let storageRef = Storage.storage().reference();
+
+    print("Compare \(docID)")
+    if let user = Auth.auth().currentUser, let name = user.displayName{
+      // if nil then it isn't updated on firestore, so displayname it is
+
+      // create a compare here
+
+      // bucket/profiles/username/question_name/imageName_1.jpg
+      self.imageRef_1 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_1.jpg")
+      self.imageRef_2 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_2.jpg")
+
+      let imageData_1 = iBE1.iBEimageBlurredCropped.jpegData(compressionQuality: 0.6)
+      let imageData_2 = iBE2.iBEimageBlurredCropped.jpegData(compressionQuality: 0.6)
+
+
+      // put guard for optional
+      guard let data_1 = imageData_1, let data_2 = imageData_2 else {
+        self.presentDismissAlertOnMainThread(title: "Image Error", message: "Corrupted Image")
+        return
+      }
+
+      // create 2 upload task and call send Question
+
+      // upload the file to imageref 1
+      let uploadTask1 = self.imageRef_1.putData(data_1, metadata: nil){ (metadata,error) in
+        // check the meta for error check
+        guard metadata != nil else{
+          //error
+          self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
+          return
+        }
+      } // end of upload task
+
+      // start the upload
+      uploadTask1.resume()
+
+      // upload the file to profileRef
+      let uploadTask2 = self.imageRef_2.putData(data_2, metadata: nil){ (metadata,error) in
+        // check the meta for error check
+        guard metadata != nil else{
+          //error
+          self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
+          return
+        }
+
+      } // end of upload task
+
+      // start the upload
+      uploadTask2.resume()
+
+      print("Sending to firestore")
+      //Saves the compare to the firestore database
+      // create the question
+      let question = Question(question_name: docID, title_1: iBE1.iBEtitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: iBE1.iBEcaption.text, yLoc_1: iBE1.iBEcaption.yLocation, title_2: iBE2.iBEtitle, imageURL_2: "gs://\(self.imageRef_2.bucket)/\(self.imageRef_2.fullPath)", captionText_2: iBE2.iBEcaption.text, yLoc_2: iBE2.iBEcaption.yLocation, creator: name, recipients: [String]())
+
+      // update these
+      question.is_circulating = shouldCirculate
+      question.adminReviewRequired = reviewRequired
+
+      // save to local Compare
+      myActiveQuestions.append(ActiveQuestion(question: question))
+      saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: iBE1.iBEimageBlurredCropped,isThumb: true)
+      saveImageToDiskWith(imageName: "\(docID)_image_2.jpg", image: iBE2.iBEimageBlurredCropped,isThumb: true)
+
+      // need to increment local and firestore count here
+      // locked += 1, toReview += 3
+      updateCountOnNewQues()
+
+      var userList = [String]()
+      FirebaseDatabase.Database.database().reference()
+        .child("usernames").observe(.value, with: { snapshot in
+
+          if let snapDict = snapshot.value as? [String:AnyObject]{
+            for item in snapDict{
+              if item.key != myProfile.username{
+                userList.append(item.key)
+              }
+
+            }// end for
+
+            question.usersNotReviewedBy = userList
+
+
+            do{
+              try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
+
+              userList.removeAll()
+            }catch let error {
+              print("Error writing city to Firestore: \(error)")
+              self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+            }
+
+
+
+
+          } // if let
+
+        })
+
+      // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
+      Analytics.logEvent(Constants.CREATE_COMPARE, parameters: nil)
+      Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
+
+
+      clearOutCurrentCompare()
+
+
+      // GOTO CQ
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let vc = storyboard.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
+      vc.modalPresentationStyle = .fullScreen
+      vc.newlyCreatedDocID = question.question_name
+      self.present(vc, animated: true, completion: nil)
+
+    } // end of if let user
+
+  }
     
 
     
