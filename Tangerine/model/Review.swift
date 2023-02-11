@@ -44,8 +44,10 @@ public struct ReviewID {
 public struct Report : Codable{
     var type: reportType
     var questionName: String
+    var isMLReported: Bool = false
     // MARK: Will eventually need a String to hold a comment.
 }
+
 
 /// These are the different reasons for reporting a Question as inappropriate.
 public enum reportType: String, CaseIterable, Codable {
