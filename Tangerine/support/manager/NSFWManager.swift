@@ -25,7 +25,7 @@ class NSFWManager {
     // Grab the result from prediction
     let proba = output.prob[1].doubleValue
 
-    print("\(String(format: "%.6f", proba * 100))%")
+    print("Nudity: \(String(format: "%.6f", proba * 100))%")
 
     return (proba * 100).rounded()
 

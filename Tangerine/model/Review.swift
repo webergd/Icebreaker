@@ -54,10 +54,6 @@ public enum reportType: String, CaseIterable, Codable {
     case notRelevant = "Not Relevant"
     case other = "Other"
     case cancel = "Cancel" //Used in the drop down menu. Not an actual report type.
-    
-    
-    
-    
 }
 
 /// an "AskReview" is a review of an Ask from a single individual.
