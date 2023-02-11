@@ -307,6 +307,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         // New Credits
                         let credits = doc[Constants.USER_CREDIT_KEY] as? Int ?? 0
                         let lastReviewed = doc[Constants.USER_LAST_REVIEWED_KEY] as? Timestamp ?? Timestamp(date: Date())
+
+                      // New for ML
+                      let banStatus = doc[Constants.USER_BANNED] as? Bool ?? false
                        
                         // create the profile
                         
@@ -357,11 +360,21 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         // Debug purpose
                         //let vc = storyboard.instantiateViewController(withIdentifier: "welcome_vc") as! WelcomeVC
                         //let vc = storyboard.instantiateViewController(withIdentifier: "friends_vc") as! FriendsVC
-                        
+
+                      if banStatus {
+                        self.presentDismissAlertOnMainThread(title: "Notice", message: "Account has been banned from participating in the Tangerine Community for posting inappropriate content")
+
+                      } else {
+
                         let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
                         vc.modalPresentationStyle = .fullScreen
-                        
+
                         self.present(vc, animated: false, completion: nil)
+                        
+                      }
+
+
+
                         
                         //presentVC?.dismiss(animated: false, completion: nil)
 

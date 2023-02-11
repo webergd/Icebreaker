@@ -75,6 +75,10 @@ class Constants {
     
     // New > Dec 13
   static let USER_UN_INDEX_KEY = "username_index"
+// New > Feb 12
+  static let USER_BANNED = "isBanned"
+
+
     // USE UD target demo keys for firestore
     
     // ENDS OF USERS FIELDS
