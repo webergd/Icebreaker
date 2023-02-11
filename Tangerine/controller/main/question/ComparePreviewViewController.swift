@@ -240,6 +240,9 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
           // update the ML values
           if nudityPercentage > 25 && nudityPercentage <= 54 {
 
+            let report: Report = Report(type: .nudity, questionName: docID, isMLReported: true)
+            sendMLReport(report)
+            
             // send for review
             sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true)
 
