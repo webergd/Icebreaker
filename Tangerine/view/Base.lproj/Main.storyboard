@@ -30,7 +30,7 @@
                                 </constraints>
                                 <state key="normal" image="share_photo_icon"/>
                                 <connections>
-                                    <segue destination="2lw-m3-QmY" kind="presentation" identifier="camera_vc" modalPresentationStyle="fullScreen" id="EKg-2o-wWN"/>
+                                    <action selector="cameraButtonTapped:" destination="l5o-ST-kah" eventType="touchUpInside" id="oxW-1Y-qqU"/>
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Opinions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uU-bL-Xlp">
@@ -3572,31 +3572,31 @@ time remaining is zero. </string>
                     <rect key="frame" x="0.0" y="0.0" width="140" height="35"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Yellow" translatesAutoresizingMaskIntoConstraints="NO" id="GfI-qt-Wdx">
-                            <rect key="frame" x="0.0" y="3.5" width="28" height="28"/>
+                            <rect key="frame" x="0.0" y="3.6666666666666679" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="GfI-qt-Wdx" secondAttribute="height" multiplier="1:1" id="C8n-2C-lyt"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Yellow" translatesAutoresizingMaskIntoConstraints="NO" id="z9m-02-Jwd">
-                            <rect key="frame" x="28" y="3.5" width="28" height="28"/>
+                            <rect key="frame" x="28" y="3.6666666666666679" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="z9m-02-Jwd" secondAttribute="height" multiplier="1:1" id="jVr-Wa-hH3"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Half Yellow" translatesAutoresizingMaskIntoConstraints="NO" id="ABd-f8-eBd">
-                            <rect key="frame" x="56" y="3.5" width="28" height="28"/>
+                            <rect key="frame" x="56" y="3.6666666666666679" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="ABd-f8-eBd" secondAttribute="height" multiplier="1:1" id="hf3-OY-jCZ"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Black 2" translatesAutoresizingMaskIntoConstraints="NO" id="KpE-kv-SQt">
-                            <rect key="frame" x="84" y="3.5" width="28" height="28"/>
+                            <rect key="frame" x="84" y="3.6666666666666679" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="KpE-kv-SQt" secondAttribute="height" multiplier="1:1" id="fzc-z4-8S3"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart Black 2" translatesAutoresizingMaskIntoConstraints="NO" id="Zct-1v-sHW">
-                            <rect key="frame" x="112" y="3.5" width="28" height="28"/>
+                            <rect key="frame" x="112" y="3.6666666666666679" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="Zct-1v-sHW" secondAttribute="height" multiplier="1:1" id="gTb-ph-hQ8"/>
                             </constraints>

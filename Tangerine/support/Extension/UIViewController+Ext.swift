@@ -136,6 +136,18 @@ extension UIViewController {
         
         return ageComponent.year ?? 0
     }
+
+    func isSuspensionEnded()-> Bool {
+        // make a date using the date seconds
+        let suspensionEndDate = Date(timeIntervalSince1970: userSuspensionEnds / 1000)
+        // get today
+        let cal = Calendar.current
+        let suspensionComp = cal.dateComponents([.second], from: Date(), to: suspensionEndDate)
+
+        print("SUSPENSION: \(suspensionComp.second)")
+
+        return suspensionComp.second ?? 0 > 0
+    }
     
     func presentFromRight(_ viewControllerToPresent: UIViewController) {
         let transition = CATransition()

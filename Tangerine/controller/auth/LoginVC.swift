@@ -56,6 +56,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     let TEXTFIELDTOPCONSTRAINTDEFAULTVALUE: CGFloat = 40.0
 
+
     // MARK: Actions
     // fires when loginButton is tapped
     @objc func onLoginTapped() {
@@ -310,6 +311,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
                       // New for ML
                       let banStatus = doc[Constants.USER_BANNED] as? Bool ?? false
+                        // for suspension
+                        isUserSuspended = doc[Constants.USER_SUSPENDED] as? Bool ?? false
+                        userSuspensionEnds = doc[Constants.USER_SUSPENSION_ENDS] as? Double ?? 0
                        
                         // create the profile
                         

@@ -201,6 +201,9 @@ public var profileInitialized: Bool = false
 
 // MARK: LOCAL CLIENT VARIABLES
 
+public var isUserSuspended = false
+public var userSuspensionEnds: Double = 0
+
 // These hold data offline and are used to perform actions in absence of the ability to synch with the database.
 // Some push to the database and others pull from it.
 // Reload these in MainController

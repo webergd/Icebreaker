@@ -94,6 +94,7 @@
 		51C997E425FBDE9200DC54B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51C997E325FBDE9200DC54B4 /* Assets.xcassets */; };
 		51C997F225FBDE9300DC54B4 /* TangerineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C997F125FBDE9300DC54B4 /* TangerineTests.swift */; };
 		51C997FD25FBDE9300DC54B4 /* TangerineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C997FC25FBDE9300DC54B4 /* TangerineUITests.swift */; };
+		51CD1DA429A16D65000E73D4 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CD1DA329A16D65000E73D4 /* Date+Ext.swift */; };
 		51D7C06E27C1D997002D168E /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D7C06D27C1D997002D168E /* PasswordResetViewController.swift */; };
 		51DF8EBE2978854D0051E1D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 51DF8EBD2978854D0051E1D6 /* GoogleService-Info.plist */; };
 		51E50E4F267FDA700055CCC1 /* AVCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */; };
@@ -222,6 +223,7 @@
 		51C997F825FBDE9300DC54B4 /* TangerineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TangerineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51C997FC25FBDE9300DC54B4 /* TangerineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TangerineUITests.swift; sourceTree = "<group>"; };
 		51C997FE25FBDE9300DC54B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		51CD1DA329A16D65000E73D4 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		51D7C06D27C1D997002D168E /* PasswordResetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		51DF8EBD2978854D0051E1D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		51E50E4C267FDA6E0055CCC1 /* AVCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVCameraViewController.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				5100470727784278002C8046 /* Question+Ext.swift */,
 				514C47B327AF3BEB00796DEC /* UIView+Ext.swift */,
 				51186D6B284319BA00E91C0D /* UIResponder+Ext.swift */,
+				51CD1DA329A16D65000E73D4 /* Date+Ext.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -924,6 +927,7 @@
 				515EDDCB26850ADC00696B8C /* Question.swift in Sources */,
 				51585F182602A3FE001D8267 /* BirthdayVC.swift in Sources */,
 				51D7C06E27C1D997002D168E /* PasswordResetViewController.swift in Sources */,
+				51CD1DA429A16D65000E73D4 /* Date+Ext.swift in Sources */,
 				51E50E4F267FDA700055CCC1 /* AVCameraViewController.swift in Sources */,
 				5170DC3326370B5600F34354 /* DispatchQueue+Ext.swift in Sources */,
 				517BF3A9269AE5780044DE61 /* CompareReviewsTableViewCell.swift in Sources */,
