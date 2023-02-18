@@ -27,6 +27,27 @@ extension UIViewController {
              self.present(alertVC, animated: true)
         }
     }
+
+    // for present alert with 2 option
+    func presentFalsePositiveAlert(title: String, message: String, completion: @escaping ((Bool)->Void)) {
+        DispatchQueue.main.async {
+            let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+            alertVC.addAction(UIAlertAction(title: "Try Again", style: .cancel, handler: { _ in
+
+                    completion(false)
+
+            }))
+
+            alertVC.addAction(UIAlertAction(title: "Admin Review", style: .default, handler: { _ in
+
+                    completion(true)
+
+            }))
+
+            self.present(alertVC, animated: true)
+        }
+    }
     
     
     

@@ -247,9 +247,14 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
             sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true)
 
           } else if nudityPercentage > 54 {
-            // Delete & increment flag
+
             // show an alert for false positive
-            self.presentDismissAlertOnMainThread(title: "Alert", message: "Our ML algorithm detected high probability of adult content in your image(s). Please try again.")
+              self.presentFalsePositiveAlert(title: "Hey!", message: "Our ML algorithm detected high probability of adult content in your image. Please try again or report to admin. Image with explicit nudity may result in account suspension or ban from the app") { decision in
+                  // The decision true == user wants admin to review, else they'll try again
+                  if decision {
+                      self.sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true)
+                  }
+              }
 
           } else {
             sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: true, needsReview: false)
