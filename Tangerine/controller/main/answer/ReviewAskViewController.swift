@@ -873,8 +873,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 }else{
                     // send the report
                     if let question = self.question{
-                        let report: Report = Report(type: rT, questionName: question.question_name)
-                        self.sendReport(report)
+
+                        self.sendAskReport(for: rT, of: question.question_name)
+
                     }
                     
                 }
@@ -891,44 +892,30 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     
     
     /// Reports are objects created in a Question's reportCollection when reviewing Users flag the Question for negative content.
-    public func sendReport(_ report: Report) {
+    public func sendAskReport(for type: reportType, of id: String) {
         // show animation?
         processReport()
         // MARK: Implement if necessary
         // fetch my username
         let username = RealmManager.sharedInstance.getProfile().username
+        sendReport(for: type, of: id)
         
-        do {
-            try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).collection(Constants.QUES_REPORTS).addDocument(from: report,completion: { error in
-                if let error = error {
-                    self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
-                    return
-                } else {
-                    print("User reported for question \(report.questionName)")
                     // don't want to see again
                     // Line 465 => EDIT MM 2: Do we need the following line anymore? we aren't getting any question twice anyway
-                    
-                    //                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
-                    
-                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData(
+
+                    //Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
+
+                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(id).updateData(
                         [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
                          // the arrayRemove calls ensure the user doesn't see the reported Question again
                          Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
                          Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
                         ])
-                    
+
                     if let bvc = self.blueVC{
                         bvc.showNextQues()
                     }
-                }
-            })
-        } catch let error {
-            print("Error writing city to Firestore: \(error)")
-            self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
-        }
-        
-        
-        
+
     }
     
     

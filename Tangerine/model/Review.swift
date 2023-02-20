@@ -41,13 +41,6 @@ public struct ReviewID {
     let reviewerUserName: String //this is just the reviewer's username
 }
 
-public struct Report : Codable{
-    var type: reportType
-    var questionName: String
-    var isMLReported: Bool = false
-    // MARK: Will eventually need a String to hold a comment.
-}
-
 
 /// These are the different reasons for reporting a Question as inappropriate.
 public enum reportType: String, CaseIterable, Codable {
@@ -55,6 +48,7 @@ public enum reportType: String, CaseIterable, Codable {
     case demeaning = "Demeaning Content"
     case notRelevant = "Not Relevant"
     case other = "Other"
+    case ml = "ML"
     case cancel = "Cancel" //Used in the drop down menu. Not an actual report type.
 }
 
