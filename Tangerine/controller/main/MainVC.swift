@@ -94,7 +94,7 @@ class MainVC: UIViewController {
         if isUserSuspended && isSuspensionEnded(){
             presentDismissAlertOnMainThread(title: "Suspended!", message: "Account posting is suspended until \(Date(timeIntervalSince1970: userSuspensionEnds / 1000).convertToBFDateFormat()) for posting inappropriate content")
         } else {
-            
+
             let st = UIStoryboard(name: "Main", bundle: nil)
             let vc = st.instantiateViewController(withIdentifier: "AVCameraViewController")
             vc.modalPresentationStyle = .fullScreen
