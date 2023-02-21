@@ -1357,7 +1357,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
       // update the ML values
       if nudityPercentage > 25 && nudityPercentage <= 54 {
 
-          sendReport(for: .nudity, of: docID)
+          sendMLReport(for: .ml, of: docID)
         // send for review
         sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true)
 
