@@ -94,6 +94,7 @@ public class Question : Codable, isQuestion{
   var usersNotReviewedBy = [String]()
 
   public var reports: Int = 0
+  public var reportList: Dictionary<String,Int> = [:]
 
   public var reviews: Int = 0
 
@@ -183,7 +184,7 @@ public class Question : Codable, isQuestion{
 
   // Ask
 
-  internal init(question_name: String, title_1: String = "", imageURL_1: String = "", captionText_1: String = "", yLoc_1: Double = 0.0, creator: String, recipients: [String]) {
+    internal init(question_name: String, title_1: String = "", imageURL_1: String = "", captionText_1: String = "", yLoc_1: Double = 0.0, creator: String, recipients: [String], report: Dictionary<String, Int>) {
 
     // save defaults
     self.question_name = question_name
@@ -203,10 +204,11 @@ public class Question : Codable, isQuestion{
     self.type = QType.ASK
     self.recipients = recipients
     self.usersNotReviewedBy = [String]()
+        self.reportList = report
   }
 
   // Compare
-  internal init(question_name: String, title_1: String = "", imageURL_1: String = "", captionText_1: String = "", yLoc_1: Double = 0.0, title_2: String = "", imageURL_2: String = "", captionText_2: String = "", yLoc_2: Double = 0.0, creator: String, recipients: [String]) {
+  internal init(question_name: String, title_1: String = "", imageURL_1: String = "", captionText_1: String = "", yLoc_1: Double = 0.0, title_2: String = "", imageURL_2: String = "", captionText_2: String = "", yLoc_2: Double = 0.0, creator: String, recipients: [String], report: Dictionary<String, Int>) {
 
     // save defaults
     self.question_name = question_name
@@ -230,6 +232,7 @@ public class Question : Codable, isQuestion{
     self.type = QType.COMPARE
     self.recipients = recipients
     self.usersNotReviewedBy = [String]()
+      self.reportList = report
   }
 
 

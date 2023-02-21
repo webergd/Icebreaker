@@ -2866,13 +2866,14 @@ public func resetLocalAndRealmDB(){
 }
 
 /// Reports are objects created in a Question's reportCollection when reviewing Users flag the Question for negative content.
-public func sendMLReport(for type: reportType, of questionName: String) {
-
-    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(questionName)
-            .updateData([
-                "reportList.\(type.rawValue)" :  FieldValue.increment(Int64(1))
-            ])
-}
+//public func sendMLReport(for type: reportType, of questionName: String) {
+//
+//    print("Sending ml report")
+//    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(questionName)
+//            .updateData([
+//                "reportList.\(type.rawValue)" :  FieldValue.increment(Int64(1))
+//            ])
+//}
 
 public func sendReport(for type: reportType, of questionName: String) {
 

@@ -1354,12 +1354,11 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
       // SEND THE QUESTION TO DATABASE
       let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
       print("ASK: \(docID) \(nudityPercentage)")
+        let report = [reportType.ml.rawValue: 1]
       // update the ML values
       if nudityPercentage > 25 && nudityPercentage <= 54 {
-
-          sendMLReport(for: .ml, of: docID)
         // send for review
-        sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true)
+          sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
 
       } else if nudityPercentage > 54 {
         
@@ -1368,7 +1367,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
           self.presentFalsePositiveAlert(title: "Hey!", message: "Our ML algorithm detected high probability of adult content in your image. Please try again or report to admin. Image with explicit nudity may result in account suspension or ban from the app") { decision in
               // The decision true == user wants admin to review, else they'll try again
               if decision {
-                  self.sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true)
+                  self.sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
               }
 
           }
@@ -1380,7 +1379,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
 
-  func sendAskToServer(id docID: String,image imageToCreateAskWith: UIImage, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false) {
+    func sendAskToServer(id docID: String,image imageToCreateAskWith: UIImage, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false, report: Dictionary<String, Int> = [:]) {
 
     // prepare for segue to the Add Friends view - named CQViewController for some reason)
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -1424,7 +1423,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
       //MARK: THE ASK GETS CREATED HERE
 
-      let question = Question(question_name: docID, title_1: currentTitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: captionToCreateAskWith.text, yLoc_1: captionToCreateAskWith.yLocation, creator: name, recipients: [String]())
+      let question = Question(question_name: docID, title_1: currentTitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: captionToCreateAskWith.text, yLoc_1: captionToCreateAskWith.yLocation, creator: name, recipients: [String](), report: report)
 
       // update these
       question.is_circulating = shouldCirculate

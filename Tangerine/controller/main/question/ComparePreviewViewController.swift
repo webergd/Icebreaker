@@ -234,16 +234,15 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
           // SEND THE QUESTION TO DATABASE
           let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
           print("Compare: \(docID) Nude1: \(nudityPercentage1) Nude2: \(nudityPercentage2)")
-
+            let report = [reportType.ml.rawValue: 1]
           // instead of getting both, we're comparing the max one
           let nudityPercentage = max(nudityPercentage1, nudityPercentage2)
           // update the ML values
           if nudityPercentage > 25 && nudityPercentage <= 54 {
 
-              sendMLReport(for: .ml, of: docID)
-            
             // send for review
-            sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true)
+            sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true, report: report)
+            //sendMLReport(for: .ml, of: docID)
 
           } else if nudityPercentage > 54 {
 
@@ -251,7 +250,8 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
               self.presentFalsePositiveAlert(title: "Hey!", message: "Our ML algorithm detected high probability of adult content in your image. Please try again or report to admin. Image with explicit nudity may result in account suspension or ban from the app") { decision in
                   // The decision true == user wants admin to review, else they'll try again
                   if decision {
-                      self.sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true)
+                      self.sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true, report: report)
+                      //sendMLReport(for: .ml, of: docID)
                   }
               }
 
@@ -262,7 +262,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
         }
     }
 
-  func sendCompareToServer(id docID: String, image1 iBE1: imageBeingEdited, image2 iBE2: imageBeingEdited, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false) {
+  func sendCompareToServer(id docID: String, image1 iBE1: imageBeingEdited, image2 iBE2: imageBeingEdited, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false, report: Dictionary<String, Int> = [:]) {
 
     let storageRef = Storage.storage().reference();
 
@@ -318,7 +318,7 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
       print("Sending to firestore")
       //Saves the compare to the firestore database
       // create the question
-      let question = Question(question_name: docID, title_1: iBE1.iBEtitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: iBE1.iBEcaption.text, yLoc_1: iBE1.iBEcaption.yLocation, title_2: iBE2.iBEtitle, imageURL_2: "gs://\(self.imageRef_2.bucket)/\(self.imageRef_2.fullPath)", captionText_2: iBE2.iBEcaption.text, yLoc_2: iBE2.iBEcaption.yLocation, creator: name, recipients: [String]())
+      let question = Question(question_name: docID, title_1: iBE1.iBEtitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: iBE1.iBEcaption.text, yLoc_1: iBE1.iBEcaption.yLocation, title_2: iBE2.iBEtitle, imageURL_2: "gs://\(self.imageRef_2.bucket)/\(self.imageRef_2.fullPath)", captionText_2: iBE2.iBEcaption.text, yLoc_2: iBE2.iBEcaption.yLocation, creator: name, recipients: [String](),report: report)
 
       // update these
       question.is_circulating = shouldCirculate
