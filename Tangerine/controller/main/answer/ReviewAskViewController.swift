@@ -864,6 +864,12 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         
         // this should iterate through all enum values and add them as possible selections in the alertView
         for rT in reportType.allCases/*this was just (reportType) without the .self - if we get an error, we will need to add arguments per the Swift4 conversion - it had 2 options and we chose the easy one - .self*/ {
+
+            //keep ml option out of reporting
+            if rT == .ml {
+                continue
+            }
+
             let action = UIAlertAction(title: rT.rawValue, style: .default) {
                 UIAlertAction in
                 
