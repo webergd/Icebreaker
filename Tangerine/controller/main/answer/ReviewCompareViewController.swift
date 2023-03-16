@@ -70,6 +70,10 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var menuButton: UIButton!
     
+    // MARK: UI Items
+    var skipButton: UIButton!
+    var skipLabel: UILabel!
+    var skipBackgroundView: UIView!
     
     
     // the loading
@@ -97,6 +101,11 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     var usersNotReviewedList = [String]()
     
     var ud = UserDefaults.standard
+    
+    // MARK: Actions
+    @objc func skipButtonPressed(_ sender: UIButton) {
+        
+    }
     
     func configureView() {
         strongImageView.isHidden = true
@@ -137,6 +146,15 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                 obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
                 helpReviewsRemainingLabel.text = reviewCreditsHelpText(on: false)
             }
+            
+            makeCircle(view: self.topLeftBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            makeCircle(view: self.topCenterBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            makeCircle(view: self.topRightBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            makeCircle(view: self.bottomRightBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            makeCircle(view: self.bottomCenterBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            makeCircle(view: self.bottomLeftBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            makeCircle(view: self.helpBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            makeCircle(view: self.skipBackgroundView, alpha: self.backgroundCirclesAlphaValue)
             
             
 //            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
@@ -237,13 +255,14 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
         
-        makeCircle(view: self.topLeftBackgroundView, alpha: self.backgroundCirclesAlphaValue)
-        makeCircle(view: self.topCenterBackgroundView, alpha: self.backgroundCirclesAlphaValue)
-        makeCircle(view: self.topRightBackgroundView, alpha: self.backgroundCirclesAlphaValue)
-        makeCircle(view: self.bottomRightBackgroundView, alpha: self.backgroundCirclesAlphaValue)
-        makeCircle(view: self.bottomCenterBackgroundView, alpha: self.backgroundCirclesAlphaValue)
-        makeCircle(view: self.bottomLeftBackgroundView, alpha: self.backgroundCirclesAlphaValue)
-        makeCircle(view: self.helpBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+        // Configure UI Elements
+        
+        configureSkipBackgroundView()
+        configureSkipButton()
+        configureSkipLabel()
+        
+
+        
         
         // we may or may not need this for ReviewCompareVC
         self.strongOriginalSize = self.strongImageView.frame.size.height
@@ -297,6 +316,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         print("view did layout subviews called in RCVC")
         super.viewDidLayoutSubviews()
         configureView()
+        
     }
     
     func showTutorialAlertViewAsRequired() {
@@ -908,6 +928,83 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
         topIndicator.bringSubviewToFront(view)
         bottomIndicator.bringSubviewToFront(view)
+    }
+    
+    // MARK: PROGRAMMATIC UI
+    func configureSkipButton(){
+        skipButton = UIButton()
+        let largeConfiguration = UIImage.SymbolConfiguration(scale: .large)
+        
+        
+        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeConfiguration), for: .normal)
+        
+        skipButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(skipButton)
+        
+        NSLayoutConstraint.activate([
+            skipButton.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -4),
+            skipButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            // I don't think these h/w constraints are doing anything:
+            skipButton.heightAnchor.constraint(equalToConstant: 20),
+            skipButton.widthAnchor.constraint(equalToConstant: 30)
+            
+        ])
+        
+        skipButton.addTarget(self, action: #selector(skipButtonPressed), for: .touchUpInside)
+    }
+    
+    func configureSkipLabel(){
+        skipLabel = UILabel()
+        //        let largeConfiguration = UIImage.SymbolConfiguration(scale: .large)
+        
+        
+        //        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeConfiguration), for: .normal)
+        
+        skipLabel.text = "Skip"
+        skipLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        skipLabel.textColor = .label
+        skipLabel.textAlignment = .center
+        
+        skipLabel.textColor = .systemBlue
+        
+        skipLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(skipLabel)
+        
+        NSLayoutConstraint.activate([
+            skipLabel.topAnchor.constraint(equalTo: skipButton.bottomAnchor, constant: -3),
+            skipLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            
+        ])
+    }
+    
+    
+    
+    
+    func configureSkipBackgroundView(){
+        skipBackgroundView = UIView()
+        //        let largeConfiguration = UIImage.SymbolConfiguration(scale: .large)
+        
+        
+        //        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeConfiguration), for: .normal)
+        
+    
+        
+        skipBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+//        skipBackgroundView.clipsToBounds = true
+//        skipBackgroundView.autoresizesSubviews = true
+        
+        view.addSubview(skipBackgroundView)
+        
+        skipBackgroundView.backgroundColor = .white
+        
+        NSLayoutConstraint.activate([
+            skipBackgroundView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            skipBackgroundView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            // I don't think these h/w constraints are doing anything:
+            skipBackgroundView.heightAnchor.constraint(equalToConstant: 45),
+            skipBackgroundView.widthAnchor.constraint(equalToConstant: 45)
+      
+        ])
     }
 }
 
