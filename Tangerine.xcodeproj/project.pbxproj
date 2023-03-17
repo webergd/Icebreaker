@@ -292,8 +292,8 @@
 		510BB24226225955001B6B63 /* profile */ = {
 			isa = PBXGroup;
 			children = (
-				510BB24326225967001B6B63 /* SettingsVC.swift */,
 				510BB24B26225975001B6B63 /* ProfileVC.swift */,
+				510BB24326225967001B6B63 /* SettingsVC.swift */,
 				512E1A1A2622637000D0E89C /* ProfileSettingsTabBarController.swift */,
 				517743B4263480DA00AE5BE3 /* EditProfileVC.swift */,
 			);

@@ -218,6 +218,7 @@ class Constants {
     static let CREATE_ASK = "create_ask"
     static let CREATE_COMPARE = "create_compare"
     static let REVIEW_QUESTION = "review_question"
+    static let SKIP_QUESTION = "skip_question"
     static let REVIEW_CREDIT_EARNED = "review_credit_earned"
     static let FRIEND_REQUESTED = "friend_requested"
     static let FRIEND_REQUEST_ACCEPTED = "friend_requst_accepted"

@@ -71,6 +71,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     var skipButton: UIButton!
     var skipLabel: UILabel!
     
+    let largeImageConfiguration = UIImage.SymbolConfiguration(scale: .large)
+    
     // the loading
     var indicator: UIActivityIndicatorView!
     
@@ -98,6 +100,26 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     
     // MARK: Actions
     @objc func skipButtonPressed(_ sender: UIButton) {
+        // also need to show an icon that says its skipped
+//        displaySkipImage()
+        
+        self.selectionImageView.image = UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration)
+        // delays specified number of seconds before executing code in the brackets:
+        UIView.animate(withDuration: 0.5, delay: 0.3,
+                       options: UIView.AnimationOptions.allowAnimatedContent,
+                       animations: {
+            
+            self.selectionImageView.alpha = 0.0
+            self.selectionImageView.isHidden = false
+        },
+                       completion: {
+            finished in
+            self.selectionImageView.isHidden = true
+            self.skipReview()
+        })
+        // find a way to make this delay longer
+        
+            // skips the review after the skip image is shown
         
     }
     
@@ -113,8 +135,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             //            setImage(image: flippedImage)
             //            setImage(flippedImage, for: .normal)
         }
-        
-        
+    
         
         // unwraps the Ask that was sent over:
         if let thisAsk = question {
@@ -245,6 +266,23 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     
     func displayYesImage() {
         self.selectionImageView.image = #imageLiteral(resourceName: "greencheck")
+    }
+    
+    func displaySkipImage() {
+        self.selectionImageView.image = UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration)
+        // delays specified number of seconds before executing code in the brackets:
+        UIView.animate(withDuration: 0.5, delay: 0.3,
+                       options: UIView.AnimationOptions.allowAnimatedContent,
+                       animations: {
+            
+            self.selectionImageView.alpha = 0.0
+            self.selectionImageView.isHidden = false
+        },
+                       completion: {
+            finished in
+            self.selectionImageView.isHidden = true
+            
+        })
     }
     
     
@@ -647,66 +685,89 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         
     } // end of createReview
     
-//    func skipReview() {
-//
-//        
-//        // unwrap the ask again to pull its questionName:
-//        if let question = question{
-//            // send docID
-//            let createdReview: AskReview = AskReview(selection: selection, strong: strong, comments: commentsTextView.text, questionName: question.question_name)
-//            
-//            print("List updating for review Before R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
-//            print("List updating for review QQQ R: \(question.recipients.count) U: \(question.usersNotReviewedBy.count)")
-//            // update the list
-//            
-//            // wtf does this do? I hate abbreviations
-//            var unrSet = Set<String>()
-//            
-//            for item in question.usersNotReviewedBy{
-//                
-//                if item != myProfile.username{
-//                    unrSet.insert(item)
-//                }
-//                
-//            }
-//            
-//            let myUserProfile = RealmManager.sharedInstance.getProfile()
-//            
-//            usersNotReviewedList = Array(unrSet)
-//            
-//            
-//            // update the list of q sent to
-//            var rList = Set<String>()
-//            
-//            
-//            // this rebuilds the entire recipients list making sure that all instances of my username are gone
-//            // Shouldn't be necessary anymore
-//            for item in question.recipients{
-//                
-//                if item != myProfile.username{
-//                    rList.insert(item)
-//                }
-//            }
-//            
-//            recipientList = Array(rList)
-//            
-//            
-//            // do local updates
-//            updateCountOnReviewQues()
-//            // send review to firebase
-//            save(askReview: createdReview)
-//            
-//            // Log Analytics Event
-//            Analytics.logEvent(Constants.REVIEW_QUESTION, parameters: nil)
-//            
-//        }
-//        
-//        print("new review created.")
-//        if let bvc = blueVC{
-//            bvc.showNextQues()
-//        }
-//        
-//    } // end of createReview
+    
+    /* When skipping a Question:
+     All the same things happen that do when the user has reviewed a Question EXCEPT:
+     -no review is created
+     -no review credit increment / review required decrement
+     -display some kind of skipped icon instead of the heart or X
+     -app still cycles to the next Q
+     -reviewing user’s username is still removed from usersNotSentTo
+     */
+    func skipReview() {
+        // need an animation where the card just drops down (similar to Compares) instead of swiping left or right
+
+        // unwrap the ask again to pull its questionName:
+        if let question = question {
+            // send docID
+
+            print("List updating for review Before R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
+            print("List updating for review QQQ R: \(question.recipients.count) U: \(question.usersNotReviewedBy.count)")
+            // update the list
+
+            // unr stands for "users not reviewed"
+            var unrSet = Set<String>()
+
+            // this is building a new usersNotReviewedBy list that does not include my username
+            for item in question.usersNotReviewedBy{
+                if item != myProfile.username{
+                    unrSet.insert(item)
+                }
+            }
+
+            let myUserProfile = RealmManager.sharedInstance.getProfile()
+
+            usersNotReviewedList = Array(unrSet)
+
+            // update the list of q sent to
+            var rList = Set<String>()
+
+            // this rebuilds the entire recipients list making sure that all instances of my username are gone
+            // Shouldn't be necessary anymore
+            for item in question.recipients{
+
+                if item != myProfile.username{
+                    rList.insert(item)
+                }
+            }
+
+            recipientList = Array(rList)
+
+            // Removes the localUser's name from a Question's usersNotSentTo list (or recipient list if sent to him from a friend) in firestore
+            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
+                [//The below calls just delete the local user's username from the lists. Simpler and less errors.
+                 Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                 Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                ]){_ in
+                    
+                    //why are we removing all the names from this? Didn't we just update it?
+                    // or is this just clearing it out for the next Question?
+                    self.recipientList.removeAll()
+                    self.usersNotReviewedList.removeAll()
+                }
+
+            // Log Analytics Event
+            Analytics.logEvent(Constants.SKIP_QUESTION, parameters: nil)
+
+        }
+
+        self.imageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+
+        if let bvc = blueVC{
+            //enables compare to drop off the bottom of the screen after being reviewed
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
+            
+            transition.type = CATransitionType.reveal
+            transition.subtype = CATransitionSubtype.fromBottom
+            self.view.window!.layer.add(transition, forKey: nil)
+            
+            
+            
+            bvc.showNextQues()
+        }
+    } // end of skipReview
     
     
     /// When user swipes up, a 'strong' image displays.
@@ -816,6 +877,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     
     
     
+    
+    
     /*
      func showStrongImage() {
      self.strongImageView.isHidden = false
@@ -858,9 +921,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         case .no:
             displayNoImage()
         }
-        
-        // could make this optional, if nil then its a pass and initiate as req
-        
+            
         
         // delays specified number of seconds before executing code in the brackets:
         UIView.animate(withDuration: 0.5, delay: 0.3,
@@ -1130,10 +1191,8 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     // MARK: PROGRAMMATIC UI
     func configureSkipButton(){
         skipButton = UIButton()
-        let largeConfiguration = UIImage.SymbolConfiguration(scale: .large)
         
-        
-        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeConfiguration), for: .normal)
+        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration), for: .normal)
         
         skipButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(skipButton)
