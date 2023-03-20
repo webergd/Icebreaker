@@ -74,6 +74,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     var skipButton: UIButton!
     var skipLabel: UILabel!
     var skipBackgroundView: UIView!
+    let largeImageConfiguration = UIImage.SymbolConfiguration(scale: .large)
     
     
     // the loading
@@ -103,8 +104,27 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     var ud = UserDefaults.standard
     
     // MARK: Actions
-    @objc func skipButtonPressed(_ sender: UIButton) {
-        
+    @objc func skipButtonTapped(_ sender: UIButton) {
+        // Displays the skip image for a short duration, then executes the rest of what it means to "skip" a Question
+        self.topSelectionImageView.image = UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration)
+        self.bottomSelectionImageView.image = UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration)
+        // delays specified number of seconds before executing code in the brackets:
+        UIView.animate(withDuration: 0.5, delay: 0.3,
+                       options: UIView.AnimationOptions.allowAnimatedContent,
+                       animations: {
+            
+            self.topSelectionImageView.alpha = 0.0
+            self.topSelectionImageView.isHidden = false
+            self.bottomSelectionImageView.alpha = 0.0
+            self.bottomSelectionImageView.isHidden = false
+        },
+                       completion: {
+            finished in
+            self.topSelectionImageView.isHidden = true
+            self.bottomSelectionImageView.isHidden = true
+            // this call executes the remaining skip functionality:
+            self.skipReview()
+        })
     }
     
     func configureView() {
@@ -157,7 +177,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             makeCircle(view: self.skipBackgroundView, alpha: self.backgroundCirclesAlphaValue)
             
             
-//            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
+            //            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
             
             startTopImageLoading(thisCompare)
             startBottomImageLoading(thisCompare)
@@ -167,6 +187,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
     }
     
+
     func startTopImageLoading(_ thisCompare: Question){
         print("startTopImageLoading called")
         downloadOrLoadFirebaseImage(
@@ -261,7 +282,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         configureSkipButton()
         configureSkipLabel()
         
-
+        
         
         
         // we may or may not need this for ReviewCompareVC
@@ -302,7 +323,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        configureView()
+        //        configureView()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAlertViewAsRequired()
         }
@@ -346,7 +367,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                         
                         //MARK: For some reason this report button attention rectangle isn't visible. The menu one works fine. Maybe there is something in front of it or blocking the edges. Not a show stopper for the time being.
                         self.reportButton.addAttentionRectangle()
-//                        self.reportButton.alpha = 1.0
+                        //                        self.reportButton.alpha = 1.0
                         self.menuButton.addAttentionRectangle()
                         print("inside dispatch queue")
                     }
@@ -355,14 +376,14 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
             present(alertVC_1, animated: true, completion: nil)
             
-
             
             
             
-
+            
+            
         }
     }
-
+    
     // Allows the user to zoom within the scrollView that the user is manipulating at the time.
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         if scrollView == topScrollView {
@@ -488,23 +509,23 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         if let thisCompare = question {
             
             // update the review count and that I reviewed
-//            var reviewSet = Set<String>()
-//            reviewSet.insert(myProfile.username)
-//            
-//            for reviewer in thisCompare.q_reviewed{
-//                reviewSet.insert(reviewer)
-//            }
+            //            var reviewSet = Set<String>()
+            //            reviewSet.insert(myProfile.username)
+            //
+            //            for reviewer in thisCompare.q_reviewed{
+            //                reviewSet.insert(reviewer)
+            //            }
             
-//           qReviewList = Array(reviewSet)
+            //           qReviewList = Array(reviewSet)
             
             var unrSet = Set<String>()
             
             for item in thisCompare.usersNotReviewedBy{
-                    
-                    if item != myProfile.username{
-                        unrSet.insert(item)
-                    }
-                    
+                
+                if item != myProfile.username{
+                    unrSet.insert(item)
+                }
+                
             }
             
             usersNotReviewedList = Array(unrSet)
@@ -512,13 +533,13 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             // update the list of q sent to
             var rList = Set<String>()
             
-           
+            
             for item in thisCompare.recipients{
-                        
-                        if item != myProfile.username{
-                            rList.insert(item)
-                        }
-                        
+                
+                if item != myProfile.username{
+                    rList.insert(item)
+                }
+                
             }
             
             recipientList = Array(rList)
@@ -559,9 +580,94 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
     } // end of createReview
     
+    /* When skipping a Question:
+     All the same things happen that do when the user has reviewed a Question EXCEPT:
+     -no review is created
+     -no review credit increment / review required decrement
+     -display some kind of skipped icon instead of the heart or X
+     -app still cycles to the next Q
+     -reviewing user’s username is still removed from usersNotSentTo
+     */
+    func skipReview() {
+        // need an animation where the card just drops down (similar to Compares) instead of swiping left or right
+        
+        // unwrap the ask again to pull its questionName:
+        if let question = question {
+            // send docID
+            
+            print("List updating for review Before R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
+            print("List updating for review QQQ R: \(question.recipients.count) U: \(question.usersNotReviewedBy.count)")
+            // update the list
+            
+            // unr stands for "users not reviewed"
+            var unrSet = Set<String>()
+            
+            // this is building a new usersNotReviewedBy list that does not include my username
+            for item in question.usersNotReviewedBy{
+                if item != myProfile.username{
+                    unrSet.insert(item)
+                }
+            }
+            
+            let myUserProfile = RealmManager.sharedInstance.getProfile()
+            
+            usersNotReviewedList = Array(unrSet)
+            
+            // update the list of q sent to
+            var rList = Set<String>()
+            
+            // this rebuilds the entire recipients list making sure that all instances of my username are gone
+            // Shouldn't be necessary anymore
+            for item in question.recipients{
+                
+                if item != myProfile.username{
+                    rList.insert(item)
+                }
+            }
+            
+            recipientList = Array(rList)
+            
+            // Removes the localUser's name from a Question's usersNotSentTo list (or recipient list if sent to him from a friend) in firestore
+            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
+                [//The below calls just delete the local user's username from the lists. Simpler and less errors.
+                    Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                    Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                ]){_ in
+                    
+                    //why are we removing all the names from this? Didn't we just update it?
+                    // or is this just clearing it out for the next Question?
+                    self.recipientList.removeAll()
+                    self.usersNotReviewedList.removeAll()
+                }
+            
+            // Log Analytics Event
+            Analytics.logEvent(Constants.SKIP_QUESTION, parameters: nil)
+            
+        }
+        
+        self.topImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+        self.bottomImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+        
+        if let bvc = blueVC{
+            //enables compare to drop off the bottom of the screen after being reviewed
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
+            
+            transition.type = CATransitionType.reveal
+            transition.subtype = CATransitionSubtype.fromBottom
+            self.view.window!.layer.add(transition, forKey: nil)
+            
+            
+            
+            bvc.showNextQues()
+        }
+    } // end of skipReview
+    
+    
     /// Toggles the 'strong' flag to denote whether the user feels strongly about his or her review selection. Recall that user does not swipe to create a selection for a compare. He or she taps.
     func userSwiped(gesture: UIGestureRecognizer) {
-
+        
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             if swipeGesture.direction == UISwipeGestureRecognizer.Direction.up {
                 // show the strong arm and set a strong flag to true
@@ -663,16 +769,16 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                 
                 Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareReview.reviewID.questionName).updateData(
                     [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)),
-//                     Constants.QUES_RECEIP_KEY: self.recipientList,
-//                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList
+                     //                     Constants.QUES_RECEIP_KEY: self.recipientList,
+                     //                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList
                      // the above calls were replacing the entire list in firestore. The below calls just delete the local user's username from the lists. Simpler and less errors.
                      Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
                      Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
                     ]){_ in
-                    
-                    self.recipientList.removeAll()
-                    self.usersNotReviewedList.removeAll()
-                }
+                        
+                        self.recipientList.removeAll()
+                        self.usersNotReviewedList.removeAll()
+                    }
                 
                 
                 
@@ -798,7 +904,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                          Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
                          Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
                         ])
-    
+                    
                     if let bvc = self.blueVC{
                         bvc.showNextQues()
                     }
@@ -808,7 +914,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             print("Error writing city to Firestore: \(error)")
             self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
         }
- 
+        
     }
     
     
@@ -858,7 +964,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             self.view.bringSubviewToFront(helpReviewsRemainingLabel)
             self.view.bringSubviewToFront(helpReturnToMainMenuLabel)
             self.view.bringSubviewToFront(helpReportLabel)
-    
+            
             
             if let image = UIImage(named: "question circle green") {
                 helpButton.setImage(image, for: .normal)
@@ -950,7 +1056,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
         ])
         
-        skipButton.addTarget(self, action: #selector(skipButtonPressed), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     func configureSkipLabel(){
@@ -987,11 +1093,11 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
         //        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeConfiguration), for: .normal)
         
-    
+        
         
         skipBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-//        skipBackgroundView.clipsToBounds = true
-//        skipBackgroundView.autoresizesSubviews = true
+        //        skipBackgroundView.clipsToBounds = true
+        //        skipBackgroundView.autoresizesSubviews = true
         
         view.addSubview(skipBackgroundView)
         
@@ -1003,7 +1109,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             // I don't think these h/w constraints are doing anything:
             skipBackgroundView.heightAnchor.constraint(equalToConstant: 45),
             skipBackgroundView.widthAnchor.constraint(equalToConstant: 45)
-      
+            
         ])
     }
 }

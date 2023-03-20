@@ -99,10 +99,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     var ud = UserDefaults.standard
     
     // MARK: Actions
-    @objc func skipButtonPressed(_ sender: UIButton) {
-        // also need to show an icon that says its skipped
-//        displaySkipImage()
+    @objc func skipButtonTapped(_ sender: UIButton) {
         
+        // Displays the skip image for a short duration, then executes the rest of what it means to "skip" a Question
         self.selectionImageView.image = UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration)
         // delays specified number of seconds before executing code in the brackets:
         UIView.animate(withDuration: 0.5, delay: 0.3,
@@ -115,12 +114,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                        completion: {
             finished in
             self.selectionImageView.isHidden = true
+            // this call executes the remaining skip functionality:
             self.skipReview()
         })
-        // find a way to make this delay longer
-        
-            // skips the review after the skip image is shown
-        
     }
     
     func configureView() {
@@ -135,7 +131,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             //            setImage(image: flippedImage)
             //            setImage(flippedImage, for: .normal)
         }
-    
+        
         
         // unwraps the Ask that was sent over:
         if let thisAsk = question {
@@ -267,24 +263,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     func displayYesImage() {
         self.selectionImageView.image = #imageLiteral(resourceName: "greencheck")
     }
-    
-    func displaySkipImage() {
-        self.selectionImageView.image = UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration)
-        // delays specified number of seconds before executing code in the brackets:
-        UIView.animate(withDuration: 0.5, delay: 0.3,
-                       options: UIView.AnimationOptions.allowAnimatedContent,
-                       animations: {
-            
-            self.selectionImageView.alpha = 0.0
-            self.selectionImageView.isHidden = false
-        },
-                       completion: {
-            finished in
-            self.selectionImageView.isHidden = true
-            
-        })
-    }
-    
+        
     
     @IBAction func onViewSwiped(_ sender: UIPanGestureRecognizer) {
         
@@ -696,48 +675,48 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
      */
     func skipReview() {
         // need an animation where the card just drops down (similar to Compares) instead of swiping left or right
-
+        
         // unwrap the ask again to pull its questionName:
         if let question = question {
             // send docID
-
+            
             print("List updating for review Before R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
             print("List updating for review QQQ R: \(question.recipients.count) U: \(question.usersNotReviewedBy.count)")
             // update the list
-
+            
             // unr stands for "users not reviewed"
             var unrSet = Set<String>()
-
+            
             // this is building a new usersNotReviewedBy list that does not include my username
             for item in question.usersNotReviewedBy{
                 if item != myProfile.username{
                     unrSet.insert(item)
                 }
             }
-
+            
             let myUserProfile = RealmManager.sharedInstance.getProfile()
-
+            
             usersNotReviewedList = Array(unrSet)
-
+            
             // update the list of q sent to
             var rList = Set<String>()
-
+            
             // this rebuilds the entire recipients list making sure that all instances of my username are gone
             // Shouldn't be necessary anymore
             for item in question.recipients{
-
+                
                 if item != myProfile.username{
                     rList.insert(item)
                 }
             }
-
+            
             recipientList = Array(rList)
-
+            
             // Removes the localUser's name from a Question's usersNotSentTo list (or recipient list if sent to him from a friend) in firestore
             Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
                 [//The below calls just delete the local user's username from the lists. Simpler and less errors.
-                 Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
-                 Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                    Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                    Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
                 ]){_ in
                     
                     //why are we removing all the names from this? Didn't we just update it?
@@ -745,14 +724,14 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                     self.recipientList.removeAll()
                     self.usersNotReviewedList.removeAll()
                 }
-
+            
             // Log Analytics Event
             Analytics.logEvent(Constants.SKIP_QUESTION, parameters: nil)
-
+            
         }
-
+        
         self.imageView.image = #imageLiteral(resourceName: "loading_large_black.png")
-
+        
         if let bvc = blueVC{
             //enables compare to drop off the bottom of the screen after being reviewed
             let transition = CATransition()
@@ -921,7 +900,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         case .no:
             displayNoImage()
         }
-            
+        
         
         // delays specified number of seconds before executing code in the brackets:
         UIView.animate(withDuration: 0.5, delay: 0.3,
@@ -1206,7 +1185,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
         ])
         
-        skipButton.addTarget(self, action: #selector(skipButtonPressed), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     func configureSkipLabel(){
