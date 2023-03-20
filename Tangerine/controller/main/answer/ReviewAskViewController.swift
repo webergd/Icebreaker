@@ -515,7 +515,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         
         
         if !skipAskTutorial {
-            let alertVC_1 = UIAlertController(title: "Help this person decide WHETHER TO wear this", message: "\nSwipe right or tap the green button if you think they should wear it, if not swipe left or tap the red button. \n\nThey won't see your identity, but your vote will affect the results they see.", preferredStyle: .alert)
+            let alertVC_1 = UIAlertController(title: "Help this person decide if they should wear this", message: "\nSwipe right or tap the green button if you think they should wear it, if not swipe left or tap the red button. \n\nThey won't see your identity, but your vote will affect the results they see.", preferredStyle: .alert)
             
             let alertVC_2 = UIAlertController(title: "Navigation Tips", message: "Review as many photos as you feel like, then tap the menu button (lower left) to return to home. \n\nTo report offensive content, tap the (!) on the bottom right of the screen.", preferredStyle: .alert)
             alertVC_2.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
