@@ -234,5 +234,6 @@ class Constants {
     // remote config key names:
     static let RO_ON_TOP: String = "ROonTop" // This split test is complete.
     // RO_ON_TOP is No longer needed. It is a placeholder so we don't have to comment out a bunch of other things down the change, just to uncomment them again for the next split test.
+    static let SKIP_BUTTON_SHOWN = "SkipButtonShown"
     
 }

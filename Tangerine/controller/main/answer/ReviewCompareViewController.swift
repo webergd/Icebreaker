@@ -12,6 +12,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAnalytics
+import FirebaseRemoteConfig
 //import QuartzCore // I only did this to try and show rounded corners in interface builder
 
 class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
@@ -70,6 +71,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var menuButton: UIButton!
     
+   
     // MARK: UI Items
     var skipButton: UIButton!
     var skipLabel: UILabel!
@@ -174,7 +176,11 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             makeCircle(view: self.bottomCenterBackgroundView, alpha: self.backgroundCirclesAlphaValue)
             makeCircle(view: self.bottomLeftBackgroundView, alpha: self.backgroundCirclesAlphaValue)
             makeCircle(view: self.helpBackgroundView, alpha: self.backgroundCirclesAlphaValue)
-            makeCircle(view: self.skipBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            
+            let showSkipButtonTestVersion = RemoteConfig.remoteConfig().configValue(forKey: Constants.SKIP_BUTTON_SHOWN).boolValue
+            if showSkipButtonTestVersion == true {
+                makeCircle(view: self.skipBackgroundView, alpha: self.backgroundCirclesAlphaValue)
+            }
             
             
             //            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
@@ -276,13 +282,18 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
         
+        
         // Configure UI Elements
         
-        configureSkipBackgroundView()
-        configureSkipButton()
-        configureSkipLabel()
+        // Determine whether this user's device has been selected to recieve a skip button:
+        let showSkipButtonTestVersion = RemoteConfig.remoteConfig().configValue(forKey: Constants.SKIP_BUTTON_SHOWN).boolValue
         
         
+        if showSkipButtonTestVersion == true {
+            configureSkipBackgroundView()
+            configureSkipButton()
+            configureSkipLabel()
+        }
         
         
         // we may or may not need this for ReviewCompareVC
@@ -1082,8 +1093,6 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
         ])
     }
-    
-    
     
     
     func configureSkipBackgroundView(){

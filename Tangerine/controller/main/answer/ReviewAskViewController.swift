@@ -12,6 +12,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAnalytics
+import FirebaseRemoteConfig
 
 class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
     
@@ -410,9 +411,17 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
         
+        
         // Configure UI Elements
-        configureSkipButton()
-        configureSkipLabel()
+        
+        // Determine whether this user's device has been selected to recieve a skip button:
+        let showSkipButtonTestVersion = RemoteConfig.remoteConfig().configValue(forKey: Constants.SKIP_BUTTON_SHOWN).boolValue
+        
+        
+        if showSkipButtonTestVersion == true {
+            configureSkipButton()
+            configureSkipLabel()
+        }
         
         // Set up the Yes and No buttons' appearance:
         makeCircle(button: noButton)
