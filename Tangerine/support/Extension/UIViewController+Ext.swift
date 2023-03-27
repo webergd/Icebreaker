@@ -46,7 +46,7 @@ extension UIViewController {
 
             })
 
-            reviewAction.setValue(UIColor.red, forKey: "titleTextColor  ")
+            reviewAction.setValue(UIColor.red, forKey: "titleTextColor")
             alertVC.addAction(reviewAction)
 
             self.present(alertVC, animated: true)
