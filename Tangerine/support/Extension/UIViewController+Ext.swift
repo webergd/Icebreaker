@@ -29,21 +29,25 @@ extension UIViewController {
     }
 
     // for present alert with 2 option
-    func presentFalsePositiveAlert(title: String, message: String, completion: @escaping ((Bool)->Void)) {
+    func presentFalsePositiveAlert(completion: @escaping ((Bool)->Void)) {
         DispatchQueue.main.async {
-            let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "Tangerine doesn’t allow nudity!", message: "Our filters flagged this as an explicit image. If you think this is in error, you can request request a Human Reviewer who will either approve the image, or ban your account for abuse of this process. Otherwise, crop or blur any nudity out of your photo or upload a new one.", preferredStyle: .alert)
 
-            alertVC.addAction(UIAlertAction(title: "Try Again", style: .cancel, handler: { _ in
+            
+            alertVC.addAction(UIAlertAction(title: "Edit Image", style: .cancel, handler: { _ in
 
                     completion(false)
 
             }))
 
-            alertVC.addAction(UIAlertAction(title: "Admin Review", style: .default, handler: { _ in
+            let reviewAction = UIAlertAction(title: "Send to Human Reviewer", style: .default, handler: { _ in
 
-                    completion(true)
+                completion(true)
 
-            }))
+            })
+
+            reviewAction.setValue(UIColor.red, forKey: "titleTextColor  ")
+            alertVC.addAction(reviewAction)
 
             self.present(alertVC, animated: true)
         }

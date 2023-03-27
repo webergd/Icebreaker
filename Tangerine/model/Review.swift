@@ -49,6 +49,7 @@ public enum reportType: String, CaseIterable, Codable {
     case notRelevant = "Not Relevant"
     case other = "Other"
     case ml = "ML"
+    case requestedReview = "Review Requested"
     case cancel = "Cancel" //Used in the drop down menu. Not an actual report type.
 }
 

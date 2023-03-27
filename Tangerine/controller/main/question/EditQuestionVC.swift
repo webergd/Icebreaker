@@ -1354,9 +1354,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
       // SEND THE QUESTION TO DATABASE
       let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
       print("ASK: \(docID) \(nudityPercentage)")
-        let report = [reportType.ml.rawValue: 1]
+
       // update the ML values
       if nudityPercentage > 25 && nudityPercentage <= 54 {
+          let report = [reportType.ml.rawValue: 1]
         // send for review
           sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
 
@@ -1364,9 +1365,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // show an alert for false positive
 
-          self.presentFalsePositiveAlert(title: "Hey!", message: "Our ML algorithm detected high probability of adult content in your image. Please try again or report to admin. Image with explicit nudity may result in account suspension or ban from the app") { decision in
+          self.presentFalsePositiveAlert { decision in
               // The decision true == user wants admin to review, else they'll try again
               if decision {
+                  let report = [reportType.requestedReview.rawValue: 1]
                   self.sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
               }
 

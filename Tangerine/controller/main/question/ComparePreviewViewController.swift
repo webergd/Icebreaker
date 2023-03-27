@@ -234,12 +234,12 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
           // SEND THE QUESTION TO DATABASE
           let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
           print("Compare: \(docID) Nude1: \(nudityPercentage1) Nude2: \(nudityPercentage2)")
-            let report = [reportType.ml.rawValue: 1]
+
           // instead of getting both, we're comparing the max one
           let nudityPercentage = max(nudityPercentage1, nudityPercentage2)
           // update the ML values
           if nudityPercentage > 25 && nudityPercentage <= 54 {
-
+              let report = [reportType.ml.rawValue: 1]
             // send for review
             sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true, report: report)
             //sendMLReport(for: .ml, of: docID)
@@ -247,9 +247,10 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
           } else if nudityPercentage > 54 {
 
             // show an alert for false positive
-              self.presentFalsePositiveAlert(title: "Hey!", message: "Our ML algorithm detected high probability of adult content in your image. Please try again or report to admin. Image with explicit nudity may result in account suspension or ban from the app") { decision in
+              self.presentFalsePositiveAlert { decision in
                   // The decision true == user wants admin to review, else they'll try again
                   if decision {
+                      let report = [reportType.requestedReview.rawValue: 1]
                       self.sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true, report: report)
                       //sendMLReport(for: .ml, of: docID)
                   }

@@ -726,7 +726,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         for rT in reportType.allCases/*this was just (reportType) without the .self - if we get an error, we will need to add arguments per the Swift4 conversion - it had 2 options and we chose the easy one - .self*/ {
 
             //keep ml option out of reporting
-            if rT == .ml {
+            if rT == .ml  || rT == .requestedReview {
                 continue
             }
             

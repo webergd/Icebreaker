@@ -2454,7 +2454,14 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
                     
                     // if temp and already fetched size is same, no update.
                     // cause all we are doing is just fetching active question
-                    if myActiveQuestions.count != tempActiveQuestions.count {
+
+                    // With recent updates to our Questions and Admin App, I commented out this condition
+                    // so whenever a change is made, we get that. Also, if a new question is posted and a old one
+                    // gets removed, this condition might prevent that since the count will remain the same.
+                    // Checked this one, by playing with is_circulating field. Looks good
+                    // MM : March 28, 2023
+
+                    //if myActiveQuestions.count != tempActiveQuestions.count {
                         print("Updating Active question")
                         if myActiveQuestions.count > 0 {
                             myActiveQuestions.removeAll()
@@ -2462,7 +2469,7 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
                         myActiveQuestions = tempActiveQuestions
                         tempActiveQuestions.removeAll()
                         
-                    }
+                    //}
                     
                     // update or not check the locked status
                     for ques in myActiveQuestions{
