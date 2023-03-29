@@ -401,7 +401,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     } // end of validate func
     
     
-    // delete the temp user from auth profiles
+    // delete the temp user from auth profiles and also from firestore
+    // this function gets called when the system couldn't find his specialty in his user doc
+    // if a user doesn't have specialty, it means the signup wasn't complete
     func delete(_ user : FirebaseAuth.User){
         // stop the loader
         self.view.hideActivityIndicator()
