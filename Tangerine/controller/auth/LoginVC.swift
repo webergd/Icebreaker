@@ -151,8 +151,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             if let err = error{
                                 self.view.hideActivityIndicator()
                                 self.presentDismissAlertOnMainThread(title: "Login Error", message: err.localizedDescription)
-                              // try deleting doc as well if present
-                              self.deleteUserDoc(name)
+                              // We had the error here, it was deleting account for wrong password!
 
                                 return
                             }
@@ -309,12 +308,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         let credits = doc[Constants.USER_CREDIT_KEY] as? Int ?? 0
                         let lastReviewed = doc[Constants.USER_LAST_REVIEWED_KEY] as? Timestamp ?? Timestamp(date: Date())
 
-                      // New for ML
-                      let banStatus = doc[Constants.USER_BANNED] as? Bool ?? false
+                        // New for ML
+                        let banStatus = doc[Constants.USER_BANNED] as? Bool ?? false
                         // for suspension
                         isUserSuspended = doc[Constants.USER_SUSPENDED] as? Bool ?? false
                         userSuspensionEnds = doc[Constants.USER_SUSPENSION_ENDS] as? Double ?? 0
-                       
+
                         // create the profile
                         
                         let profile = Profile()
@@ -354,28 +353,28 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         // Annotate the user's login in Google Analytics
                         Analytics.logEvent(AnalyticsEventLogin, parameters: [
                             AnalyticsParameterMethod: self.method
-                          ])
+                        ])
                         
                         
                         print("User validated with username \(name)")
                         // all good, move to main
                         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                       
+
                         // Debug purpose
                         //let vc = storyboard.instantiateViewController(withIdentifier: "welcome_vc") as! WelcomeVC
                         //let vc = storyboard.instantiateViewController(withIdentifier: "friends_vc") as! FriendsVC
 
-                      if banStatus {
-                        self.presentDismissAlertOnMainThread(title: "Notice", message: "Account has been banned from participating in the Tangerine Community for posting inappropriate content")
+                        if banStatus {
+                            self.presentDismissAlertOnMainThread(title: "Notice", message: "Account has been banned from participating in the Tangerine Community for posting inappropriate content")
 
-                      } else {
+                        } else {
 
-                        let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
-                        vc.modalPresentationStyle = .fullScreen
+                            let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
+                            vc.modalPresentationStyle = .fullScreen
 
-                        self.present(vc, animated: false, completion: nil)
-                        
-                      }
+                            self.present(vc, animated: false, completion: nil)
+
+                        }
 
 
 
@@ -385,19 +384,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     }else{
                         // not present
                         // delete the account and show error
-                        
+                        print("Deleting Account for no specialty")
                         self.delete(user)
                     }
                     
                     
-                }else{
-                    // no user on firestore either
-                    // not present
-                    // delete the account and show error
-                    self.delete(user)
-                    
-                } // end of last else
-                
+                }
+
+                // We had an else here
                 
             } // end of firebase call
             
