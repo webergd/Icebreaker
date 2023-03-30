@@ -58,8 +58,10 @@ class Constants {
     
     static let USER_NUMBER_KEY = "phone_number"
     static let USER_BIRTHDAY_KEY = "bday"
-    
-    static let USER_DNAME_KEY = "dname_lower"
+
+    // it was display_name initially, not sure how it become dname_lower, which is filled by server
+    // changing it back. MM: Mar31, 2023
+    static let USER_DNAME_KEY = "display_name"
     static let USER_IMAGE_KEY = "profile_pic"
     static let USER_RATING_KEY = "rating"
     static let USER_REVIEW_KEY = "reviews"
