@@ -11,11 +11,11 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseAnalytics
 import RealmSwift
+import FirebaseMessaging
 
 
 class LoginVC: UIViewController, UITextFieldDelegate {
-    
-    
+
     // MARK: UI Items
     // to resize the view when keyboard pops
     var usernameTFTopConstraint: NSLayoutConstraint!
@@ -267,8 +267,25 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 // remove data of old user
                 self.removeOldData()
             }
-            
+
+
+
             self.view.showActivityIndicator()
+
+            // force a fcm update as well
+
+            Messaging.messaging().token { token, error in
+
+                guard let token = token else {return}
+
+                print("fcm: \(token)")
+                Firestore.firestore()
+                    .collection(FirebaseManager.shared.getUsersCollection())
+                    .document(name)
+                    .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+                    .document(Constants.USERS_PRIVATE_INFO_DOC).setData(["fcm":token], merge: true)
+
+            }
             
             
             Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
@@ -369,10 +386,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
                         } else {
 
+
                             let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
                             vc.modalPresentationStyle = .fullScreen
 
                             self.present(vc, animated: false, completion: nil)
+
 
                         }
 
