@@ -114,7 +114,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         // for iPad
         
-        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceView = self.profileImageView
         
         
         // present it to user
