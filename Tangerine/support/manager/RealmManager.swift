@@ -180,8 +180,16 @@ class RealmManager {
     // fetch profile
     
     func getProfile()-> Profile{
-        let data = database.object(ofType: Profile.self, forPrimaryKey: 0)
+        //Wyatt repair attempt 2/16/23, delete as desired
+//        if let db = database{
+//            return db.object(ofType: Profile.self, forPrimaryKey: 0) ?? Profile()
+//        } else {
+//            return Profile()
+//        }
         
+        
+        let data = database.object(ofType: Profile.self, forPrimaryKey: 0)
+
         return data ?? Profile()
     }
     

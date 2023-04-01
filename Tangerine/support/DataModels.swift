@@ -1994,10 +1994,7 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
    
    
     filteredQuestionsToReview.append(contentsOf: tempFilterQ.sorted{ $0.priority < $1.priority})
-    
-   
-    
-    
+
     
     // NOW DOWNLOAD IMAGES IN FIFO
     print("After filter we have \(filteredQuestionsToReview.count) filtered question")
@@ -2045,7 +2042,6 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     
     
 }
-
 
 // add lockedQuestionCount += 1
 // add toReview += 3

@@ -501,68 +501,41 @@ class MainVC: UIViewController {
     /// centers the buttons in the view equally between the top of the view and the logout button by making the bottom constraint value equal to the top constraint value.
     func centerMainIconsVertically() {
 
-        // MARK: A-B Split Test
         
         makeMainVCIcons(visible: false) //hide the icons before we move them
 
-        let ROtestVersion = RemoteConfig.remoteConfig().configValue(forKey: Constants.RO_ON_TOP).boolValue
+
         
         // these need to create the proper top constraint distance to even out but they also need to postion the icon in the right spot, which it is currently not doing
         // we have the size of all elements so we can compute from each other what the otehr one should be
 
-        // Original Setup with Camera on top as first icon
-        let topDistance: CGFloat = 40//cameraButtonTopConstraint.constant
-        let bottomDistance: CGFloat = spacerView1.frame.height
+        // Split test code that was here can be found at:
+        // https://docs.google.com/document/d/1e8eo-wDztZUOkRP_9cptoR2paDTYKLTiXxlQ7rVxKGk/edit?usp=share_link
         
+        // Original Setup with Camera on top as first icon
+        let topDistance: CGFloat = cameraButtonTopConstraint.constant
+        let bottomDistance: CGFloat = spacerView1.frame.height
+
         let combinedDistance = topDistance + bottomDistance
         let halfDistance = combinedDistance / 2.0
-        
+
+
+//            print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
+//            print("bottomConstraint before reset is \(spacerView1.frame.height)")
         cameraButtonTopConstraint.constant = halfDistance
-        
-        var topIconConstraintConstant: CGFloat
-        var bottomIconConstraintConstant: CGFloat
-            
+        //        spacerView1.frame.height = halfDistance
+
+//            print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
+//            print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
+
         let heightOfIcon: CGFloat = 60
         let heightOfLabel: CGFloat = 21
         let verticalSpaceBetweenIcons: CGFloat = 50
+
+        reviewOthersButtonTopConstraint.constant = cameraButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
         
-        topIconConstraintConstant = halfDistance
-        bottomIconConstraintConstant = cameraButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
-        
-        switch ROtestVersion {
-        case false:
-            print("MainVC control version, setting camera on top")
-            cameraButtonTopConstraint.constant = topIconConstraintConstant
-            reviewOthersButtonTopConstraint.constant = bottomIconConstraintConstant
-        case true:
-            print("MainVC test version, setting heart on top")
-            reviewOthersButtonTopConstraint.constant = topIconConstraintConstant
-            cameraButtonTopConstraint.constant = bottomIconConstraintConstant
-        }
-        
-        viewResultsButtonTopConstraint.constant = bottomIconConstraintConstant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
-        
-        // Original Setup with Camera on top as first icon
-//        let topDistance: CGFloat = cameraButtonTopConstraint.constant
-//        let bottomDistance: CGFloat = spacerView1.frame.height
-//
-//        let combinedDistance = topDistance + bottomDistance
-//        let halfDistance = combinedDistance / 2.0
-//
-//
-////            print("cameraButtonTopConstraint before reset is \(cameraButtonTopConstraint.constant)")
-////            print("bottomConstraint before reset is \(spacerView1.frame.height)")
-//        cameraButtonTopConstraint.constant = halfDistance
-//        //        spacerView1.frame.height = halfDistance
-//
-////            print("cameraButtonTopConstraint AFTER reset is \(cameraButtonTopConstraint.constant)")
-////            print("bottomConstraint AFTER reset is \(spacerView1.frame.height)")
-//
-//        let heightOfIcon: CGFloat = 60
-//        let heightOfLabel: CGFloat = 21
-//        let verticalSpaceBetweenIcons: CGFloat = 50
-//
-//        reviewOthersButtonTopConstraint.constant = cameraButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
+        // added after RO_ON_TOP split test completion:
+        viewResultsButtonTopConstraint.constant = reviewOthersButtonTopConstraint.constant + heightOfIcon + heightOfLabel + verticalSpaceBetweenIcons
         
         
         

@@ -2352,7 +2352,7 @@
                                 <string key="text">Pinch to zoom
 
 To Return:
-   Swipe back ➡️
+   ➡️Swipe back 
 or
    Tap the back arrow
 
@@ -2701,7 +2701,7 @@ time remaining is zero. </string>
                                     <constraint firstAttribute="height" constant="1" id="5Jf-P3-6KV"/>
                                 </constraints>
                             </view>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⬅️Swipe for Details" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8D3-dW-EYz" userLabel="helpSwipeLeftForDetailsLabel">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe for Details⬅️" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8D3-dW-EYz" userLabel="helpSwipeLeftForDetailsLabel">
                                 <rect key="frame" x="115.5" y="360" width="183.5" height="30"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.70407043859999996" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="blurringInProgressLabel"/>

@@ -12,7 +12,9 @@ import FirebaseRemoteConfig
 
 public func setupRemoteConfigDefaults() {
     let defaultValues = [
-        Constants.RO_ON_TOP: "false" as NSObject
+        Constants.RO_ON_TOP: "false" as NSObject, // this split test is complete. Just a placeholder.
+        // Add defaults for next A-B Test Split Test:
+        Constants.SKIP_BUTTON_SHOWN: "true" as NSObject //before the split test goes live, change this to false
     ]
     RemoteConfig.remoteConfig().setDefaults(defaultValues)
 }
@@ -27,7 +29,7 @@ public func fetchRemoteConfig() {
     
     RemoteConfig.remoteConfig().fetch(withExpirationDuration: 0) { (status, error) in
         guard error == nil else {
-            print("Error fetching remote values: \(error)")
+            print("Error fetching remote values: \(error!)")
             return
         }
         print("Successfully retrieved remote values from the cloud")

@@ -12,6 +12,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAnalytics
+import FirebaseRemoteConfig
 
 class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextViewDelegate {
     
@@ -67,6 +68,11 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var menuButton: UIButton!
     
+    // MARK: UI Items
+    var skipButton: UIButton!
+    var skipLabel: UILabel!
+    
+    let largeImageConfiguration = UIImage.SymbolConfiguration(scale: .large)
     
     // the loading
     var indicator: UIActivityIndicatorView!
@@ -87,17 +93,38 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     let backgroundCirclesAlphaValue: CGFloat = 0.75
     var strongOriginalSize: CGFloat = 70.0 // this is a placeholder value, updated in viewDidLoad()
     
-
+    
     var recipientList = [String]()
     var usersNotReviewedList = [String]()
     
     var ud = UserDefaults.standard
     
+    // MARK: Actions
+    @objc func skipButtonTapped(_ sender: UIButton) {
+        
+        // Displays the skip image for a short duration, then executes the rest of what it means to "skip" a Question
+        self.selectionImageView.image = UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration)
+        // delays specified number of seconds before executing code in the brackets:
+        UIView.animate(withDuration: 0.5, delay: 0.3,
+                       options: UIView.AnimationOptions.allowAnimatedContent,
+                       animations: {
+            
+            self.selectionImageView.alpha = 0.0
+            self.selectionImageView.isHidden = false
+        },
+                       completion: {
+            finished in
+            self.selectionImageView.isHidden = true
+            // this call executes the remaining skip functionality:
+            self.skipReview()
+        })
+    }
+    
     func configureView() {
         strongFlag = false
         strongImageView.isHidden = true
         topCenterBackgroundView.isHidden = true
-     
+        
         //flip left swipe image horizontally because it starts out looking like a right swipe image
         if let image = UIImage(named: "swipe_right") {
             let flippedImage = image.withHorizontallyFlippedOrientation()
@@ -105,7 +132,6 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             //            setImage(image: flippedImage)
             //            setImage(flippedImage, for: .normal)
         }
-        
         
         
         // unwraps the Ask that was sent over:
@@ -194,7 +220,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     }
     func noTapped(){
         displayNoImage()
-//        showSwipeImage(selection: .no)
+        //        showSwipeImage(selection: .no)
         finalizeSelection(selection: .no, xCoord: -1.0)
     }
     
@@ -208,24 +234,24 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     }
     func yesTapped() {
         displayYesImage()
-//        showSwipeImage(selection: .yes)
+        //        showSwipeImage(selection: .yes)
         
-//        // delays specified number of seconds before executing code in the brackets:
-//        UIView.animate(withDuration: 0.5, delay: 0.3,
-//                       options: UIView.AnimationOptions.allowAnimatedContent,
-//                       animations: {
-//
-//            self.selectionImageView.alpha = 0.0
-//            self.selectionImageView.isHidden = false
-//        },
-//                       completion: {
-//            finished in
-////            self.selectionImageView.isHidden = true
-//
-//        })
+        //        // delays specified number of seconds before executing code in the brackets:
+        //        UIView.animate(withDuration: 0.5, delay: 0.3,
+        //                       options: UIView.AnimationOptions.allowAnimatedContent,
+        //                       animations: {
+        //
+        //            self.selectionImageView.alpha = 0.0
+        //            self.selectionImageView.isHidden = false
+        //        },
+        //                       completion: {
+        //            finished in
+        ////            self.selectionImageView.isHidden = true
+        //
+        //        })
         
-//        self.selectionImageView.alpha = 1.0
-//        self.selectionImageView.isHidden = false
+        //        self.selectionImageView.alpha = 1.0
+        //        self.selectionImageView.isHidden = false
         self.finalizeSelection(selection: .yes, xCoord: 1.0)
         
     }
@@ -238,7 +264,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     func displayYesImage() {
         self.selectionImageView.image = #imageLiteral(resourceName: "greencheck")
     }
-    
+        
     
     @IBAction func onViewSwiped(_ sender: UIPanGestureRecognizer) {
         
@@ -264,7 +290,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 // to ensure we don't show before passing center
                 if point.x < 0 {
                     self.displayNoImage()
-//                    self.selectionImageView.image = #imageLiteral(resourceName: "redX")
+                    //                    self.selectionImageView.image = #imageLiteral(resourceName: "redX")
                 }
                 
             case .leftToRight:
@@ -272,7 +298,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 // to ensure we don't show before passing center
                 if point.x > 0{
                     self.displayYesImage()
-//                    self.selectionImageView.image = #imageLiteral(resourceName: "greencheck")
+                    //                    self.selectionImageView.image = #imageLiteral(resourceName: "greencheck")
                 }
                 
                 // display yes image on screen
@@ -332,14 +358,14 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 if currentSelection != nil{
                     
                     finalizeSelection(selection: currentSelection, xCoord: point.x)
-//                    self.showSwipeImage(selection: currentSelection)
-//                    let transition = CATransition()
-//                    transition.duration = 0.5
-//                    transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
-//
-//                    transition.type = CATransitionType.push //was .reveal, .push is about the smoothest option for this config
-//                    transition.subtype = point.x > 0 ? CATransitionSubtype.fromLeft : CATransitionSubtype.fromRight
-//                    self.view.window!.layer.add(transition, forKey: nil)
+                    //                    self.showSwipeImage(selection: currentSelection)
+                    //                    let transition = CATransition()
+                    //                    transition.duration = 0.5
+                    //                    transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
+                    //
+                    //                    transition.type = CATransitionType.push //was .reveal, .push is about the smoothest option for this config
+                    //                    transition.subtype = point.x > 0 ? CATransitionSubtype.fromLeft : CATransitionSubtype.fromRight
+                    //                    self.view.window!.layer.add(transition, forKey: nil)
                 }
             }
             
@@ -384,6 +410,18 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         /// tells system that the glassView was tapped
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
+        
+        
+        // Configure UI Elements
+        
+        // Determine whether this user's device has been selected to recieve a skip button:
+        let showSkipButtonTestVersion = RemoteConfig.remoteConfig().configValue(forKey: Constants.SKIP_BUTTON_SHOWN).boolValue
+        
+        
+        if showSkipButtonTestVersion == true {
+            configureSkipButton()
+            configureSkipLabel()
+        }
         
         // Set up the Yes and No buttons' appearance:
         makeCircle(button: noButton)
@@ -453,7 +491,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Calling configureView() any earlier this here messes up the caption location, presumably because the imageView that the top constraint is relative to has not reached its final size yet.
-//        configureView()
+        //        configureView()
         reportButton.removeAttentionRectangle()
         menuButton.removeAttentionRectangle()
         
@@ -474,10 +512,10 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     func showTutorialAlertViewAsRequired() {
         
         let skipAskTutorial = UserDefaults.standard.bool(forKey: Constants.UD_SKIP_REVIEW_ASK_TUTORIAL_Bool)
-
+        
         
         if !skipAskTutorial {
-            let alertVC_1 = UIAlertController(title: "Help this person decide WHETHER TO wear this", message: "\nSwipe right or tap the green button if you think they should wear it, if not swipe left or tap the red button. \n\nThey won't see your identity, but your vote will affect the results they see.", preferredStyle: .alert)
+            let alertVC_1 = UIAlertController(title: "Help this person decide if they should wear this", message: "\nSwipe right or tap the green button if you think they should wear it, if not swipe left or tap the red button. \n\nThey won't see your identity, but your vote will affect the results they see.", preferredStyle: .alert)
             
             let alertVC_2 = UIAlertController(title: "Navigation Tips", message: "Review as many photos as you feel like, then tap the menu button (lower left) to return to home. \n\nTo report offensive content, tap the (!) on the bottom right of the screen.", preferredStyle: .alert)
             alertVC_2.addAction(UIAlertAction.init(title: "Got It!", style: .cancel, handler: { (action) in
@@ -510,9 +548,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
             
             
-
+            
         }
-
+        
     }
     
     
@@ -592,11 +630,11 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             var unrSet = Set<String>()
             
             for item in question.usersNotReviewedBy{
-                    
-                    if item != myProfile.username{
-                        unrSet.insert(item)
-                    }
-                    
+                
+                if item != myProfile.username{
+                    unrSet.insert(item)
+                }
+                
             }
             
             usersNotReviewedList = Array(unrSet)
@@ -605,14 +643,14 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             // update the list of q sent to
             var rList = Set<String>()
             
-           
+            
             // this rebuilds the entire recipients list making sure that all instances of my username are gone
             // Shouldn't be necessary anymore
             for item in question.recipients{
-                        
-                        if item != myProfile.username{
-                            rList.insert(item)
-                        }
+                
+                if item != myProfile.username{
+                    rList.insert(item)
+                }
             }
             
             recipientList = Array(rList)
@@ -634,6 +672,90 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         }
         
     } // end of createReview
+    
+    
+    /* When skipping a Question:
+     All the same things happen that do when the user has reviewed a Question EXCEPT:
+     -no review is created
+     -no review credit increment / review required decrement
+     -display some kind of skipped icon instead of the heart or X
+     -app still cycles to the next Q
+     -reviewing user’s username is still removed from usersNotSentTo
+     */
+    func skipReview() {
+        // need an animation where the card just drops down (similar to Compares) instead of swiping left or right
+        
+        // unwrap the ask again to pull its questionName:
+        if let question = question {
+            // send docID
+            
+            print("List updating for review Before R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
+            print("List updating for review QQQ R: \(question.recipients.count) U: \(question.usersNotReviewedBy.count)")
+            // update the list
+            
+            // unr stands for "users not reviewed"
+            var unrSet = Set<String>()
+            
+            // this is building a new usersNotReviewedBy list that does not include my username
+            for item in question.usersNotReviewedBy{
+                if item != myProfile.username{
+                    unrSet.insert(item)
+                }
+            }
+            
+            let myUserProfile = RealmManager.sharedInstance.getProfile()
+            
+            usersNotReviewedList = Array(unrSet)
+            
+            // update the list of q sent to
+            var rList = Set<String>()
+            
+            // this rebuilds the entire recipients list making sure that all instances of my username are gone
+            // Shouldn't be necessary anymore
+            for item in question.recipients{
+                
+                if item != myProfile.username{
+                    rList.insert(item)
+                }
+            }
+            
+            recipientList = Array(rList)
+            
+            // Removes the localUser's name from a Question's usersNotSentTo list (or recipient list if sent to him from a friend) in firestore
+            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
+                [//The below calls just delete the local user's username from the lists. Simpler and less errors.
+                    Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                    Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                ]){_ in
+                    
+                    //why are we removing all the names from this? Didn't we just update it?
+                    // or is this just clearing it out for the next Question?
+                    self.recipientList.removeAll()
+                    self.usersNotReviewedList.removeAll()
+                }
+            
+            // Log Analytics Event
+            Analytics.logEvent(Constants.SKIP_QUESTION, parameters: nil)
+            
+        }
+        
+        self.imageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+        
+        if let bvc = blueVC{
+            //enables compare to drop off the bottom of the screen after being reviewed
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
+            
+            transition.type = CATransitionType.reveal
+            transition.subtype = CATransitionSubtype.fromBottom
+            self.view.window!.layer.add(transition, forKey: nil)
+            
+            
+            
+            bvc.showNextQues()
+        }
+    } // end of skipReview
     
     
     /// When user swipes up, a 'strong' image displays.
@@ -666,7 +788,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     // Hides the strong image.
     func hideStrongImage() {
         //uncomment upon restoring strong like functionality
-//        self.centralDisplayLabel.isHidden = false
+        //        self.centralDisplayLabel.isHidden = false
         
         UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.beginFromCurrentState, animations: {
             self.strongImageView.frame.size.height = self.strongOriginalSize * 0.0001
@@ -722,22 +844,24 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 // EDIT MM 2: Do we need the following line anymore? we aren't getting any question twice anyway
                 //                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(askReview.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([askReview.reviewer.username])])
                 print("List updating for review R: \(self.recipientList.count) U: \(self.usersNotReviewedList.count)")
-
+                
                 Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(askReview.reviewID.questionName).updateData(
                     [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)), // Increment the number of reviews for the Question that just got reviewed.
-//                     Constants.QUES_RECEIP_KEY: self.recipientList,
-//                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList,
+                     //                     Constants.QUES_RECEIP_KEY: self.recipientList,
+                     //                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList,
                      // the above calls were replacing the entire list in firestore. The below calls just delete the local user's username from the lists. Simpler and less errors.
                      Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
                      Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
                     ]){_ in
-                    self.recipientList.removeAll()
-                    self.usersNotReviewedList.removeAll()
-                }
+                        self.recipientList.removeAll()
+                        self.usersNotReviewedList.removeAll()
+                    }
                 
             }
         }
     }
+    
+    
     
     
     
@@ -791,7 +915,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         UIView.animate(withDuration: 0.5, delay: 0.3,
                        options: UIView.AnimationOptions.allowAnimatedContent,
                        animations: {
-
+            
             self.selectionImageView.alpha = 0.0
             self.selectionImageView.isHidden = false
         },
@@ -943,7 +1067,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     
     /// shows or hides all the help labels and glassView depending on whether they are hidden at the time it's called
     func toggleHelpDisplay() {
-    
+        
         let hidden = helpReviewOptimizationLabel.isHidden ||
         helpSwipeLeftNoLabel.isHidden ||
         helpSwipeLeftNoUIImage.isHidden ||
@@ -1000,7 +1124,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             self.helpReportLabel.fadeOutAfter(seconds: 0.0)
             
         }
-        // if the glassView is visible, user interaction should be enabled, otherwise, it should be disabled. 
+        // if the glassView is visible, user interaction should be enabled, otherwise, it should be disabled.
         glassView.isUserInteractionEnabled = !glassView.isHidden
     }
     
@@ -1043,6 +1167,51 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         view.addSubview(indicator)
         indicator.bringSubviewToFront(view)
         
+    }
+    
+    // MARK: PROGRAMMATIC UI
+    func configureSkipButton(){
+        skipButton = UIButton()
+        
+        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeImageConfiguration), for: .normal)
+        
+        skipButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(skipButton)
+        
+        NSLayoutConstraint.activate([
+            skipButton.centerYAnchor.constraint(equalTo: yesButton.centerYAnchor),
+            skipButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            // I don't think these h/w constraints are doing anything:
+            skipButton.heightAnchor.constraint(equalToConstant: 20),
+            skipButton.widthAnchor.constraint(equalToConstant: 30)
+            
+        ])
+        
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
+    }
+    
+    func configureSkipLabel(){
+        skipLabel = UILabel()
+        //        let largeConfiguration = UIImage.SymbolConfiguration(scale: .large)
+        
+        
+        //        skipButton.setImage(UIImage(systemName: "forward.fill", withConfiguration: largeConfiguration), for: .normal)
+        
+        skipLabel.text = "Skip"
+        skipLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        skipLabel.textColor = .label
+        skipLabel.textAlignment = .center
+        
+        skipLabel.textColor = .systemBlue
+        
+        skipLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(skipLabel)
+        
+        NSLayoutConstraint.activate([
+            skipLabel.topAnchor.constraint(equalTo: skipButton.bottomAnchor, constant: 0),
+            skipLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            
+        ])
     }
 }
 
