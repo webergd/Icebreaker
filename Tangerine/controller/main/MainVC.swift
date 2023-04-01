@@ -79,11 +79,28 @@ class MainVC: UIViewController {
     /// Detailed instructions on an 'unwind' segue and its use here: https://www.andrewcbancroft.com/2015/12/18/working-with-unwind-segues-programmatically-in-swift/
     @IBAction func unwindToMainVC(segue: UIStoryboardSegue) {}
     
-    
+    @IBAction func cameraButtonTapped(_ sender: UIButton) {
+        handleCameraTapped()
+    }
+
     // for share photo label
     @IBAction func onSharePhotoTapped(_ sender: UITapGestureRecognizer) {
-        
-        performSegue(withIdentifier: "camera_vc", sender: self)
+        handleCameraTapped()
+    }
+
+    private func handleCameraTapped() {
+        print("Getting Opinion")
+        // check the suspension here
+        if isUserSuspended && isSuspensionEnded(){
+            presentDismissAlertOnMainThread(title: "Suspended!", message: "Account posting is suspended until \(Date(timeIntervalSince1970: userSuspensionEnds / 1000).convertToBFDateFormat()) for posting inappropriate content")
+        } else {
+
+            let st = UIStoryboard(name: "Main", bundle: nil)
+            let vc = st.instantiateViewController(withIdentifier: "AVCameraViewController")
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+            //performSegue(withIdentifier: "camera_vc", sender: self)
+        }
     }
     
     

@@ -861,6 +861,12 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         
         // this should iterate through all enum values and add them as possible selections in the alertView
         for rT in reportType.allCases/*this was just (reportType) without the .self - if we get an error, we will need to add arguments per the Swift4 conversion - it had 2 options and we chose the easy one - .self*/ {
+
+            //keep ml option out of reporting
+            if rT == .ml  || rT == .requestedReview {
+                continue
+            }
+            
             let action = UIAlertAction(title: rT.rawValue, style: .default) {
                 UIAlertAction in
                 
@@ -870,8 +876,9 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                 }else{
                     // send the report
                     if let question = self.question{
-                        let report: Report = Report(type: rT, questionName: question.question_name)
-                        self.sendReport(report)
+
+                        self.sendCompareReport(for: rT, of: question.question_name)
+
                     }
                     
                 }
@@ -888,44 +895,33 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     
     /// Reports are objects created in a Question's reportCollection when reviewing Users flag the Question for negative content.
-    public func sendReport(_ report: Report) {
+    public func sendCompareReport(for type: reportType, of id: String) {
         //animation?
         processReport()
         // MARK: Implement if necessary
         // fetch my username
         let username = RealmManager.sharedInstance.getProfile().username
-        
+        sendReport(for: type, of: id)
+
         print("compareVC sendReport called")
-        
-        do {
-            try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).collection(Constants.QUES_REPORTS).addDocument(from: report,completion: { error in
-                if let error = error {
-                    self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
-                    return
-                } else {
-                    print("User reported for question \(report.questionName)")
+
+
                     // see ReviewAskVC line 465
                     // don't want to see again
                     //                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
-                    
-                    
-                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData(
+
+
+                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(id).updateData(
                         [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
                          // the arrayRemove calls ensure the user doesn't see the reported Question again
                          Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
                          Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
                         ])
+
                     
                     if let bvc = self.blueVC{
                         bvc.showNextQues()
                     }
-                }
-            })
-        } catch let error {
-            print("Error writing city to Firestore: \(error)")
-            self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
-        }
-        
     }
     
     

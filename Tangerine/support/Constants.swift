@@ -58,8 +58,10 @@ class Constants {
     
     static let USER_NUMBER_KEY = "phone_number"
     static let USER_BIRTHDAY_KEY = "bday"
-    
-    static let USER_DNAME_KEY = "dname_lower"
+
+    // it was display_name initially, not sure how it become dname_lower, which is filled by server
+    // changing it back. MM: Mar31, 2023
+    static let USER_DNAME_KEY = "display_name"
     static let USER_IMAGE_KEY = "profile_pic"
     static let USER_RATING_KEY = "rating"
     static let USER_REVIEW_KEY = "reviews"
@@ -75,6 +77,13 @@ class Constants {
     
     // New > Dec 13
   static let USER_UN_INDEX_KEY = "username_index"
+// New > Feb 12
+  static let USER_BANNED = "isBanned"
+    // New > Feb 19
+    static let USER_SUSPENDED = "isSuspended"
+    static let USER_SUSPENSION_ENDS = "suspensionEnds"
+
+
     // USE UD target demo keys for firestore
     
     // ENDS OF USERS FIELDS
@@ -124,7 +133,9 @@ class Constants {
     static let QUES_IN_CIRCULATION = "is_circulating"
     static let QUES_CREATOR = "creator"
     static let QUES_REPORTS = "reports"
+    static let QUES_REPORT_MAP = "reportList"
     static let QUES_USERS_NOT_REVIEWED_BY_KEY = "usersNotReviewedBy"
+    static let QUES_ADMIN_REVIEW_REQ = "adminReviewRequired"
     
     // KEYS FOR reviews > ID
     static let QUES_REVIEWS = "reviews"

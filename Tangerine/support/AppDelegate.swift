@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         let config = Realm.Configuration(
                   // Set the new schema version. This must be greater than the previously used
                   // version (if you've never set a schema version before, the version is 0).
-                  schemaVersion: 2,
+          // changed to 3: adminReviewRequired added
+                  schemaVersion: 3,
 
                   // Set the block which will be called automatically when opening a Realm with
                   // a schema version lower than the one set above
@@ -85,6 +86,89 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     // for firebase auth for verification, see the doc for more info
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Did receive notification")
+
+        if let userBannedStatus = userInfo["isBanned"] as? String {
+
+            if let isUserBanned = Bool(userBannedStatus), isUserBanned == true {
+
+                do {
+                    try Auth.auth().signOut()
+                    // clear the realm db
+                    // update the local db
+
+                    resetLocalAndRealmDB()
+
+                    resetQuestionRelatedThings() // detailed on declaration of this func => Cmd+Click (Jump to Definition)
+                    // Move to login
+
+
+                    let vc = LoginVC()
+                    vc.modalPresentationStyle = .fullScreen
+
+                    guard let window = UIApplication.shared.windows.first else {
+                        return
+                    }
+
+                    window.rootViewController = vc
+                    window.makeKeyAndVisible()
+
+
+                } catch let signOutError as NSError {
+                    print ("Error signing out: %@", signOutError)
+                }
+            } // if
+        }
+
+        if let userSuspendedStatus = userInfo["isSuspended"] as? String {
+
+            if let userSuspended = Bool(userSuspendedStatus) {
+
+                if let _ = Auth.auth().currentUser {
+
+                    isUserSuspended = userSuspended
+                    let sED = userInfo["suspensionEnds"] as? String ?? ""
+                    userSuspensionEnds = Double(sED) ?? 0.0
+
+                    print("User suspended? \(isUserSuspended) \(userSuspensionEnds)")
+                    // Move to main
+
+                    if userSuspended {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
+                        vc.modalPresentationStyle = .fullScreen
+
+                        guard let window = UIApplication.shared.windows.first else {
+                            return
+                        }
+
+                        window.rootViewController = vc
+                        window.makeKeyAndVisible()
+                    }
+
+                }
+
+                // So if the user isn't logged in, I don't see the point of moving him to login
+                // because as soon as he logs in we'll update the value
+
+//                else {
+//                    // Move to login
+//                    let vc = LoginVC()
+//                    vc.modalPresentationStyle = .fullScreen
+//
+//                    guard let window = UIApplication.shared.windows.first else {
+//                        return
+//                    }
+//
+//                    window.rootViewController = vc
+//                    window.makeKeyAndVisible()
+//                }
+
+
+            }
+
+
+        }
+
         if Auth.auth().canHandleNotification(userInfo) {
             completionHandler(.noData)
             return

@@ -114,7 +114,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         // for iPad
         
-        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceView = self.profileImageView
         
         
         // present it to user
@@ -455,20 +455,11 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 // remove db values
                 
                 resetLocalAndRealmDB()
+
+                self.getAndDeleteConnections()
                 
-                
-                // move to login
-                
-                self.view.hideActivityIndicator()
-                
-                let vc = LoginVC()
-                vc.modalPresentationStyle = .fullScreen
-                
-                self.present(vc, animated: true, completion: nil)
-                
-                // private docs, connection_list, storage will be deleted from cloud function
-                
-             
+
+
                 
             }// end of doc delete
         
@@ -477,7 +468,63 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         
     }// end of delete user
-    
+
+  // T22-44 On member profile delete, also delete all pending friend requests
+  // I'm getting my friend list
+  func getAndDeleteConnections(){
+
+    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection())
+      .document(myProfile.username)
+      .collection(Constants.USERS_LIST_SUB_COLLECTION)
+      .getDocuments { snapshot, error in
+
+        // Check error as usual
+        if let error = error{
+          self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+        }
+
+        defer {
+          // move to login
+
+          self.view.hideActivityIndicator()
+
+          let vc = LoginVC()
+          vc.modalPresentationStyle = .fullScreen
+
+          self.present(vc, animated: true, completion: nil)
+        }
+
+        guard let snapshot = snapshot else {return }
+
+        // Get a new write batch
+        let batch = FirebaseFirestore.Firestore.firestore().batch()
+
+        // get our connections
+        for friendDoc in snapshot.documents {
+          print("We got a connection: \(friendDoc.documentID)")
+          let friendRef = Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection())
+            .document(friendDoc.documentID)
+            .collection(Constants.USERS_LIST_SUB_COLLECTION)
+            .document(myProfile.username)
+
+          // add that connection to delete
+          batch.deleteDocument(friendRef)
+        }
+
+        // execute the batch
+        batch.commit() { err in
+          if let err = err {
+            print("Error writing batch \(err)")
+          } else {
+            print("Batch write succeeded.")
+          }
+        }
+
+
+
+
+      }
+  }
     
     
     
@@ -706,6 +753,8 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 print("Profile Image Downloaded for MYSELF")
                 self.profileImageView.image = image
             }
+
+
     }
     
     override func viewDidAppear(_ animated: Bool) {

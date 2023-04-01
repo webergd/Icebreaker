@@ -1336,6 +1336,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     /// create a new Ask using the photo, title, and timestamp
     func createAsk() {
+
         print("creating ask")
         currentImage = self.sFunc_imageFixOrientation(img:self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage
         currentImage = self.cropImage(currentImage)
@@ -1343,108 +1344,148 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // fixes image orientation
         let imageToCreateAskWith: UIImage = self.sFunc_imageFixOrientation(img: currentImage)
         
-        let captionToCreateAskWith = createCaption()
-        
-        
-        // the current image needs to be taken care of
 
-        // prepare for segue to the Add Friends view - named CQViewController for some reason)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
-        vc.modalPresentationStyle = .fullScreen
-        
-        // Send the ask
-        // SEND THE QUESTION TO DATABASE
-        let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
-        
-        if let user = Auth.auth().currentUser, let name = user.displayName{
-            
-            let storageRef = Storage.storage().reference();
-            // create an ask here
-            // bucket/profiles/username/question_name/imageName_1.jpg
-            imageRef_1 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_1.jpg")
-            
-            let imageData: Data? = imageToCreateAskWith.jpegData(compressionQuality: 0.6)
-            
-            // put guard because imageData is an optional type
-            guard let data = imageData else {
-                presentDismissAlertOnMainThread(title: "Image Error", message: "Corrupted Image")
-                return
-            }
-            
-            
-            // upload the file to profileRef
-            let uploadTask = imageRef_1.putData(data, metadata: nil){ (metadata,error) in
-                // check the meta for error check
-                guard metadata != nil else{
-                    //error
-                    self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
-                    return
-                }
-                
-            } // end of upload task
-            
-            // start the upload
-            uploadTask.resume()
-            
-            
-            // write it to firebase firestore
-            
-            //MARK: THE ASK GETS CREATED HERE
-            
-            let question = Question(question_name: docID, title_1: currentTitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: captionToCreateAskWith.text, yLoc_1: captionToCreateAskWith.yLocation, creator: name, recipients: [String]())
-            
-            print("ASK \(docID)")
-            
-            // save to local ASK
-            myActiveQuestions.append(ActiveQuestion(question: question))
-            saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: imageToCreateAskWith,isThumb: true)
-            
-            // need to increment local and firestore count here
-            // locked += 1, toReview += 3
-            updateCountOnNewQues()
-            
-            // move to CQ
-            vc.newlyCreatedDocID = docID
-            self.present(vc, animated: true, completion: nil)
-            
-            // save to firestore
-            var userList = [String]()
-                FirebaseDatabase.Database.database().reference()
-                    .child("usernames").observe(.value, with: { snapshot in
-                        
-                        if let snapDict = snapshot.value as? [String:AnyObject]{
-                            
-                            for item in snapDict{
-                                if item.key != myProfile.username{
-                                    userList.append(item.key)
-                                }
-                                
-                            }// end for
-                            
-                            question.usersNotReviewedBy = userList
-                            
-                            
-                            do{
-                            try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
-                                clearOutCurrentCompare()
-                                
-                                userList.removeAll()
-                            }catch let error {
-                                print("Error writing city to Firestore: \(error)")
-                                self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
-                            }
-                        } // if let
-                        
-                    })
-            
-            // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
-            Analytics.logEvent(Constants.CREATE_ASK, parameters: nil)
-            Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
 
-        }// end if let user
+      print("Running ML")
+
+      //MARK: ML Runs
+      let nudityPercentage = NSFWManager.shared.checkNudityIn(image: imageToCreateAskWith)
+
+      // SEND THE QUESTION TO DATABASE
+      let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
+      print("ASK: \(docID) \(nudityPercentage)")
+
+      // update the ML values
+      if nudityPercentage > 25 && nudityPercentage <= 54 {
+          let report = [reportType.ml.rawValue: 1]
+        // send for review
+          sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
+
+      } else if nudityPercentage > 54 {
+        
+        // show an alert for false positive
+
+          self.presentFalsePositiveAlert { decision in
+              // The decision true == user wants admin to review, else they'll try again
+              if decision {
+                  let report = [reportType.requestedReview.rawValue: 1]
+                  self.sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
+              }
+
+          }
+
+      } else {
+        sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: true, needsReview: false)
+      }
+
         
     }
+
+    func sendAskToServer(id docID: String,image imageToCreateAskWith: UIImage, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false, report: Dictionary<String, Int> = [:]) {
+
+    // prepare for segue to the Add Friends view - named CQViewController for some reason)
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let vc = storyboard.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
+    vc.modalPresentationStyle = .fullScreen
+
+    let captionToCreateAskWith = createCaption()
+
+    if let user = Auth.auth().currentUser, let name = user.displayName {
+
+      let storageRef = Storage.storage().reference();
+      // create an ask here
+      // bucket/profiles/username/question_name/imageName_1.jpg
+      imageRef_1 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_1.jpg")
+
+      let imageData: Data? = imageToCreateAskWith.jpegData(compressionQuality: 0.6)
+
+      // put guard because imageData is an optional type
+      guard let data = imageData else {
+        presentDismissAlertOnMainThread(title: "Image Error", message: "Corrupted Image")
+        return
+      }
+
+
+      // upload the file to profileRef
+      let uploadTask = imageRef_1.putData(data, metadata: nil){ (metadata,error) in
+        // check the meta for error check
+        guard metadata != nil else{
+          //error
+          self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
+          return
+        }
+
+      } // end of upload task
+
+      // start the upload
+      uploadTask.resume()
+
+
+      // write it to firebase firestore
+
+      //MARK: THE ASK GETS CREATED HERE
+
+      let question = Question(question_name: docID, title_1: currentTitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: captionToCreateAskWith.text, yLoc_1: captionToCreateAskWith.yLocation, creator: name, recipients: [String](), report: report)
+
+      // update these
+      question.is_circulating = shouldCirculate
+      question.adminReviewRequired = reviewRequired
+
+      print("ASK \(docID)")
+
+
+      // save to local ASK
+      myActiveQuestions.append(ActiveQuestion(question: question))
+      saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: imageToCreateAskWith,isThumb: true)
+
+      // need to increment local and firestore count here
+      // locked += 1, toReview += 3
+      updateCountOnNewQues()
+
+      // move to CQ
+      vc.newlyCreatedDocID = docID
+      self.present(vc, animated: true, completion: nil)
+
+      // save to firestore
+      var userList = [String]()
+      FirebaseDatabase.Database.database().reference()
+        .child("usernames").observe(.value, with: { snapshot in
+
+          if let snapDict = snapshot.value as? [String:AnyObject]{
+
+            for item in snapDict{
+              if item.key != myProfile.username{
+                userList.append(item.key)
+              }
+
+            }// end for
+
+            question.usersNotReviewedBy = userList
+
+
+            do{
+              try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
+
+
+
+              clearOutCurrentCompare()
+
+              userList.removeAll()
+            }catch let error {
+              print("Error writing city to Firestore: \(error)")
+              self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+            }
+          } // if let
+
+        })
+
+      // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
+      Analytics.logEvent(Constants.CREATE_ASK, parameters: nil)
+      Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
+
+    }// end if let user
+
+  }
     
     
     @IBAction func helpButtonTapped(_ sender: Any) {

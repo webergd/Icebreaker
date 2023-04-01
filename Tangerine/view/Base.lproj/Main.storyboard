@@ -30,7 +30,7 @@
                                 </constraints>
                                 <state key="normal" image="share_photo_icon"/>
                                 <connections>
-                                    <segue destination="2lw-m3-QmY" kind="presentation" identifier="camera_vc" modalPresentationStyle="fullScreen" id="EKg-2o-wWN"/>
+                                    <action selector="cameraButtonTapped:" destination="l5o-ST-kah" eventType="touchUpInside" id="oxW-1Y-qqU"/>
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Opinions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uU-bL-Xlp">

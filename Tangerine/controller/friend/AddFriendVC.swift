@@ -574,17 +574,23 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
               continue
             }
 
-            if self.addedList.contains(user.username) {
-              print("Found in added list")
-              self.displayedContacts[key].status = .REQUESTED
-            } else if myFriendNames.contains(user.username) {
-              print("Found in friends list")
-              self.displayedContacts[key].status = .FRIEND
-            }else{
-              self.displayedContacts[key].status = .REGISTERED
+            // Update in reponse to T22-76 Build a sandbox: Out of Range error: Jan28, 2023
+            // non efficient: self.displayedContacts.indices.contains(key)
+            if key >= self.displayedContacts.startIndex && key < self.displayedContacts.endIndex {
+
+              if self.addedList.contains(user.username) {
+                print("Found in added list")
+                self.displayedContacts[key].status = .REQUESTED
+              } else if myFriendNames.contains(user.username) {
+                print("Found in friends list")
+                self.displayedContacts[key].status = .FRIEND
+              }else{
+                self.displayedContacts[key].status = .REGISTERED
+              }
+
+              self.displayedContacts[key].username = user.username
             }
 
-            self.displayedContacts[key].username = user.username
 
           }
 

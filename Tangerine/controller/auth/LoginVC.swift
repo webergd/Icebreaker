@@ -11,11 +11,11 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseAnalytics
 import RealmSwift
+import FirebaseMessaging
 
 
 class LoginVC: UIViewController, UITextFieldDelegate {
-    
-    
+
     // MARK: UI Items
     // to resize the view when keyboard pops
     var usernameTFTopConstraint: NSLayoutConstraint!
@@ -55,6 +55,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     let ud = UserDefaults.standard
     
     let TEXTFIELDTOPCONSTRAINTDEFAULTVALUE: CGFloat = 40.0
+
 
     // MARK: Actions
     // fires when loginButton is tapped
@@ -150,6 +151,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             if let err = error{
                                 self.view.hideActivityIndicator()
                                 self.presentDismissAlertOnMainThread(title: "Login Error", message: err.localizedDescription)
+                              // We had the error here, it was deleting account for wrong password!
+
                                 return
                             }
                             self.validateLoginUsingFirestore()
@@ -264,8 +267,25 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 // remove data of old user
                 self.removeOldData()
             }
-            
+
+
+
             self.view.showActivityIndicator()
+
+            // force a fcm update as well
+
+            Messaging.messaging().token { token, error in
+
+                guard let token = token else {return}
+
+                print("fcm: \(token)")
+                Firestore.firestore()
+                    .collection(FirebaseManager.shared.getUsersCollection())
+                    .document(name)
+                    .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+                    .document(Constants.USERS_PRIVATE_INFO_DOC).setData(["fcm":token], merge: true)
+
+            }
             
             
             Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
@@ -304,7 +324,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         // New Credits
                         let credits = doc[Constants.USER_CREDIT_KEY] as? Int ?? 0
                         let lastReviewed = doc[Constants.USER_LAST_REVIEWED_KEY] as? Timestamp ?? Timestamp(date: Date())
-                       
+
+                        // New for ML
+                        let banStatus = doc[Constants.USER_BANNED] as? Bool ?? false
+                        // for suspension
+                        isUserSuspended = doc[Constants.USER_SUSPENDED] as? Bool ?? false
+                        userSuspensionEnds = doc[Constants.USER_SUSPENSION_ENDS] as? Double ?? 0
+
                         // create the profile
                         
                         let profile = Profile()
@@ -344,40 +370,47 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         // Annotate the user's login in Google Analytics
                         Analytics.logEvent(AnalyticsEventLogin, parameters: [
                             AnalyticsParameterMethod: self.method
-                          ])
+                        ])
                         
                         
                         print("User validated with username \(name)")
                         // all good, move to main
                         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                       
+
                         // Debug purpose
                         //let vc = storyboard.instantiateViewController(withIdentifier: "welcome_vc") as! WelcomeVC
                         //let vc = storyboard.instantiateViewController(withIdentifier: "friends_vc") as! FriendsVC
-                        
-                        let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
-                        vc.modalPresentationStyle = .fullScreen
-                        
-                        self.present(vc, animated: false, completion: nil)
+
+                        if banStatus {
+                            self.presentDismissAlertOnMainThread(title: "Notice", message: "Account has been banned from participating in the Tangerine Community for posting inappropriate content")
+
+                        } else {
+
+
+                            let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
+                            vc.modalPresentationStyle = .fullScreen
+
+                            self.present(vc, animated: false, completion: nil)
+
+
+                        }
+
+
+
                         
                         //presentVC?.dismiss(animated: false, completion: nil)
 
                     }else{
                         // not present
                         // delete the account and show error
-                        
+                        print("Deleting Account for no specialty")
                         self.delete(user)
                     }
                     
                     
-                }else{
-                    // no user on firestore either
-                    // not present
-                    // delete the account and show error
-                    self.delete(user)
-                    
-                } // end of last else
-                
+                }
+
+                // We had an else here
                 
             } // end of firebase call
             
@@ -387,7 +420,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     } // end of validate func
     
     
-    // delete the temp user from auth profiles
+    // delete the temp user from auth profiles and also from firestore
+    // this function gets called when the system couldn't find his specialty in his user doc
+    // if a user doesn't have specialty, it means the signup wasn't complete
     func delete(_ user : FirebaseAuth.User){
         // stop the loader
         self.view.hideActivityIndicator()
@@ -399,11 +434,32 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
                 return
             }
+
+          // updated 27th Jan, if I was unable to signup and force close the app, it occupies the slot.
+          // so deleting it as well
+          if let username = user.displayName {
+            self.deleteUserDoc(username)
+          }
+
+
+
             
             self.presentDismissAlertOnMainThread(title: "Not Found", message: "We couldn't find the account you are trying to login!")
         }
     }
-    
+
+
+  func deleteUserDoc(_ username: String) {
+    Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: username).getDocuments { snapshot, error in
+
+      guard let snap = snapshot?.documents, let userDoc = snap.first else {return}
+
+      userDoc.reference.delete()
+
+
+    }
+  }
+
     // MARK: Delegates
     // Delegate method
     // called when user presses return key on keyboard

@@ -27,6 +27,31 @@ extension UIViewController {
              self.present(alertVC, animated: true)
         }
     }
+
+    // for present alert with 2 option
+    func presentFalsePositiveAlert(completion: @escaping ((Bool)->Void)) {
+        DispatchQueue.main.async {
+            let alertVC = UIAlertController(title: "Tangerine doesn’t allow nudity!", message: "Our filters flagged this as an explicit image. If you think this is in error, you can request request a Human Reviewer who will either approve the image, or ban your account for abuse of this process. Otherwise, crop or blur any nudity out of your photo or upload a new one.", preferredStyle: .alert)
+
+            
+            alertVC.addAction(UIAlertAction(title: "Edit Image", style: .cancel, handler: { _ in
+
+                    completion(false)
+
+            }))
+
+            let reviewAction = UIAlertAction(title: "Send to Human Reviewer", style: .default, handler: { _ in
+
+                completion(true)
+
+            })
+
+            reviewAction.setValue(UIColor.red, forKey: "titleTextColor")
+            alertVC.addAction(reviewAction)
+
+            self.present(alertVC, animated: true)
+        }
+    }
     
     
     
@@ -114,6 +139,18 @@ extension UIViewController {
         let ageComponent = cal.dateComponents([.year], from: Date(timeIntervalSince1970: seconds), to: Date())
         
         return ageComponent.year ?? 0
+    }
+
+    func isSuspensionEnded()-> Bool {
+        // make a date using the date seconds
+        let suspensionEndDate = Date(timeIntervalSince1970: userSuspensionEnds / 1000)
+        // get today
+        let cal = Calendar.current
+        let suspensionComp = cal.dateComponents([.second], from: Date(), to: suspensionEndDate)
+
+        print("SUSPENSION: \(suspensionComp.second)")
+
+        return suspensionComp.second ?? 0 > 0
     }
     
     func presentFromRight(_ viewControllerToPresent: UIViewController) {
