@@ -741,19 +741,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         
         setupUI()
-        
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: myProfile.username, type: .ASK),
-            forPath: myProfile.profile_pic) { image, error in
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    return
-                }
-                
-                print("Profile Image Downloaded for MYSELF")
-                self.profileImageView.image = image
-            }
-
+        profileImageView.setFirebaseImage(for: myProfile.profile_pic)
 
     }
     
@@ -875,6 +863,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
         profileImageView.addGestureRecognizer(gesture)
+        profileImageView.layoutIfNeeded()
     }
     
     
