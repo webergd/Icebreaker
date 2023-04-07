@@ -289,18 +289,8 @@ class FriendDetailsVC: UIViewController {
                 
                 
                 // set the values
+                self.profileImage.setFirebaseImage(for: profile_pic)
                 
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: self.username, type: .ASK),
-                    forPath: profile_pic) { image, error in
-                        if let error = error{
-                            print("Error: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        print("FDVC Image Downloaded for \(self.username)")
-                        self.profileImage.image = image!
-                    }
             }
             
             

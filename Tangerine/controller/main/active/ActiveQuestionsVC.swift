@@ -268,26 +268,10 @@ class ActiveQuestionsVC: UITableViewController {
                     removeCircleBorder(view: cell.photoImageView)
                 }
 
-                // started Loading, show it
-                cell.photoImageView.showActivityIndicator()
-                
+
                 // Crops the ask image into a circle
-                
-                                          downloadOrLoadFirebaseImage(
-                                              ofName: getFilenameFrom(qName: question.question_name, type: question.type),
-                                              forPath: question.imageURL_1, asThumb: true) { image, error in
-                                              if let error = error{
-                                                  print("Error: \(error.localizedDescription)")
-                                                  return
-                                              }
-                                            
-                                                  // Loading done, hide it
-                                            cell.photoImageView.hideActivityIndicator()
-                                            print("ATVC ASK Image Downloaded for \(question.question_name)")
-                                            cell.photoImageView.image = image!
-                                          }
-                                          
-                
+                cell.photoImageView.setFirebaseGsImage(for: question.imageURL_1)
+
                 
                 makeCircle(view: cell.photoImageView, alpha: 1.0)
                 
@@ -307,38 +291,9 @@ class ActiveQuestionsVC: UITableViewController {
                 // Calculate a Tangerine Score to pass to the cell:
                 let tangerineScore: TangerineScore = reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
                 
-                // started Loading, show it
-                cell.image1.showActivityIndicator()
-                
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: question.question_name, type: question.type),
-                    forPath: question.imageURL_1, asThumb: true) { image, error in
-                        if let error = error{
-                            print("Error: \(error.localizedDescription)")
-                            return
-                        }
-                        // Loading done, hide it
-                        cell.image1.hideActivityIndicator()
-                        print("ATVC Compare Image1 Downloaded for \(question.question_name)")
-                        cell.image1.image = image!
-                    }
-                
-                
-                // started Loading, show it
-                cell.image2.showActivityIndicator()
-                
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: question.question_name, type: question.type,secondPhoto: true),
-                    forPath: question.imageURL_2, asThumb: true) { image, error in
-                        if let error = error{
-                            print("Error: \(error.localizedDescription)")
-                            return
-                        }
-                        // Loading done, hide it
-                        cell.image2.hideActivityIndicator()
-                        print("ATVC Compare Image2 Downloaded for \(question.question_name)")
-                        cell.image2.image = image!
-                    }
+
+                cell.image1.setFirebaseGsImage(for: question.imageURL_1)
+                cell.image2.setFirebaseGsImage(for: question.imageURL_2)
                 
                 //LATER find what compare does if empty
                 cell.title1Label.text = question.title_1

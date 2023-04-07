@@ -67,18 +67,8 @@ class CompareReviewDetailsViewController: UIViewController, UINavigationControll
                 let commentsBodyLabel = self.commentsBodyLabel {
                 
                 // MARK: Need an if statement so if user is not a friend, profile picture and name are hidden
+                reviewerImage.setFirebaseGsImage(for: thisReview.reviewer.profile_pic)
                 
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: thisReview.reviewer.username, type: .ASK),
-                    forPath: thisReview.reviewer.profile_pic) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    print("CRTVC Image Downloaded for \(thisReview.reviewer.username)")
-                    reviewerImage.image = image!
-                }
                 
                 nameLabel.text = thisReview.reviewerName
                 

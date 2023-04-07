@@ -358,24 +358,13 @@ class FriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             
             cell.display_name.text = friend.displayName
             cell.user_name.text = friend.username
+
+            if friend.imageString.hasPrefix("https") {
+                cell.profileImage.setFirebaseImage(for: friend.imageString)
+            } else {
+                cell.profileImage.image = self.convertBase64StringToImage(imageBase64String: friend.imageString)
+            }
             
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: friend.username, type: .ASK),
-                forPath: friend.imageString) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    print("FVC Image Downloaded for \(String(describing: friend.username))")
-//                    cell.profileImage.image = image!
-                    // added soft unwrapping for robustness
-                    if let imageToDisplay = image {
-                        cell.profileImage.image = imageToDisplay
-                    } else {
-                        cell.profileImage.image = self.convertBase64StringToImage(imageBase64String: friend.imageString)
-                    }
-                }
             
             //MARK: DEPRECATED
             // Age is no longer displayed for friends

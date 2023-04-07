@@ -92,18 +92,7 @@ class CompareReviewsTableViewController: UITableViewController {
         let review = currentReviews[indexPath.row]
         
         // MARK: Need an if statement so if user is not a friend, profile picture and name are hidden
-        
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: review.reviewer.username, type: .ASK),
-            forPath: review.reviewer.profile_pic) { image, error in
-            if let error = error{
-                print("Error: \(error.localizedDescription)")
-                return
-            }
-            
-            print("CRTVC Image Downloaded for \(review.reviewer.username)")
-            cell.reviewerImageView.image = image!
-        }
+        cell.reviewerImageView.setFirebaseImage(for: review.reviewer.profile_pic)
         
         
         cell.reviewerNameLabel.text = review.reviewerName

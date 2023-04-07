@@ -11,6 +11,7 @@
 import UIKit
 import MobileCoreServices
 import Firebase
+import FirebaseFirestoreSwift  
 import RealmSwift
 
 // This class has known memory leak issues. As of now we call self.view.window?.rootViewController?.dismiss(animated: true, completion: nil) when returning to mainVC from the CQViewController (because that is the end of the Question creation flow and where we no longer need this to still be alive). This is not a perfect fix and still results in high memory usage (about 250 to 400).

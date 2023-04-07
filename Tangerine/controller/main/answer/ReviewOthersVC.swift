@@ -24,9 +24,6 @@ class ReviewOthersVC: UIViewController{
     
     //flag that tells if we are fetching data
     var loadingFromFirestore = false
-    // the loading
-    var indicator: UIActivityIndicatorView!
-    
     // to determine if show after fetch or not
     // cause when we are showing question, there is no need to show immediately,
     // just fetch new and make them ready

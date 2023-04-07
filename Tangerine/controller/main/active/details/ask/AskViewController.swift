@@ -108,19 +108,7 @@ class AskViewController: UIViewController, UIScrollViewDelegate {
             
             // unwraps the imageView from the IBOutlet
             if let thisImageView = self.askImageView {
-                
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: thisAsk.question.question_name, type: thisAsk.question.type),
-                    forPath: thisAsk.question.imageURL_1) { image, error in
-                        if let error = error{
-                            print("Error: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        print("AVC ASK Image loaded for \(thisAsk.question.question_name)")
-                        thisImageView.image = image!
-                    }
-                
+                thisImageView.setFirebaseGsImage(for: thisAsk.question.imageURL_1)
             }
             // unwraps the timeRemaining from the IBOutlet
             if let thisTimeRemaining = self.askTimeRemainingLabel {
