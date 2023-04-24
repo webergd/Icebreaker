@@ -16,7 +16,7 @@ import RealmSwift
 
 // This class has known memory leak issues. As of now we call self.view.window?.rootViewController?.dismiss(animated: true, completion: nil) when returning to mainVC from the CQViewController (because that is the end of the Question creation flow and where we no longer need this to still be alive). This is not a perfect fix and still results in high memory usage (about 250 to 400).
 
-class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate {
+class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
@@ -92,8 +92,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var helpAddTitleLabel: UILabel!
     
     // many of these are 0.0 becuase I didn't want to bother with an initializer method since they all get set before use anyway.
-    weak var imagePicker = UIImagePickerController()
-    
+
     // constants for help labels
     let blurFacesMessage: String = "Blur Faces"
     let unBlurFacesMessage: String = "Clear Blurs"
@@ -104,7 +103,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var captionHasBeenTapped: Bool = false
     var tappedLoc: CGPoint = CGPoint(x: 0.0, y: 0.0)
     var captionYValue: CGFloat = 0.0 //this is an arbitrary value to be reset later
-    weak var activeTextField = UITextField()
+    var activeTextField = UITextField()
     var titleFrameRect: CGRect = CGRect()
     var titleTextFieldHeight: CGFloat = 0.0
     var captionTextFieldHeight: CGFloat = 0.0
@@ -158,7 +157,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // These are modified later but needed a higher scope for finishEditing to work correctly
     var actionYes = UIAlertAction(title: "", style: .default, handler: nil)
-    var actionNo = UIAlertAction(title: "", style: .default, handler: nil)
     
     // should prevent the status bar from displaying at the top of the screen
     override var prefersStatusBarHidden: Bool {
@@ -183,7 +181,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         configureTitleTextFieldConstraints()
         
         addCaptionButton.isHidden = !captionTextField.isHidden
-        
+
         
 
 //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
@@ -357,8 +355,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        self.configureBlurButtonsFor(blurring: !blursAddedByEditor)
         
 //        self.clearBlursButton.isHidden = !blursAddedByEditor
-        
-        imagePicker?.delegate = self
+
         captionTextField.delegate = self
         titleTextField.delegate = self
         self.scrollView.minimumZoomScale = 1.0
@@ -1192,12 +1189,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    // MARK: - UIImagePickerControllerDelegate Methods
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
+
     @IBAction func addTitleButtonTapped(_ sender: Any) {
         print("Add title button tapped")
         
