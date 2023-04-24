@@ -92,7 +92,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var helpAddTitleLabel: UILabel!
     
     // many of these are 0.0 becuase I didn't want to bother with an initializer method since they all get set before use anyway.
-    let imagePicker = UIImagePickerController()
+    weak var imagePicker = UIImagePickerController()
     
     // constants for help labels
     let blurFacesMessage: String = "Blur Faces"
@@ -104,7 +104,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var captionHasBeenTapped: Bool = false
     var tappedLoc: CGPoint = CGPoint(x: 0.0, y: 0.0)
     var captionYValue: CGFloat = 0.0 //this is an arbitrary value to be reset later
-    var activeTextField = UITextField()
+    weak var activeTextField = UITextField()
     var titleFrameRect: CGRect = CGRect()
     var titleTextFieldHeight: CGFloat = 0.0
     var captionTextFieldHeight: CGFloat = 0.0
@@ -358,7 +358,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
 //        self.clearBlursButton.isHidden = !blursAddedByEditor
         
-        imagePicker.delegate = self
+        imagePicker?.delegate = self
         captionTextField.delegate = self
         titleTextField.delegate = self
         self.scrollView.minimumZoomScale = 1.0
@@ -1445,6 +1445,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
       // move to CQ
       vc.newlyCreatedDocID = docID
+
       self.present(vc, animated: true, completion: nil)
 
       // save to firestore
