@@ -228,8 +228,8 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
           print("Running ML")
 
           //MARK: ML Runs
-          let nudityPercentage1 = NSFWManager.shared.checkNudityIn(image: iBE1.iBEimageBlurredCropped)
-          let nudityPercentage2 = NSFWManager.shared.checkNudityIn(image: iBE2.iBEimageBlurredCropped)
+            let nudityPercentage1 = NSFWManager.shared.checkNudityIn(image: iBE1.iBEimageBlurredCropped)
+            let nudityPercentage2 = NSFWManager.shared.checkNudityIn(image: iBE2.iBEimageBlurredCropped) 
 
           // SEND THE QUESTION TO DATABASE
           let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID

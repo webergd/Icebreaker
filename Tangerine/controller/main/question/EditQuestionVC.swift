@@ -103,7 +103,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     var captionHasBeenTapped: Bool = false
     var tappedLoc: CGPoint = CGPoint(x: 0.0, y: 0.0)
     var captionYValue: CGFloat = 0.0 //this is an arbitrary value to be reset later
-    var activeTextField = UITextField()
+    //var activeTextField = UITextField()
     var titleFrameRect: CGRect = CGRect()
     var titleTextFieldHeight: CGFloat = 0.0
     var captionTextFieldHeight: CGFloat = 0.0
@@ -111,6 +111,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     var scrollViewHeight: CGFloat = 0.0
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = UIScreen.main.bounds.size.width
+    weak var st: UIStoryboard?
     var captionTopLimit: CGFloat {
 //        if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .reEditingFirstPhoto {
 //            return 0.0
@@ -124,7 +125,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     //var captionLocationToSet: CGFloat = 0.0
     var imageScreenSize: CGFloat = 0.0 // this is the height of the image in terms of screen units (pixels or whatever they are)
     var blurringEnabled: Bool = false
-    var blurFace: BlurFace = BlurFace(image: currentImage)
+    var blurFace: BlurFace?
     var pressStartTime: TimeInterval = 0.0
     public let phoneScreenWidth: CGFloat = UIScreen.main.bounds.size.width
     var blurRadiusMultiplier: CGFloat = 0.0
@@ -140,6 +141,8 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     /// this is where we'll save the link to the profile image or any other image
     var imageRef_1: StorageReference!
+    // pulled from below
+    var userList: [String] = [String]()
     
     var titleTextFieldIsBlank: Bool {
         print("Checking to see if the user entered a title")
@@ -156,7 +159,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     
     // These are modified later but needed a higher scope for finishEditing to work correctly
-    var actionYes = UIAlertAction(title: "", style: .default, handler: nil)
+    var actionYes: UIAlertAction?
     
     // should prevent the status bar from displaying at the top of the screen
     override var prefersStatusBarHidden: Bool {
@@ -893,7 +896,8 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     // this should be renamed to autoBlurFaces, because that's really what it does
     @IBAction func enableBlurring(_ sender: UIButton) {
         //self.lockScrollView()
- 
+        blurFace = BlurFace(image: currentImage)
+
         blurringInProgressLabel.isHidden = false
         self.enableBlurringButton.isHidden = true
         self.clearBlursButton.isHidden = false
@@ -904,8 +908,8 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         
         currentImage = imageView.image! //this saves a copy of the unblurred image
         
-        blurFace.setImage(image: imageView.image)
-        imageView.image = blurFace.autoBlurFaces()
+        blurFace?.setImage(image: imageView.image)
+        imageView.image = blurFace?.autoBlurFaces()
         if numFaces < 1 {
             noFacesDetectedMessage()
             self.enableBlurringButton.isHidden = false
@@ -926,7 +930,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     /// Enables user to long press image for a blurred circle (2 of 2). Calls manualBlurFace() in ImageMethods.swift
     func manualBlur(location: CGPoint, radius: CGFloat) {
         
-        blurFace.setImage(image: imageView.image)
+        blurFace?.setImage(image: imageView.image)
         
         self.clearBlursButton.isHidden = false
         self.enableBlurringButton.isHidden = true
@@ -939,7 +943,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         // take scrollview offset into account
         // take image's actual size in comparision to its apparent size in imageView into account.
         
-        imageView.image = blurFace.manualBlurFace(at: location, with: radius)
+        imageView.image = blurFace?.manualBlurFace(at: location, with: radius)
     }
     
     /// This calls code in ImageMethods.swift, and manually blurs a location using a radius that depends on press time duration (in seconds).
@@ -1307,13 +1311,13 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         var unblurredImageToBePassed: UIImage
         
         if let unblurredImageUnwrapped = unblurredImageSave {
-            unblurredImageToBePassed = self.sFunc_imageFixOrientation(img: unblurredImageUnwrapped)
+            unblurredImageToBePassed = EditQuestionVC.sFunc_imageFixOrientation(img: unblurredImageUnwrapped)
         } else {
             // MARK: Change to a neutral image
             unblurredImageToBePassed = UIImage(named: "whiteConverse")!
         }
         
-        currentImage = self.sFunc_imageFixOrientation(img: self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage, it still hasn't been cropped at this point yet though
+        currentImage = EditQuestionVC.sFunc_imageFixOrientation(img: self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage, it still hasn't been cropped at this point yet though
         
         let blurredUncroppedToBePassed: UIImage = currentImage
         currentImage = self.cropImage(currentImage) // now we crop it
@@ -1331,18 +1335,18 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     func createAsk() {
 
         print("creating ask")
-        currentImage = self.sFunc_imageFixOrientation(img:self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage
+        currentImage = EditQuestionVC.sFunc_imageFixOrientation(img:self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage
         currentImage = self.cropImage(currentImage)
         
         // fixes image orientation
-        let imageToCreateAskWith: UIImage = self.sFunc_imageFixOrientation(img: currentImage)
+        let imageToCreateAskWith: UIImage = EditQuestionVC.sFunc_imageFixOrientation(img: currentImage)
         
 
 
       print("Running ML")
 
       //MARK: ML Runs
-      let nudityPercentage = NSFWManager.shared.checkNudityIn(image: imageToCreateAskWith)
+        let nudityPercentage = NSFWManager.shared.checkNudityIn(image: imageToCreateAskWith)
 
       // SEND THE QUESTION TO DATABASE
       let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
@@ -1377,8 +1381,8 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     func sendAskToServer(id docID: String,image imageToCreateAskWith: UIImage, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false, report: Dictionary<String, Int> = [:]) {
 
     // prepare for segue to the Add Friends view - named CQViewController for some reason)
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let vc = storyboard.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
+    st = UIStoryboard(name: "Main", bundle: nil)
+    let vc = st?.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
     vc.modalPresentationStyle = .fullScreen
 
     let captionToCreateAskWith = createCaption()
@@ -1438,23 +1442,28 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
       // move to CQ
       vc.newlyCreatedDocID = docID
 
-      self.present(vc, animated: true, completion: nil)
+        self.present(vc, animated: true) {
+           
+        }
 
       // save to firestore
-      var userList = [String]()
+
       FirebaseDatabase.Database.database().reference()
-        .child("usernames").observe(.value, with: { snapshot in
+        .child("usernames").observe(.value, with: { [weak self] snapshot in
 
           if let snapDict = snapshot.value as? [String:AnyObject]{
 
             for item in snapDict{
               if item.key != myProfile.username{
-                userList.append(item.key)
+                  self?.userList.append(item.key)
               }
 
             }// end for
 
-            question.usersNotReviewedBy = userList
+              if let userList = self?.userList {
+                  question.usersNotReviewedBy = userList
+              }
+
 
 
             do{
@@ -1464,10 +1473,10 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
 
               clearOutCurrentCompare()
 
-              userList.removeAll()
+                self?.userList.removeAll()
             }catch let error {
               print("Error writing city to Firestore: \(error)")
-              self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+              self?.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
             }
           } // if let
 
@@ -1794,7 +1803,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     // The key to making this work is to apply it as early on in the data chain as possible.
     // In other words, as close to the raw image either coming in from the camera or photo libary as possible.
     /// Because of image picker pecularities, often the photo being taken by the camera is actually rotated 90 * x degrees or flipped like a mirror etc. This method corrects that issue and returns a new image that is upright. This method has to be applied very early in the image's "life" to work. It does not work on copies of the original image.
-    public func sFunc_imageFixOrientation(img:UIImage) -> UIImage {
+    static func sFunc_imageFixOrientation(img:UIImage) -> UIImage {
         // No-op if the orientation is already correct
         
         if (img.imageOrientation == UIImage.Orientation.up) {
@@ -1885,5 +1894,6 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     deinit {
         print("EditQuestionVC instance deinitialized")
+        blurFace = nil
     }
 }

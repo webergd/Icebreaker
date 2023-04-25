@@ -369,9 +369,10 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             let image = UIImage(cgImage: cgImageRef, scale: 1.0, orientation: UIImage.Orientation.right)
             
             // Here we create an instance of EditQuestionVC in order to access EditQuestionVC's sFunc_imageFixOrientation() function. It may be more elegant to move sFunc_imageFixOrientation() to the ImageMethods.swift file.
-            let cVC = EditQuestionVC()
-            self.capturedImage = cVC.sFunc_imageFixOrientation(img: image)
+            //let cVC = EditQuestionVC()
+            self.capturedImage = EditQuestionVC.sFunc_imageFixOrientation(img: image)
             print("line 242 self.capturedImage = cVC.sFunc_im")
+            
             
         }
         
