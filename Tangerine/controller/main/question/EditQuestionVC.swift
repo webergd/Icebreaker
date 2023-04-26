@@ -929,8 +929,9 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     /// Enables user to long press image for a blurred circle (2 of 2). Calls manualBlurFace() in ImageMethods.swift
     func manualBlur(location: CGPoint, radius: CGFloat) {
-        
-        blurFace?.setImage(image: imageView.image)
+
+        blurFace = BlurFace(image: imageView.image)
+        //blurFace?.setImage(image: imageView.image)
         
         self.clearBlursButton.isHidden = false
         self.enableBlurringButton.isHidden = true
