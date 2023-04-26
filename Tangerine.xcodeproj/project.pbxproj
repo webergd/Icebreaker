@@ -83,6 +83,7 @@
 		51AA109C2868CAED0092E6DE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109B2868CAED0092E6DE /* NetworkManager.swift */; };
 		51AA109E2868CE140092E6DE /* RegisteredUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AA109D2868CE140092E6DE /* RegisteredUsers.swift */; };
 		51ABA07B295814DB00D11FF1 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ABA07A295814DB00D11FF1 /* FirebaseManager.swift */; };
+		51AC576829F9BFF800D1C410 /* Pods-Tangerine-frameworks.sh in Resources */ = {isa = PBXBuildFile; fileRef = 51AC576729F9BFF800D1C410 /* Pods-Tangerine-frameworks.sh */; };
 		51B34CEA260FCCFB004BE6F1 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */; };
 		51B34CEF260FCD3A004BE6F1 /* TargetDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */; };
 		51B34CF4260FD062004BE6F1 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B34CF3260FD062004BE6F1 /* MainVC.swift */; };
@@ -207,6 +208,7 @@
 		51AA109B2868CAED0092E6DE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		51AA109D2868CE140092E6DE /* RegisteredUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUsers.swift; sourceTree = "<group>"; };
 		51ABA07A295814DB00D11FF1 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		51AC576729F9BFF800D1C410 /* Pods-Tangerine-frameworks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "Pods-Tangerine-frameworks.sh"; sourceTree = "<group>"; };
 		51B34CE9260FCCFA004BE6F1 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		51B34CEE260FCD3A004BE6F1 /* TargetDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDemoVC.swift; sourceTree = "<group>"; };
 		51B34CF3260FD062004BE6F1 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 		51C997D925FBDE9000DC54B4 /* Tangerine */ = {
 			isa = PBXGroup;
 			children = (
+				51AC576729F9BFF800D1C410 /* Pods-Tangerine-frameworks.sh */,
 				51333EC329D89A1600A974A3 /* GoogleService-Info.plist */,
 				51266DEC25FDF41400F58791 /* Tangerine.entitlements */,
 				51C9983025FBE9D900DC54B4 /* controller */,
@@ -714,6 +717,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51AC576829F9BFF800D1C410 /* Pods-Tangerine-frameworks.sh in Resources */,
 				51C997E425FBDE9200DC54B4 /* Assets.xcassets in Resources */,
 				51C997E225FBDE9000DC54B4 /* Main.storyboard in Resources */,
 				513AC81728678D7F00FAA309 /* FriendCollectionViewCell.xib in Resources */,
@@ -820,7 +824,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tangerine/Pods-Tangerine-frameworks.sh\"\n";
+			shellScript = "#\"${PODS_ROOT}/Target Support Files/Pods-Tangerine/Pods-Tangerine-frameworks.sh\"\n\"${PROJECT_DIR}/Tangerine/Pods-Tangerine-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E98F59E2FE235DA84C7036A6 /* [CP] Embed Pods Frameworks */ = {
