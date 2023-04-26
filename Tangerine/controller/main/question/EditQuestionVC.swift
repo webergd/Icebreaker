@@ -1443,9 +1443,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
       // move to CQ
       vc.newlyCreatedDocID = docID
 
-        self.present(vc, animated: true) {
-           
-        }
+        self.present(vc, animated: true)
 
       // save to firestore
 
@@ -1550,11 +1548,11 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
             print("Compare")
             currentCompare.isAsk = false // all this means is that the system now knows we're creating a Compare (with two images). Probably could be named better.
 
-            actionYes = UIAlertAction(title: "Leave Blank", style: .default) {
+            actionYes = UIAlertAction(title: "Leave Blank", style: .default) { [weak self]
                 UIAlertAction in
                 currentTitle = "(no title)"
 
-                self.createHalfOfCompare()
+                self?.createHalfOfCompare()
             }
             finishEditing(whatToCreate: .compare)
         } else {
@@ -1724,7 +1722,8 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
                 currentCompare.imageBeingEdited1 = iBE
             }
             // sets the graphical view controller with the storyboard ID "comparePreviewViewController" to nextVC
-            let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "comparePreviewViewController") as! ComparePreviewViewController
+            st = UIStoryboard(name: "Main", bundle: nil)
+            let nextVC = st?.instantiateViewController(withIdentifier: "comparePreviewViewController") as! ComparePreviewViewController
             print("moving to compare preview vc")
             // pushes comparePreviewViewController onto the nav stack
             //self.navigationController?.pushViewController(nextVC, animated: true)

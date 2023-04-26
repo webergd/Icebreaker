@@ -383,6 +383,12 @@ class MainVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAsRequired()
         }
+
+
+            print("Current Image \(currentImage.pngData()?.count)")
+            currentImage = UIImage(named: "tangerineImage2")!
+            print("Current Image \(currentImage.pngData()?.count)")
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
