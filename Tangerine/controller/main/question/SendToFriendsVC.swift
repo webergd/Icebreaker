@@ -549,24 +549,13 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             //            cell.profileImage.image = convertBase64StringToImage(imageBase64String: friend.imageString)
             
             // MARK: If we have the images stored in Realm already, we should switch this to a Realm fetch instead of a Firestore fetch in order to save reads
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: friend.username, type: .ASK),
-                forPath: friend.imageString) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    if let imageToDisplay = image {
-                        cell.profileImage.image = imageToDisplay
-                    } else {
-                        cell.profileImage.image = self.convertBase64StringToImage(imageBase64String: friend.imageString)
-                    }
-                }
-            
-            
-            
-            
-            
+
+			if friend.imageString.hasPrefix("https") {
+				cell.profileImage.setFirebaseImage(for: friend.imageString)
+			} else {
+				cell.profileImage.image = self.convertBase64StringToImage(imageBase64String: friend.imageString)
+			}
+
             // get the age from date component dc
 //            if let age = dc.year{
 //                if friend.dobMills == 0{

@@ -74,20 +74,8 @@ class AskReviewDetailsViewController: UIViewController, UINavigationControllerDe
                 let commentsBodyLabel = self.commentsBodyLabel {
                 
                 // MARK: Need an if statement so if user is not a friend, profile picture and name are hidden
-                
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: thisReview.reviewer.username, type: .ASK),
-                    forPath: thisReview.reviewer.profile_pic) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    print("ARDVC ASK Question Image Downloaded for \(thisReview.reviewerName)")
-                    reviewerImage.image = image
-                }
-                
-                
+                reviewerImage.setFirebaseImage(for: thisReview.reviewer.profile_pic)
+
                 nameLabel.text = thisReview.reviewerName
                 
                 ageLabel.text = String(thisReview.reviewerAge)
@@ -114,20 +102,8 @@ class AskReviewDetailsViewController: UIViewController, UINavigationControllerDe
             let thisLabel = self.askTitleLabel,
             let thisAsk = self.ask {
             
-              
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: thisAsk.question_name, type: .ASK),
-                    forPath: thisAsk.imageURL_1) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    print("ARDVC ASK Question Image Downloaded for \(thisAsk.question_name)")
-                    thisImageView.image = image
-                }
-            
-            
+            thisImageView.setFirebaseGsImage(for: thisAsk.imageURL_1)
+               
             thisLabel.text = thisAsk.title_1
         }
     }

@@ -11,11 +11,12 @@
 import UIKit
 import MobileCoreServices
 import Firebase
+import FirebaseFirestoreSwift  
 import RealmSwift
 
 // This class has known memory leak issues. As of now we call self.view.window?.rootViewController?.dismiss(animated: true, completion: nil) when returning to mainVC from the CQViewController (because that is the end of the Question creation flow and where we no longer need this to still be alive). This is not a perfect fix and still results in high memory usage (about 250 to 400).
 
-class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate {
+class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
@@ -91,8 +92,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var helpAddTitleLabel: UILabel!
     
     // many of these are 0.0 becuase I didn't want to bother with an initializer method since they all get set before use anyway.
-    let imagePicker = UIImagePickerController()
-    
+
     // constants for help labels
     let blurFacesMessage: String = "Blur Faces"
     let unBlurFacesMessage: String = "Clear Blurs"
@@ -103,7 +103,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var captionHasBeenTapped: Bool = false
     var tappedLoc: CGPoint = CGPoint(x: 0.0, y: 0.0)
     var captionYValue: CGFloat = 0.0 //this is an arbitrary value to be reset later
-    var activeTextField = UITextField()
+    //var activeTextField = UITextField()
     var titleFrameRect: CGRect = CGRect()
     var titleTextFieldHeight: CGFloat = 0.0
     var captionTextFieldHeight: CGFloat = 0.0
@@ -111,6 +111,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var scrollViewHeight: CGFloat = 0.0
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = UIScreen.main.bounds.size.width
+    weak var st: UIStoryboard?
     var captionTopLimit: CGFloat {
 //        if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .reEditingFirstPhoto {
 //            return 0.0
@@ -124,7 +125,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     //var captionLocationToSet: CGFloat = 0.0
     var imageScreenSize: CGFloat = 0.0 // this is the height of the image in terms of screen units (pixels or whatever they are)
     var blurringEnabled: Bool = false
-    var blurFace: BlurFace = BlurFace(image: currentImage)
+    var blurFace: BlurFace?
     var pressStartTime: TimeInterval = 0.0
     public let phoneScreenWidth: CGFloat = UIScreen.main.bounds.size.width
     var blurRadiusMultiplier: CGFloat = 0.0
@@ -140,6 +141,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /// this is where we'll save the link to the profile image or any other image
     var imageRef_1: StorageReference!
+    // pulled from below
+    var userList: [String] = [String]()
     
     var titleTextFieldIsBlank: Bool {
         print("Checking to see if the user entered a title")
@@ -156,8 +159,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     // These are modified later but needed a higher scope for finishEditing to work correctly
-    var actionYes = UIAlertAction(title: "", style: .default, handler: nil)
-    var actionNo = UIAlertAction(title: "", style: .default, handler: nil)
+    var actionYes: UIAlertAction?
     
     // should prevent the status bar from displaying at the top of the screen
     override var prefersStatusBarHidden: Bool {
@@ -182,7 +184,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         configureTitleTextFieldConstraints()
         
         addCaptionButton.isHidden = !captionTextField.isHidden
-        
+
         
 
 //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
@@ -356,8 +358,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        self.configureBlurButtonsFor(blurring: !blursAddedByEditor)
         
 //        self.clearBlursButton.isHidden = !blursAddedByEditor
-        
-        imagePicker.delegate = self
+
         captionTextField.delegate = self
         titleTextField.delegate = self
         self.scrollView.minimumZoomScale = 1.0
@@ -895,7 +896,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     // this should be renamed to autoBlurFaces, because that's really what it does
     @IBAction func enableBlurring(_ sender: UIButton) {
         //self.lockScrollView()
- 
+        blurFace = BlurFace(image: currentImage)
+
         blurringInProgressLabel.isHidden = false
         self.enableBlurringButton.isHidden = true
         self.clearBlursButton.isHidden = false
@@ -906,8 +908,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         currentImage = imageView.image! //this saves a copy of the unblurred image
         
-        blurFace.setImage(image: imageView.image)
-        imageView.image = blurFace.autoBlurFaces()
+        blurFace?.setImage(image: imageView.image)
+        imageView.image = blurFace?.autoBlurFaces()
         if numFaces < 1 {
             noFacesDetectedMessage()
             self.enableBlurringButton.isHidden = false
@@ -927,8 +929,9 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /// Enables user to long press image for a blurred circle (2 of 2). Calls manualBlurFace() in ImageMethods.swift
     func manualBlur(location: CGPoint, radius: CGFloat) {
-        
-        blurFace.setImage(image: imageView.image)
+
+        blurFace = BlurFace(image: imageView.image)
+        //blurFace?.setImage(image: imageView.image)
         
         self.clearBlursButton.isHidden = false
         self.enableBlurringButton.isHidden = true
@@ -941,7 +944,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         // take scrollview offset into account
         // take image's actual size in comparision to its apparent size in imageView into account.
         
-        imageView.image = blurFace.manualBlurFace(at: location, with: radius)
+        imageView.image = blurFace?.manualBlurFace(at: location, with: radius)
     }
     
     /// This calls code in ImageMethods.swift, and manually blurs a location using a radius that depends on press time duration (in seconds).
@@ -1191,12 +1194,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    // MARK: - UIImagePickerControllerDelegate Methods
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
+
     @IBAction func addTitleButtonTapped(_ sender: Any) {
         print("Add title button tapped")
         
@@ -1314,13 +1312,13 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         var unblurredImageToBePassed: UIImage
         
         if let unblurredImageUnwrapped = unblurredImageSave {
-            unblurredImageToBePassed = self.sFunc_imageFixOrientation(img: unblurredImageUnwrapped)
+            unblurredImageToBePassed = EditQuestionVC.sFunc_imageFixOrientation(img: unblurredImageUnwrapped)
         } else {
             // MARK: Change to a neutral image
             unblurredImageToBePassed = UIImage(named: "whiteConverse")!
         }
         
-        currentImage = self.sFunc_imageFixOrientation(img: self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage, it still hasn't been cropped at this point yet though
+        currentImage = EditQuestionVC.sFunc_imageFixOrientation(img: self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage, it still hasn't been cropped at this point yet though
         
         let blurredUncroppedToBePassed: UIImage = currentImage
         currentImage = self.cropImage(currentImage) // now we crop it
@@ -1338,18 +1336,18 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     func createAsk() {
 
         print("creating ask")
-        currentImage = self.sFunc_imageFixOrientation(img:self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage
+        currentImage = EditQuestionVC.sFunc_imageFixOrientation(img:self.imageView.image!) //sets the current image to the one we're seeing and essentially saves the blurring to the currentImage
         currentImage = self.cropImage(currentImage)
         
         // fixes image orientation
-        let imageToCreateAskWith: UIImage = self.sFunc_imageFixOrientation(img: currentImage)
+        let imageToCreateAskWith: UIImage = EditQuestionVC.sFunc_imageFixOrientation(img: currentImage)
         
 
 
       print("Running ML")
 
       //MARK: ML Runs
-      let nudityPercentage = NSFWManager.shared.checkNudityIn(image: imageToCreateAskWith)
+        let nudityPercentage = NSFWManager.shared.checkNudityIn(image: imageToCreateAskWith)
 
       // SEND THE QUESTION TO DATABASE
       let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
@@ -1384,8 +1382,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     func sendAskToServer(id docID: String,image imageToCreateAskWith: UIImage, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false, report: Dictionary<String, Int> = [:]) {
 
     // prepare for segue to the Add Friends view - named CQViewController for some reason)
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let vc = storyboard.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
+    st = UIStoryboard(name: "Main", bundle: nil)
+    let vc = st?.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
     vc.modalPresentationStyle = .fullScreen
 
     let captionToCreateAskWith = createCaption()
@@ -1444,23 +1442,27 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
       // move to CQ
       vc.newlyCreatedDocID = docID
-      self.present(vc, animated: true, completion: nil)
+
+        self.present(vc, animated: true)
 
       // save to firestore
-      var userList = [String]()
+
       FirebaseDatabase.Database.database().reference()
-        .child("usernames").observe(.value, with: { snapshot in
+        .child("usernames").observe(.value, with: { [weak self] snapshot in
 
           if let snapDict = snapshot.value as? [String:AnyObject]{
 
             for item in snapDict{
               if item.key != myProfile.username{
-                userList.append(item.key)
+                  self?.userList.append(item.key)
               }
 
             }// end for
 
-            question.usersNotReviewedBy = userList
+              if let userList = self?.userList {
+                  question.usersNotReviewedBy = userList
+              }
+
 
 
             do{
@@ -1470,10 +1472,10 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
               clearOutCurrentCompare()
 
-              userList.removeAll()
+                self?.userList.removeAll()
             }catch let error {
               print("Error writing city to Firestore: \(error)")
-              self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+              self?.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
             }
           } // if let
 
@@ -1546,11 +1548,11 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             print("Compare")
             currentCompare.isAsk = false // all this means is that the system now knows we're creating a Compare (with two images). Probably could be named better.
 
-            actionYes = UIAlertAction(title: "Leave Blank", style: .default) {
+            actionYes = UIAlertAction(title: "Leave Blank", style: .default) { [weak self]
                 UIAlertAction in
                 currentTitle = "(no title)"
 
-                self.createHalfOfCompare()
+                self?.createHalfOfCompare()
             }
             finishEditing(whatToCreate: .compare)
         } else {
@@ -1720,7 +1722,8 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 currentCompare.imageBeingEdited1 = iBE
             }
             // sets the graphical view controller with the storyboard ID "comparePreviewViewController" to nextVC
-            let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "comparePreviewViewController") as! ComparePreviewViewController
+            st = UIStoryboard(name: "Main", bundle: nil)
+            let nextVC = st?.instantiateViewController(withIdentifier: "comparePreviewViewController") as! ComparePreviewViewController
             print("moving to compare preview vc")
             // pushes comparePreviewViewController onto the nav stack
             //self.navigationController?.pushViewController(nextVC, animated: true)
@@ -1800,7 +1803,7 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     // The key to making this work is to apply it as early on in the data chain as possible.
     // In other words, as close to the raw image either coming in from the camera or photo libary as possible.
     /// Because of image picker pecularities, often the photo being taken by the camera is actually rotated 90 * x degrees or flipped like a mirror etc. This method corrects that issue and returns a new image that is upright. This method has to be applied very early in the image's "life" to work. It does not work on copies of the original image.
-    public func sFunc_imageFixOrientation(img:UIImage) -> UIImage {
+    static func sFunc_imageFixOrientation(img:UIImage) -> UIImage {
         // No-op if the orientation is already correct
         
         if (img.imageOrientation == UIImage.Orientation.up) {
@@ -1891,5 +1894,6 @@ class EditQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     deinit {
         print("EditQuestionVC instance deinitialized")
+        blurFace = nil
     }
 }

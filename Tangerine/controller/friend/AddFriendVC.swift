@@ -1180,22 +1180,10 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
             cell.title.text = person.displayName
             cell.subtitle.text = person.username
             
-            if person.imageString.starts(with: "https"){
-                // firebase
-                downloadOrLoadFirebaseImage(
-                    ofName: getFilenameFrom(qName: person.username, type: .ASK),
-                    forPath: person.imageString) { image, error in
-                        if let error = error{
-                            print("Error: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        print("AFVC Image Downloaded for \(String(describing: person.username))")
-                        cell.profileImageView.image = image
-                    }
-                
-                
-            }else{
+
+            if person.imageString.hasPrefix("https") {
+                cell.profileImageView.setFirebaseImage(for: person.imageString)
+            } else {
                 cell.profileImageView.image = self.convertBase64StringToImage(imageBase64String: person.imageString)
             }
             

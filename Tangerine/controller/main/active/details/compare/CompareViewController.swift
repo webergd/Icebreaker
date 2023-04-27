@@ -77,31 +77,13 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
         
         // unwraps images from the compare and sends to IBOutlets
         if let thisImageView = self.topImageView {
-            
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: thisCompare.question.question_name, type: .COMPARE),
-                forPath: thisCompare.question.imageURL_1) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    thisImageView.image = image!
-                }
-            
+            thisImageView.setFirebaseGsImage(for: thisCompare.question.imageURL_1)
+
         }
         
         if let thisImageView = self.bottomImageView {
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: thisCompare.question.question_name, type: .COMPARE,secondPhoto: true),
-                forPath: thisCompare.question.imageURL_2) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    thisImageView.image = image!
-                }
+            thisImageView.setFirebaseGsImage(for: thisCompare.question.imageURL_2)
+            
         }
         
         

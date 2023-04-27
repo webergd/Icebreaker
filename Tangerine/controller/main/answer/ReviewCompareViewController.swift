@@ -77,11 +77,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     var skipLabel: UILabel!
     var skipBackgroundView: UIView!
     let largeImageConfiguration = UIImage.SymbolConfiguration(scale: .large)
-    
-    
-    // the loading
-    var topIndicator: UIActivityIndicatorView!
-    var bottomIndicator: UIActivityIndicatorView!
+
     
     var question: Question?
     
@@ -138,17 +134,14 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         if let thisCompare = question {
             // if saved image is found, load it.
             // else download it
-            
-            topIndicator.startAnimating()
+
             
             loadCaptions(
                 within: topView,
                 caption: Caption(text: thisCompare.captionText_1, yLocation: thisCompare.yLoc_1),
                 captionTextField: topCaptionTextField,
                 captionTopConstraint: topCaptionTopConstraint)
-            
-            // if saved image is found, load it.
-            bottomIndicator.startAnimating()
+
             
             
             
@@ -185,8 +178,8 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
             //            obligatoryReviewsRemainingLabel.text = String(describing: obligatoryQuestionsToReviewCount) + "📋"
             
-            startTopImageLoading(thisCompare)
-            startBottomImageLoading(thisCompare)
+            self.topImageView.setFirebaseGsImage(for: thisCompare.imageURL_1)
+            self.bottomImageView.setFirebaseGsImage(for: thisCompare.imageURL_2)
             
         }
         
@@ -194,87 +187,11 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     }
     
 
-    func startTopImageLoading(_ thisCompare: Question){
-        print("startTopImageLoading called")
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type),
-            forPath: thisCompare.imageURL_1) { [weak self] image, error in
-                
-                guard let self = self else {return}
-                
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    self.checkAndLoadTopAgain(getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type))
-                    return
-                }
-                
-                print("RCVC Image Downloaded for \(thisCompare.question_name)")
-                // hide the indicator as we have the image now
-                self.topIndicator.stopAnimating()
-                self.topImageView.image = image
-            }
-    }
+
     
-    // checks if we've been able to download the top image already, if not try again
-    func checkAndLoadTopAgain(_ filename: String){
-        print("checkAndLoadTopAgain called")
-        guard let image = loadImageFromDiskWith(fileName: filename) else {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                guard let self = self else {return}
-                print("image was nil when attempting to load from disk, retrying..")
-                self.checkAndLoadTopAgain(filename)
-            }
-            
-            return
-        }
-        
-        print("LIVE CHECKING THIS LINE Compare 1")
-        self.topIndicator.stopAnimating()
-        self.topImageView.image = image
-    }
+
     
-    
-    func startBottomImageLoading(_ thisCompare: Question){
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type,secondPhoto: true),
-            forPath: thisCompare.imageURL_2) { [weak self]  image, error in
-                
-                guard let self = self else {return}
-                
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    self.checkAndLoadBottomAgain(getFilenameFrom(qName: thisCompare.question_name, type: thisCompare.type, secondPhoto: true))
-                    
-                    return
-                }
-                
-                print("RCVC Image Downloaded for \(thisCompare.question_name)")
-                // hide the indicator as we have the image now
-                self.bottomIndicator.stopAnimating()
-                self.bottomImageView.image = image
-            }
-        
-    }
-    
-    // checks if we've been able to download the top image already, if not try again
-    func checkAndLoadBottomAgain(_ filename: String){
-        guard let image = loadImageFromDiskWith(fileName: filename) else {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                guard let self = self else {return}
-                self.checkAndLoadBottomAgain(filename)
-            }
-            
-            return
-        }
-        
-        print("LIVE CHECKING THIS LINE Compare 2")
-        self.bottomIndicator.stopAnimating()
-        self.bottomImageView.image = image
-    }
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -305,10 +222,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         self.hideKeyboardOnOutsideTouch()
         // This implicitly includes tapping the coverView, even though the only time we actually explicitly refer to tapping the coverView is when
         //  we run out of questions.
-        
-        
-        // setup the indicator
-        setupIndicator()
+
         
         
         self.topScrollView.delegate = self
@@ -1023,25 +937,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
         self.dismiss(animated: true, completion: nil)
     }
     
-    // to show the loading
-    func setupIndicator() {
-        topIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        topIndicator.color = .white
-        bottomIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        bottomIndicator.color = .white
-        
-        topIndicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        bottomIndicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        
-        topIndicator.center = CGPoint(x: view.center.x, y: topView.center.y)
-        bottomIndicator.center = CGPoint(x: view.center.x, y: bottomView.center.y)
-        
-        view.addSubview(topIndicator)
-        view.addSubview(bottomIndicator)
-        
-        topIndicator.bringSubviewToFront(view)
-        bottomIndicator.bringSubviewToFront(view)
-    }
+
     
     // MARK: PROGRAMMATIC UI
     func configureSkipButton(){

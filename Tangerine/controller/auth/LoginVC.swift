@@ -288,15 +288,15 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             }
             
             
-            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments {
+            Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection()).whereField(FieldPath.documentID(), isEqualTo: name).getDocuments { [weak self]
                 (snap, error) in
                 // stop the loader
-                self.view.hideActivityIndicator()
+                self?.view.hideActivityIndicator()
                 // handle the error
                 if let error = error{
                     
                     print("An error occured")
-                    self.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
+                    self?.presentDismissAlertOnMainThread(title: "Error", message: error.localizedDescription)
                     return
                 }
                 // check the document of this user
@@ -353,7 +353,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         print("Credit After Save: \(myProfile.reviewCredits)")
                         
                         // if time is greater than say 12 hrs and we have more than say 15 credits
-                        if self.isCreditExpired(since: lastReviewed.seconds) && credits > maxPersistentReviewCredits{
+                        if self?.isCreditExpired(since: lastReviewed.seconds) ?? true && credits > maxPersistentReviewCredits {
                             
                             // Reduce the credit and update locally
                             
@@ -369,7 +369,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         
                         // Annotate the user's login in Google Analytics
                         Analytics.logEvent(AnalyticsEventLogin, parameters: [
-                            AnalyticsParameterMethod: self.method
+                            AnalyticsParameterMethod: self?.method
                         ])
                         
                         
@@ -382,7 +382,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         //let vc = storyboard.instantiateViewController(withIdentifier: "friends_vc") as! FriendsVC
 
                         if banStatus {
-                            self.presentDismissAlertOnMainThread(title: "Notice", message: "Account has been banned from participating in the Tangerine Community for posting inappropriate content")
+                            self?.presentDismissAlertOnMainThread(title: "Notice", message: "Account has been banned from participating in the Tangerine Community for posting inappropriate content")
 
                         } else {
 
@@ -390,7 +390,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             let vc = storyboard.instantiateViewController(withIdentifier: "main_vc") as! MainVC
                             vc.modalPresentationStyle = .fullScreen
 
-                            self.present(vc, animated: false, completion: nil)
+                            self?.present(vc, animated: false, completion: nil)
 
 
                         }
@@ -404,7 +404,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         // not present
                         // delete the account and show error
                         print("Deleting Account for no specialty")
-                        self.delete(user)
+                        self?.delete(user)
                     }
                     
                     

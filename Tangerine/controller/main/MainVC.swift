@@ -67,7 +67,9 @@ class MainVC: UIViewController {
     @IBOutlet weak var getOpinionsLabel: UILabel!
     @IBOutlet weak var giveOpinionsLabel: UILabel!
     @IBOutlet weak var viewResultsLabel: UILabel!
-    
+    var st: UIStoryboard?
+    weak var vc: AVCameraViewController?
+
     // UI Items:
     var tutorialLabel: UILabel!
     var cancelTutorialButton: UIButton!
@@ -95,10 +97,15 @@ class MainVC: UIViewController {
             presentDismissAlertOnMainThread(title: "Suspended!", message: "Account posting is suspended until \(Date(timeIntervalSince1970: userSuspensionEnds / 1000).convertToBFDateFormat()) for posting inappropriate content")
         } else {
 
-            let st = UIStoryboard(name: "Main", bundle: nil)
-            let vc = st.instantiateViewController(withIdentifier: "AVCameraViewController")
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+            st = UIStoryboard(name: "Main", bundle: nil)
+            vc = st?.instantiateViewController(withIdentifier: "AVCameraViewController") as! AVCameraViewController
+            vc?.modalPresentationStyle = .fullScreen
+            if let vc = vc {
+                present(vc, animated: true)
+            }
+
+
+
             //performSegue(withIdentifier: "camera_vc", sender: self)
         }
     }
@@ -376,6 +383,12 @@ class MainVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAsRequired()
         }
+
+
+            print("Current Image \(currentImage.pngData()?.count)")
+            currentImage = UIImage(named: "tangerineImage2")!
+            print("Current Image \(currentImage.pngData()?.count)")
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -64,7 +64,8 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     
     let imagePicker = UIImagePickerController()
     //public var justFinishedPicking: Bool = false
-    var capturedImage: UIImage = #imageLiteral(resourceName: "tangerineImage2")
+    var capturedImage: UIImage? = #imageLiteral(resourceName: "tangerineImage2")
+
     var photoSampleBufferContainer: CMSampleBuffer?
     //let settings = AVCapturePhotoSettings() // controls the camera device's settings, referenced in takePhoto()
     var cameraPosition: cameraPositionType = .standard // sets the default camera position to standard (vice selfie)
@@ -368,14 +369,18 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
             let image = UIImage(cgImage: cgImageRef, scale: 1.0, orientation: UIImage.Orientation.right)
             
             // Here we create an instance of EditQuestionVC in order to access EditQuestionVC's sFunc_imageFixOrientation() function. It may be more elegant to move sFunc_imageFixOrientation() to the ImageMethods.swift file.
-            let cVC = EditQuestionVC()
-            self.capturedImage = cVC.sFunc_imageFixOrientation(img: image)
+            //let cVC = EditQuestionVC()
+            self.capturedImage = EditQuestionVC.sFunc_imageFixOrientation(img: image)
             print("line 242 self.capturedImage = cVC.sFunc_im")
+            
             
         }
         
-        
-        self.loadAVImageView(imageToLoad: capturedImage)
+
+        if let capturedImage = capturedImage {
+            self.loadAVImageView(imageToLoad: capturedImage)
+        }
+
         
         
         
@@ -680,23 +685,25 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
         print("continue button tapped called ")
         
         clearCapturedImagePreview()
-        
-        // ensures picked image doesn't have its sides cropped
-        if imageWasPicked {
-            currentImage = capturedImage
-        } else {
-            
-            print("capturedImage's width before cropping: \(capturedImage.size.width)")
-            if let imageToPassToNextVC = self.cropSides(imageToCrop: capturedImage) {
-                currentImage = imageToPassToNextVC
-                print("after cropping, currentImage.size.width = \(currentImage.size.width)")
-                
-            } else {
-                print("cropping failed. passing originally captured image")
+
+        if let capturedImage = capturedImage {
+            // ensures picked image doesn't have its sides cropped
+            if imageWasPicked {
                 currentImage = capturedImage
+            } else {
+
+                print("capturedImage's width before cropping: \(capturedImage.size.width)")
+                if let imageToPassToNextVC = self.cropSides(imageToCrop: capturedImage) {
+                    currentImage = imageToPassToNextVC
+                    print("after cropping, currentImage.size.width = \(currentImage.size.width)")
+
+                } else {
+                    print("cropping failed. passing originally captured image")
+                    currentImage = capturedImage
+                }
             }
+
         }
-        
         // Saves image to camera roll if it was captured through the camera (but not if it was uploaded from the photolibary already)
         if photoWasCapturedWithTangerineAVCamera {
             UIImageWriteToSavedPhotosAlbum(currentImage, nil, nil, nil)
@@ -748,6 +755,7 @@ class AVCameraViewController: UIViewController, UIImagePickerControllerDelegate,
     
     deinit {
         print("deinitializing AVCameraVC")
+        capturedImage = nil
     }
     
     // MARK: PROGRAMMATIC UI

@@ -74,8 +74,6 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     
     let largeImageConfiguration = UIImage.SymbolConfiguration(scale: .large)
     
-    // the loading
-    var indicator: UIActivityIndicatorView!
     
     // for swipe card
     var centerPoint : CGPoint!
@@ -139,12 +137,6 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
             print("setting values")
             
-            // if saved image is found, load it.
-            // else download it
-            
-            indicator.startAnimating()
-            
-            
             
             print(thisAsk.captionText_1.isEmpty)
             askCaptionTextField.isHidden = thisAsk.captionText_1.isEmpty // if true hide, else show
@@ -164,52 +156,11 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
             resetTextView(textView: commentsTextView, blankText: enterCommentConstant)
             
-            
-            startImageLoading(thisAsk)
+            self.imageView.setFirebaseGsImage(for: thisAsk.imageURL_1)
         }
         
     }
-    
-    func startImageLoading(_ thisAsk: Question){
-        
-        
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: thisAsk.question_name, type: thisAsk.type),
-            forPath: thisAsk.imageURL_1) { [weak self] image, error in
-                
-                guard let self = self else {return}
-                
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    self.checkAndLoadAgain(getFilenameFrom(qName: thisAsk.question_name, type: thisAsk.type))
-                    return
-                }
-                
-                print("RAVC Image Downloaded for \(thisAsk.question_name)")
-                // hide the indicator as we have the image now
-                self.indicator.stopAnimating()
-                self.imageView.image = image
-            }
-        
-        
-    }
-    
-    // checks if we've been able to download the image already, if not try again
-    func checkAndLoadAgain(_ filename: String){
-        guard let image = loadImageFromDiskWith(fileName: filename) else {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                guard let self = self else {return}
-                self.checkAndLoadAgain(filename)
-            }
-            
-            return
-        }
-        
-        print("LIVE CHECKING THIS LINE")
-        self.indicator.stopAnimating()
-        self.imageView.image = image
-    }
+
     
     // handles the user taps NO button image or words
     @IBAction func noButtonTapped(_ sender: Any) {
@@ -393,8 +344,6 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         print("ReviewAskVC viewDidLoad() called")
         
         centerPoint = mainView.center
-        // setup the indicator
-        setupIndicator()
         
         //centerPoint = mainView.center
         // This allows user to tap coverView to segue to main menu (if we run out of quetions):
@@ -541,12 +490,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             
             present(alertVC_1, animated: true, completion: nil)
             
-            
-            
-            
-            
-            
-            
+
             
             
         }
@@ -1158,16 +1102,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     // I need a way to switch between the two Review Controllers without
     //  stacking up multiple instances of them on top of each other.
     
-    // to show the loading
-    func setupIndicator() {
-        indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-        indicator.color = .white
-        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        indicator.center = CGPoint(x: view.center.x, y: selectionImageView.center.y)
-        view.addSubview(indicator)
-        indicator.bringSubviewToFront(view)
-        
-    }
+
     
     // MARK: PROGRAMMATIC UI
     func configureSkipButton(){

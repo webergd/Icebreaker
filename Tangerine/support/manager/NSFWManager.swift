@@ -8,11 +8,13 @@
 import UIKit
 
 class NSFWManager {
-  static let shared = NSFWManager()
+    
+  static var shared = NSFWManager()
 
   private init(){
 
   }
+
 
   func checkNudityIn(image inputImage: UIImage) -> Double {
 

@@ -50,6 +50,9 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
     var imageRef_1: StorageReference!
     var imageRef_2: StorageReference!
 
+    weak var st: UIStoryboard?
+    // pulled from below
+    var userList: [String] = [String]()
  
     
     // should prevent the status bar from displaying at the top of the screen
@@ -228,8 +231,8 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
           print("Running ML")
 
           //MARK: ML Runs
-          let nudityPercentage1 = NSFWManager.shared.checkNudityIn(image: iBE1.iBEimageBlurredCropped)
-          let nudityPercentage2 = NSFWManager.shared.checkNudityIn(image: iBE2.iBEimageBlurredCropped)
+            let nudityPercentage1 = NSFWManager.shared.checkNudityIn(image: iBE1.iBEimageBlurredCropped)
+            let nudityPercentage2 = NSFWManager.shared.checkNudityIn(image: iBE2.iBEimageBlurredCropped) 
 
           // SEND THE QUESTION TO DATABASE
           let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
@@ -334,31 +337,29 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
       // locked += 1, toReview += 3
       updateCountOnNewQues()
 
-      var userList = [String]()
       FirebaseDatabase.Database.database().reference()
-        .child("usernames").observe(.value, with: { snapshot in
+        .child("usernames").observe(.value, with: { [weak self] snapshot in
 
           if let snapDict = snapshot.value as? [String:AnyObject]{
             for item in snapDict{
               if item.key != myProfile.username{
-                userList.append(item.key)
+                  self?.userList.append(item.key)
               }
 
             }// end for
 
-            question.usersNotReviewedBy = userList
-
+              if let userList = self?.userList {
+                  question.usersNotReviewedBy = userList
+              }
 
             do{
               try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
 
-              userList.removeAll()
+                self?.userList.removeAll()
             }catch let error {
               print("Error writing city to Firestore: \(error)")
-              self.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+              self?.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
             }
-
-
 
 
           } // if let
@@ -374,8 +375,8 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
 
 
       // GOTO CQ
-      let storyboard = UIStoryboard(name: "Main", bundle: nil)
-      let vc = storyboard.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
+      st = UIStoryboard(name: "Main", bundle: nil)
+      let vc = st?.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
       vc.modalPresentationStyle = .fullScreen
       vc.newlyCreatedDocID = question.question_name
       self.present(vc, animated: true, completion: nil)

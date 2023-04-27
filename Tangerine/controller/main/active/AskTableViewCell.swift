@@ -84,6 +84,12 @@ class AskTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+
+    override func prepareForReuse() {
+
+        super.prepareForReuse()
+        self.photoImageView.image = nil
+    }
     
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -143,18 +143,8 @@ class FriendRequestVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         cell.title.text = person.display_name
         cell.subtitle.text = person.username
-       
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: person.username, type: .ASK),
-            forPath: person.profile_pic) { image, error in
-            if let error = error{
-                print("Error: \(error.localizedDescription)")
-                return
-            }
-            
-            print("FRVC Image Downloaded for \(person.username)")
-            cell.profileImageView.image = image!
-        }
+        cell.profileImageView.setFirebaseImage(for: person.profile_pic)
+        
         
         // style delete button
         cell.deleteButton.layer.borderWidth = 1.0

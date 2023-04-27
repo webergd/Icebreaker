@@ -15,6 +15,7 @@ import Foundation;
 import UIKit
 import Firebase
 import RealmSwift
+import Kingfisher
 
 // MARK: ENUMS:
 
@@ -1700,68 +1701,6 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
     } // end firestore (query.getDocuments) closure
 } // end fetchQuestionsFromTheCommunity()
 
-
-/// to fetch a UIImage from firebase gs and set the UIImageView
-/// filename: to save in storage, path: firebase storage path
-public func downloadOrLoadFirebaseImage(ofName filename: String, forPath path: String?,asThumb isThumb:Bool = false, completion: @escaping (UIImage?,Error?) -> Void ){
-    
-    // need to check if it is a thumb or not, based on that we'll know if we are calling it from AskTableVC
-    // we'll load the thumb if that's the case, faster loading time
-    
-    
-    if let image = isThumb ? loadImageFromDiskWith(fileName: "thumb_\(filename)") : loadImageFromDiskWith(fileName: filename){
-        
-        completion(image,nil)
-        
-        return
-    }
-    
-    
-    DispatchQueue.global(qos: .userInitiated).async {
-        
-        if let path = path {
-            // create the reference
-            let imageRef = Storage.storage().reference(forURL: path)
-            
-            // max size 5 MB (was 2, need a better mechanism to keep the size down in later versions)
-            imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                if let error = error {
-                    // Uh-oh, an error occurred!
-                    print("Firebase Image Downloading Failed for path \(path)")
-                    completion(nil,error)
-                    return
-                    
-                } else {
-                    
-                    // unwrap data
-                    if let data = data{
-                        
-                        
-                        let image = UIImage(data: data)
-                        
-                        DispatchQueue.main.async {
-                            
-                            //MARK: Added by Wyatt, feel free to remove.
-                            //MARK: Does this ever get called with isThumb == true? => it does
-                            saveImageToDiskWith(imageName: filename, image: image!, isThumb: isThumb)
-                            
-                            completion(image,nil)
-                        }
-                        
-                    }else{
-                        
-                        print("Image data is null or corrupted")
-                    }
-                    
-                    
-                }
-            } // end imageRef
-        } // end if let
-    } // end dispatch.global
-    
-} // end get firebase image
-
-
 public func getFilenameFrom(qName name: String, type questionType: QType,secondPhoto isSecondPhoto: Bool = false) -> String{
     
     // if it's photo of ask or 1st photo of Compare
@@ -2004,28 +1943,17 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     for item in filteredQuestionsToReview{
         print("\(item.question.question_name) \(String(describing: item.priority))")
         // Ask or Compare both has same name for first question, so download one regardless of the qType
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type),
-            forPath: item.question.imageURL_1) { image, error in
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    return
-                }
-                
-            }
+        KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: item.question.imageURL_1)!)) { result in
+            print("Downloaded Ask")
+        }
+
         
         // Then check if it's compare so we may download the second image
         if item.question.type == .COMPARE{
             
-            downloadOrLoadFirebaseImage(
-                ofName: getFilenameFrom(qName: item.question.question_name, type: item.question.type, secondPhoto: true),
-                forPath: item.question.imageURL_2) { image, error in
-                    if let error = error{
-                        print("Error: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                }
+            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: item.question.imageURL_2)!)) { result in
+                print("Downloaded Compare")
+            }
         }
     }
 
@@ -2409,33 +2337,19 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
                         
                         dg.enter()
                         // we are checking if we had these image saved already, if not, we'll download
-                        
-                        // for both ask and compare, first image name is same
-                        downloadOrLoadFirebaseImage(
-                            ofName: getFilenameFrom(qName: question.question_name, type: question.type),
-                            forPath: question.imageURL_1) { image, error in
-                                
-                                if let error = error{
-                                    print("Error: \(error.localizedDescription)")
-                                    return
-                                }
-                                dg.leave()
-                            }
+
+                        KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: question.imageURL_1)!)) { result in
+                            dg.leave()
+                        }
+
                         
                         if question.type == .COMPARE {
                             
                             
                             dg.enter()
-                            downloadOrLoadFirebaseImage(
-                                ofName: getFilenameFrom(qName: question.question_name, type: question.type,secondPhoto: true),
-                                forPath: question.imageURL_2) { image, error in
-                                    
-                                    if let error = error{
-                                        print("Error: \(error.localizedDescription)")
-                                        return
-                                    }
-                                    dg.leave()
-                                }
+                            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: question.imageURL_2)!)) { result in
+                                dg.leave()
+                            }
                             
                             
                             

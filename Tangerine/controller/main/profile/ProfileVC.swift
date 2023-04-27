@@ -15,7 +15,7 @@ class ProfileVC: UIViewController {
     var contentView: UIView!
     var backBtn: UIButton!
     // user default
-    var userDefault : UserDefaults!
+    var userDefault = UserDefaults.standard
     
     var profileImage: UIImageView!
     
@@ -36,7 +36,7 @@ class ProfileVC: UIViewController {
     
     var memberSinceL: UILabel!
     
-    
+    var S = addPluralS(numberOfItems: Int(myProfile.rating))
     
     // MARK: Actions
     
@@ -92,58 +92,6 @@ class ProfileVC: UIViewController {
     }
     
     
-    func setupUI(){
-        print("Setting up UI of Profile")
-        // put some border on profile picture
-        profileImage.layer.borderWidth = 1.0
-        profileImage.layer.borderColor = UIColor.systemBlue.cgColor
-        profileImage.layer.cornerRadius = 4.0
-        
-        
-        
-        
-        displaynameL.text = myProfile.display_name
-        usernameL.text = myProfile.username
-        
-        
-        ageSpecialtyL.text = "\(getAgeFromBdaySeconds(myProfile.birthday)) year old \(myProfile.orientation)"
-        
-        scoreL.text = "(\(myProfile.rating))"
-        var S = addPluralS(numberOfItems: Int(myProfile.rating))
-        totalReviewL.text = "\(myProfile.reviews.roundedWithAbbreviations) Total Review\(S)"
-        
-        S = addPluralS(numberOfItems: myProfile.reviewCredits)
-        totalCreditL.text = "\(myProfile.reviewCredits) Review Credit\(S) 🐿️"
-        
-        let friendCount = userDefault.integer(forKey: Constants.UD_USER_FRIEND_COUNT)
-        S = addPluralS(numberOfItems: friendCount)
-        friendCountL.text = "\(friendCount) Friend\(S)"
-        
-        // format the member since date
-        let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "MM-dd-yyyy"
-        let memberS = dateFormatterGet.string(from: Date(timeIntervalSince1970: Double(myProfile.created)))
-        memberSinceL.text = "Member since \(memberS)"
-        
-        print(getFilenameFrom(qName: myProfile.username, type: .ASK))
-        print(myProfile.profile_pic)
-        
-        downloadOrLoadFirebaseImage(
-            ofName: getFilenameFrom(qName: myProfile.username, type: .ASK),
-            forPath: myProfile.profile_pic) { image, error in
-                if let error = error{
-                    print("Error: \(error.localizedDescription)")
-                    return
-                }
-                
-                print("Profile Image Downloaded for MYSELF")
-                self.profileImage.image = image
-            }
-        
-    }
-    
-    
-    
     // MARK: Delegates
     // MARK: VC Methods
     
@@ -164,7 +112,7 @@ class ProfileVC: UIViewController {
         configureAgeLabel()
         
         configureEditProfileButton()
-        configureReviewerScoreTextLabel()
+        //configureReviewerScoreTextLabel()
         configureReviewScoreLabel()
         
         configureTotalReviewsLabel()
@@ -173,9 +121,7 @@ class ProfileVC: UIViewController {
         configureLogoutButton()
         
         configureBackButton()
-        
-        
-        userDefault = UserDefaults.standard
+
         // Do any additional setup after loading the view.
         
         // For tapping the image to edit profile:
@@ -202,7 +148,6 @@ class ProfileVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupUI()
     }
     
     /// Fires when user taps displaynameL. Provides an explanation.
@@ -277,6 +222,10 @@ class ProfileVC: UIViewController {
     func configureProfileImageView(){
         profileImage = UIImageView()
         profileImage.image = UIImage(named: "generic_user")
+        // put some border on profile picture
+        profileImage.layer.borderWidth = 1.0
+        profileImage.layer.borderColor = UIColor.systemBlue.cgColor
+        profileImage.layer.cornerRadius = 4.0
         
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(profileImage)
@@ -287,6 +236,9 @@ class ProfileVC: UIViewController {
             profileImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             profileImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
+
+        profileImage.layoutIfNeeded()
+        profileImage.setFirebaseImage(for: myProfile.profile_pic)
     }
     
     func configureDisplayNameLabel(){
@@ -297,7 +249,9 @@ class ProfileVC: UIViewController {
         
         displaynameL.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(displaynameL)
-        
+
+        displaynameL.text = myProfile.display_name
+
         NSLayoutConstraint.activate([
             displaynameL.topAnchor.constraint(equalTo: profileImage.bottomAnchor),
             displaynameL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -313,6 +267,8 @@ class ProfileVC: UIViewController {
         
         usernameL.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(usernameL)
+
+        usernameL.text = myProfile.username
         
         NSLayoutConstraint.activate([
             usernameL.topAnchor.constraint(equalTo: displaynameL.bottomAnchor, constant: 4),
@@ -329,6 +285,8 @@ class ProfileVC: UIViewController {
         
         ageSpecialtyL.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(ageSpecialtyL)
+
+        ageSpecialtyL.text = "\(getAgeFromBdaySeconds(myProfile.birthday)) year old \(myProfile.orientation)"
         
         NSLayoutConstraint.activate([
             ageSpecialtyL.topAnchor.constraint(equalTo: usernameL.bottomAnchor, constant: 12),
@@ -359,22 +317,22 @@ class ProfileVC: UIViewController {
         editProfileButton.addTarget(self, action: #selector(editUserPressed), for: .touchUpInside)
     }
     
-    func configureReviewerScoreTextLabel(){
-        reviewerScoreText = UILabel()
-        //reviewerScoreText.text = "Reviewer Score"
-        reviewerScoreText.font = UIFont.systemFont(ofSize: 17)
-        reviewerScoreText.textColor = .label
-        reviewerScoreText.isHidden = true
-        
-        reviewerScoreText.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(reviewerScoreText)
-        
-        NSLayoutConstraint.activate([
-            reviewerScoreText.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20),
-            reviewerScoreText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            
-        ])
-    }
+//    func configureReviewerScoreTextLabel(){
+//        reviewerScoreText = UILabel()
+//        //reviewerScoreText.text = "Reviewer Score"
+//        reviewerScoreText.font = UIFont.systemFont(ofSize: 17)
+//        reviewerScoreText.textColor = .label
+//        reviewerScoreText.isHidden = true
+//
+//        reviewerScoreText.translatesAutoresizingMaskIntoConstraints = false
+//        contentView.addSubview(reviewerScoreText)
+//
+//        NSLayoutConstraint.activate([
+//            reviewerScoreText.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20),
+//            reviewerScoreText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+//
+//        ])
+//    }
     
     func configureReviewScoreLabel(){
         scoreL = UILabel()
@@ -384,9 +342,11 @@ class ProfileVC: UIViewController {
         scoreL.isHidden = true
         scoreL.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(scoreL)
+
+        scoreL.text = "(\(myProfile.rating))"
         
         NSLayoutConstraint.activate([
-            scoreL.topAnchor.constraint(equalTo: reviewerScoreText.bottomAnchor),
+            scoreL.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 40),
             scoreL.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             scoreL.widthAnchor.constraint(greaterThanOrEqualToConstant: 100)
         ])
@@ -410,6 +370,11 @@ class ProfileVC: UIViewController {
         
         totalCreditL.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(totalCreditL)
+
+        totalReviewL.text = "\(myProfile.reviews.roundedWithAbbreviations) Total Review\(S)"
+
+        S = addPluralS(numberOfItems: myProfile.reviewCredits)
+        totalCreditL.text = "\(myProfile.reviewCredits) Review Credit\(S) 🐿️"
         
         NSLayoutConstraint.activate([
             totalReviewL.topAnchor.constraint(equalTo: scoreL.bottomAnchor, constant: 32),
@@ -429,6 +394,10 @@ class ProfileVC: UIViewController {
         
         friendCountL.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(friendCountL)
+
+        let friendCount = userDefault.integer(forKey: Constants.UD_USER_FRIEND_COUNT)
+        S = addPluralS(numberOfItems: friendCount)
+        friendCountL.text = "\(friendCount) Friend\(S)"
         
         NSLayoutConstraint.activate([
             friendCountL.topAnchor.constraint(equalTo: totalCreditL.bottomAnchor, constant: 32),
@@ -444,6 +413,12 @@ class ProfileVC: UIViewController {
         
         memberSinceL.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(memberSinceL)
+
+        // format the member since date
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "MM-dd-yyyy"
+        let memberS = dateFormatterGet.string(from: Date(timeIntervalSince1970: Double(myProfile.created)))
+        memberSinceL.text = "Member since \(memberS)"
         
         NSLayoutConstraint.activate([
             memberSinceL.topAnchor.constraint(equalTo: friendCountL.bottomAnchor, constant: 64),
