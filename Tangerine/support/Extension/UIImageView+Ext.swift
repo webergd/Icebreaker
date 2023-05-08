@@ -27,7 +27,7 @@ extension UIImageView {
             self.kf.indicatorType = .activity
             self.kf.setImage(
                 with: downloadUrl,
-                placeholder: UIImage(named: "tangerineImage1"),
+                placeholder: UIImage(named: "loading_large_black"),
                 options: [
                     .processor(processor),
                     .scaleFactor(scale),
