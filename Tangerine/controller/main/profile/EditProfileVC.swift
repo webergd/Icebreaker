@@ -232,6 +232,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
         // add two actions
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction)in
+            print("deleteAccountTapped and confirmed")
             self.deleteUser()
         }))
         
@@ -438,6 +439,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
     
     
     func deleteUser(){
+        print("delete user called")
         view.showActivityIndicator()
         // delete the user doc
         
@@ -452,11 +454,16 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 // Log Analytics Event
                 Analytics.logEvent(Constants.ACCOUNT_DELETED, parameters: nil)
                 
-                // remove db values
                 
-                resetLocalAndRealmDB()
+                // first delete the connecti
+                self.getAndDeleteConnections() {
+                    // remove db values
+                    resetLocalAndRealmDB()
+                }
+                
+                
 
-                self.getAndDeleteConnections()
+                //self.getAndDeleteConnections()
                 
 
 
@@ -469,10 +476,10 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         
     }// end of delete user
 
-  // T22-44 On member profile delete, also delete all pending friend requests
-  // I'm getting my friend list
-  func getAndDeleteConnections(){
-
+  /// T22-44 On member profile delete, also delete all pending friend requests
+  /// I'm getting my friend list
+  func getAndDeleteConnections(completion: @escaping () -> Void){
+      print("getAndDeleteConnections() called in EditProfileVC")
     Firestore.firestore().collection(FirebaseManager.shared.getUsersCollection())
       .document(myProfile.username)
       .collection(Constants.USERS_LIST_SUB_COLLECTION)
@@ -519,11 +526,9 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
             print("Batch write succeeded.")
           }
         }
-
-
-
-
+          completion()
       }
+    
   }
     
     

@@ -15,6 +15,7 @@ extension UIImageView {
     /// - Parameter gsUrl: firebase storage url starting with gs:// protocol, image only
     /// - Parameter downSample: Indicates whether the image should be downsampled or resized, default value true
     func setFirebaseGsImage(for gsUrl: String, downSample: Bool = true) {
+        
 
         let storage = FirebaseStorage.Storage.storage()
         let gsReference = storage.reference(forURL: gsUrl)
@@ -50,7 +51,7 @@ extension UIImageView {
     /// - Parameter url: any https:// protocol based url
     /// - Parameter downSample: Indicates whether the image should be downsampled or resized, default value true
     func setFirebaseImage(for url: String, downSample: Bool = true) {
-
+        print("loading profile image from firebase")
         let downloadUrl = URL(string: url)
         let scale = UIScreen.main.scale
 

@@ -2761,6 +2761,7 @@ public func updateBadgeCount(){
 
 public func resetLocalAndRealmDB(){
     // update the user defaults
+    print("resetLocalAndRealmDB() called")
     
     if let appDomain = Bundle.main.bundleIdentifier {
         UserDefaults.standard.removePersistentDomain(forName: appDomain)
@@ -2779,7 +2780,7 @@ public func resetLocalAndRealmDB(){
         print("Error occured while updating realm")
     }
     
-    
+    print("successfully reached end of resetLocalAndRealmDB() instructions")
 }
 
 /// Reports are objects created in a Question's reportCollection when reviewing Users flag the Question for negative content.

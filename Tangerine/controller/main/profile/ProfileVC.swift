@@ -148,6 +148,12 @@ class ProfileVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // load these again in case the user is returning from EditProfileVC and changed one of them
+        configureProfileImageView()
+        configureDisplayNameLabel()
+        configureUsernameLabel()
+        configureAgeLabel()
     }
     
     /// Fires when user taps displaynameL. Provides an explanation.
@@ -239,6 +245,7 @@ class ProfileVC: UIViewController {
 
         profileImage.layoutIfNeeded()
         profileImage.setFirebaseImage(for: myProfile.profile_pic)
+
     }
     
     func configureDisplayNameLabel(){
