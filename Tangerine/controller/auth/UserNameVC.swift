@@ -347,7 +347,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
             print("isUserAvailable = \(self.isUserAvailable)")
             if self.isUserAvailable {
                 //this means it's a "GO" button, so segue to the next VC
-                //self.signupTapped()
+//                self.signupTapped()
                 self.usernameTF.resignFirstResponder()
             }
             //else: just leave the keyboard up so they can keep trying for a valid username
