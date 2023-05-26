@@ -78,6 +78,7 @@ class PasswordVC: UIViewController, UITextFieldDelegate {
         passwordTF.trailingView = eyeIconView
         // set the eye icon to visible always
         passwordTF.trailingViewMode = .always
+        passwordTF.autocapitalizationType = .none
         
         //add a tap gesture to it
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.toggleIcon(_:)))

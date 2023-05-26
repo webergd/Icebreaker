@@ -62,7 +62,9 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     // triggers on "Check Availability" Label Click
     @objc func checkAvailabilityTapped() {
         // call the function
-        checkAvailability()
+        checkAvailability {
+            //closure not used - there's probably a more elegant format than this
+        }
     }
     
     
@@ -74,7 +76,9 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
             //set the suggestion text to input textfield
             usernameTF.text = text
             // check the availability of selected suggestion
-            checkAvailability()
+            checkAvailability {
+                //closure not used - there's probably a more elegant format than this
+            }
         }
     } // end of suggestion One Tapped
     
@@ -86,7 +90,9 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
             //set the suggestion text to input textfield
             usernameTF.text = text
             // check the availability of selected suggestion
-            checkAvailability()
+            checkAvailability {
+                //closure not used - there's probably a more elegant format than this
+            }
         }
         
     }// end of suggestion Two Tapped
@@ -178,7 +184,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     
 
     // this function performs steps to check username
-    func checkAvailability(){
+    func checkAvailability(completion: @escaping () -> ()){
         
         // check this regex, as per firebase doc
         let regex = try! NSRegularExpression(pattern: "__.*__")
@@ -198,15 +204,17 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
                 // hide the error
                 hideError()
                 // hide the keyboard
-                usernameTF.resignFirstResponder()
+//                usernameTF.resignFirstResponder()
                 // set the trailing icon
                 setTrailingView(for: .checking)
                 isUserAvailable = isUsernameAvailable(name)
+                completion()
             }
             
         }else{
             // not good at all
             showError()
+            completion()
         } // if let name end
         
     } // end of checkAvailability
@@ -249,7 +257,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
             
             
         } // end of firestore
-        return false
+        return isUserAvailable
     } // end of isUsernameAvailable
     
     
@@ -335,7 +343,17 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     // when key from keyboard pressed : Done
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // call the function
-        checkAvailability()
+        checkAvailability {
+            print("isUserAvailable = \(self.isUserAvailable)")
+            if self.isUserAvailable {
+                //this means it's a "GO" button, so segue to the next VC
+                //self.signupTapped()
+                self.usernameTF.resignFirstResponder()
+            }
+            //else: just leave the keyboard up so they can keep trying for a valid username
+
+        }
+        
         return true
     }
     // MARK: VC Methods
@@ -393,8 +411,12 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
           return $0.count >= 3
         }
         .sink { _ in
-          self.checkAvailability()
+            self.checkAvailability {
+                //closure not used - there's probably a more elegant format than this
+            }
         }.store(in: &cancellables)
+        
+        usernameTF.becomeFirstResponder()
     }
     
     
@@ -429,7 +451,11 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
       
     } // end of view will appear
     
-    
+    override func becomeFirstResponder() -> Bool {
+        super.becomeFirstResponder()
+        usernameTF.returnKeyType = .done
+        return true
+    }
     
     // MARK: PROGRAMMATIC UI
     func configureNavItem(){
@@ -460,7 +486,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
         usernameTF.font = UIFont.systemFont(ofSize: 14)
         usernameTF.containerRadius = 6
         usernameTF.autocapitalizationType = .none
-        usernameTF.returnKeyType = .search
+        usernameTF.returnKeyType = .done //.search
         usernameTF.autocorrectionType = .no
         usernameTF.textContentType = .username
         usernameTF.spellCheckingType = .no
@@ -479,7 +505,7 @@ class UserNameVC: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     
     func configureCheckAvailabilityLabel(){
         checkAvailabilityLabel = UILabel()
-        checkAvailabilityLabel.text = "Check Availability"
+        checkAvailabilityLabel.text = "Type to Check Availability"
         checkAvailabilityLabel.font = UIFont.systemFont(ofSize: 15)
         checkAvailabilityLabel.textColor = .link
         checkAvailabilityLabel.isUserInteractionEnabled = true

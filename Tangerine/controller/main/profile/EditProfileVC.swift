@@ -455,7 +455,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
                 Analytics.logEvent(Constants.ACCOUNT_DELETED, parameters: nil)
                 
                 
-                // first delete the connecti
+                // first delete the connection
                 self.getAndDeleteConnections() {
                     // remove db values
                     resetLocalAndRealmDB()
