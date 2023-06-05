@@ -50,11 +50,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>To use the camera to take your picture</string>
+	<string>To take photos so you can post and share with the Tangerine community and your friends for review, as well as to update your profile photo if you choose to.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Access is needed to find your contacts in our database, we won't share or save this data.</string>
+	<string>Tagerine uses your contacts to show you which of your friends are already using the app! Your contact data is never shared with outside companies. </string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To pick an image for your profle</string>
+	<string>To upload photos so you can post and share them with the Tangerine community and your friends for review, as well as to update your profile photo if you choose to.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
