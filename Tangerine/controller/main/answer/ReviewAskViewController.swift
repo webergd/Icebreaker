@@ -928,8 +928,17 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
     //       Also- add a tap gesture recognizer to the VC'sso that the alert controller dismisses if the user taps off of it.
     /// Displays an alertController to allow the user to report an inappropriate Question while he or she is reviewing it.
     public func showReportSheet() {
-        let alertController = UIAlertController(title: "PLEASE LIST REASON FOR REPORTING", message: nil, preferredStyle: .actionSheet)
+
+        // We present the action sheet this way so that it's compatible with iPads
+        var alertStyle = UIAlertController.Style.actionSheet //default is for an iphone where action sheet is ok
         
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertStyle = UIAlertController.Style.alert
+            print("since this is an ipad, changing alert style for the report actions sheet to a regular alert")
+        }
+        
+        let alertController = UIAlertController(title: "PLEASE LIST REASON FOR REPORTING", message: nil, preferredStyle: alertStyle)
+
         // this should iterate through all enum values and add them as possible selections in the alertView
         for rT in reportType.allCases/*this was just (reportType) without the .self - if we get an error, we will need to add arguments per the Swift4 conversion - it had 2 options and we chose the easy one - .self*/ {
 
