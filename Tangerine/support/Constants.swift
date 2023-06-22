@@ -136,6 +136,7 @@ class Constants {
     static let QUES_REPORTS = "reports"
     static let QUES_REPORT_MAP = "reportList"
     static let QUES_USERS_NOT_REVIEWED_BY_KEY = "usersNotReviewedBy"
+    static let QUES_USERS_NOT_CONSUMED_BY_KEY = "usersNotConsumedBy"
     static let QUES_ADMIN_REVIEW_REQ = "adminReviewRequired"
     
     // KEYS FOR reviews > ID
