@@ -99,7 +99,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
             print("User click Camera button")
             self.selectImageFrom(.camera)
-            
+
         }))
         
         alert.addAction(UIAlertAction(title: "Photo Library", style: .default , handler:{ (UIAlertAction)in

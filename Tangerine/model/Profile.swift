@@ -33,6 +33,7 @@ import Firebase
     dynamic var created : Int64 = 0 // Later Turns into Timestamp by firebase function and we save as seconds in RealmManager, see LoginVC
     dynamic var orientation = Constants.ORIENTATIONS.last!
     dynamic var phone_number = ""
+    dynamic var isSeeder = false
     
     override public class func primaryKey() -> String? {
         return "pid"
@@ -40,7 +41,7 @@ import Firebase
     
     
     
-    internal init(pid: Int = 0, birthday: Double = 0, display_name: String = "", username: String = "", profile_pic: String = "", reviews: Int = 0, rating: Double = 0, created: Int64 = 0, orientation: String = "Other", phone_number: String = "") {
+    internal init(pid: Int = 0, birthday: Double = 0, display_name: String = "", username: String = "", profile_pic: String = "", reviews: Int = 0, rating: Double = 0, created: Int64 = 0, orientation: String = "Other", phone_number: String = "", isSeeder: Bool) {
         self.pid = pid
         self.birthday = birthday
         self.display_name = display_name
@@ -51,5 +52,6 @@ import Firebase
         self.created = created
         self.orientation = orientation
         self.phone_number = phone_number
+        self.isSeeder = isSeeder
     }
 }

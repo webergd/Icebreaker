@@ -2525,7 +2525,9 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
                             rating: rS,
                             created: 0,
                             orientation: rO,
-                            phone_number: "0")
+                            phone_number: "0",
+                        isSeeder: false)
+#warning("We're forcing seeder as false here, reviewer shouldn't be a seeder")
                         
                         
                         switch questionType {

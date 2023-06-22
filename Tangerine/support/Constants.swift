@@ -58,6 +58,7 @@ class Constants {
     
     static let USER_NUMBER_KEY = "phone_number"
     static let USER_BIRTHDAY_KEY = "bday"
+    static let IS_SEEDER_KEY = "isSeeder"
 
     // it was display_name initially, not sure how it become dname_lower, which is filled by server
     // changing it back. MM: Mar31, 2023
