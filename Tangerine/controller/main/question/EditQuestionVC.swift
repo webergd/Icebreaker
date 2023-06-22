@@ -73,8 +73,8 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     @IBOutlet weak var compareToggleButton: UIButton!
     
     /// Deprecated- will be removed
-//    @IBOutlet weak var addCompareButton: UIButton! // appears as 2
-//    @IBOutlet weak var reduceToAskButton: UIButton! // appears as a 1
+    //    @IBOutlet weak var addCompareButton: UIButton! // appears as 2
+    //    @IBOutlet weak var reduceToAskButton: UIButton! // appears as a 1
     
     @IBOutlet weak var addCaptionButton: UIButton!
     @IBOutlet weak var centerFlexibleSpace: UIBarButtonItem!
@@ -113,11 +113,11 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     var screenWidth: CGFloat = UIScreen.main.bounds.size.width
     weak var st: UIStoryboard?
     var captionTopLimit: CGFloat {
-//        if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .reEditingFirstPhoto {
-//            return 0.0
-//        } else {
-//            return screenWidth
-//        }
+        //        if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .reEditingFirstPhoto {
+        //            return 0.0
+        //        } else {
+        //            return screenWidth
+        //        }
         return 0.0
         
     }
@@ -187,7 +187,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
 
         
 
-//        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
+        //        print("presenting VC of EditQuestionVC is: \(String(describing: self.presentingViewController))")
         
         
         // define constants for help messages depending on different circumstances
@@ -202,113 +202,113 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         scrollView.layer.borderWidth = 1
         scrollView.layer.borderColor = UIColor.separator.cgColor
         
-//        setupHousingViews()
+        //        setupHousingViews()
         
         //Now we check to see which image to display
         
         switch currentCompare.creationPhase {
-            
-        case .firstPhotoTaken:
-            
-            load(image: .one)
-            
-            resetTitleTextField()
-            titleHasBeenTapped = false
-//            addCompareButton.isHidden = false // give the user the option to create a compare
-//            reduceToAskButton.isHidden = true
-            otherImageThumbnail.isHidden = true //if it's a single image, there will be no other image to show a thumbnail of
-            topImageIndicator.isHidden = false
-            topImageIndicator.alpha = 1.0
-            bottomImageIndicator.isHidden  = true
-            bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
-            helpAskOrCompareLabel.text = makeCompareHelpMessage
-            
-            // lowers the top image publish button thumbnail by half of its total height (24.0) in order to center it in the publish button when there is only one image (Ask). The bottom thumnail still exists, it's just hidden and therefore it's not noticable when the lower thumnail gets pushed down and partially "off the screen." A more complete way to do this would be to actually change the height of the lower thumbnail to 0.0 so that it wasn't off the screen, but as of now, it works fine like this. 
-            topImageIndicatorTopConstraint.constant = 12.0
 
-//            publishButton.setImage(#imageLiteral(resourceName: "square-arrow.png"), for: UIControl.State.normal)
-            
+            case .firstPhotoTaken:
 
-            // Resets the compare toggle button title and image to look like it should when there is only one photo that has been taken (ie creating an ask)
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.alignment = .center
-            
-            let buttonTitleAttributes: [NSAttributedString.Key : Any] = [
-                .font : UIFont.systemFont(ofSize: 14),
-                .paragraphStyle : paragraphStyle,
-            ]
-            
-            /// sets compareToggleButton text and image up to give user the option to add a second image
-            let attributedTitle = NSAttributedString(string: "Compare Against", attributes: buttonTitleAttributes)
-            compareToggleButton.setAttributedTitle(attributedTitle, for: .normal)
-            compareToggleButton.setImage(UIImage(systemName: "camera.badge.ellipsis"), for: .normal)
+                load(image: .one)
 
-            
-            
-        case .secondPhotoTaken:
-            load(image: .two)
-            resetTitleTextField()
-            titleHasBeenTapped = false
-//            addCompareButton.isHidden = true
-//            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
-            otherImageThumbnail.isHidden = false //we want them to focus on making image2 right now, no thumbnail //this has been updated
-            otherImageThumbnail.alpha = 0.7 //change to 1.0
-            otherImageThumbnail.isEnabled = false //change to true
-            topImageIndicator.isHidden = false
-            topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
-            bottomImageIndicator.isHidden  = false
-            bottomImageIndicator.alpha = 1.0
-            helpAskOrCompareLabel.text = revertToAskHelpMessage
-            
-            // raises the top image publish button thumbnail's top back up to the top of the publish button in order to make room for the image below it since now there are 2 (Compare)
-            topImageIndicatorTopConstraint.constant = 0.0
-            
-//            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
-            
-            // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
-            compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
-            compareToggleButton.setImage(UIImage(systemName:"square.and.pencil"), for: .normal)
-            
-        case .reEditingFirstPhoto:
-            print("inside reEditing first photo in switch")
-            load(image: .one)
-//            addCompareButton.isHidden = true
-//            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
-            otherImageThumbnail.isHidden = false //displays the thumbnail
-            otherImageThumbnail.alpha = 1.0
-            otherImageThumbnail.isEnabled = true
-            topImageIndicator.isHidden = false
-            topImageIndicator.alpha = 1.0
-            bottomImageIndicator.isHidden  = false
-            bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
-            helpAskOrCompareLabel.text = revertToAskHelpMessage
-//            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
+                resetTitleTextField()
+                titleHasBeenTapped = false
+                //            addCompareButton.isHidden = false // give the user the option to create a compare
+                //            reduceToAskButton.isHidden = true
+                otherImageThumbnail.isHidden = true //if it's a single image, there will be no other image to show a thumbnail of
+                topImageIndicator.isHidden = false
+                topImageIndicator.alpha = 1.0
+                bottomImageIndicator.isHidden  = true
+                bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
+                helpAskOrCompareLabel.text = makeCompareHelpMessage
 
-            
-            // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
-            compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
-            compareToggleButton.setImage(UIImage(systemName:"square.and.pencil"), for: .normal)
-            
-        case .reEditingSecondPhoto:
-            load(image: .two)
-//            addCompareButton.isHidden = true
-//            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
-            otherImageThumbnail.isHidden = false //displays the thumbnail
-            otherImageThumbnail.alpha = 1.0
-            otherImageThumbnail.isEnabled = true
-            topImageIndicator.isHidden = false
-            topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
-            bottomImageIndicator.isHidden  = false
-            bottomImageIndicator.alpha = 1.0
-            helpAskOrCompareLabel.text = revertToAskHelpMessage
-//            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
-            
-            // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
-            compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
-            compareToggleButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-            
-        case .noPhotoTaken: //this should never happen
-            print("Error in EditQuestionVC.ViewWillAppear: creationPhase is .noPhotoTaken, something went wrong.")
+                // lowers the top image publish button thumbnail by half of its total height (24.0) in order to center it in the publish button when there is only one image (Ask). The bottom thumnail still exists, it's just hidden and therefore it's not noticable when the lower thumnail gets pushed down and partially "off the screen." A more complete way to do this would be to actually change the height of the lower thumbnail to 0.0 so that it wasn't off the screen, but as of now, it works fine like this.
+                topImageIndicatorTopConstraint.constant = 12.0
+
+                //            publishButton.setImage(#imageLiteral(resourceName: "square-arrow.png"), for: UIControl.State.normal)
+
+
+                // Resets the compare toggle button title and image to look like it should when there is only one photo that has been taken (ie creating an ask)
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = .center
+
+                let buttonTitleAttributes: [NSAttributedString.Key : Any] = [
+                    .font : UIFont.systemFont(ofSize: 14),
+                    .paragraphStyle : paragraphStyle,
+                ]
+
+                /// sets compareToggleButton text and image up to give user the option to add a second image
+                let attributedTitle = NSAttributedString(string: "Compare Against", attributes: buttonTitleAttributes)
+                compareToggleButton.setAttributedTitle(attributedTitle, for: .normal)
+                compareToggleButton.setImage(UIImage(systemName: "camera.badge.ellipsis"), for: .normal)
+
+
+
+            case .secondPhotoTaken:
+                load(image: .two)
+                resetTitleTextField()
+                titleHasBeenTapped = false
+                //            addCompareButton.isHidden = true
+                //            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
+                otherImageThumbnail.isHidden = false //we want them to focus on making image2 right now, no thumbnail //this has been updated
+                otherImageThumbnail.alpha = 0.7 //change to 1.0
+                otherImageThumbnail.isEnabled = false //change to true
+                topImageIndicator.isHidden = false
+                topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
+                bottomImageIndicator.isHidden  = false
+                bottomImageIndicator.alpha = 1.0
+                helpAskOrCompareLabel.text = revertToAskHelpMessage
+
+                // raises the top image publish button thumbnail's top back up to the top of the publish button in order to make room for the image below it since now there are 2 (Compare)
+                topImageIndicatorTopConstraint.constant = 0.0
+
+                //            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
+
+                // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
+                compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+                compareToggleButton.setImage(UIImage(systemName:"square.and.pencil"), for: .normal)
+
+            case .reEditingFirstPhoto:
+                print("inside reEditing first photo in switch")
+                load(image: .one)
+                //            addCompareButton.isHidden = true
+                //            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
+                otherImageThumbnail.isHidden = false //displays the thumbnail
+                otherImageThumbnail.alpha = 1.0
+                otherImageThumbnail.isEnabled = true
+                topImageIndicator.isHidden = false
+                topImageIndicator.alpha = 1.0
+                bottomImageIndicator.isHidden  = false
+                bottomImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
+                helpAskOrCompareLabel.text = revertToAskHelpMessage
+                //            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
+
+
+                // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
+                compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+                compareToggleButton.setImage(UIImage(systemName:"square.and.pencil"), for: .normal)
+
+            case .reEditingSecondPhoto:
+                load(image: .two)
+                //            addCompareButton.isHidden = true
+                //            reduceToAskButton.isHidden = true // using the deleteThumbnailButton we never show this
+                otherImageThumbnail.isHidden = false //displays the thumbnail
+                otherImageThumbnail.alpha = 1.0
+                otherImageThumbnail.isEnabled = true
+                topImageIndicator.isHidden = false
+                topImageIndicator.alpha = inactiveImageIndicatorAlphaConstant
+                bottomImageIndicator.isHidden  = false
+                bottomImageIndicator.alpha = 1.0
+                helpAskOrCompareLabel.text = revertToAskHelpMessage
+                //            publishButton.setImage(#imageLiteral(resourceName: "Preview-icon.png"), for: UIControl.State.normal)
+
+                // set compareToggleButton text and image up to give user the option to toggle to the other image to edit it instead:
+                compareToggleButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+                compareToggleButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+
+            case .noPhotoTaken: //this should never happen
+                print("Error in EditQuestionVC.ViewWillAppear: creationPhase is .noPhotoTaken, something went wrong.")
         }
         
         configurePublishButton()
@@ -326,7 +326,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         //if this could animate at twice the speed, it would look better (and be less annoying when switching between thumbnails that are zoomed in far)
         updateQuestionTypeLabel()
         scrollView.setZoomScale(zoomScaleToLoad, animated: true)
-//        setupHousingViews()
+        //        setupHousingViews()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
             self.showTutorialAsRequired()
@@ -340,24 +340,24 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         loadPublishButtonThumnails()
 
 
-//        titleTextFieldHeightConstraint.constant = 0.0
-//        titleTextField.translatesAutoresizingMaskIntoConstraints = false
-//        self.view.layoutIfNeeded()
+        //        titleTextFieldHeightConstraint.constant = 0.0
+        //        titleTextField.translatesAutoresizingMaskIntoConstraints = false
+        //        self.view.layoutIfNeeded()
         
         titleHasBeenTapped = false
         
         otherImageThumbnail.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         
-//        deleteThumbnailButton.addShadow()
+        //        deleteThumbnailButton.addShadow()
         
-//        self.enableBlurringButton.isHidden = !blursAddedByEditor
-//        // once we've got the enableBlurringButton in the opposite configuration from what we want, we toggle the blur buttons to reset it to the right configuration
-//        toggleBlurButtons()
+        //        self.enableBlurringButton.isHidden = !blursAddedByEditor
+        //        // once we've got the enableBlurringButton in the opposite configuration from what we want, we toggle the blur buttons to reset it to the right configuration
+        //        toggleBlurButtons()
         
-//        // if there are not blurs added to the image, we want to be able to blur it, and if there are, we want to have an unBlur option
-//        self.configureBlurButtonsFor(blurring: !blursAddedByEditor)
+        //        // if there are not blurs added to the image, we want to be able to blur it, and if there are, we want to have an unBlur option
+        //        self.configureBlurButtonsFor(blurring: !blursAddedByEditor)
         
-//        self.clearBlursButton.isHidden = !blursAddedByEditor
+        //        self.clearBlursButton.isHidden = !blursAddedByEditor
 
         captionTextField.delegate = self
         titleTextField.delegate = self
@@ -400,7 +400,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         
         // This gets us the height of the title text field to be used later for spacing things out correctly
         // Shouldn't need this anymore now that title is below imageView
-//        self.titleTextFieldHeight = self.titleTextField.frame.height
+        //        self.titleTextFieldHeight = self.titleTextField.frame.height
         
         // This sets up the min and max values that the caption's top constraint can have and still be over the image
         //        self.captionTopLimit = self.topLayoutGuide.length //+ self.titleTextFieldHeight  **********
@@ -436,11 +436,11 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         
         configureTitleTextFieldConstraints()
         
-//        if currentTitle != "" {
-//            showTitleTextField()
-//        } else {
-//            hideTitleTextField()
-//        }
+        //        if currentTitle != "" {
+        //            showTitleTextField()
+        //        } else {
+        //            hideTitleTextField()
+        //        }
 
     }
     
@@ -454,7 +454,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         // It's weird that we have to call this here. If we don't, the button text sometimes gets switched to whatever is the default in the storyboard.
         configurePublishButton()
         print("publishButton text is: \(self.publishButton.titleLabel!.text) (inside viewDidLayoutSubviews)")
-    
+
 
         setupHousingViews()
         
@@ -462,14 +462,14 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     
     override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-            if isBeingDismissed {
-                print("EQVC is being dismissed - attempting to remove keyboardWillShow observer")
-                // this may or may not be necessary. We are trying to fix the memory leak and these observers keep firing even after we dismiss this VC.
-                // They may be creating an unbreakable reference
-                NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-                NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-            }
+        super.viewWillDisappear(animated)
+        if isBeingDismissed {
+            print("EQVC is being dismissed - attempting to remove keyboardWillShow observer")
+            // this may or may not be necessary. We are trying to fix the memory leak and these observers keep firing even after we dismiss this VC.
+            // They may be creating an unbreakable reference
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
     }
     
     func showTutorialAsRequired() {
@@ -487,7 +487,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
                 self.ud.set(true, forKey: Constants.UD_SKIP_EDIT_QUESTION_TUTORIAL_Bool)
                 self.publishButton.removeAttentionRectangle()
                 self.helpButton.removeAttentionRectangle()
-//                self.helpButtonTapped(self) // this would work better if there was a glassview for "user tapped around" to hide the help labels
+                //                self.helpButtonTapped(self) // this would work better if there was a glassview for "user tapped around" to hide the help labels
             }))
             
             present(alertVC, animated: true, completion: nil)
@@ -508,12 +508,12 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         if let iBE1 = currentCompare.imageBeingEdited1 {
             
             switch imageNumberToLoad {
-            case .one:
-                unpack(image: iBE1)
-                if let iBE2 = currentCompare.imageBeingEdited2 { unpack(thumbnail: iBE2) }
-            case .two:
-                if let iBE2 = currentCompare.imageBeingEdited2 { unpack(image: iBE2) }
-                unpack(thumbnail: iBE1)
+                case .one:
+                    unpack(image: iBE1)
+                    if let iBE2 = currentCompare.imageBeingEdited2 { unpack(thumbnail: iBE2) }
+                case .two:
+                    if let iBE2 = currentCompare.imageBeingEdited2 { unpack(image: iBE2) }
+                    unpack(thumbnail: iBE1)
             }
         } else {
             print("Error: images did not unpack")
@@ -569,14 +569,14 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
             captionTextFieldHeight: captionTextFieldHeight,
             scrollAndCompareHousingViewHeight: scrollAndCompareHousingView.frame.height)
         
-//        scrollAndCompareHousingView.frame.size.height = constraintCalculator.scrollAndCompareHousingViewHeight
-//        scrollHousingView.frame.size.height = constraintCalculator.scrollHousingViewHeight
+        //        scrollAndCompareHousingView.frame.size.height = constraintCalculator.scrollAndCompareHousingViewHeight
+        //        scrollHousingView.frame.size.height = constraintCalculator.scrollHousingViewHeight
         scrollHousingViewHeightConstraint.constant = constraintCalculator.scrollHousingViewHeight
         
-//        print("compareHousingView height before setting it \(compareHousingView.frame.size.height)")
-//        compareHousingView.frame.size.height = constraintCalculator.compareHousingViewHeight
+        //        print("compareHousingView height before setting it \(compareHousingView.frame.size.height)")
+        //        compareHousingView.frame.size.height = constraintCalculator.compareHousingViewHeight
         compareHousingViewHeightConstraint.constant = constraintCalculator.compareHousingViewHeight
-//        print("compareHousingView height AFTER setting it \(compareHousingView.frame.size.height)")
+        //        print("compareHousingView height AFTER setting it \(compareHousingView.frame.size.height)")
         
         scrollHousingViewTopConstraint.constant = constraintCalculator.scrollHousingViewTopConstraint
         compareHousingViewTopConstraint.constant = constraintCalculator.compareHousingViewTopConstraint
@@ -608,16 +608,16 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         
         if let thisLabel = publishButton.titleLabel {
             if currentCompare.creationPhase == .firstPhotoTaken || currentCompare.creationPhase == .noPhotoTaken {
-//                publishButton.setBackgroundColor(.systemBlue, forState: .normal)
+                //                publishButton.setBackgroundColor(.systemBlue, forState: .normal)
                 thisLabel.text = "        PUBLISH     🚀"
-//                thisLabel.textColor = .white
+                //                thisLabel.textColor = .white
             } else {
                 // none of these background color change attempts work at the moment. I'd like to make it green.
-//                publishButton.setBackgroundColor(.systemGreen, forState: .normal)
-//                publishButton.backgroundColor = UIColor.systemGreen //.systemGreen
-//                publishButton.layer.backgroundColor = .init(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
+                //                publishButton.setBackgroundColor(.systemGreen, forState: .normal)
+                //                publishButton.backgroundColor = UIColor.systemGreen //.systemGreen
+                //                publishButton.layer.backgroundColor = .init(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
                 thisLabel.text = "        PREVIEW     🔍"
-//                thisLabel.textColor = .systemGreen
+                //                thisLabel.textColor = .systemGreen
             }
         }
         
@@ -670,26 +670,26 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         
         addCaption(at: tappedLoc)
         
-//        if captionTextField.isHidden == true && titleTextField.isEditing == false {
-//            // Show the captionTextField:
-//            captionTextField.isHidden = false
-//            // Position the captionTextField where the user tapped:
-//            self.captionTextFieldTopConstraint.constant = tappedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight)
-//            captionTextField.becomeFirstResponder()
-//            //self.captionTextField.center.y = tappedLoc.y
-//            if titleTextField.text == enterTitleConstant {
-//                mirrorCaptionButton.isHidden = false
-//                centerFlexibleSpace.isEnabled = true
-//            }
-//
-//        } else {
-//            // if the caption is displayed and the user taps the image, dismiss the keyboard
-//            if captionTextField.text == "" {
-//                mirrorCaptionButton.isHidden = true
-//                centerFlexibleSpace.isEnabled = false
-//            }
-//            view.endEditing(true)
-//        }
+        //        if captionTextField.isHidden == true && titleTextField.isEditing == false {
+        //            // Show the captionTextField:
+        //            captionTextField.isHidden = false
+        //            // Position the captionTextField where the user tapped:
+        //            self.captionTextFieldTopConstraint.constant = tappedLoc.y - self.topLayoutGuide.length - (0.5 * captionTextFieldHeight)
+        //            captionTextField.becomeFirstResponder()
+        //            //self.captionTextField.center.y = tappedLoc.y
+        //            if titleTextField.text == enterTitleConstant {
+        //                mirrorCaptionButton.isHidden = false
+        //                centerFlexibleSpace.isEnabled = true
+        //            }
+        //
+        //        } else {
+        //            // if the caption is displayed and the user taps the image, dismiss the keyboard
+        //            if captionTextField.text == "" {
+        //                mirrorCaptionButton.isHidden = true
+        //                centerFlexibleSpace.isEnabled = false
+        //            }
+        //            view.endEditing(true)
+        //        }
     }
     @IBAction func addCaptionButtonTapped(_ sender: Any) {
         
@@ -817,20 +817,20 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
             //                centerFlexibleSpace.isEnabled = true //deprecated
             //            }
             
-//            // Stores a substring of the caption to the title so that user can more easily reference the photo through text rather than just visually
-//            if captionTextField.text != "" {
-//                if let captionText = captionTextField.text {
-//                    let captionLength = captionText.count
-//                    if captionLength > 11 {
-//                        titleTextField.text = String(captionText.prefix(11))
-//                    } else {
-//                        titleTextField.text = captionText
-//                    }
-//                    showTitleTextField()
-//                }
-//            } else {
-//                hideTitleTextField()
-//            }
+            //            // Stores a substring of the caption to the title so that user can more easily reference the photo through text rather than just visually
+            //            if captionTextField.text != "" {
+            //                if let captionText = captionTextField.text {
+            //                    let captionLength = captionText.count
+            //                    if captionLength > 11 {
+            //                        titleTextField.text = String(captionText.prefix(11))
+            //                    } else {
+            //                        titleTextField.text = captionText
+            //                    }
+            //                    showTitleTextField()
+            //                }
+            //            } else {
+            //                hideTitleTextField()
+            //            }
             
             //added 5 Oct 22 when I commented out the above:
             hideTitleTextField()
@@ -856,7 +856,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     func resetTitleTextField() {
         self.titleTextField.text = enterTitleConstant
-//        self.titleTextField.textColor = UIColor.gray
+        //        self.titleTextField.textColor = UIColor.gray
         currentTitle = ""
     }
     
@@ -868,18 +868,18 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     func toggleCompareImage() {
         print("toggleCompareImage called")
         switch currentCompare.creationPhase {
-        case .secondPhotoTaken:
-            // MARK need something here to acknowledge image was tapped but we're not doing anything
-            print("second photo taken")
-        case .reEditingFirstPhoto:
-            currentCompare.imageBeingEdited1 = createImageBeingEdited()
-            currentCompare.creationPhase = .reEditingSecondPhoto
-        case .reEditingSecondPhoto:
-            currentCompare.imageBeingEdited2 = createImageBeingEdited()
-            currentCompare.creationPhase = .reEditingFirstPhoto
-            
-        default:
-            print("Error in EditQuestionVC.otherImageThumbnailTapped: unexpected enum value for currentCompare.creationPhase")
+            case .secondPhotoTaken:
+                // MARK need something here to acknowledge image was tapped but we're not doing anything
+                print("second photo taken")
+            case .reEditingFirstPhoto:
+                currentCompare.imageBeingEdited1 = createImageBeingEdited()
+                currentCompare.creationPhase = .reEditingSecondPhoto
+            case .reEditingSecondPhoto:
+                currentCompare.imageBeingEdited2 = createImageBeingEdited()
+                currentCompare.creationPhase = .reEditingFirstPhoto
+
+            default:
+                print("Error in EditQuestionVC.otherImageThumbnailTapped: unexpected enum value for currentCompare.creationPhase")
         }
         
 
@@ -1002,18 +1002,18 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         var duration: TimeInterval = 0
         
         switch (gesture.state) {
-        case .began:
-            //Keeping start time...
-            self.pressStartTime = NSDate.timeIntervalSinceReferenceDate
-            
-        case .ended:
-            //Calculating duration
-            duration = NSDate.timeIntervalSinceReferenceDate - self.pressStartTime
-            //Note that NSTimeInterval is a double value...
-            print("Duration : \(duration)")
-            
-        default:
-            break;
+            case .began:
+                //Keeping start time...
+                self.pressStartTime = NSDate.timeIntervalSinceReferenceDate
+
+            case .ended:
+                //Calculating duration
+                duration = NSDate.timeIntervalSinceReferenceDate - self.pressStartTime
+                //Note that NSTimeInterval is a double value...
+                print("Duration : \(duration)")
+
+            default:
+                break;
         }
         
         return duration
@@ -1028,7 +1028,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         self.clearBlursButton.isHidden = true
         self.blurringEnabled = false
         self.helpBlurFacesLabel.text = blurFacesMessage
-//        toggleBlurButtons()
+        //        toggleBlurButtons()
     }
     
     /// Shows the other one and hides the current one.
@@ -1036,14 +1036,14 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     /// Also changes the helpBlurFacesLabel text to the approprate phrase.
     func toggleBlurButtons() {
         switch enableBlurringButton.isHidden {
-        case true: // clear blurs button is showing
-            clearBlursButton.isHidden = true
-            enableBlurringButton.isHidden = false
-            helpBlurFacesLabel.text = blurFacesMessage
-        case false: // blurring enabled button is showing
-            clearBlursButton.isHidden = false
-            enableBlurringButton.isHidden = true
-            helpBlurFacesLabel.text = unBlurFacesMessage
+            case true: // clear blurs button is showing
+                clearBlursButton.isHidden = true
+                enableBlurringButton.isHidden = false
+                helpBlurFacesLabel.text = blurFacesMessage
+            case false: // blurring enabled button is showing
+                clearBlursButton.isHidden = false
+                enableBlurringButton.isHidden = true
+                helpBlurFacesLabel.text = unBlurFacesMessage
         }
     }
     
@@ -1282,7 +1282,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     /// This method clears the text field to be ready to be typed in and it also reverses the value of titleHasBeenTapped.
     @IBAction func titleTextFieldBeginEditing(_ sender: AnyObject) {
-//        titleHasBeenTapped = self.resetTextField(titleTextField, tappedYet: titleHasBeenTapped)
+        //        titleHasBeenTapped = self.resetTextField(titleTextField, tappedYet: titleHasBeenTapped)
     }
     
     @IBAction func titleTextFieldValueChanged(_ sender: AnyObject) {
@@ -1344,150 +1344,155 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         
 
 
-      print("Running ML")
+        print("Running ML")
 
-      //MARK: ML Runs
+        //MARK: ML Runs
         let nudityPercentage = NSFWManager.shared.checkNudityIn(image: imageToCreateAskWith)
 
-      // SEND THE QUESTION TO DATABASE
-      let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
-      print("ASK: \(docID) \(nudityPercentage)")
+        // SEND THE QUESTION TO DATABASE
+        let docID = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document().documentID
+        print("ASK: \(docID) \(nudityPercentage)")
 
-      // update the ML values
-      if nudityPercentage > 25 && nudityPercentage <= 54 {
-          let report = [reportType.ml.rawValue: 1]
-        // send for review
-          sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
+        // update the ML values
+        if nudityPercentage > 25 && nudityPercentage <= 54 {
+            let report = [reportType.ml.rawValue: 1]
+            // send for review
+            sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
 
-      } else if nudityPercentage > 54 {
-        
-        // show an alert for false positive
+        } else if nudityPercentage > 54 {
 
-          self.presentFalsePositiveAlert { decision in
-              // The decision true == user wants admin to review, else they'll try again
-              if decision {
-                  let report = [reportType.requestedReview.rawValue: 1]
-                  self.sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
-              }
+            // show an alert for false positive
 
-          }
+            self.presentFalsePositiveAlert { decision in
+                // The decision true == user wants admin to review, else they'll try again
+                if decision {
+                    let report = [reportType.requestedReview.rawValue: 1]
+                    self.sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
+                }
 
-      } else {
-        sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: true, needsReview: false)
-      }
+            }
+
+        } else {
+            sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: true, needsReview: false)
+        }
 
         
     }
 
     func sendAskToServer(id docID: String,image imageToCreateAskWith: UIImage, circulate shouldCirculate: Bool = false, needsReview reviewRequired: Bool = false, report: Dictionary<String, Int> = [:]) {
 
-    // prepare for segue to the Add Friends view - named CQViewController for some reason)
-    st = UIStoryboard(name: "Main", bundle: nil)
-    let vc = st?.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
-    vc.modalPresentationStyle = .fullScreen
+        // prepare for segue to the Add Friends view - named CQViewController for some reason)
+        st = UIStoryboard(name: "Main", bundle: nil)
+        let vc = st?.instantiateViewController(withIdentifier: "SendToFriendsVC") as! SendToFriendsVC
+        vc.modalPresentationStyle = .fullScreen
 
-    let captionToCreateAskWith = createCaption()
+        let captionToCreateAskWith = createCaption()
 
-    if let user = Auth.auth().currentUser, let name = user.displayName {
+        if let user = Auth.auth().currentUser, let name = user.displayName {
 
-      let storageRef = Storage.storage().reference();
-      // create an ask here
-      // bucket/profiles/username/question_name/imageName_1.jpg
-      imageRef_1 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_1.jpg")
+            let storageRef = Storage.storage().reference();
+            // create an ask here
+            // bucket/profiles/username/question_name/imageName_1.jpg
+            imageRef_1 = storageRef.child(Constants.PROFILES_FOLDER).child(name).child(docID).child("image_1.jpg")
 
-      let imageData: Data? = imageToCreateAskWith.jpegData(compressionQuality: 0.6)
+            let imageData: Data? = imageToCreateAskWith.jpegData(compressionQuality: 0.6)
 
-      // put guard because imageData is an optional type
-      guard let data = imageData else {
-        presentDismissAlertOnMainThread(title: "Image Error", message: "Corrupted Image")
-        return
-      }
-
-
-      // upload the file to profileRef
-      let uploadTask = imageRef_1.putData(data, metadata: nil){ (metadata,error) in
-        // check the meta for error check
-        guard metadata != nil else{
-          //error
-          self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
-          return
-        }
-
-      } // end of upload task
-
-      // start the upload
-      uploadTask.resume()
-
-
-      // write it to firebase firestore
-
-      //MARK: THE ASK GETS CREATED HERE
-
-      let question = Question(question_name: docID, title_1: currentTitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: captionToCreateAskWith.text, yLoc_1: captionToCreateAskWith.yLocation, creator: name, recipients: [String](), report: report)
-
-      // update these
-      question.is_circulating = shouldCirculate
-      question.adminReviewRequired = reviewRequired
-
-      print("ASK \(docID)")
-
-
-      // save to local ASK
-      myActiveQuestions.append(ActiveQuestion(question: question))
-      saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: imageToCreateAskWith,isThumb: true)
-
-      // need to increment local and firestore count here
-      // locked += 1, toReview += 3
-      updateCountOnNewQues()
-
-      // move to CQ
-      vc.newlyCreatedDocID = docID
-
-        self.present(vc, animated: true)
-
-      // save to firestore
-
-      FirebaseDatabase.Database.database().reference()
-        .child("usernames").observe(.value, with: { [weak self] snapshot in
-
-          if let snapDict = snapshot.value as? [String:AnyObject]{
-
-            for item in snapDict{
-              if item.key != myProfile.username{
-                  self?.userList.append(item.key)
-              }
-
-            }// end for
-
-              if let userList = self?.userList {
-                  question.usersNotReviewedBy = userList
-              }
-
-
-
-            do{
-              try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
-
-
-
-              clearOutCurrentCompare()
-
-                self?.userList.removeAll()
-            }catch let error {
-              print("Error writing city to Firestore: \(error)")
-              self?.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+            // put guard because imageData is an optional type
+            guard let data = imageData else {
+                presentDismissAlertOnMainThread(title: "Image Error", message: "Corrupted Image")
+                return
             }
-          } // if let
 
-        })
 
-      // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
-      Analytics.logEvent(Constants.CREATE_ASK, parameters: nil)
-      Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
+            // upload the file to profileRef
+            let uploadTask = imageRef_1.putData(data, metadata: nil){ (metadata,error) in
+                // check the meta for error check
+                guard metadata != nil else{
+                    //error
+                    self.presentDismissAlertOnMainThread(title: "Upload Error", message: "An error occured. Try again!")
+                    return
+                }
 
-    }// end if let user
+            } // end of upload task
 
-  }
+            // start the upload
+            uploadTask.resume()
+
+
+            // write it to firebase firestore
+
+            //MARK: THE ASK GETS CREATED HERE
+
+            let question = Question(question_name: docID, title_1: currentTitle, imageURL_1: "gs://\(self.imageRef_1.bucket)/\(self.imageRef_1.fullPath)", captionText_1: captionToCreateAskWith.text, yLoc_1: captionToCreateAskWith.yLocation, creator: name, recipients: [String](), report: report)
+
+            // update these
+            question.is_circulating = shouldCirculate
+            question.adminReviewRequired = reviewRequired
+
+            print("ASK \(docID)")
+
+
+            // save to local ASK
+            myActiveQuestions.append(ActiveQuestion(question: question))
+            saveImageToDiskWith(imageName: "\(docID)_image_1.jpg", image: imageToCreateAskWith,isThumb: true)
+
+            // need to increment local and firestore count here
+            // locked += 1, toReview += 3
+            updateCountOnNewQues()
+
+            // move to CQ
+            vc.newlyCreatedDocID = docID
+
+            self.present(vc, animated: true)
+
+            // save to firestore
+
+            FirebaseDatabase.Database.database().reference()
+                .child("usernames").observe(.value, with: { [weak self] snapshot in
+
+                    if let snapDict = snapshot.value as? [String:AnyObject]{
+
+                        for item in snapDict{
+                            if item.key != myProfile.username{
+                                self?.userList.append(item.key)
+                            }
+
+                        }// end for
+
+#warning("Check if this one is correct")
+                        if let userList = self?.userList {
+                            if myProfile.isSeeder {
+                                question.usersNotConsumedBy = userList
+                            } else {
+                                question.usersNotReviewedBy = userList
+                            }
+                        }
+
+
+
+                        do{
+                            try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
+
+
+
+                            clearOutCurrentCompare()
+
+                            self?.userList.removeAll()
+                        }catch let error {
+                            print("Error writing city to Firestore: \(error)")
+                            self?.presentDismissAlertOnMainThread(title: "Server Error", message: error.localizedDescription)
+                        }
+                    } // if let
+
+                })
+
+            // logs the event in firebase analytics (the specific Ask as well as the generalized Question)
+            Analytics.logEvent(Constants.CREATE_ASK, parameters: nil)
+            Analytics.logEvent(Constants.POST_QUESTION, parameters: nil)
+
+        }// end if let user
+
+    }
     
     
     @IBAction func helpButtonTapped(_ sender: Any) {
@@ -1526,10 +1531,10 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     // continue button
     @IBAction func publishButtonTapped(_ sender: Any) {
         if currentCompare.creationPhase == compareImageState.firstPhotoTaken { //aka there is only one image and it should make an Ask
-//                self.createAsk() // not sure why this was here. System was creating 2 asks for every tap of the publish button. If no issue after a while, delete this line. -5/27/22 WW
+            //                self.createAsk() // not sure why this was here. System was creating 2 asks for every tap of the publish button. If no issue after a while, delete this line. -5/27/22 WW
             finishEditing(whatToCreate: .ask)
         } else { //aka we are for sure making a compare
-                self.createHalfOfCompare()
+            self.createHalfOfCompare()
             finishEditing(whatToCreate: .compare)
             
         }
@@ -1538,7 +1543,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     
     
- 
+
 
     // This is similar to publish except it puts some data on hold and then takes the user back to the avCamera to add a second picture.
     @IBAction func compareToggleButtonTapped(_ sender: Any) {
@@ -1570,7 +1575,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     // MARK: Deprecated
     @objc func topImageIndicatorTapped(_ topImageIndicatorTappedGestureRecognizer: UITapGestureRecognizer)
     {
-//        questionTypeLabel.text = correctQuestionTypeLabel()
+        //        questionTypeLabel.text = correctQuestionTypeLabel()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
             self.questionTypeLabel.fadeInAfter(seconds: 0.0)
             self.questionTypeLabel.fadeOutAfter(seconds: 6.0)
@@ -1580,7 +1585,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     // MARK: Deprecated
     @objc func bottomImageIndicatorTapped(_ bottomImageIndicatorTappedGestureRecognizer: UITapGestureRecognizer)
     {
-//        questionTypeLabel.text = correctQuestionTypeLabel()
+        //        questionTypeLabel.text = correctQuestionTypeLabel()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { // `0.4` is the desired number of seconds.
             self.questionTypeLabel.fadeInAfter(seconds: 0.0)
             self.questionTypeLabel.fadeOutAfter(seconds: 6.0)
@@ -1594,21 +1599,21 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         var labelText = ""
         
         switch currentCompare.creationPhase {
-        case .firstPhotoTaken:
-            makeQuestionTypeLabel(visible: false)
-            labelText = ""
-        case .secondPhotoTaken:
-            makeQuestionTypeLabel(visible: true)
-            labelText = bottom
-        case .reEditingFirstPhoto:
-            makeQuestionTypeLabel(visible: true)
-            labelText = top
-        case .reEditingSecondPhoto:
-            makeQuestionTypeLabel(visible: true)
-            labelText = bottom
-        case .noPhotoTaken: // should never execute
-            makeQuestionTypeLabel(visible: true)
-            labelText = "Error- return to camera"
+            case .firstPhotoTaken:
+                makeQuestionTypeLabel(visible: false)
+                labelText = ""
+            case .secondPhotoTaken:
+                makeQuestionTypeLabel(visible: true)
+                labelText = bottom
+            case .reEditingFirstPhoto:
+                makeQuestionTypeLabel(visible: true)
+                labelText = top
+            case .reEditingSecondPhoto:
+                makeQuestionTypeLabel(visible: true)
+                labelText = bottom
+            case .noPhotoTaken: // should never execute
+                makeQuestionTypeLabel(visible: true)
+                labelText = "Error- return to camera"
         }
         
         questionTypeLabel.text = labelText
@@ -1628,33 +1633,33 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
     
     
     /// This button should be hidden at the onset and unhidden when 2 is hidden. Any time the 2 is unhidden, this should be hidden again.
-//    @IBAction func reduceToAskButtonTapped(_ sender: Any) {
-//        print("Reduced")
-//        //-Store the current iBE to currentCompare.imageBeingEdited1
-//        currentCompare.imageBeingEdited1 = createImageBeingEdited()
-//        //-Store nil to currentCompare.ImageBeingEdited2
-//        currentCompare.imageBeingEdited2 = nil
-//        //-Change the flag to .firstPhotoTaken
-//        currentCompare.creationPhase = .firstPhotoTaken
-//        //-Set isAsk to true
-//        currentCompare.isAsk = true
-//        //-Reload all three view methods
-//        viewWillAppear(false)
-//        viewDidLoad()
-//        viewDidAppear(false)
-//
-//        // Without this the title text field just resets because we called ViewDidAppear after switching the flag to .firstPhotoTaken
-//        if let iBE = currentCompare.imageBeingEdited1 {
-//            titleTextField.text = iBE.iBEtitle
-//            if titleTextFieldIsBlank == false {
-//                // if the title is not blank, then:
-//                titleTextField.textColor = .label
-//            } else { //aka if tTF is one of the 3 blank conditions:
-//                titleTextField.text = enterTitleConstant
-//                //titleTextField.textColor should already be gray
-//            }
-//        }
-//    }
+    //    @IBAction func reduceToAskButtonTapped(_ sender: Any) {
+    //        print("Reduced")
+    //        //-Store the current iBE to currentCompare.imageBeingEdited1
+    //        currentCompare.imageBeingEdited1 = createImageBeingEdited()
+    //        //-Store nil to currentCompare.ImageBeingEdited2
+    //        currentCompare.imageBeingEdited2 = nil
+    //        //-Change the flag to .firstPhotoTaken
+    //        currentCompare.creationPhase = .firstPhotoTaken
+    //        //-Set isAsk to true
+    //        currentCompare.isAsk = true
+    //        //-Reload all three view methods
+    //        viewWillAppear(false)
+    //        viewDidLoad()
+    //        viewDidAppear(false)
+    //
+    //        // Without this the title text field just resets because we called ViewDidAppear after switching the flag to .firstPhotoTaken
+    //        if let iBE = currentCompare.imageBeingEdited1 {
+    //            titleTextField.text = iBE.iBEtitle
+    //            if titleTextFieldIsBlank == false {
+    //                // if the title is not blank, then:
+    //                titleTextField.textColor = .label
+    //            } else { //aka if tTF is one of the 3 blank conditions:
+    //                titleTextField.text = enterTitleConstant
+    //                //titleTextField.textColor should already be gray
+    //            }
+    //        }
+    //    }
     
     func reduceToAsk() {
         print("Reduced")
@@ -1759,7 +1764,7 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         if let title = titleTextField.text  {
             titleToStore = title
         }
-            
+
         currentTitle = titleToStore
         if whatToCreate == .ask {
             print("finish editing | create ask")
@@ -1769,8 +1774,8 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
             createHalfOfCompare()
         }
         
-//            }
-//        }
+        //            }
+        //        }
     }
     
     func returnToAVCameraViewController() {

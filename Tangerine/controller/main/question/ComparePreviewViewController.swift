@@ -348,9 +348,15 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
 
             }// end for
 
+              #warning("Check if this one is correct")
               if let userList = self?.userList {
-                  question.usersNotReviewedBy = userList
+                  if myProfile.isSeeder {
+                      question.usersNotConsumedBy = userList
+                  } else {
+                      question.usersNotReviewedBy = userList
+                  }
               }
+
 
             do{
               try Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).setData(from: question)
