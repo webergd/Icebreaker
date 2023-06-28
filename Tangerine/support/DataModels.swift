@@ -1676,7 +1676,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
                     // create a question object
                     let question = Question(firebaseDict: doc)
                     
-                    if question.creator.elementsEqual(myProfile.username) || question.is_circulating == false || question.creator == "seed" {
+                    if question.creator.elementsEqual(myProfile.username) || question.is_circulating == false || question.creator == Constants.QUESTION_CREATOR_SEED {
                         print("Returning from question:\(question.question_name) created by me:\(question.creator.elementsEqual(myProfile.username)) or not in circulation:\(question.is_circulating == false) or by seed \(question.creator)")
                         continue
                     }

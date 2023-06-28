@@ -141,7 +141,7 @@ class Constants {
     
     // KEYS FOR reviews > ID
     static let QUES_REVIEWS = "reviews"
-    
+    static let QUESTION_CREATOR_SEED = "seed"
     
     
     
