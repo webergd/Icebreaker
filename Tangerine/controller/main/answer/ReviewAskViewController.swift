@@ -853,9 +853,7 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
                 } else {
                     Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(askReview.reviewID.questionName).updateData(
                         [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)), // Increment the number of reviews for the Question that just got reviewed.
-                         //                     Constants.QUES_RECEIP_KEY: self.recipientList,
-                         //                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList,
-                         // the above calls were replacing the entire list in firestore. The below calls just delete the local user's username from the lists. Simpler and less errors.
+
                             Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
                             Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
                         ]){_ in
