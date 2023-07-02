@@ -197,6 +197,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         if !status && !Constants.username.isEmpty{
         // a user is found, let's kill him
         print("Deleting temp account")
+            // removing the questionIds to fill
+        Constants.quesIds.removeAll()
             
             
 //            Passing zero for the value is useful for when two threads need to reconcile the completion of a particular event. Passing a value greater than zero is useful for managing a finite pool of resources, where the pool size is equal to the value.

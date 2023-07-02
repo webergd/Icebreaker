@@ -18,6 +18,7 @@ class Constants {
     
     // this username will only be used during signup
     static var username = ""
+    static var quesIds = [String]()
     
     //Constants
     
