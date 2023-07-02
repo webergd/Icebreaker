@@ -143,7 +143,7 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
 
     func addUserTo30Questions(with username: String) async {
         let startTime = Date().timeIntervalSince1970
-        print("Starting at: \(startTime)")
+        print("USER2QUES: Starting at: \(startTime)")
         // call our http func to add the questions
         let url = URL(string: "https://us-central1-fir-poc-1594b.cloudfunctions.net/appendUserToQuestions?username=\(username)&isSandbox=\(FirebaseManager.shared.isSandboxRunning())")
         guard let url = url else {return}
@@ -152,10 +152,10 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 return
             }
-            print("*************** ADDING USER TO 30 QUESTIONS -> \(response.description)")
+            print("USER2QUES: -> \(response.description)")
             let endTime = Date().timeIntervalSince1970
-            print("Ended at: \(endTime)")
-            print("Time took to populate questions: \(endTime-startTime)")
+            print("USER2QUES: Ended at: \(endTime)")
+            print("USER2QUES: Time took to populate questions: \(endTime-startTime)")
         } catch {}
     }
 
