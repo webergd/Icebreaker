@@ -2008,16 +2008,37 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     for item in filteredQuestionsToReview{
         print("\(item.question.question_name) \(String(describing: item.priority))")
         // Ask or Compare both has same name for first question, so download one regardless of the qType
-        KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: item.question.imageURL_1)!)) { result in
-            print("Downloaded Ask")
+        let storage = FirebaseStorage.Storage.storage()
+        let gsReference1 = storage.reference(forURL: item.question.imageURL_1)
+
+        //get the download url from gs url
+        gsReference1.downloadURL { downloadUrl, downloadError in
+            guard let downloadUrl = downloadUrl else {return}
+            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+                switch result {
+                    case .success(_):
+                        print("Ask Download Success: \(item.question.question_name)")
+                    case .failure(let error):
+                        print("Ask Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
+                }
+            }
         }
 
         
         // Then check if it's compare so we may download the second image
-        if item.question.type == .COMPARE{
-            
-            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: item.question.imageURL_2)!)) { result in
-                print("Downloaded Compare")
+        if item.question.type == .COMPARE {
+            let gsReference2 = storage.reference(forURL: item.question.imageURL_2)
+            //get the download url from gs url
+            gsReference2.downloadURL { downloadUrl, downloadError in
+                guard let downloadUrl = downloadUrl else {return}
+                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+                    switch result {
+                        case .success(_):
+                            print("Compare Download Success: \(item.question.question_name)")
+                        case .failure(let error):
+                            print("Compare Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
+                    }
+                }
             }
         }
     }
