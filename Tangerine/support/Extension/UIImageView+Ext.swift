@@ -22,9 +22,23 @@ extension UIImageView {
 
         gsReference.downloadURL { downloadUrl, downloadError in
             guard let downloadUrl = downloadUrl else {return}
+
             let scale = UIScreen.main.scale
             let processor: ImageProcessor = downSample ? DownsamplingImageProcessor(size: CGSize(width: self.bounds.size.width * scale, height: self.bounds.size.height * scale)) : ResizingImageProcessor(referenceSize: self.bounds.size)
 
+            if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+                self.kf.setImage(
+                    with: downloadUrl,
+                    options: [
+                        .processor(processor),
+                        .scaleFactor(scale),
+                        .cacheOriginalImage
+                    ])
+                print("GS: Image Set Pre Downloaded \(downloadUrl)")
+                return
+            }
+            
+            print("GS: Image Set Downloaded \(downloadUrl)")
             self.kf.indicatorType = .activity
             self.kf.setImage(
                 with: downloadUrl,
@@ -38,8 +52,8 @@ extension UIImageView {
             {
                 result in
                 switch result {
-                    case .success(let value):
-                        print("GS Task done for: \(value.data()?.count)")
+                    case .success(_):
+                        print("GS Task done")
                     case .failure(let error):
                         print("GS Job failed: \(error.localizedDescription)")
                 }
