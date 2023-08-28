@@ -96,6 +96,7 @@ public var myActiveQuestions = [ActiveQuestion]()
 // called from only DataModels
 
 public var rawQuestions = Set<Question>()
+public var seedQuestions = Set<Question>()
 public var questionOnTheScreen: PrioritizedQuestion!
 public var qFFCount = 0
 public var friendReqCount = 0
@@ -1565,6 +1566,7 @@ public func resetQuestionRelatedThings(){
     myActiveQuestions.removeAll() // we are removing realm on logout, no point of keeping this either
     questionReviewed.removeAll()
     questionOnTheScreen = nil
+    seedQuestions.removeAll()
     
 }
 
@@ -1676,8 +1678,13 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
                     // create a question object
                     let question = Question(firebaseDict: doc)
                     
-                    if question.creator.elementsEqual(myProfile.username) || question.is_circulating == false || question.creator == Constants.QUESTION_CREATOR_SEED {
+                    if question.creator.elementsEqual(myProfile.username) || !question.is_circulating {
                         print("Returning from question:\(question.question_name) created by me:\(question.creator.elementsEqual(myProfile.username)) or not in circulation:\(question.is_circulating == false) or by seed \(question.creator)")
+                        continue
+                    }
+
+                    if question.creator == Constants.QUESTION_CREATOR_SEED {
+                        seedQuestions.insert(question)
                         continue
                     }
                     
@@ -1693,12 +1700,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
                 
                 // snaps.count > 0 ends here
             }else{
-                #warning("Check here")
                 print("Got 0 question")
-                print("Fetching Seed Questions")
-                fetchQuestionsFromSeed(passedRawQuestions: rawQuestions) {
-                    action()
-                }
             }
             
         } // end if let processing data from QFC query
@@ -1706,65 +1708,6 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
     } // end firestore (query.getDocuments) closure
 } // end fetchQuestionsFromTheCommunity()
 
-/// For fetching questions from seed
-public func fetchQuestionsFromSeed(passedRawQuestions: Set<Question>,action: @escaping ()->Void){
-    var locallyScopedRawQuestions = passedRawQuestions
-    var query : Query!
-
-    // set the query based on pagination
-    query = Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
-        .whereField(Constants.QUES_USERS_NOT_CONSUMED_BY_KEY, arrayContains: myProfile.username)
-        .order(by: Constants.QUES_REVIEWS)
-        //.limit(to: searchLimit)
-    #warning("I removed the limit here, let me know if we need that")
-    // for questions created by seed user
-    query.getDocuments { (snapshot, error) in
-        defer{
-            print("Exiting from Normal Seed Query: \(rawQuestions.count)")
-            filterQuestionsAndPrioritize {
-                print("Seed FILTER DONE")
-                action()
-            }
-        }
-        // usual error handling
-        if error != nil{
-            print("An error occured while fetching seed questions from firestore")
-        }
-
-        if let snaps = snapshot?.documents{
-            if snaps.count > 0 {
-                print("Total number of seed questions fetched: \(snaps.count)")
-
-                for item in snaps{
-                    let doc = item.data()
-
-                    // create a question object
-                    let question = Question(firebaseDict: doc)
-
-                    if question.creator.elementsEqual(myProfile.username) || question.is_circulating == false{
-                        print("Returning from seed question:\(question.question_name) created by me:\(question.creator.elementsEqual(myProfile.username)) or not in circulation:\(question.is_circulating == false)")
-                        continue
-                    }
-
-                    // to prevent already reviewed ones
-                    if let q = questionReviewed[question.question_name]{
-                        print("This question \(q) is already reviewed and in qReviewed, not adding to raw")
-                    }else{
-                        // save to local db
-                        locallyScopedRawQuestions.insert(question)
-                    }
-
-                } // end of for loop of snaps
-
-                // snaps.count > 0 ends here
-            }else{
-                print("Got 0 question")
-            }
-
-        } // end if let processing data from QFC query
-        rawQuestions = locallyScopedRawQuestions
-    } // end firestore (query.getDocuments) closure
-}
 
 public func getFilenameFrom(qName name: String, type questionType: QType,secondPhoto isSecondPhoto: Bool = false) -> String{
     
@@ -1819,6 +1762,11 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     
     
     print("Before filter we have \(rawQuestions.count) question in raw Q")
+    // if we have 0 question, add the seeds if possible
+    if rawQuestions.count == 0 {
+        rawQuestions = seedQuestions
+        seedQuestions.removeAll() // we remove the seed
+    }
     
 
     
@@ -2016,7 +1964,7 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
             guard let downloadUrl = downloadUrl else {return}
 
             if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
-                print("Ask Image Already Downloaded for \(downloadUrl)")
+                print("Ask Image Already Downloaded for \(item.question.question_name)")
                 return
             }
 
@@ -2040,7 +1988,7 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
                 guard let downloadUrl = downloadUrl else {return}
 
                 if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
-                    print("Compare Image Already Downloaded for \(downloadUrl)")
+                    print("Compare Image Already Downloaded for \(item.question.question_name)")
                     return
                 }
 
