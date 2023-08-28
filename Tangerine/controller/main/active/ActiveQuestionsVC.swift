@@ -14,8 +14,6 @@ import Firebase
 
 var pullControl : UIRefreshControl! // for our pull2Refresh
 
-
-
 ///This really should be called QuestionTableViewController because it's the main table view that holds the local user's Asks AND Compares
 ///
 class ActiveQuestionsVC: UITableViewController {
@@ -70,7 +68,8 @@ class ActiveQuestionsVC: UITableViewController {
             
             print("AP VDA count \(myActiveQuestions.count)")
             // get the reviews now
-            refreshActiveQuestion()
+            #warning("This call looks like redundant, makes the VC flicker")
+            //refreshActiveQuestion()
             
             // let's show how to dismiss the view now
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.

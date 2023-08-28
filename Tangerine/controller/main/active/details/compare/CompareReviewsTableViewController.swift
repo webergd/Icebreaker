@@ -102,7 +102,14 @@ class CompareReviewsTableViewController: UITableViewController {
         cell.strongExistsLabel.text = strongToText(strongYes: review.strongYes, strongNo: review.strongNo)
         
         if let thisQuestion = question {
-            cell.selectionImageView.image = selectionImage(selection: review.selection, compare: thisQuestion.question)
+            // updated from old code
+            switch review.selection {
+                case .top:
+                    cell.selectionImageView.setFirebaseGsImage(for: thisQuestion.question.imageURL_1)
+                case .bottom:
+                    cell.selectionImageView.setFirebaseGsImage(for: thisQuestion.question.imageURL_2)
+            }
+
             cell.selectionTitleLabel.text = selectionTitle(selection: review.selection, compare: thisQuestion.question)
         }
         // sets the cell background color according to the reviewers orientation

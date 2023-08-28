@@ -1211,23 +1211,6 @@ public func pullConsolidatedData(from reviewCollection: ReviewCollection, filter
     // to use this on the receiving end, we will have to cast this to the right type of consolidated data set (ask or compare).
     return requestedDataSet
 }
-
-public func selectionImage(selection: topOrBottom, compare: Question) -> UIImage {
-    
-    switch selection {
-    case .top:
-        if let savedImage = loadImageFromDiskWith(fileName: compare.question_name+"_image_1.jpg"){
-            return savedImage
-        }
-    case .bottom:
-        if let savedImage = loadImageFromDiskWith(fileName: compare.question_name+"_image_2.jpg"){
-            return savedImage
-        }
-    }
-    
-    return UIImage(named: "app_icon")!
-    
-}
 /// Takes the selection property of an CompareReview and the associated Compare and returns the title of the image that the selection refers to. Ex: if the reviewer voted for the top image, this method will return the top image's title.
 public func selectionTitle(selection: topOrBottom, compare: Question) -> String {
     switch selection {
