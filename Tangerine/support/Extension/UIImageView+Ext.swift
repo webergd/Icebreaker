@@ -22,9 +22,24 @@ extension UIImageView {
 
         gsReference.downloadURL { downloadUrl, downloadError in
             guard let downloadUrl = downloadUrl else {return}
+
             let scale = UIScreen.main.scale
             let processor: ImageProcessor = downSample ? DownsamplingImageProcessor(size: CGSize(width: self.bounds.size.width * scale, height: self.bounds.size.height * scale)) : ResizingImageProcessor(referenceSize: self.bounds.size)
 
+            // checking cache manually
+            if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+                self.kf.setImage(
+                    with: downloadUrl,
+                    options: [
+                        .processor(processor),
+                        .scaleFactor(scale),
+                        .cacheOriginalImage
+                    ])
+                print("GS: Image Set Pre Downloaded")
+                return
+            }
+
+            print("GS: Image Set Downloaded")
             self.kf.indicatorType = .activity
             self.kf.setImage(
                 with: downloadUrl,
@@ -38,8 +53,8 @@ extension UIImageView {
             {
                 result in
                 switch result {
-                    case .success(let value):
-                        print("GS Task done for: \(value.data()?.count)")
+                    case .success(_):
+                        print("GS Task done")
                     case .failure(let error):
                         print("GS Job failed: \(error.localizedDescription)")
                 }
@@ -53,9 +68,24 @@ extension UIImageView {
     func setFirebaseImage(for url: String, downSample: Bool = true) {
         print("loading profile image from firebase")
         let downloadUrl = URL(string: url)
+        guard let downloadUrl = downloadUrl else {return}
+
         let scale = UIScreen.main.scale
 
         let processor: ImageProcessor  = downSample ? DownsamplingImageProcessor(size: CGSize(width: self.bounds.size.width * scale, height: self.bounds.size.height * scale)) : ResizingImageProcessor(referenceSize: self.bounds.size)
+
+        // checking cache manually
+        if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+            self.kf.setImage(
+                with: downloadUrl,
+                options: [
+                    .processor(processor),
+                    .scaleFactor(scale),
+                    .cacheOriginalImage
+                ])
+            print("HTTPS: Image Set Pre Downloaded")
+            return
+        }
 
         self.kf.indicatorType = .activity
         self.kf.setImage(
@@ -69,8 +99,8 @@ extension UIImageView {
         {
             result in
             switch result {
-                case .success(let value):
-                    print("Task done for: \(value.data()?.count)")
+                case .success(_):
+                    print("Task done")
                 case .failure(let error):
                     print("Job failed: \(error.localizedDescription)")
             }
