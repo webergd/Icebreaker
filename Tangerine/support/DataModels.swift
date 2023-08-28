@@ -2014,6 +2014,13 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         //get the download url from gs url
         gsReference1.downloadURL { downloadUrl, downloadError in
             guard let downloadUrl = downloadUrl else {return}
+
+            if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+                print("Ask Image Already Downloaded for \(downloadUrl)")
+                return
+            }
+
+
             KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
                 switch result {
                     case .success(_):
@@ -2031,6 +2038,12 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
             //get the download url from gs url
             gsReference2.downloadURL { downloadUrl, downloadError in
                 guard let downloadUrl = downloadUrl else {return}
+
+                if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+                    print("Compare Image Already Downloaded for \(downloadUrl)")
+                    return
+                }
+
                 KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
                     switch result {
                         case .success(_):
@@ -2040,8 +2053,8 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
                     }
                 }
             }
-        }
-    }
+        } // end .Compare check
+    } // end for
 
     print("==== Finished Printing Filtered DB ====")
     
@@ -2424,20 +2437,30 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
                         dg.enter()
                         // we are checking if we had these image saved already, if not, we'll download
 
-                        KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: question.imageURL_1)!)) { result in
-                            dg.leave()
+                        let storage = FirebaseStorage.Storage.storage()
+                        let gsReference1 = storage.reference(forURL: question.imageURL_1)
+
+                        //get the download url from gs url
+                        gsReference1.downloadURL { downloadUrl, downloadError in
+                            guard let downloadUrl = downloadUrl else {return}
+                            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+                                dg.leave()
+                            }
                         }
 
                         
                         if question.type == .COMPARE {
-                            
-                            
+
                             dg.enter()
-                            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: question.imageURL_2)!)) { result in
-                                dg.leave()
+                            let gsReference2 = storage.reference(forURL: question.imageURL_2)
+                            //get the download url from gs url
+                            gsReference2.downloadURL { downloadUrl, downloadError in
+                                guard let downloadUrl = downloadUrl else {return}
+                                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+                                    dg.leave()
+                                }
                             }
-                            
-                            
+
                             
                         } // end of ask compare
                         
