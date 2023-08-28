@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1BFD626E7F868A7029B8578F /* Pods_Tangerine_TangerineUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4932F247159463B19D3FCCB /* Pods_Tangerine_TangerineUITests.framework */; };
 		2A140C4028B538A900EE1F04 /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A140C3F28B538A900EE1F04 /* RecommendationEngine.swift */; };
 		2A2B744729762EA00066304B /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2B744629762EA00066304B /* RemoteConfigManager.swift */; };
 		2A6EA586293E9AEA00EDF46E /* TutorialTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6EA585293E9AEA00EDF46E /* TutorialTracker.swift */; };
@@ -106,8 +105,6 @@
 		51E61DAB2684C8DD000D6B30 /* ComparePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E61DAA2684C8DD000D6B30 /* ComparePreviewViewController.swift */; };
 		51E925E0261BCC7C006AA4D5 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E925DF261BCC7C006AA4D5 /* UIColor+Ext.swift */; };
 		51F7C34C26AE272C0065F9BE /* PrioritizedQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F7C34B26AE272C0065F9BE /* PrioritizedQuestion.swift */; };
-		7D3A55ADECDF81CB38C21430 /* Pods_TangerineTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4430323FDAA0A9C91523B31 /* Pods_TangerineTests.framework */; };
-		95621762CF3E524CAED0DDAF /* Pods_Tangerine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D8B91C6BDAAEBC65B8097E /* Pods_Tangerine.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,7 +130,6 @@
 		2A6EA585293E9AEA00EDF46E /* TutorialTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTracker.swift; sourceTree = "<group>"; };
 		2AA4BFDA270E720400606A08 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		2ABCE72E273587D800103040 /* Int+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Ext.swift"; sourceTree = "<group>"; };
-		3042C0171FF1A86315B4D2BD /* Pods-Tangerine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tangerine.debug.xcconfig"; path = "Target Support Files/Pods-Tangerine/Pods-Tangerine.debug.xcconfig"; sourceTree = "<group>"; };
 		5100470727784278002C8046 /* Question+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Question+Ext.swift"; sourceTree = "<group>"; };
 		510A324D262CF216004F48BA /* QFriendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QFriendCell.swift; sourceTree = "<group>"; };
 		510A324E262CF216004F48BA /* QFriendCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFriendCell.xib; sourceTree = "<group>"; };
@@ -234,14 +230,6 @@
 		51E61DAA2684C8DD000D6B30 /* ComparePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComparePreviewViewController.swift; sourceTree = "<group>"; };
 		51E925DF261BCC7C006AA4D5 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		51F7C34B26AE272C0065F9BE /* PrioritizedQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritizedQuestion.swift; sourceTree = "<group>"; };
-		6EDA7E8171E5A2F47A74F04C /* Pods-TangerineTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangerineTests.debug.xcconfig"; path = "Target Support Files/Pods-TangerineTests/Pods-TangerineTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A4932F247159463B19D3FCCB /* Pods_Tangerine_TangerineUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tangerine_TangerineUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A9C0B3CF37321D5C818B846F /* Pods-Tangerine-TangerineUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tangerine-TangerineUITests.release.xcconfig"; path = "Target Support Files/Pods-Tangerine-TangerineUITests/Pods-Tangerine-TangerineUITests.release.xcconfig"; sourceTree = "<group>"; };
-		B5B10CFFAE97306D805BCE46 /* Pods-Tangerine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tangerine.release.xcconfig"; path = "Target Support Files/Pods-Tangerine/Pods-Tangerine.release.xcconfig"; sourceTree = "<group>"; };
-		E4AC3B8894A271D43281C124 /* Pods-TangerineTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TangerineTests.release.xcconfig"; path = "Target Support Files/Pods-TangerineTests/Pods-TangerineTests.release.xcconfig"; sourceTree = "<group>"; };
-		F2D8B91C6BDAAEBC65B8097E /* Pods_Tangerine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tangerine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4430323FDAA0A9C91523B31 /* Pods_TangerineTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TangerineTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F722F5E3D646EBAD94A14449 /* Pods-Tangerine-TangerineUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tangerine-TangerineUITests.debug.xcconfig"; path = "Target Support Files/Pods-Tangerine-TangerineUITests/Pods-Tangerine-TangerineUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,7 +237,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95621762CF3E524CAED0DDAF /* Pods_Tangerine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +244,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D3A55ADECDF81CB38C21430 /* Pods_TangerineTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +251,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BFD626E7F868A7029B8578F /* Pods_Tangerine_TangerineUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,7 +464,6 @@
 				51C997FB25FBDE9300DC54B4 /* TangerineUITests */,
 				51C997D825FBDE9000DC54B4 /* Products */,
 				711418338300B6DB650304D4 /* Pods */,
-				9B8AAA1449D5F7D1C5C6C6F0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -588,24 +572,8 @@
 		711418338300B6DB650304D4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3042C0171FF1A86315B4D2BD /* Pods-Tangerine.debug.xcconfig */,
-				B5B10CFFAE97306D805BCE46 /* Pods-Tangerine.release.xcconfig */,
-				F722F5E3D646EBAD94A14449 /* Pods-Tangerine-TangerineUITests.debug.xcconfig */,
-				A9C0B3CF37321D5C818B846F /* Pods-Tangerine-TangerineUITests.release.xcconfig */,
-				6EDA7E8171E5A2F47A74F04C /* Pods-TangerineTests.debug.xcconfig */,
-				E4AC3B8894A271D43281C124 /* Pods-TangerineTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		9B8AAA1449D5F7D1C5C6C6F0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F2D8B91C6BDAAEBC65B8097E /* Pods_Tangerine.framework */,
-				A4932F247159463B19D3FCCB /* Pods_Tangerine_TangerineUITests.framework */,
-				F4430323FDAA0A9C91523B31 /* Pods_TangerineTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -615,11 +583,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51C9980125FBDE9300DC54B4 /* Build configuration list for PBXNativeTarget "Tangerine" */;
 			buildPhases = (
-				12FF2494DA2E9627CB935DB6 /* [CP] Check Pods Manifest.lock */,
 				51C997D325FBDE9000DC54B4 /* Sources */,
 				51C997D425FBDE9000DC54B4 /* Frameworks */,
 				51C997D525FBDE9000DC54B4 /* Resources */,
-				57E95B6760AF46029D712023 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -634,7 +600,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51C9980425FBDE9300DC54B4 /* Build configuration list for PBXNativeTarget "TangerineTests" */;
 			buildPhases = (
-				393CF6FFED22AED87E64F71E /* [CP] Check Pods Manifest.lock */,
 				51C997E925FBDE9300DC54B4 /* Sources */,
 				51C997EA25FBDE9300DC54B4 /* Frameworks */,
 				51C997EB25FBDE9300DC54B4 /* Resources */,
@@ -653,11 +618,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51C9980725FBDE9300DC54B4 /* Build configuration list for PBXNativeTarget "TangerineUITests" */;
 			buildPhases = (
-				3B1AF2B9F5F9F852E4CF2B5A /* [CP] Check Pods Manifest.lock */,
 				51C997F425FBDE9300DC54B4 /* Sources */,
 				51C997F525FBDE9300DC54B4 /* Frameworks */,
 				51C997F625FBDE9300DC54B4 /* Resources */,
-				D4CAC2E8ABFED6B71A64964C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -742,109 +705,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		12FF2494DA2E9627CB935DB6 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Tangerine-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		393CF6FFED22AED87E64F71E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TangerineTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3B1AF2B9F5F9F852E4CF2B5A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Tangerine-TangerineUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		57E95B6760AF46029D712023 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Tangerine/Pods-Tangerine-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Tangerine/Pods-Tangerine-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tangerine/Pods-Tangerine-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D4CAC2E8ABFED6B71A64964C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Tangerine-TangerineUITests/Pods-Tangerine-TangerineUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Tangerine-TangerineUITests/Pods-Tangerine-TangerineUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tangerine-TangerineUITests/Pods-Tangerine-TangerineUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		51C997D325FBDE9000DC54B4 /* Sources */ = {
@@ -1108,7 +968,6 @@
 		};
 		51C9980225FBDE9300DC54B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3042C0171FF1A86315B4D2BD /* Pods-Tangerine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tag";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1141,7 +1000,6 @@
 		};
 		51C9980325FBDE9300DC54B4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5B10CFFAE97306D805BCE46 /* Pods-Tangerine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tag";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1172,7 +1030,6 @@
 		};
 		51C9980525FBDE9300DC54B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6EDA7E8171E5A2F47A74F04C /* Pods-TangerineTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1196,7 +1053,6 @@
 		};
 		51C9980625FBDE9300DC54B4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E4AC3B8894A271D43281C124 /* Pods-TangerineTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1220,7 +1076,6 @@
 		};
 		51C9980825FBDE9300DC54B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F722F5E3D646EBAD94A14449 /* Pods-Tangerine-TangerineUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1241,7 +1096,6 @@
 		};
 		51C9980925FBDE9300DC54B4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A9C0B3CF37321D5C818B846F /* Pods-Tangerine-TangerineUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
