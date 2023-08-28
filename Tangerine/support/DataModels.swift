@@ -421,6 +421,7 @@ func makeCircle(button: UIButton){
 
 /// Crops the view that's passed in into a circle
 func makeCircle(view: UIView, alpha: CGFloat){
+    print("Making Circle")
     view.layer.cornerRadius = view.frame.size.height / 2
     view.layer.masksToBounds = true
     

@@ -69,7 +69,7 @@ class ActiveQuestionsVC: UITableViewController {
             print("AP VDA count \(myActiveQuestions.count)")
             // get the reviews now
             #warning("This call looks like redundant, makes the VC flicker")
-            //refreshActiveQuestion()
+//            refreshActiveQuestion()
             
             // let's show how to dismiss the view now
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
@@ -271,8 +271,11 @@ class ActiveQuestionsVC: UITableViewController {
                 // Crops the ask image into a circle
                 cell.photoImageView.setFirebaseGsImage(for: question.imageURL_1)
 
-                
-                makeCircle(view: cell.photoImageView, alpha: 1.0)
+                // Added this line for rounding, since I commented out the duplicate calling refreshActiveQuestion
+                cell.photoImageView.layer.cornerRadius = 55
+                cell.photoImageView.layer.masksToBounds = true
+                cell.photoImageView.backgroundColor = UIColor.systemBackground.withAlphaComponent(1.0)
+                //makeCircle(view: cell.photoImageView, alpha: 1.0)
                 
                 return cell
 
