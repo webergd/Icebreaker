@@ -1746,10 +1746,11 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     
     
     print("Before filter we have \(rawQuestions.count) question in raw Q")
-    // if we have 0 question, add the seeds if possible
-    if rawQuestions.count == 0 {
-        rawQuestions = seedQuestions
-        seedQuestions.removeAll() // we remove the seed
+    // if we have less question, add the seeds if possible
+    if rawQuestions.count < minNumberOfQuestionsInReviewQueue && !seedQuestions.isEmpty{
+        seedQuestions.forEach { q in
+            rawQuestions.insert(q)
+        }
     }
     
 
@@ -1879,7 +1880,10 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         }else{
             priorityStr.append("\(item.reviews)")
         }
-        
+
+        if item.creator == Constants.QUESTION_CREATOR_SEED {
+            priorityStr = "999"+priorityStr
+        }
         
         // for the last one
         priorityStr.append(calcTimeSpent(item.created))

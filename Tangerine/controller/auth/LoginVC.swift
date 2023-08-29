@@ -278,7 +278,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
                 guard let token = token else {return}
 
-                print("fcm: \(token)")
+                print("fcm: Token Received")
                 Firestore.firestore()
                     .collection(FirebaseManager.shared.getUsersCollection())
                     .document(name)
