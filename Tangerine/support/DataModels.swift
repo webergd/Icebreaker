@@ -421,6 +421,7 @@ func makeCircle(button: UIButton){
 
 /// Crops the view that's passed in into a circle
 func makeCircle(view: UIView, alpha: CGFloat){
+    print("Making Circle")
     view.layer.cornerRadius = view.frame.size.height / 2
     view.layer.masksToBounds = true
     
@@ -1211,23 +1212,6 @@ public func pullConsolidatedData(from reviewCollection: ReviewCollection, filter
     // to use this on the receiving end, we will have to cast this to the right type of consolidated data set (ask or compare).
     return requestedDataSet
 }
-
-public func selectionImage(selection: topOrBottom, compare: Question) -> UIImage {
-    
-    switch selection {
-    case .top:
-        if let savedImage = loadImageFromDiskWith(fileName: compare.question_name+"_image_1.jpg"){
-            return savedImage
-        }
-    case .bottom:
-        if let savedImage = loadImageFromDiskWith(fileName: compare.question_name+"_image_2.jpg"){
-            return savedImage
-        }
-    }
-    
-    return UIImage(named: "app_icon")!
-    
-}
 /// Takes the selection property of an CompareReview and the associated Compare and returns the title of the image that the selection refers to. Ex: if the reviewer voted for the top image, this method will return the top image's title.
 public func selectionTitle(selection: topOrBottom, compare: Question) -> String {
     switch selection {
@@ -1762,10 +1746,11 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     
     
     print("Before filter we have \(rawQuestions.count) question in raw Q")
-    // if we have 0 question, add the seeds if possible
-    if rawQuestions.count == 0 {
-        rawQuestions = seedQuestions
-        seedQuestions.removeAll() // we remove the seed
+    // if we have less question, add the seeds if possible
+    if rawQuestions.count < minNumberOfQuestionsInReviewQueue && !seedQuestions.isEmpty{
+        seedQuestions.forEach { q in
+            rawQuestions.insert(q)
+        }
     }
     
 
@@ -1895,7 +1880,10 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         }else{
             priorityStr.append("\(item.reviews)")
         }
-        
+
+        if item.creator == Constants.QUESTION_CREATOR_SEED {
+            priorityStr = "999"+priorityStr
+        }
         
         // for the last one
         priorityStr.append(calcTimeSpent(item.created))

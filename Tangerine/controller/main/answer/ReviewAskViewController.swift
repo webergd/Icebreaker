@@ -335,7 +335,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
         transition.type = CATransitionType.push //was .reveal, .push is about the smoothest option for this config
         transition.subtype = xCoord > 0 ? CATransitionSubtype.fromLeft : CATransitionSubtype.fromRight
         self.view.window!.layer.add(transition, forKey: nil)
-        self.imageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+
+#warning("Updating Here")
+//        self.imageView.image = #imageLiteral(resourceName: "loading_large_black.png")
     }
     
     
@@ -724,8 +726,9 @@ class ReviewAskViewController: UIViewController, UIScrollViewDelegate, UITextVie
             Analytics.logEvent(Constants.SKIP_QUESTION, parameters: nil)
             
         }
-        
-        self.imageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+
+#warning("Updating Here")
+//        self.imageView.image = #imageLiteral(resourceName: "loading_large_black.png")
         
         if let bvc = blueVC{
             //enables compare to drop off the bottom of the screen after being reviewed

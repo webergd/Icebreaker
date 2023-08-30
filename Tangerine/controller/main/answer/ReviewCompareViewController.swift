@@ -626,9 +626,10 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             Analytics.logEvent(Constants.SKIP_QUESTION, parameters: nil)
             
         }
-        
-        self.topImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
-        self.bottomImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+
+        #warning("Updating Here")
+//        self.topImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+//        self.bottomImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
         
         if let bvc = blueVC{
             //enables compare to drop off the bottom of the screen after being reviewed
