@@ -1948,39 +1948,46 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         let gsReference1 = storage.reference(forURL: item.question.imageURL_1)
 
         //get the download url from gs url
-        gsReference1.downloadURL { downloadUrl, downloadError in
-            guard let downloadUrl = downloadUrl else {return}
+        gsReference1.downloadURL { result in
+            switch result {
+                case .success(let downloadUrl):
+                    if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+                        print("Ask Image Already Downloaded for \(item.question.question_name)")
+                        return
+                    }
 
-            if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
-                print("Ask Image Already Downloaded for \(item.question.question_name)")
-                return
-            }
+                    //retrieveImage(with: ImageResource(downloadURL: downloadUrl)
 
 
-            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
-                switch result {
-                    case .success(_):
-                        print("Ask Download Success: \(item.question.question_name)")
-                    case .failure(let error):
-                        print("Ask Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
-                }
-            }
-        }
+                    KingfisherManager.shared.retrieveImage(with: downloadUrl) { kfResult in
+                        switch kfResult {
+                            case .success(let image):
+                                print("Ask Download Success: \(item.question.question_name)")
+                            case .failure(let error):
+                                print("Ask Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
+                        }
+                    }
+
+                case .failure(_):
+                    print("Failed to fetch download url")
+            } // end switch
+        } // end gsRef downloadUrl
 
         
         // Then check if it's compare so we may download the second image
         if item.question.type == .COMPARE {
             let gsReference2 = storage.reference(forURL: item.question.imageURL_2)
             //get the download url from gs url
-            gsReference2.downloadURL { downloadUrl, downloadError in
-                guard let downloadUrl = downloadUrl else {return}
+            gsReference2.downloadURL { result in
+                switch result {
+                    case .success(let downloadUrl):
 
                 if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
                     print("Compare Image Already Downloaded for \(item.question.question_name)")
                     return
                 }
 
-                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+                KingfisherManager.shared.retrieveImage(with: downloadUrl) { result in
                     switch result {
                         case .success(_):
                             print("Compare Download Success: \(item.question.question_name)")
@@ -1988,6 +1995,9 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
                             print("Compare Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
                     }
                 }
+                    case .failure(_):
+                        print("Failed to fetch download url")
+                } // end switch
             }
         } // end .Compare check
     } // end for
@@ -2379,7 +2389,7 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
                         //get the download url from gs url
                         gsReference1.downloadURL { downloadUrl, downloadError in
                             guard let downloadUrl = downloadUrl else {return}
-                            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+                            KingfisherManager.shared.retrieveImage(with: downloadUrl) { result in
                                 dg.leave()
                             }
                         }
@@ -2392,7 +2402,7 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
                             //get the download url from gs url
                             gsReference2.downloadURL { downloadUrl, downloadError in
                                 guard let downloadUrl = downloadUrl else {return}
-                                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+                                KingfisherManager.shared.retrieveImage(with: downloadUrl) { result in
                                     dg.leave()
                                 }
                             }
