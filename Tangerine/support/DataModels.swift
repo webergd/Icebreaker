@@ -1,6 +1,6 @@
 //
 //  DataModels.swift
-//  
+//
 //
 //  Created by Wyatt Weber on 7/22/16.
 //  Copyright © 2016 Insightful Inc. All rights reserved.
@@ -307,7 +307,7 @@ public func reviewCreditsHelpText(on: Bool) -> String {
 
 
 
-/// There is a cloud fucntion that generates the time remaining for each question. This returns the value as a formatted String. 
+/// There is a cloud fucntion that generates the time remaining for each question. This returns the value as a formatted String.
 public func calcTimeRemaining(_ timePosted: Int64, forActiveQ custom: Bool = false) -> String {
     
     let exT = timePosted + Int64(displayTime)
@@ -494,9 +494,9 @@ func makeCircleInverse(view: UIView, alpha: CGFloat){
 //            coverViewLabel.text = "You have reviewed all currently available photos! Congratulations! Tap to return to main menu."
 //            // we want to unlock all of the user's Questions because with nothing to review, they won't be able to unlock them any other way
 //            // MARK: May be a better way to do this. We don't want the user to just be able to go on airplane mode, try to review others, then get all their questions unlocked for them .
-//            // MARK: Probably should check for connectivity before allowing this to happen. 
+//            // MARK: Probably should check for connectivity before allowing this to happen.
 //            // LATER
-//            
+//
 //        }
 //    } else {
 //        // loadAssignedQuestions never encountered a nil value from the database and therefore
@@ -540,7 +540,7 @@ public func loadCaptions(within helperView: UIView?, caption: Caption, captionTe
 
 // This is different now since I added the 100 bars in IB. It will be much simpler,
 // Basically we will just multiply (one minus the percentage) times the 100 bar width in order to get the trailing constraint of'
-//   whichever view we are dealing with. This will work in Compare VC and AskVC and for normal and strong bars alike. 
+//   whichever view we are dealing with. This will work in Compare VC and AskVC and for normal and strong bars alike.
 public func calcTrailingConstraint(percentYes: Int, hundredBarWidth: CGFloat) -> CGFloat {
     
     //Converts the percentage Int value into a decimal CGFloat that is < 1:
@@ -611,7 +611,7 @@ public func flipBarLabelsAsRequired(hundredBarWidth: CGFloat, yesTrailingConstra
 //                        yesLabelLeadingConstraint: NSLayoutConstraint,
 //                        strongYesTrailingConstraint: NSLayoutConstraint,
 //                        strongYesLabelTrailingConstraint: NSLayoutConstraint) {
-//    
+//
 //}
 ///// ^^^^ This will all go away soon
 
@@ -630,11 +630,11 @@ public func displayData(dataSet: ConsolidatedAskDataSet,
     displayTool.displayIcons(forConsolidatedDataSet: dataSet, forBottom: displayBottom)
     
     
-//    if dataSet.numReviews < 1 {
-//        ratingValueLabel.text = ""
-//    } else {
-//        ratingValueLabel.text = String(dataSet.rating)
-//    }
+    //    if dataSet.numReviews < 1 {
+    //        ratingValueLabel.text = ""
+    //    } else {
+    //        ratingValueLabel.text = String(dataSet.rating)
+    //    }
 } // end of displayData(Ask)
 
 /// Returns an 's' to be added to a word if the specified number of items is any number besides 1, in which case there should be no 's'.
@@ -650,13 +650,13 @@ public func addPluralS(numberOfItems: Int) -> String {
 /// Takes in a filter type (TD, Friends, or All Reviews) and the number of reviews for that category, and returns the string that should be displayed by the numReviews label in the data display tool.
 public func configureNumReviewsLabel(with numReviews: Int, for dataFilterType: dataFilterType) -> String {
     let S: String = addPluralS(numberOfItems: numReviews)
-//    var pluralS: String {
-//        if numReviews > 1 || numReviews < 1 {
-//            return "s"
-//        } else {
-//            return ""
-//        }
-//    }
+    //    var pluralS: String {
+    //        if numReviews > 1 || numReviews < 1 {
+    //            return "s"
+    //        } else {
+    //            return ""
+    //        }
+    //    }
     
     switch dataFilterType {
     case .targetDemo:
@@ -1016,7 +1016,7 @@ public func memberOf(targetDemo: TargetDemo, reviewerOrientation: String, and re
         if targetDemo.gay_man_pref {return true}
     case Constants.ORIENTATIONS[4]:
         if targetDemo.other_pref {return true}
-
+        
     default:
         return false // this could also happen if there is a typo somewhere since we stopped using the isOrientation enum to constrain the value of this field.
     }
@@ -1095,7 +1095,7 @@ public struct ConsolidatedAskDataSet: isConsolidatedDataSet {
     public func populateNumReviews(label: UILabel) {
         let S: String = addPluralS(numberOfItems: numReviews)
         label.text = "(\(String(numReviews)) Review\(S))"
-
+        
     }
 }
 
@@ -1208,7 +1208,7 @@ public func pullConsolidatedData(from reviewCollection: ReviewCollection, filter
     case .COMPARE:
         requestedDataSet = reviewCollection.pullConsolidatedCompareData(requestedDemo: requestedDemo, friendsOnly: friendsOnly)
     }
-        
+    
     // to use this on the receiving end, we will have to cast this to the right type of consolidated data set (ask or compare).
     return requestedDataSet
 }
@@ -1258,57 +1258,57 @@ public struct DataDisplayTool {
     
     /// Displays the appropriate configuration of 'good' and 'bad' images in order to graphically convey the contents of the ConsolidatedDataSet to the local user.
     /// Currently only being used for Asks. Compares use the older displayData method. This method is set up to also work with Compares, if we decide to implement it for displaying compare data as well. 9/28/21: It seems like this is being used for compares now as well.
-//    func displayIcons(dataSet: isConsolidatedDataSet, forBottom bottom: Bool){
-//
-//        /// Sets the value equal to bottom (from the input parameters) so that if this set of display icons IS on the bottom, the displayed rating will be the inverse (ex: if the top image got one heart, the bottom image should show 4 hearts)
-//        var displayInverseRating = bottom
-//
-//        /// We use this to determine whether to set the zero review configuration for the DataDisplayTool
-//        let questionHasZeroReviews: Bool = dataSet.numReviews < 1
-//
-//        let imageViews: [UIImageView] = [icon0, icon1, icon2, icon3, icon4]
-//
-//        // calculate percentage rating based on aggregated yes and strong yes data:
-//        var ratingValue: Double = dataSet.rating // this returns the score for the top (for compare Compares) or only image (as in an Ask)
-//
-//
-//        // this is the value in 0.0 to 5.0
-//        var ratingToDisplay =  dataSet.rating
-//
-//
-//        // If there are no reviews, we'll set displayInverseRating = false, because we don't want to invert the heart values and display 5 yellow hearts for the bottom one, since there aren't any reviews. We want 5 black on the top and the bottom. So this is the lone case when the bottom should be the same as the top, not the inverse.
-////        if questionHasZeroReviews {
-////            displayInverseRating = false
-////        }
-//
-//        if displayInverseRating { // if we're displaying the bottom image's results, use the inverse
-//            ratingValue = 5.0 - ratingValue
-//            ratingToDisplay = 5.0 - dataSet.rating
-//        }
-//
-//
-//        ratingValueLabel.text = (round(ratingToDisplay * 10) / 10.0).description // rounded to the .1 decimal place and converted to a String
-//
-//        var imageIndexValue: Double = 0.0
-//        for imageView in imageViews {
-//            // ex: for position 2 (the 3rd heart), if the rating is 2.5, the imageIndexValue of 2 will be subtracted leaving 0.5
-//            //  meaning that 0.5 is less than 0.9 and will therefore display the bad image aka black (empty) heart.
-//            if (ratingValue - imageIndexValue) > 0.9 {
-//                imageView.image = goodImage
-//            } else if (ratingValue - imageIndexValue) > 0.4 {
-//                imageView.image = halfImage
-//                // Checks to see if we have the DataDisplayTool arranged from right to left, then flips the halfImage as required.
-//                if inverseOrientation == true {
-//                    imageView.image = halfImage.withHorizontallyFlippedOrientation()
-//                }
-//            } else {
-//                imageView.image = badImage
-//            }
-//            imageIndexValue += 1
-//        }
-//        // Pass the Bool questionHasZeroReviews to determine the final config of the data display tool
-//        configureIconsFor(zeroReviews: questionHasZeroReviews)
-//    }
+    //    func displayIcons(dataSet: isConsolidatedDataSet, forBottom bottom: Bool){
+    //
+    //        /// Sets the value equal to bottom (from the input parameters) so that if this set of display icons IS on the bottom, the displayed rating will be the inverse (ex: if the top image got one heart, the bottom image should show 4 hearts)
+    //        var displayInverseRating = bottom
+    //
+    //        /// We use this to determine whether to set the zero review configuration for the DataDisplayTool
+    //        let questionHasZeroReviews: Bool = dataSet.numReviews < 1
+    //
+    //        let imageViews: [UIImageView] = [icon0, icon1, icon2, icon3, icon4]
+    //
+    //        // calculate percentage rating based on aggregated yes and strong yes data:
+    //        var ratingValue: Double = dataSet.rating // this returns the score for the top (for compare Compares) or only image (as in an Ask)
+    //
+    //
+    //        // this is the value in 0.0 to 5.0
+    //        var ratingToDisplay =  dataSet.rating
+    //
+    //
+    //        // If there are no reviews, we'll set displayInverseRating = false, because we don't want to invert the heart values and display 5 yellow hearts for the bottom one, since there aren't any reviews. We want 5 black on the top and the bottom. So this is the lone case when the bottom should be the same as the top, not the inverse.
+    ////        if questionHasZeroReviews {
+    ////            displayInverseRating = false
+    ////        }
+    //
+    //        if displayInverseRating { // if we're displaying the bottom image's results, use the inverse
+    //            ratingValue = 5.0 - ratingValue
+    //            ratingToDisplay = 5.0 - dataSet.rating
+    //        }
+    //
+    //
+    //        ratingValueLabel.text = (round(ratingToDisplay * 10) / 10.0).description // rounded to the .1 decimal place and converted to a String
+    //
+    //        var imageIndexValue: Double = 0.0
+    //        for imageView in imageViews {
+    //            // ex: for position 2 (the 3rd heart), if the rating is 2.5, the imageIndexValue of 2 will be subtracted leaving 0.5
+    //            //  meaning that 0.5 is less than 0.9 and will therefore display the bad image aka black (empty) heart.
+    //            if (ratingValue - imageIndexValue) > 0.9 {
+    //                imageView.image = goodImage
+    //            } else if (ratingValue - imageIndexValue) > 0.4 {
+    //                imageView.image = halfImage
+    //                // Checks to see if we have the DataDisplayTool arranged from right to left, then flips the halfImage as required.
+    //                if inverseOrientation == true {
+    //                    imageView.image = halfImage.withHorizontallyFlippedOrientation()
+    //                }
+    //            } else {
+    //                imageView.image = badImage
+    //            }
+    //            imageIndexValue += 1
+    //        }
+    //        // Pass the Bool questionHasZeroReviews to determine the final config of the data display tool
+    //        configureIconsFor(zeroReviews: questionHasZeroReviews)
+    //    }
     
     
     func displayIcons(forConsolidatedDataSet dataSet: isConsolidatedDataSet, forBottom bottom: Bool) {
@@ -1323,7 +1323,7 @@ public struct DataDisplayTool {
     /// Displays the appropriate configuration of 'good' and 'bad' images in order to graphically convey the contents of the specified rating (from 0.0 to 5.0)
     func populateDataDisplayTool(withRating rating: Double, numReviews: Int, forBottom bottom: Bool){
         
-
+        
         /// We use this to determine whether to set the zero review configuration for the DataDisplayTool.
         if numReviews < 1 {
             ratingValueLabel.text = ""
@@ -1335,7 +1335,7 @@ public struct DataDisplayTool {
         /// Sets the value equal to bottom (from the input parameters) so that if this set of display icons IS on the bottom, the displayed rating will be the inverse (ex: if the top image got one heart, the bottom image should show 4 hearts)
         let displayInverseRating = bottom
         
-
+        
         let imageViews: [UIImageView] = [icon0, icon1, icon2, icon3, icon4]
         
         // this is the score for the top (for compare Compares) or only image (as in an Ask)
@@ -1345,23 +1345,23 @@ public struct DataDisplayTool {
         
         if displayInverseRating { // if we're displaying the bottom image's results, use the inverse
             ratingValue = 5.0 - rating
-//            ratingToDisplay = 5.0 - rating
+            //            ratingToDisplay = 5.0 - rating
         }
         
         // populate ratingValueLabel
-//        if numReviews < 1 {
-//            ratingValueLabel.text = ""
-//            print("numReviews less than one, setting empty string")
-//        } else {
-            // currently displays all values at percent. To go back to 0.0 to 5.0 rating display, uncomment next line:
-            //ratingValueLabel.text = (round(ratingValue * 10) / 10.0).description)
-            // rounded to the .1 decimal place and converted to a String
+        //        if numReviews < 1 {
+        //            ratingValueLabel.text = ""
+        //            print("numReviews less than one, setting empty string")
+        //        } else {
+        // currently displays all values at percent. To go back to 0.0 to 5.0 rating display, uncomment next line:
+        //ratingValueLabel.text = (round(ratingValue * 10) / 10.0).description)
+        // rounded to the .1 decimal place and converted to a String
         ratingValueLabel.text = "\(Int(round(ratingValue * 10 * 20) / 10.0).description)%"
-//        }
+        //        }
         
         var imageIndexValue: Double = 0.0
         for imageView in imageViews {
-            imageView.isHidden = false //added 9Nov22 because for some reason these imageViews were being arbitrarily hidden here and there. There is still the potential that a deeper underlying problem exists because we are never intentionally hiding these individual imageViews at any point yet they are being hidden even so. 
+            imageView.isHidden = false //added 9Nov22 because for some reason these imageViews were being arbitrarily hidden here and there. There is still the potential that a deeper underlying problem exists because we are never intentionally hiding these individual imageViews at any point yet they are being hidden even so.
             
             // ex: for position 2 (the 3rd heart), if the rating is 2.5, the imageIndexValue of 2 will be subtracted leaving 0.5
             //  meaning that 0.5 is less than 0.9 and will therefore display the bad image aka black (empty) heart.
@@ -1464,7 +1464,7 @@ class CompareDemo: hasOrientation {
     }
 }
 
-// MARK: This object can be phased out but doing so will be a little tedious. 
+// MARK: This object can be phased out but doing so will be a little tedious.
 /// All breakdown really does for us is give us the average age and number of votes. This was originally intended to provide much more information using reviews but has since been largely replaced by the consolidated compare and ask datasets.
 struct Breakdown {
     
@@ -1666,7 +1666,7 @@ public func fetchQuestionsFromTheCommunity(passedRawQuestions: Set<Question>,act
                         print("Returning from question:\(question.question_name) created by me:\(question.creator.elementsEqual(myProfile.username)) or not in circulation:\(question.is_circulating == false) or by seed \(question.creator)")
                         continue
                     }
-
+                    
                     if question.creator == Constants.QUESTION_CREATOR_SEED {
                         seedQuestions.insert(question)
                         continue
@@ -1753,7 +1753,7 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         }
     }
     
-
+    
     
     var tempFilterQ = [PrioritizedQuestion]()
     
@@ -1784,10 +1784,10 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         
         if let qOS = questionOnTheScreen, item.question_name.elementsEqual(qOS.question.question_name){
             
-                print("Question currently on Display \(item.question_name) Needs to on top, so -999")
-                // we are reviewing this one
-                // we'll add that later anyways
-                continue
+            print("Question currently on Display \(item.question_name) Needs to on top, so -999")
+            // we are reviewing this one
+            // we'll add that later anyways
+            continue
             
         }
         
@@ -1880,7 +1880,7 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         }else{
             priorityStr.append("\(item.reviews)")
         }
-
+        
         if item.creator == Constants.QUESTION_CREATOR_SEED {
             priorityStr = "999"+priorityStr
         }
@@ -1902,7 +1902,7 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
     // so when we're on live, we already have some unsolved question that we can't lose
     // as live only fetches question posted upto 5 mins ago
     // if we don't keep the filteredQTR, we'll lose them for this review
-        
+    
     // clear old items
     if !filteredQuestionsToReview.isEmpty && !isFromLive{
         filteredQuestionsToReview.removeAll()
@@ -1930,11 +1930,11 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         print("Adding Top Q to filteredQTR")
         filteredQuestionsToReview.append(displayedQuestion)
     }
-   
-   
-   
+    
+    
+    
     filteredQuestionsToReview.append(contentsOf: tempFilterQ.sorted{ $0.priority < $1.priority})
-
+    
     
     // NOW DOWNLOAD IMAGES IN FIFO
     print("After filter we have \(filteredQuestionsToReview.count) filtered question")
@@ -1946,52 +1946,145 @@ public func filterQuestionsAndPrioritize(isFromLive: Bool = false, onComplete: (
         // Ask or Compare both has same name for first question, so download one regardless of the qType
         let storage = FirebaseStorage.Storage.storage()
         let gsReference1 = storage.reference(forURL: item.question.imageURL_1)
-
+        
+        
+        //Old code for 'get the download url from gs url'. See corrected version below.
+//        gsReference1.downloadURL { downloadUrl, downloadError in
+//            guard let downloadUrl = downloadUrl else {return}
+//            
+//            if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+//                print("Ask Image Already Downloaded for \(item.question.question_name)")
+//                return
+//            }
+//            
+//            
+//            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+//                switch result {
+//                case .success(_):
+//                    print("Ask Download Success: \(item.question.question_name)")
+//                case .failure(let error):
+//                    print("Ask Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
+//                }
+//            }
+//        }
+        
+        
+        
+        
         //get the download url from gs url
-        gsReference1.downloadURL { downloadUrl, downloadError in
-            guard let downloadUrl = downloadUrl else {return}
-
-            if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
-                print("Ask Image Already Downloaded for \(item.question.question_name)")
-                return
-            }
-
-
-            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
-                switch result {
-                    case .success(_):
-                        print("Ask Download Success: \(item.question.question_name)")
-                    case .failure(let error):
-                        print("Ask Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
+        gsReference1.downloadURL { result in
+            switch result {
+            case .success(let downloadUrl):
+                let downloadUrlString = downloadUrl.absoluteString  // Convert URL to String
+                guard !ImageCache.default.isCached(forKey: downloadUrlString) else {
+                    print("Image Already Downloaded for \(item.question.question_name)")
+                    return
                 }
+                
+                // Use the downloadUrl directly in the retrieveImage call
+                KingfisherManager.shared.retrieveImage(
+                    with: downloadUrl,  // Here you use downloadUrl directly
+                    options: nil,
+                    progressBlock: { receivedSize, totalSize in
+                        // Handle progress updates here
+                    },
+                    downloadTaskUpdated: { newTask in
+                        // Handle new task creation if needed
+                    }
+                ) { result in
+                    switch result {
+                    case .success(let value):
+                        // 'value' is a tuple containing the image and cache type
+                        print("Download Success: \(item.question.question_name)")
+                        // You can now use 'value.image' which is the UIImage object
+                    case .failure(let error):
+                        print("Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
+                    }
+                }
+            case .failure(let error):
+                print("Download URL retrieval failed with error: \(error.localizedDescription)")
             }
         }
 
+
+
         
-        // Then check if it's compare so we may download the second image
-        if item.question.type == .COMPARE {
-            let gsReference2 = storage.reference(forURL: item.question.imageURL_2)
-            //get the download url from gs url
-            gsReference2.downloadURL { downloadUrl, downloadError in
-                guard let downloadUrl = downloadUrl else {return}
-
-                if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
-                    print("Compare Image Already Downloaded for \(item.question.question_name)")
-                    return
-                }
-
-                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
-                    switch result {
-                        case .success(_):
-                            print("Compare Download Success: \(item.question.question_name)")
-                        case .failure(let error):
-                            print("Compare Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
-                    }
-                }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // Old version of: 'Then check if it's compare so we may download the second image'
+//        if item.question.type == .COMPARE {
+//            let gsReference2 = storage.reference(forURL: item.question.imageURL_2)
+//            //get the download url from gs url
+//            gsReference2.downloadURL { downloadUrl, downloadError in
+//                guard let downloadUrl = downloadUrl else {return}
+//                
+//                if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+//                    print("Compare Image Already Downloaded for \(item.question.question_name)")
+//                    return
+//                }
+//                
+//                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+//                    switch result {
+//                    case .success(_):
+//                        print("Compare Download Success: \(item.question.question_name)")
+//                    case .failure(let error):
+//                        print("Compare Download Failed: \(item.question.question_name) Error:\(error.localizedDescription)")
+//                    }
+//                }
+//            }
+//        } // end .Compare check
+//    } // end for
+    
+        //Then check if it's compare so we may download the second image
+    if item.question.type == .COMPARE {
+        let gsReference2 = storage.reference(forURL: item.question.imageURL_2)
+        // Get the download URL from gs url
+        gsReference2.downloadURL { downloadUrl, downloadError in
+            // Handle possible errors
+            if let error = downloadError {
+                print("Compare Download URL Failed: \(item.question.question_name) Error: \(error.localizedDescription)")
+                return
             }
-        } // end .Compare check
-    } // end for
-
+            
+            guard let downloadUrl = downloadUrl else {
+                print("Compare Download URL Not Found for \(item.question.question_name)")
+                return
+            }
+            
+            let downloadUrlString = downloadUrl.absoluteString  // Convert URL to String
+            // Check if image is already cached
+            if ImageCache.default.isCached(forKey: downloadUrlString) {
+                print("Compare Image Already Downloaded for \(item.question.question_name)")
+                return
+            }
+            
+            // Retrieve the image using Kingfisher
+            KingfisherManager.shared.retrieveImage(with: downloadUrl, options: nil, progressBlock: nil, completionHandler: { result in
+                switch result {
+                case .success(_):
+                    print("Compare Download Success: \(item.question.question_name)")
+                case .failure(let error):
+                    print("Compare Download Failed: \(item.question.question_name) Error: \(error.localizedDescription)")
+                }
+            })
+        }
+    } // end .COMPARE check
+} // end for
+    
+    
+    
+    
+    
+    
     print("==== Finished Printing Filtered DB ====")
     
     tempFilterQ.removeAll()
@@ -2197,7 +2290,7 @@ func decreaseCreditFromUser(by credit: Int){
     
 }
 
-/// Adds +1 to the user's review count in firestore. Called from updateCountOnReviewQues() here in DataModels. 
+/// Adds +1 to the user's review count in firestore. Called from updateCountOnReviewQues() here in DataModels.
 public func incrementTotalUserNumReviewsInFirestore() {
     //increment on the server
     Firestore.firestore()
@@ -2336,6 +2429,135 @@ public func applyReviewCredits(){
 
 // to fetch question I made
 
+//public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error?) -> Void ){
+//    
+//    var tempActiveQuestions = [ActiveQuestion]()
+//    
+//    let dg = DispatchGroup()
+//    
+//    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
+//        .whereField(Constants.QUES_CREATOR, isEqualTo: myProfile.username)
+//        .order(by: Constants.USER_CREATED_KEY,descending: false)
+//        .getDocuments { snapshots, error in
+//            
+//            if error != nil{
+//                
+//                completion(nil, error)
+//            }
+//            
+//            if let snaps = snapshots?.documents{
+//                if snaps.count > 0 {
+//                    print("Total my question fetched \(snaps.count)")
+//                    for item in snaps{
+//                        
+//                        
+//                        let doc = item.data()
+//                        // create a question object
+//                        let question = Question(firebaseDict: doc)
+//                        
+//                        tempActiveQuestions.append(ActiveQuestion(question: question))
+//                        // try fetching the review here as well
+//                        dg.enter()
+//                        fetchReviewFor(question) { q, e in
+//                            // do anything?
+//                            dg.leave()
+//                        }
+//                        
+//                        dg.enter()
+//                        // we are checking if we had these image saved already, if not, we'll download
+//                        
+//                        let storage = FirebaseStorage.Storage.storage()
+//                        let gsReference1 = storage.reference(forURL: question.imageURL_1)
+//                        
+//                        //get the download url from gs url
+//                        gsReference1.downloadURL { downloadUrl, downloadError in
+//                            guard let downloadUrl = downloadUrl else {return}
+//                            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+//                                dg.leave()
+//                            }
+//                        }
+//                        
+//                        
+//                        if question.type == .COMPARE {
+//                            
+//                            dg.enter()
+//                            let gsReference2 = storage.reference(forURL: question.imageURL_2)
+//                            //get the download url from gs url
+//                            gsReference2.downloadURL { downloadUrl, downloadError in
+//                                guard let downloadUrl = downloadUrl else {return}
+//                                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
+//                                    dg.leave()
+//                                }
+//                            }
+//                            
+//                            
+//                        } // end of ask compare
+//                        
+//                        
+//                    } // end for loop
+//                    // we'll filter the soft criteria now
+//                    
+//                    // this prevents blank screen while we load
+//                    // good for us
+//                    
+//                    // if temp and already fetched size is same, no update.
+//                    // cause all we are doing is just fetching active question
+//                    
+//                    // With recent updates to our Questions and Admin App, I commented out this condition
+//                    // so whenever a change is made, we get that. Also, if a new question is posted and a old one
+//                    // gets removed, this condition might prevent that since the count will remain the same.
+//                    // Checked this one, by playing with is_circulating field. Looks good
+//                    // MM : March 28, 2023
+//                    
+//                    //if myActiveQuestions.count != tempActiveQuestions.count {
+//                    print("Updating Active question")
+//                    if myActiveQuestions.count > 0 {
+//                        myActiveQuestions.removeAll()
+//                    }
+//                    myActiveQuestions = tempActiveQuestions
+//                    tempActiveQuestions.removeAll()
+//                    
+//                    //}
+//                    
+//                    // update or not check the locked status
+//                    for ques in myActiveQuestions{
+//                        let numToU = reviewsRequiredToUnlock(question: ques.question)
+//                        
+//                        if numToU == 0 {
+//                            // it's unlocked
+//                            ques.question.isLocked = false
+//                        }
+//                        
+//                    }
+//                    
+//                    // when all dg has done the work, then we'll return to caller, mainly AQVC
+//                    // cause we need with updated review in questions
+//                    dg.notify(queue: .main){
+//                        // call the caller
+//                        completion(myActiveQuestions,nil)
+//                    }
+//                    
+//                    
+//                } // end snaps.count > 0
+//                else{
+//                    // both are nil now, no error plus no data
+//                    
+//                    completion(nil,nil)
+//                    
+//                }
+//                
+//            } // end snap.docs
+//            
+//            
+//        } // end firebasecheckForQuestionToFetch questionCount: 7
+//} // end fetch active
+
+
+
+
+
+
+
 public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error?) -> Void ){
     
     var tempActiveQuestions = [ActiveQuestion]()
@@ -2347,117 +2569,96 @@ public func fetchActiveQuestions(completion: @escaping ([ActiveQuestion]?, Error
         .order(by: Constants.USER_CREATED_KEY,descending: false)
         .getDocuments { snapshots, error in
             
-            if error != nil{
-                
+            if let error = error {
                 completion(nil, error)
+                return
             }
             
-            if let snaps = snapshots?.documents{
-                if snaps.count > 0 {
-                    print("Total my question fetched \(snaps.count)")
-                    for item in snaps{
-                        
-                        
-                        let doc = item.data()
-                        // create a question object
-                        let question = Question(firebaseDict: doc)
-                        
-                        tempActiveQuestions.append(ActiveQuestion(question: question))
-                        // try fetching the review here as well
-                        dg.enter()
-                        fetchReviewFor(question) { q, e in
-                            // do anything?
-                            dg.leave()
-                        }
-                        
-                        dg.enter()
-                        // we are checking if we had these image saved already, if not, we'll download
-
-                        let storage = FirebaseStorage.Storage.storage()
-                        let gsReference1 = storage.reference(forURL: question.imageURL_1)
-
-                        //get the download url from gs url
-                        gsReference1.downloadURL { downloadUrl, downloadError in
-                            guard let downloadUrl = downloadUrl else {return}
-                            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
-                                dg.leave()
-                            }
-                        }
-
-                        
-                        if question.type == .COMPARE {
-
-                            dg.enter()
-                            let gsReference2 = storage.reference(forURL: question.imageURL_2)
-                            //get the download url from gs url
-                            gsReference2.downloadURL { downloadUrl, downloadError in
-                                guard let downloadUrl = downloadUrl else {return}
-                                KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: downloadUrl)) { result in
-                                    dg.leave()
-                                }
-                            }
-
-                            
-                        } // end of ask compare
-                        
-                        
-                    } // end for loop
-                    // we'll filter the soft criteria now
-                    
-                    // this prevents blank screen while we load
-                    // good for us
-                    
-                    // if temp and already fetched size is same, no update.
-                    // cause all we are doing is just fetching active question
-
-                    // With recent updates to our Questions and Admin App, I commented out this condition
-                    // so whenever a change is made, we get that. Also, if a new question is posted and a old one
-                    // gets removed, this condition might prevent that since the count will remain the same.
-                    // Checked this one, by playing with is_circulating field. Looks good
-                    // MM : March 28, 2023
-
-                    //if myActiveQuestions.count != tempActiveQuestions.count {
-                        print("Updating Active question")
-                        if myActiveQuestions.count > 0 {
-                            myActiveQuestions.removeAll()
-                        }
-                        myActiveQuestions = tempActiveQuestions
-                        tempActiveQuestions.removeAll()
-                        
-                    //}
-                    
-                    // update or not check the locked status
-                    for ques in myActiveQuestions{
-                        let numToU = reviewsRequiredToUnlock(question: ques.question)
-                        
-                        if numToU == 0 {
-                            // it's unlocked
-                            ques.question.isLocked = false
-                        }
-                        
-                    }
-                    
-                    // when all dg has done the work, then we'll return to caller, mainly AQVC
-                    // cause we need with updated review in questions
-                    dg.notify(queue: .main){
-                        // call the caller
-                        completion(myActiveQuestions,nil)
-                    }
-                    
-                    
-                } // end snaps.count > 0
-                else{
-                    // both are nil now, no error plus no data
-                    
-                    completion(nil,nil)
-                    
+            guard let snaps = snapshots?.documents, snaps.count > 0 else {
+                completion(nil, nil)
+                return
+            }
+            
+            print("Total my question fetched \(snaps.count)")
+            for item in snaps {
+                let doc = item.data()
+                let question = Question(firebaseDict: doc)
+                tempActiveQuestions.append(ActiveQuestion(question: question))
+                
+                // Fetch the review here as well
+                dg.enter()
+                fetchReviewFor(question) { q, e in
+                    // Processing after fetching the review
+                    dg.leave()
                 }
                 
-            } // end snap.docs
+                let storage = FirebaseStorage.Storage.storage()
+                downloadImage(forQuestion: question, fromStorage: storage, withDispatchGroup: dg)
+            }
             
+            // Your existing logic...
+            // When all DispatchGroup tasks are complete...
+            dg.notify(queue: .main){
+                // Updating the UI and completing the callback
+                completion(tempActiveQuestions, nil)
+            }
+        }
+}
+
+// Helper function to download images
+public func downloadImage(forQuestion question: Question, fromStorage storage: FirebaseStorage.Storage, withDispatchGroup dg: DispatchGroup) {
+    dg.enter()
+    let gsReference1 = storage.reference(forURL: question.imageURL_1)
+    
+    gsReference1.downloadURL { downloadUrl, downloadError in
+        if let error = downloadError {
+            print("Error downloading image 1: \(error.localizedDescription)")
+            dg.leave()
+            return
+        }
+        
+        guard let downloadUrl = downloadUrl else {
+            dg.leave()
+            return
+        }
+        
+        // Use the `downloadUrl` directly
+        KingfisherManager.shared.retrieveImage(with: downloadUrl) { result in
+            // Handle the result if needed
+            dg.leave()
+        }
+    }
+    
+    if question.type == .COMPARE {
+        dg.enter()
+        let gsReference2 = storage.reference(forURL: question.imageURL_2)
+        
+        gsReference2.downloadURL { downloadUrl, downloadError in
+            if let error = downloadError {
+                print("Error downloading image 2: \(error.localizedDescription)")
+                dg.leave()
+                return
+            }
             
-        } // end firebasecheckForQuestionToFetch questionCount: 7
-} // end fetch active
+            guard let downloadUrl = downloadUrl else {
+                dg.leave()
+                return
+            }
+            
+            // Use the `downloadUrl` directly
+            KingfisherManager.shared.retrieveImage(with: downloadUrl) { result in
+                // Handle the result if needed
+                dg.leave()
+            }
+        }
+    }
+} // end downloadImage
+
+
+
+
+
+
 
 
 func fetchReviewFor(_ question: Question, completion: @escaping ([ActiveQuestion]?, Error?) -> Void){
@@ -2493,7 +2694,7 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
             completion(nil, error)
         } else if let snapshot = snapshot {
             
-        
+            
         snapshotLoop: for doc in snapshot.documents {
             dispatchGroup.enter()
             
@@ -2552,77 +2753,77 @@ func downloadReviewCollection(for questionName: String, questionType: askOrCompa
             //let imageRef = Storage.storage().reference(forURL: rPPU)
             
             //imageRef.getData(maxSize: 2 * 1024 * 1024) { data, err in
-                var profileImageToReturn: UIImage
-                var reviewer: Profile
-                let reviewToAppend: isAReview
-                
-                //if let err = err {
-                    
-                    if let nilImage = UIImage(named: "tangerineImage2") {
-                        profileImageToReturn = nilImage
-                        reviewer = Profile(
-                            pid: 0,
-                            birthday: Double(rBTS),
-                            display_name: rDN,
-                            username: rUN,
-                            profile_pic: rPPU,
-                            reviews: rRR,
-                            rating: rS,
-                            created: 0,
-                            orientation: rO,
-                            phone_number: "0",
-                        isSeeder: false)
+            var profileImageToReturn: UIImage
+            var reviewer: Profile
+            let reviewToAppend: isAReview
+            
+            //if let err = err {
+            
+            if let nilImage = UIImage(named: "tangerineImage2") {
+                profileImageToReturn = nilImage
+                reviewer = Profile(
+                    pid: 0,
+                    birthday: Double(rBTS),
+                    display_name: rDN,
+                    username: rUN,
+                    profile_pic: rPPU,
+                    reviews: rRR,
+                    rating: rS,
+                    created: 0,
+                    orientation: rO,
+                    phone_number: "0",
+                    isSeeder: false)
 #warning("We're forcing seeder as false here, reviewer shouldn't be a seeder")
-                        
-                        
-                        switch questionType {
-                        case .ask:
-                            // strong is normally an optional enum but we pass it as a string and let the initializer handle that
-                            let strong = doc.get("strong") as! String
-                            reviewToAppend = AskReview(selection: selection, strong: strong, reviewer: reviewer, comments: c, questionName: qN)
-                            
-                        case .compare:
-                            let strongYes = doc.get("strongYes") as! Bool
-                            let strongNo = doc.get("strongNo") as! Bool
-                            reviewToAppend = CompareReview(selection: selection, strongYes: strongYes, strongNo: strongNo, reviewer: reviewer, comments: c, questionName: qN)
-                        }
-                        reviewList.append(reviewToAppend)
-                        
-                    }
-                    dispatchGroup.leave()
-                    //completion(nil, err)
-//                } else if let data = data {
-//                    if let unwrappedImage = UIImage(data: data) {
-//                        profileImageToReturn = unwrappedImage
-//                        reviewer = Profile(
-//                            pid: 0,
-//                            birthday: Double(rBTS),
-//                            display_name: rDN,
-//                            username: rUN,
-//                            profile_pic: rPPU,
-//                            reviews: rRR,
-//                            rating: rS,
-//                            created: 0,
-//                            orientation: rO,
-//                            phone_number: "0")
-//                        switch questionType {
-//                        case .ask:
-//                            // strong is normally an optional enum but we pass it as a string and let the initializer handle that
-//                            let strong = doc.get("strong") as! String
-//                            reviewToAppend = AskReview(selection: selection, strong: strong, reviewer: reviewer, comments: c, questionName: qN)
-//
-//                        case .compare:
-//                            let strongYes = doc.get("strongYes") as! Bool
-//                            let strongNo = doc.get("strongNo") as! Bool
-//                            reviewToAppend = CompareReview(selection: selection, strongYes: strongYes, strongNo: strongNo, reviewer: reviewer, comments: c, questionName: qN)
-//                        }
-//                        reviewList.append(reviewToAppend)
-//
-//                    }
-//                    dispatchGroup.leave()
-//                }
                 
-//            } //end of imageRef.getData closure
+                
+                switch questionType {
+                case .ask:
+                    // strong is normally an optional enum but we pass it as a string and let the initializer handle that
+                    let strong = doc.get("strong") as! String
+                    reviewToAppend = AskReview(selection: selection, strong: strong, reviewer: reviewer, comments: c, questionName: qN)
+                    
+                case .compare:
+                    let strongYes = doc.get("strongYes") as! Bool
+                    let strongNo = doc.get("strongNo") as! Bool
+                    reviewToAppend = CompareReview(selection: selection, strongYes: strongYes, strongNo: strongNo, reviewer: reviewer, comments: c, questionName: qN)
+                }
+                reviewList.append(reviewToAppend)
+                
+            }
+            dispatchGroup.leave()
+            //completion(nil, err)
+            //                } else if let data = data {
+            //                    if let unwrappedImage = UIImage(data: data) {
+            //                        profileImageToReturn = unwrappedImage
+            //                        reviewer = Profile(
+            //                            pid: 0,
+            //                            birthday: Double(rBTS),
+            //                            display_name: rDN,
+            //                            username: rUN,
+            //                            profile_pic: rPPU,
+            //                            reviews: rRR,
+            //                            rating: rS,
+            //                            created: 0,
+            //                            orientation: rO,
+            //                            phone_number: "0")
+            //                        switch questionType {
+            //                        case .ask:
+            //                            // strong is normally an optional enum but we pass it as a string and let the initializer handle that
+            //                            let strong = doc.get("strong") as! String
+            //                            reviewToAppend = AskReview(selection: selection, strong: strong, reviewer: reviewer, comments: c, questionName: qN)
+            //
+            //                        case .compare:
+            //                            let strongYes = doc.get("strongYes") as! Bool
+            //                            let strongNo = doc.get("strongNo") as! Bool
+            //                            reviewToAppend = CompareReview(selection: selection, strongYes: strongYes, strongNo: strongNo, reviewer: reviewer, comments: c, questionName: qN)
+            //                        }
+            //                        reviewList.append(reviewToAppend)
+            //
+            //                    }
+            //                    dispatchGroup.leave()
+            //                }
+            
+            //            } //end of imageRef.getData closure
             
         } // end of for loop
             
@@ -2670,7 +2871,7 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
     //let theseLockedQuestionNames = self.privateInfo.lockedQuestionNames
     
     guard let indexOfQuestionName = index(of: question.question_name, in: myActiveQuestions) else {
-//        print("returning zero in reviewsRequiredToUnlock because questionName: \(question.question_name) with title was not found in the lockedQuestionNames list.") // print statement is depricated
+        //        print("returning zero in reviewsRequiredToUnlock because questionName: \(question.question_name) with title was not found in the lockedQuestionNames list.") // print statement is depricated
         
         return 0 //in this case, the container is not in the list and is therefore already unlocked. We return 0 to indicate that. // comment deprecated
     }
@@ -2706,20 +2907,20 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
 } // end reviewReqToUnlock
 
 public func updateQFFFromServer(with username: String = "") {
-
-
-  Firestore.firestore()
-    .collection(FirebaseManager.shared.getUsersCollection())
-    .document(username.isEmpty ? myProfile.username : username)
-    .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
-    .document(Constants.USERS_PRIVATE_INFO_DOC)
-    .addSnapshotListener({ snapshot, error in
-      if snapshot != nil && error == nil {
-        qFFCount = snapshot?["qff_count"] as? Int ?? 0
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
-      }
-    })
-
+    
+    
+    Firestore.firestore()
+        .collection(FirebaseManager.shared.getUsersCollection())
+        .document(username.isEmpty ? myProfile.username : username)
+        .collection(Constants.USERS_PRIVATE_SUB_COLLECTION)
+        .document(Constants.USERS_PRIVATE_INFO_DOC)
+        .addSnapshotListener({ snapshot, error in
+            if snapshot != nil && error == nil {
+                qFFCount = snapshot?["qff_count"] as? Int ?? 0
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
+            }
+        })
+    
 }
 
 // New Func for qff_count and fr_count on firebase
@@ -2796,7 +2997,7 @@ public func decreaseFRCountOf(username name: String){
 }
 
 
-/// called from MainVC, FriendRequestVC and Where we answer a q from friend, probably here 
+/// called from MainVC, FriendRequestVC and Where we answer a q from friend, probably here
 public func updateBadgeCount(){
     
     var totalBadge = qFFCount + friendReqCount
@@ -2841,10 +3042,10 @@ public func resetLocalAndRealmDB(){
 //}
 
 public func sendReport(for type: reportType, of questionName: String) {
-
+    
     Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(questionName)
         .updateData([
             "reportList.\(type.rawValue)" :  FieldValue.increment(Int64(1))
-            ])
+        ])
 }
 
