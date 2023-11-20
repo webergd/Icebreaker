@@ -128,7 +128,7 @@ class MainVC: UIViewController {
     
     // answer question tapped
     
-    
+    /// AQ is just Review Others mode - the old naming convention is a carry over from past labeling. ("Answer Question")
     @IBAction func onAQTapped(_ sender: Any) {
         print("AnsQ/Rev other")
         // maybe create a list of questions then decide which view to show?
@@ -142,6 +142,10 @@ class MainVC: UIViewController {
         self.present(vc, animated: true, completion: nil)
         
     }
+    
+//    func showReviewOthersMode() {
+//        self.onAQTapped(self)
+//    }
     
     // friends tapped
     
@@ -305,6 +309,10 @@ class MainVC: UIViewController {
         let tapGlassViewGesture = UITapGestureRecognizer(target: self, action: #selector(ReviewAskViewController.glassViewTapped(_:) ))
         glassView.addGestureRecognizer(tapGlassViewGesture)
         
+        // This adds an observer to watch for the notification that a banner has popped up indicating that the member has recieved a Question to review from another member (a QFF) and that the member has tapped the banner.
+       //  When the member taps the banner, we want to take him or her to Reviewing Others mode.
+        NotificationCenter.default.addObserver(self, selector: #selector(onAQTapped), name: Notification.Name("NotificationToOpenReviewOthers"), object: nil)
+        
         
         UIApplication.shared.windows.first?.rootViewController = self
         //UIApplication.shared.windows.first?.makeKeyAndVisible()
@@ -368,8 +376,6 @@ class MainVC: UIViewController {
         clearOutCurrentCompare()
         
         
-        
-        
         // now fetch and update count
         updateFriendReqCount()
         updateQFFCount()
@@ -384,6 +390,53 @@ class MainVC: UIViewController {
             self.showTutorialAsRequired()
         }
 
+        
+        
+        // Checks if there was a saved notification indicating we should open "Reviewing Others" (user tapped banner notification when received from killed state).
+        // I gave up on this on 11/20/23. Eventually we should re-attack but this functionality is non-essential. -Wyatt
+        
+//        let shouldOpenReviewOthersFromNotification = UserDefaults.standard.bool(forKey: "shouldOpenReviewOthersFromNotification")
+//
+//        
+//        //TEST this is only here for troubleshooting without a console log
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Adjust the delay as needed
+//            let alertController = UIAlertController(title: "info", message: "flag is set to \(shouldOpenReviewOthersFromNotification). \nnotificationMessageValue: \(notificationMessageValue)", preferredStyle: .alert)
+//            
+//            // Add an action (e.g., OK button)
+//            let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+//                // Handle OK button tap (if needed)
+//            }
+//            alertController.addAction(okAction)
+//            
+//            // Add more actions if necessary
+//            
+//            // Present the alert
+//            self.present(alertController, animated: true, completion: nil)
+//            
+//        }
+//        
+//
+//        if shouldOpenReviewOthersFromNotification {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Adjust the delay as needed
+//                self.onAQTapped(self)
+//                UserDefaults.standard.set(false, forKey: "shouldOpenReviewOthersFromNotification")
+//                
+//            }
+//        }
+
+        
+//        if shouldOpenReviewOthersFromNotification {
+//            // Segue to Review Others question answering mode because the user just tapped a banner notification that indicated they have a new Question from a friend and they presumably want to review it now
+//            view.backgroundColor = UIColor.red
+//            self.onAQTapped(self)
+//            
+//            // Reset the UserDefaults setting so that the MainVC doesn't continue to auto-segue to Review Others mode
+//            UserDefaults.standard.set(false, forKey: "shouldOpenReviewOthersFromNotification")
+//        } else {
+//            print("else clause hi. shouldOpenReviewOthersFromNotification is \(shouldOpenReviewOthersFromNotification)")
+//        }
+
+        
 
             print("Current Image \(currentImage.pngData()?.count)")
             currentImage = UIImage(named: "tangerineImage2")!
@@ -470,8 +523,12 @@ class MainVC: UIViewController {
     }
     
     
-    /// Updates the Questoins From Friends count to be displayed on the badge associated with the Review Others icon.
+    /// Updates the Questions From Friends count to be displayed on the badge associated with the Review Others icon.
     @objc func updateQFFCount(){
+        
+        //calling this here ensures that the Question(s) that the member just received from the friend will be available in the reviewing queue as soon as he or she taps the review others button.
+        checkForQuestionsToFetch {}
+        
         print("Setting QFF to \(qFFCount) \(filteredQuestionsToReview.count)")
         if qFFCount > 0 {
             qffBadgeHub.setCount(qFFCount)

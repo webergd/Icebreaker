@@ -84,6 +84,13 @@ public var myProfile : Profile {
 }
 
 
+// TEST
+public var handleLaunchNotificationCalled: Bool = false
+public var notificationMessageValue: String = "default from DataModels"
+
+
+
+
 public var filteredQuestionsToReview = [PrioritizedQuestion]()
 ///a local dictionary of Questions localUser has already reviewed (may be deprecated based on new Q2R query)
 public var questionReviewed = [String:String]()
@@ -2907,8 +2914,6 @@ public func reviewsRequiredToUnlock(question: Question) -> Int {
 } // end reviewReqToUnlock
 
 public func updateQFFFromServer(with username: String = "") {
-    
-    
     Firestore.firestore()
         .collection(FirebaseManager.shared.getUsersCollection())
         .document(username.isEmpty ? myProfile.username : username)
@@ -2927,6 +2932,42 @@ public func updateQFFFromServer(with username: String = "") {
 // doesn't have to exist in local db or elsewhere on client
 
 public func increaseQFFCountOf(username name: String){
+    print("updateQFFFromServer called")
+    
+    // Check if there is a currently authenticated user
+//    if let user = Auth.auth().currentUser {
+//        // Get the current user's ID token result
+//        user.getIDTokenResult { (tokenResult, error) in
+//            if let error = error {
+//                // Handle any errors that occur while getting the token result
+//                print("Error getting token result: \(error.localizedDescription)")
+//                return
+//            }
+//            
+//            // Check if tokenResult contains an expirationDate
+//            if let expirationDate = tokenResult?.expirationDate {
+//                // Get the current date and time
+//                let currentDate = Date()
+//                
+//                // Compare the expirationDate with the current date
+//                if expirationDate > currentDate {
+//                    // Token is not expired
+//                    print("Token is not expired. Expiration Date: \(expirationDate)")
+//                } else {
+//                    // Token is expired
+//                    print("Token is expired. Expiration Date: \(expirationDate)")
+//                }
+//            } else {
+//                // Token result does not contain an expirationDate
+//                print("Token result does not contain an expirationDate.")
+//            }
+//        }
+//    } else {
+//        // No authenticated user
+//        print("No authenticated user.")
+//    }
+    
+    
     Firestore.firestore()
         .collection(FirebaseManager.shared.getUsersCollection())
         .document(name)
@@ -2940,7 +2981,6 @@ public func increaseQFFCountOf(username name: String){
             if error == nil {
                 print("Added QFF Count to \(name)")
             }
-            
         }
     
 }
