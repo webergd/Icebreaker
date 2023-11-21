@@ -68,6 +68,12 @@ class UNService: NSObject,UNUserNotificationCenterDelegate {
 //      qFFCount += 1
 //      NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.QFF_NOTI_NAME), object: nil)
       updateQFFFromServer()
+        
+        
+
+        
+        // Post a notification to MainVC
+        NotificationCenter.default.post(name: Notification.Name("NotificationToOpenReviewOthers"), object: nil)
       completionHandler()
     }
     

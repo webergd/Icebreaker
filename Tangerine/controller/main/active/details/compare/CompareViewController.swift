@@ -269,7 +269,7 @@ class CompareViewController: UIViewController, UIScrollViewDelegate {
             
             if !iC {
                 
-                let alertVC = UIAlertController(title: "Photo Suspended", message: "This photo was flagged as inappropriate so it is no longer receiving reviews.", preferredStyle: .alert)
+                let alertVC = UIAlertController(title: "Photo Suspended", message: "Your photo is temporarily on hold from recieving community reviews, pending an administrative check for potential inappropriate content. Please return for updates later.", preferredStyle: .alert)
                 let gotItAction = UIAlertAction(title: "Got It", style: .default)
                 alertVC.addAction(gotItAction)
                 

@@ -246,12 +246,21 @@ class SendToFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
         Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(docID).updateData([Constants.QUES_RECEIP_KEY:recipients])
 
-        
-        // to increment the QFF Count
+		print("recipients list first element is: \(String(describing: recipients.first)) prior to entering loop to update qff on the server")
+		
+        // to increment the QFF Count:
+//		// Enable verbose logging (set logger level to .max)
+//		FirebaseConfiguration.shared.setLoggerLevel(.max)
+		
+		
+		
         for username in recipients {
+			print("running increaseQFFCountOf for username of: \(username)")
             increaseQFFCountOf(username: username)
         }
         
+//		//Disable Verbose logging
+//		FirebaseConfiguration.shared.setLoggerLevel(.debug)
         
     }// end of createQuestion
     
