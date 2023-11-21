@@ -1203,7 +1203,6 @@ class AddFriendVC: UIViewController, UISearchBarDelegate, MFMessageComposeViewCo
                 cell.button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
                 cell.button.isEnabled = true
                 cell.handleClick={
-                    
                     self.view.showActivityIndicator()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                         self.addFriendRequestToFirestoreAndLocal(person)
