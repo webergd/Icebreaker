@@ -14,7 +14,7 @@ extension UIImageView {
     /// Sets an image to this image view
     /// - Parameter gsUrl: firebase storage url starting with gs:// protocol, image only
     /// - Parameter downSample: Indicates whether the image should be downsampled or resized, default value true
-    func setFirebaseGsImage(for gsUrl: String, downSample: Bool = true) {
+    func setFirebaseGsImage(for gsUrl: String) {
         
 
         let storage = FirebaseStorage.Storage.storage()
@@ -22,24 +22,42 @@ extension UIImageView {
 
         gsReference.downloadURL { downloadUrl, downloadError in
             guard let downloadUrl = downloadUrl else {return}
-            let scale = UIScreen.main.scale
-            let processor: ImageProcessor = downSample ? DownsamplingImageProcessor(size: CGSize(width: self.bounds.size.width * scale, height: self.bounds.size.height * scale)) : ResizingImageProcessor(referenceSize: self.bounds.size)
 
+            // checking cache manually
+            if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+                self.kf.setImage(
+                    with: downloadUrl,
+                    options: [
+                        .processor(DownsamplingImageProcessor(size: self.bounds.size)),
+                        .cacheOriginalImage
+                    ]){
+                        result in
+                        switch result {
+                            case .success(let success):
+                                print("GS Task done: \(success.data()?.count)")
+                            case .failure(let error):
+                                print("GS Job failed: \(error.localizedDescription)")
+                        }
+                    }
+                print("GS: Image Set Pre Downloaded")
+                return
+            }
+
+            print("GS: Image Set Downloaded")
             self.kf.indicatorType = .activity
             self.kf.setImage(
                 with: downloadUrl,
                 placeholder: UIImage(named: "loading_large_black"),
                 options: [
-                    .processor(processor),
-                    .scaleFactor(scale),
+                    .processor(DownsamplingImageProcessor(size: self.bounds.size)),
                     .transition(.fade(0.1)),
                     .cacheOriginalImage
                 ])
             {
                 result in
                 switch result {
-                    case .success(let value):
-                        print("GS Task done for: \(value.data()?.count)")
+                    case .success(_):
+                        print("GS Task done")
                     case .failure(let error):
                         print("GS Job failed: \(error.localizedDescription)")
                 }
@@ -50,27 +68,36 @@ extension UIImageView {
     /// Sets an image to this image view
     /// - Parameter url: any https:// protocol based url
     /// - Parameter downSample: Indicates whether the image should be downsampled or resized, default value true
-    func setFirebaseImage(for url: String, downSample: Bool = true) {
+    func setFirebaseImage(for url: String) {
         print("loading profile image from firebase")
         let downloadUrl = URL(string: url)
-        let scale = UIScreen.main.scale
+        guard let downloadUrl = downloadUrl else {return}
 
-        let processor: ImageProcessor  = downSample ? DownsamplingImageProcessor(size: CGSize(width: self.bounds.size.width * scale, height: self.bounds.size.height * scale)) : ResizingImageProcessor(referenceSize: self.bounds.size)
+        // checking cache manually
+        if ImageCache.default.isCached(forKey: downloadUrl.absoluteString) {
+            self.kf.setImage(
+                with: downloadUrl,
+                options: [
+                    .processor(DownsamplingImageProcessor(size: self.bounds.size)),
+                    .cacheOriginalImage
+                ])
+            print("HTTPS: Image Set Pre Downloaded")
+            return
+        }
 
         self.kf.indicatorType = .activity
         self.kf.setImage(
             with: downloadUrl,
             options: [
-                .processor(processor),
-                .scaleFactor(scale),
+                .processor(DownsamplingImageProcessor(size: self.bounds.size)),
                 .transition(.fade(0.1)),
                 .cacheOriginalImage
             ])
         {
             result in
             switch result {
-                case .success(let value):
-                    print("Task done for: \(value.data()?.count)")
+                case .success(_):
+                    print("Task done")
                 case .failure(let error):
                     print("Job failed: \(error.localizedDescription)")
             }

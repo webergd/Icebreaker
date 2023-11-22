@@ -294,6 +294,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
                         
                         let profile_pic = doc[Constants.USER_IMAGE_KEY] as? String ?? DEFAULT_USER_IMAGE_URL
                         let specialty = doc[Constants.USER_ORIENTATION_KEY] as? String ?? "Other"
+                        let isSeeder = doc[Constants.IS_SEEDER_KEY] as? Bool ?? false
                         
                         // create the profile
                         
@@ -307,6 +308,7 @@ class WelcomeVC: UIViewController, UINavigationControllerDelegate, UIImagePicker
                         profile.username = name
                         profile.profile_pic = profile_pic
                         profile.orientation = specialty
+                        profile.isSeeder = isSeeder
                         
                         
                         

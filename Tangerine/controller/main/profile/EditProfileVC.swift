@@ -99,7 +99,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
             print("User click Camera button")
             self.selectImageFrom(.camera)
-            
+
         }))
         
         alert.addAction(UIAlertAction(title: "Photo Library", style: .default , handler:{ (UIAlertAction)in
@@ -549,12 +549,7 @@ class EditProfileVC: UIViewController, UINavigationControllerDelegate, UIImagePi
         }
         
         profileImageView.image = image
-        
-        // save to local, the new overwrite flag ensures that the method will erase old image and save new image
-        // which isn't required for questions, as image in questions aren't changable.
-        saveImageToDiskWith(imageName: getFilenameFrom(qName: myProfile.username, type: .ASK), image: image, overwrite: true)
-        
-        
+
         // save it to our user's profile
         // data from jpeg
         let imageData = image.jpegData(compressionQuality: 80)

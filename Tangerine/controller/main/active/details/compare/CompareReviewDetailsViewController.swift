@@ -95,8 +95,15 @@ class CompareReviewDetailsViewController: UIViewController, UINavigationControll
             let thisTitleLabel = self.selectionTitleLabel,
             let thisCompare = self.compare,
             let thisReview = self.review {
-            
-            thisImageView.image = selectionImage(selection: thisReview.selection, compare: thisCompare.question)
+
+            // updated from old code
+            switch thisReview.selection {
+                case .top:
+                    thisImageView.setFirebaseGsImage(for: thisCompare.question.imageURL_1)
+                case .bottom:
+                    thisImageView.setFirebaseGsImage(for: thisCompare.question.imageURL_2)
+            }
+
             thisTitleLabel.text = selectionTitle(selection: thisReview.selection, compare: thisCompare.question)
         }
     }

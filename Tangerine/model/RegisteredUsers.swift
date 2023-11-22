@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+// Used in NetworkManager for fetching registered users
+// we are storing registered users on a db with gcloud
 struct Root: Codable{
     let status: Bool!
     let message: String!

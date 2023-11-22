@@ -14,8 +14,6 @@ import Firebase
 
 var pullControl : UIRefreshControl! // for our pull2Refresh
 
-
-
 ///This really should be called QuestionTableViewController because it's the main table view that holds the local user's Asks AND Compares
 ///
 class ActiveQuestionsVC: UITableViewController {
@@ -70,7 +68,8 @@ class ActiveQuestionsVC: UITableViewController {
             
             print("AP VDA count \(myActiveQuestions.count)")
             // get the reviews now
-            refreshActiveQuestion()
+            #warning("This call looks like redundant, makes the VC flicker")
+//            refreshActiveQuestion()
             
             // let's show how to dismiss the view now
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { // `0.7` is the desired number of seconds.
@@ -272,8 +271,9 @@ class ActiveQuestionsVC: UITableViewController {
                 // Crops the ask image into a circle
                 cell.photoImageView.setFirebaseGsImage(for: question.imageURL_1)
 
-                
-                makeCircle(view: cell.photoImageView, alpha: 1.0)
+                // Added this line for rounding, since I commented out the duplicate calling refreshActiveQuestion
+                circleTableViewCell(cell: cell)
+                //makeCircle(view: cell.photoImageView, alpha: 1.0)
                 
                 return cell
 
@@ -284,9 +284,11 @@ class ActiveQuestionsVC: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CompareTableViewCell
                 
                 cell.contentView.backgroundColor = cellBackgroundColor
-                
-                makeCircle(view: cell.image1, alpha: 1.0)
-                makeCircle(view: cell.image2, alpha: 1.0)
+
+// Added this line for rounding, since I commented out the duplicate calling refreshActiveQuestion
+//                makeCircle(view: cell.image1, alpha: 1.0)
+//                makeCircle(view: cell.image2, alpha: 1.0)
+                circleTableViewCell(cell: cell)
                 
                 // Calculate a Tangerine Score to pass to the cell:
                 let tangerineScore: TangerineScore = reviewCollection.calcTangerineScore(inputs: TangerineScoreInputs(), requestedDemo: RealmManager.sharedInstance.getTargetDemo())
@@ -590,6 +592,23 @@ class ActiveQuestionsVC: UITableViewController {
         return true
     }
     */
+
+    private func circleTableViewCell(cell:  AskTableViewCell){
+        cell.photoImageView.layer.cornerRadius = 55
+        cell.photoImageView.layer.masksToBounds = true
+        cell.photoImageView.backgroundColor = UIColor.systemBackground.withAlphaComponent(1.0)
+    }
+
+    private func circleTableViewCell(cell:  CompareTableViewCell){
+        cell.image1.layer.cornerRadius = 55
+        cell.image1.layer.masksToBounds = true
+        cell.image1.backgroundColor = UIColor.systemBackground.withAlphaComponent(1.0)
+
+        cell.image2.layer.cornerRadius = 55
+        cell.image2.layer.masksToBounds = true
+        cell.image2.backgroundColor = UIColor.systemBackground.withAlphaComponent(1.0)
+    }
+
 }
  
 

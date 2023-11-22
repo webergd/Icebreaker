@@ -238,22 +238,6 @@ class ReviewOthersVC: UIViewController{
                 
                 let questionName = firstQuestionToReview.question.question_name
                 
-                // the type so we can delete single or dual image
-                let qType = firstQuestionToReview.question.type
-                
-                // the name is like qid_image_x.jpg
-                let fileName = getFilenameFrom(qName: questionName, type: qType)
-                
-                // try deleting the images here
-                removeImageFromDevice(ofName: fileName)
-                
-                // and the second image if it is compare
-                if qType == .COMPARE {
-                    // the secondPhoto var gives
-                    let fileName2 = getFilenameFrom(qName: questionName, type: qType, secondPhoto: true)
-                    removeImageFromDevice(ofName: fileName2)
-                }
-                
                 /// delete from realm
                 questionReviewed[questionName] = questionName
                 // delete from filtered question

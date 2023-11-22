@@ -18,6 +18,7 @@ class Constants {
     
     // this username will only be used during signup
     static var username = ""
+    static var quesIds = [String]()
     
     //Constants
     
@@ -58,6 +59,7 @@ class Constants {
     
     static let USER_NUMBER_KEY = "phone_number"
     static let USER_BIRTHDAY_KEY = "bday"
+    static let IS_SEEDER_KEY = "isSeeder"
 
     // it was display_name initially, not sure how it become dname_lower, which is filled by server
     // changing it back. MM: Mar31, 2023
@@ -135,11 +137,12 @@ class Constants {
     static let QUES_REPORTS = "reports"
     static let QUES_REPORT_MAP = "reportList"
     static let QUES_USERS_NOT_REVIEWED_BY_KEY = "usersNotReviewedBy"
+    static let QUES_USERS_NOT_CONSUMED_BY_KEY = "usersNotConsumedBy"
     static let QUES_ADMIN_REVIEW_REQ = "adminReviewRequired"
     
     // KEYS FOR reviews > ID
     static let QUES_REVIEWS = "reviews"
-    
+    static let QUESTION_CREATOR_SEED = "seed"
     
     
     

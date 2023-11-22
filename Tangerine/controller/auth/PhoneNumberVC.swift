@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class PhoneNumberVC: UIViewController, UITextFieldDelegate {
     
@@ -56,6 +57,24 @@ class PhoneNumberVC: UIViewController, UITextFieldDelegate {
             sendVerificationCode(phoneNumber)
         }
         
+    }
+
+    func get30QuestionName(){
+        Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
+            .order(by: Constants.USER_CREATED_KEY,descending: false)
+            .limit(to: 30).getDocuments { snapshot, error in
+                // usual error handling
+                if error != nil{
+                    print("An error occured while fetching quesIds from firestore=>PhoneNumberVC")
+                }
+
+                if let snaps = snapshot?.documents{
+                    if snaps.count > 0 {
+                        for snap in snaps {
+                            Constants.quesIds.append(snap.documentID)
+                        }
+                    }}
+            }
     }
     
     
@@ -300,6 +319,9 @@ class PhoneNumberVC: UIViewController, UITextFieldDelegate {
         configureContinueButton()
         
         configurePageControl()
+
+        // fill up from firestore
+        get30QuestionName()
         
         // setup the UI
         setupUI()

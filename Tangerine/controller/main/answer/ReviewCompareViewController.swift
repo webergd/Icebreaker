@@ -98,6 +98,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     var recipientList = [String]()
     var usersNotReviewedList = [String]()
+    var usersNotConsumedList = [String]()
     
     var ud = UserDefaults.standard
     
@@ -431,7 +432,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     func createReview(selection: topOrBottom) {
         
         // unwrap the compare again to pull its containerID:
-        if let thisCompare = question {
+        if let question = question {
             
             // update the review count and that I reviewed
             //            var reviewSet = Set<String>()
@@ -445,21 +446,32 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             
             var unrSet = Set<String>()
             
-            for item in thisCompare.usersNotReviewedBy{
-                
-                if item != myProfile.username{
-                    unrSet.insert(item)
+            if question.creator == Constants.QUESTION_CREATOR_SEED {
+                // check the usersNotConsumedBy here
+                for item in question.usersNotConsumedBy{
+
+                    if item != myProfile.username{
+                        unrSet.insert(item)
+                    }
+
                 }
-                
+                usersNotConsumedList = Array(unrSet)
+            } else {
+                for item in question.usersNotReviewedBy{
+
+                    if item != myProfile.username{
+                        unrSet.insert(item)
+                    }
+
+                }
+                usersNotReviewedList = Array(unrSet)
             }
-            
-            usersNotReviewedList = Array(unrSet)
             
             // update the list of q sent to
             var rList = Set<String>()
             
             
-            for item in thisCompare.recipients{
+            for item in question.recipients{
                 
                 if item != myProfile.username{
                     rList.insert(item)
@@ -473,13 +485,13 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             if commentWritten == nil{
                 commentWritten = ""
             }
-            let createdReview: CompareReview = CompareReview(selection: selection, strongYes: strongFlag, strongNo: false, comments: commentWritten, questionName: thisCompare.question_name)
+            let createdReview: CompareReview = CompareReview(selection: selection, strongYes: strongFlag, strongNo: false, comments: commentWritten, questionName: question.question_name)
             
             // do local
             updateCountOnReviewQues()
             // send to firebase
             
-            save(compareReview: createdReview)
+            save(compareReview: createdReview, isSeed: question.creator == Constants.QUESTION_CREATOR_SEED)
             
             // Log Analytics Event
             Analytics.logEvent(Constants.REVIEW_QUESTION, parameters: nil)
@@ -527,15 +539,29 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             // unr stands for "users not reviewed"
             var unrSet = Set<String>()
             
-            // this is building a new usersNotReviewedBy list that does not include my username
-            for item in question.usersNotReviewedBy{
-                if item != myProfile.username{
-                    unrSet.insert(item)
+            // this is building a new usersNotReviewedBy/usersNotConsumedBy list that does not include my username
+            if question.creator == Constants.QUESTION_CREATOR_SEED {
+                // check the usersNotConsumedBy here
+                for item in question.usersNotConsumedBy{
+
+                    if item != myProfile.username{
+                        unrSet.insert(item)
+                    }
+
                 }
+                usersNotConsumedList = Array(unrSet)
+            } else {
+                for item in question.usersNotReviewedBy{
+
+                    if item != myProfile.username{
+                        unrSet.insert(item)
+                    }
+
+                }
+                usersNotReviewedList = Array(unrSet)
             }
             
-            let myUserProfile = RealmManager.sharedInstance.getProfile()
-            
+
             usersNotReviewedList = Array(unrSet)
             
             // update the list of q sent to
@@ -551,27 +577,59 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
             }
             
             recipientList = Array(rList)
-            
+
             // Removes the localUser's name from a Question's usersNotSentTo list (or recipient list if sent to him from a friend) in firestore
-            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
-                [//The below calls just delete the local user's username from the lists. Simpler and less errors.
-                    Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
-                    Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
-                ]){_ in
-                    
-                    //why are we removing all the names from this? Didn't we just update it?
-                    // or is this just clearing it out for the next Question?
-                    self.recipientList.removeAll()
-                    self.usersNotReviewedList.removeAll()
-                }
+            if question.creator == Constants.QUESTION_CREATOR_SEED {
+
+                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
+                    [//The below calls just delete the local user's username from the lists. Simpler and less errors.
+                        Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                        Constants.QUES_USERS_NOT_CONSUMED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                    ]){_ in
+
+                        //why are we removing all the names from this? Didn't we just update it?
+                        // or is this just clearing it out for the next Question?
+                        self.recipientList.removeAll()
+                        self.usersNotReviewedList.removeAll()
+                        self.usersNotConsumedList.removeAll()
+                    }
+
+            } else {
+                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
+                    [//The below calls just delete the local user's username from the lists. Simpler and less errors.
+                        Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                        Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                    ]){_ in
+
+                        //why are we removing all the names from this? Didn't we just update it?
+                        // or is this just clearing it out for the next Question?
+                        self.recipientList.removeAll()
+                        self.usersNotReviewedList.removeAll()
+                        self.usersNotConsumedList.removeAll()
+                    }
+            }
+            
+//            // Removes the localUser's name from a Question's usersNotSentTo list (or recipient list if sent to him from a friend) in firestore
+//            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(question.question_name).updateData(
+//                [//The below calls just delete the local user's username from the lists. Simpler and less errors.
+//                    Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+//                    Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+//                ]){_ in
+//
+//                    //why are we removing all the names from this? Didn't we just update it?
+//                    // or is this just clearing it out for the next Question?
+//                    self.recipientList.removeAll()
+//                    self.usersNotReviewedList.removeAll()
+//                }
             
             // Log Analytics Event
             Analytics.logEvent(Constants.SKIP_QUESTION, parameters: nil)
             
         }
-        
-        self.topImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
-        self.bottomImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+
+        #warning("Updating Here")
+//        self.topImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
+//        self.bottomImageView.image = #imageLiteral(resourceName: "loading_large_black.png")
         
         if let bvc = blueVC{
             //enables compare to drop off the bottom of the screen after being reviewed
@@ -657,7 +715,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     
     /// Create an CompareReview in Firestore
-    func save(compareReview: CompareReview) {
+    func save(compareReview: CompareReview, isSeed: Bool) {
         
         let newCompareReview: [String: Any] = [
             "questionName": compareReview.reviewID.questionName,
@@ -691,22 +749,34 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                 
                 // See ReviewAskVC => line 465
                 //                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareView.reviewID.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([compareView.reviewer.username])])
-                
-                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareReview.reviewID.questionName).updateData(
-                    [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)),
-                     //                     Constants.QUES_RECEIP_KEY: self.recipientList,
-                     //                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList
-                     // the above calls were replacing the entire list in firestore. The below calls just delete the local user's username from the lists. Simpler and less errors.
-                     Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
-                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
-                    ]){_ in
-                        
-                        self.recipientList.removeAll()
-                        self.usersNotReviewedList.removeAll()
-                    }
-                
-                
-                
+                if isSeed {
+                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareReview.reviewID.questionName).updateData(
+                        [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)),
+                         //                     Constants.QUES_RECEIP_KEY: self.recipientList,
+                         //                     Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: self.usersNotReviewedList
+                         // the above calls were replacing the entire list in firestore. The below calls just delete the local user's username from the lists. Simpler and less errors.
+                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                         Constants.QUES_USERS_NOT_CONSUMED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                        ]){_ in
+
+                            self.recipientList.removeAll()
+                            self.usersNotReviewedList.removeAll()
+                            self.usersNotConsumedList.removeAll()
+                        }
+                } else {
+                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(compareReview.reviewID.questionName).updateData(
+                        [Constants.QUES_REVIEWS: FieldValue.increment(Int64(1)),
+                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([myProfile.username]),
+                         Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([myProfile.username])
+                        ]){_ in
+
+                            self.recipientList.removeAll()
+                            self.usersNotReviewedList.removeAll()
+                            self.usersNotConsumedList.removeAll()
+                        }
+
+
+                }
             }
         }
     }
@@ -803,7 +873,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
                     // send the report
                     if let question = self.question{
 
-                        self.sendCompareReport(for: rT, of: question.question_name)
+                        self.sendCompareReport(for: rT, of: question.question_name, isSeed: question.creator == Constants.QUESTION_CREATOR_SEED)
 
                     }
                     
@@ -821,7 +891,7 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
     
     
     /// Reports are objects created in a Question's reportCollection when reviewing Users flag the Question for negative content.
-    public func sendCompareReport(for type: reportType, of id: String) {
+    public func sendCompareReport(for type: reportType, of id: String, isSeed: Bool) {
         //animation?
         processReport()
         // MARK: Implement if necessary
@@ -831,18 +901,28 @@ class ReviewCompareViewController: UIViewController, UIScrollViewDelegate, UITex
 
         print("compareVC sendReport called")
 
+        if isSeed {
+            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(id).updateData(
+                [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
+                 // the arrayRemove calls ensure the user doesn't see the reported Question again
+                 Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
+                 Constants.QUES_USERS_NOT_CONSUMED_BY_KEY: FieldValue.arrayRemove([username])
+                ])
+        } else {
+            Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(id).updateData(
+                [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
+                 // the arrayRemove calls ensure the user doesn't see the reported Question again
+                 Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
+                 Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
+                ])
+        }
 
-                    // see ReviewAskVC line 465
-                    // don't want to see again
-                    //                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(report.questionName).updateData([Constants.QUES_RECEIP_KEY: FieldValue.arrayUnion([username])])
-
-
-                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(id).updateData(
-                        [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
-                         // the arrayRemove calls ensure the user doesn't see the reported Question again
-                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
-                         Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
-                        ])
+//                    Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection()).document(id).updateData(
+//                        [Constants.QUES_REPORTS: FieldValue.increment(Int64(1)),
+//                         // the arrayRemove calls ensure the user doesn't see the reported Question again
+//                         Constants.QUES_RECEIP_KEY: FieldValue.arrayRemove([username]),
+//                         Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayRemove([username])
+//                        ])
 
                     
                     if let bvc = self.blueVC{

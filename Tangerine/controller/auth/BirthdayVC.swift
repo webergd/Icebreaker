@@ -132,7 +132,40 @@ class BirthdayVC: UIViewController, UIPickerViewDelegate {
 
     // Do any additional setup after loading the view.
     setupUI()
+      // do the question adding here
+      if !Constants.username.isEmpty {
+            addUserTo30Questions(with: Constants.username)
+      }
+
   }
+
+    func addUserTo30Questions(with username: String) {
+        if !Constants.quesIds.isEmpty {
+            for docId in Constants.quesIds {
+                Firestore.firestore().collection(FirebaseManager.shared.getQuestionsCollection())
+                    .document(docId)
+                    .updateData([Constants.QUES_USERS_NOT_REVIEWED_BY_KEY: FieldValue.arrayUnion([username])])
+            }
+        }
+    }
+
+//    func addUserTo30Questions(with username: String) async {
+//        let startTime = Date().timeIntervalSince1970
+//        print("USER2QUES: Starting at: \(startTime)")
+//        // call our http func to add the questions
+//        let url = URL(string: "https://us-central1-fir-poc-1594b.cloudfunctions.net/appendUserToQuestions?username=\(username)&isSandbox=\(FirebaseManager.shared.isSandboxRunning())")
+//        guard let url = url else {return}
+//        do {
+//            let (_, response) = try await URLSession.shared.data(from: url)
+//            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+//                return
+//            }
+//            print("USER2QUES: -> \(response.description)")
+//            let endTime = Date().timeIntervalSince1970
+//            print("USER2QUES: Ended at: \(endTime)")
+//            print("USER2QUES: Time took to populate questions: \(endTime-startTime)")
+//        } catch {}
+//    }
 
 
 
