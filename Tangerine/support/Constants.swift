@@ -218,6 +218,11 @@ class Constants {
     // MARK: PROGRAMMATIC UI
     
     
+    // Nudity Filter ML Model Constants
+    static let MAX_ADMIN_REVIEW_NUDITY: Double = 70
+    static let MIN_ADMIN_REVIEW_NUDITY: Double = 40
+    
+    
     // ANALYTICS:
     
     

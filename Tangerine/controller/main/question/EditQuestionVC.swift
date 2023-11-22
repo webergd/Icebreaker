@@ -1354,12 +1354,12 @@ class EditQuestionVC: UIViewController, UINavigationControllerDelegate, UIScroll
         print("ASK: \(docID) \(nudityPercentage)")
 
         // update the ML values
-        if nudityPercentage > 25 && nudityPercentage <= 54 {
+        if nudityPercentage > Constants.MIN_ADMIN_REVIEW_NUDITY && nudityPercentage <= Constants.MAX_ADMIN_REVIEW_NUDITY {
             let report = [reportType.ml.rawValue: 1]
             // send for review
             sendAskToServer(id: docID, image: imageToCreateAskWith, circulate: false, needsReview: true, report: report)
 
-        } else if nudityPercentage > 54 {
+        } else if nudityPercentage > Constants.MAX_ADMIN_REVIEW_NUDITY {
 
             // show an alert for false positive
 

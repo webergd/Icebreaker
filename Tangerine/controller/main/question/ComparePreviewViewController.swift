@@ -241,13 +241,13 @@ class ComparePreviewViewController: UIViewController, UINavigationControllerDele
           // instead of getting both, we're comparing the max one
           let nudityPercentage = max(nudityPercentage1, nudityPercentage2)
           // update the ML values
-          if nudityPercentage > 25 && nudityPercentage <= 54 {
+            if nudityPercentage > Constants.MIN_ADMIN_REVIEW_NUDITY && nudityPercentage <= Constants.MAX_ADMIN_REVIEW_NUDITY {
               let report = [reportType.ml.rawValue: 1]
             // send for review
             sendCompareToServer(id: docID, image1: iBE1, image2: iBE2, circulate: false, needsReview: true, report: report)
             //sendMLReport(for: .ml, of: docID)
 
-          } else if nudityPercentage > 54 {
+          } else if nudityPercentage > Constants.MAX_ADMIN_REVIEW_NUDITY {
 
             // show an alert for false positive
               self.presentFalsePositiveAlert { decision in
